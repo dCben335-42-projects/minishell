@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 04:25:36 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/03/04 15:58:43 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/03/04 16:09:32 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,5 +14,7 @@
 # define MESSAGES_H
 
 # define SHELL_NAME "minishell >"
+
+# define ERROR_MALLOC "Error: malloc failed\n"
 
 #endif

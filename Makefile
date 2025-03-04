@@ -20,13 +20,14 @@ LIBS_FLAGS = $(LIBFT_FLAGS) -lreadline -lhistory
 
 # includes
 INCLUDES_DIR = ./includes
-INCLUDES_FILES = minishell.h messages.h
+INCLUDES_FILES = minishell.h messages.h errors.h
 INCLUDES = $(addprefix $(INCLUDES_DIR)/, $(INCLUDES_FILES))
 INCLUDES_FLAGS = -I $(INCLUDES_DIR) -I $(LIBFT_INCLUDE_FOLDER)
 
 # sources
 SRC_DIR     = ./srcs
-SRC_FILES   = main.c
+SRC_FILES   = main.c \
+			errors/basics.c 
 			
 SRC         = $(addprefix $(SRC_DIR)/, $(SRC_FILES))
 OBJ 		= $(patsubst $(SRC_DIR)/%.c, $(BUILD_DIR)/%.o, $(SRC))

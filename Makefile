@@ -1,4 +1,4 @@
-NAME        = starter
+NAME        = minishell
 
 CC          = cc
 C_FLAGS     = -Wall -Wextra -Werror
@@ -16,7 +16,7 @@ LIBFT = $(LIBFT_FOLDER)/$(LIBFT_NAME)
 LIBFT_INCLUDE_FOLDER = $(LIBFT_FOLDER)/includes
 LIBFT_FLAGS = -L $(LIBFT_FOLDER) -lft
 
-LIBS_FLAGS = $(LIBFT_FLAGS)
+LIBS_FLAGS = $(LIBFT_FLAGS) -lreadline -lhistory
 
 # includes
 INCLUDES_DIR = ./includes

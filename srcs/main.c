@@ -1,17 +1,5 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/13 15:57:59 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/03/04 16:24:14 by bcabocel         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "messages.h"
-
+#include "minishell.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -38,20 +26,32 @@ char **create_args(char *input)
 	args = ft_split(input, ' ');
 	if (!args)
 		error_malloc(NULL, NULL);
-	return args;
+	return (args);
 }
+int main(int argc, char **argv, char **envp)
+{
 
-int main(void) {
+	t_shell	shell;
     char	*input;
+	char	**args;
     
+	shell.env = create_envs(envp);
     while (1)
 	{
-        input = readline(SHELL_NAME);
-        if (!input) break;
-        if (*input) add_history(input);
-
-        execute_command(create_args(input));
+		input = readline(SHELL_NAME);
+        if (!input) 
+			break;
+        if (*input) 
+			add_history(input);
+		args = create_args(input);
+		if (args[0])
+			if (!is_builtin(args, &shell))
+				printf("Command not found\n");
+		ft_handle_free_split(args);
         free(input);
     }
-    return 0;
+	destroy_env(shell.env);
+    return (0);
+	(void)argc;
+	(void)argv;
 }

@@ -1,20 +1,8 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   messages.h                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/30 04:25:36 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/03/04 16:09:32 by bcabocel         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #ifndef MESSAGES_H
 # define MESSAGES_H
 
 # define SHELL_NAME "minishell >"
 
-# define ERROR_MALLOC "Error: malloc failed\n"
+# define ERROR_MALLOC "Error: malloc"
 
 #endif

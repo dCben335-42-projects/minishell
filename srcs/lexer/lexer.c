@@ -5,8 +5,9 @@
 
 #define MAX_TOKENS 100
 #define MAX_TOKEN_LENGTH 100
+#define OP_TABLE_SIZE 5
+#define OP_TABLE_MAX_BRANCH 3
 
-// Définition des types de tokens
 typedef enum e_token_type {
     TOKEN_WORD,        // Mot ou commande
     TOKEN_PIPE,        // |
@@ -25,30 +26,27 @@ typedef struct s_token_name {
     char *name;
 } t_token_name;
 
-// Structure d'un token
 typedef struct s_token{
     t_token_type type;
     char value[MAX_TOKEN_LENGTH];
 } token;
 
-// Structure pour la table de transition des opérateurs
 typedef struct {
     char next_char;
     t_token_type type;
 } transition;
 
-// Table des opérateurs spéciaux
 typedef struct {
     char key;
-    transition transitions[3]; // Max 3 transitions possibles par caractère
+    transition transitions[OP_TABLE_MAX_BRANCH];
 } operator_table;
 
-operator_table op_table[] = {
+operator_table op_table[OP_TABLE_SIZE] = {
     {   
         '|',
         {
             {'|', TOKEN_OR}, 
-            {'&', TOKEN_PIPE_ERR}, 
+            {'&', TOKEN_PIPE_ERR},
             {'\0', TOKEN_PIPE}
         }
     },
@@ -57,8 +55,8 @@ operator_table op_table[] = {
         {
             {'&', TOKEN_AND}, 
             {'\0', TOKEN_BACKGROUND}
-            }
-        },
+        }
+    },
     {
         '>',
         {
@@ -76,8 +74,8 @@ operator_table op_table[] = {
         ';',
         {
             {'\0', TOKEN_SEMICOL}
-            }
         }
+    }
 };
 
 t_token_name token_names[] = {
@@ -94,46 +92,75 @@ t_token_name token_names[] = {
     {"EOF"}
 };
 
-const int op_table_size = sizeof(op_table) / sizeof(op_table[0]);
+/**
+ * Fonction pour trouver le type de token
+ * @param input: chaîne d'entrée
+ * @param offset: décalage pour le prochain caractère
+ */
 
-// Fonction pour rechercher un opérateur dans la table
-t_token_type find_operator(const char *input, int *offset) {
-    for (int i = 0; i < op_table_size; i++) {
-        if (op_table[i].key == input[0]) {
-            for (int j = 0; j < 3; j++) {
-                if (op_table[i].transitions[j].next_char == '\0' || op_table[i].transitions[j].next_char == input[1]) {
-                    if (op_table[i].transitions[j].next_char != '\0') (*offset)++; // Avancer si double caractère
+t_token_type find_token_type(const char *input, int *offset)
+{
+    int i;
+    int j;
+
+    i = 0;
+    j = 0;
+    while (i < OP_TABLE_SIZE)
+    {
+        if (op_table[i].key == input[0])
+        {
+            while (j < OP_TABLE_MAX_BRANCH)
+            {
+                if (op_table[i].transitions[j].next_char == '\0' || op_table[i].transitions[j].next_char == input[1])
+                {
+                    if (op_table[i].transitions[j].next_char != '\0') 
+                        (*offset)++;
                     return op_table[i].transitions[j].type;
                 }
+                j++;
             }
         }
+        i++;
     }
-    return TOKEN_WORD; // Si ce n'est pas un opérateur, c'est un mot
+    return (TOKEN_WORD);
 }
 
-// Fonction du lexer qui découpe la commande en tokens
-void lexer(const char *input, token tokens[], int *token_count) {
+/**
+ * Fonction pour analyser la chaîne d'entrée et générer des tokens
+ * @param input: chaîne d'entrée
+ * @param tokens: tableau de tokens
+ * @param token_count: nombre de tokens
+ */
+
+void lexer(const char *input, token tokens[], int *token_count)
+{
     int i = 0, len = strlen(input);
     *token_count = 0;
 
-    while (i < len) {
-        if (isspace(input[i])) { i++; continue; }
+    while (i < len)
+    {
+        if (isspace(input[i]))
+        { 
+            i++; 
+            continue; 
+        }
 
         int offset = 0;
-        t_token_type type = find_operator(&input[i], &offset);
+        t_token_type type = find_token_type(&input[i], &offset);
 
-        if (type != TOKEN_WORD) {
-            // Ajout d'un opérateur trouvé
+        if (type != TOKEN_WORD)
+        {
             tokens[*token_count].type = type;
             strncpy(tokens[*token_count].value, &input[i], offset + 1);
             tokens[*token_count].value[offset + 1] = '\0';
             (*token_count)++;
             i += (offset + 1);
-        } else {
-            // Gestion des mots (commandes, arguments, etc.)
+        }
+        else
+        {
             char buffer[MAX_TOKEN_LENGTH] = {0};
             int j = 0;
-            while (i < len && !isspace(input[i]) && find_operator(&input[i], &offset) == TOKEN_WORD) {
+            while (i < len && !isspace(input[i]) && find_token_type(&input[i], &offset) == TOKEN_WORD) {
                 buffer[j++] = input[i++];
             }
             buffer[j] = '\0';
@@ -149,8 +176,14 @@ void lexer(const char *input, token tokens[], int *token_count) {
     (*token_count)++;
 }
 
-// Fonction pour afficher les tokens
-void print_tokens(token tokens[], int count) {
+/**
+ * Fonction pour afficher les tokens
+ * @param tokens: tableau de tokens
+ * @param count: nombre de tokens
+ */
+
+void print_tokens(token tokens[], int count)
+{
     for (int i = 0; i < count; i++) {
         printf("Token: %-12s | Type: %s\n", tokens[i].value, token_names[tokens[i].type].name);
     }

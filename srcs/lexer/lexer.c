@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include "libft.h"
 
 #define MAX_TOKENS 100
 #define MAX_TOKEN_LENGTH 100
@@ -28,8 +29,8 @@ typedef struct s_token_name {
 
 typedef struct s_token{
     t_token_type type;
-    char value[MAX_TOKEN_LENGTH];
-} token;
+    char *value;
+} t_token;
 
 typedef struct {
     char next_char;
@@ -126,17 +127,58 @@ t_token_type find_token_type(const char *input, int *offset)
 }
 
 /**
+ * Fonction pour dupliquer une chaîne de caractères
+ * @param str: chaîne d'entrée
+ * @param n: nombre de caractères à copier
+ */
+
+char *ft_strndup(const char *str, size_t n)
+{
+    char *new_str;
+    size_t len;
+
+    len = strlen(str);
+    if (n < len)
+        len = n;
+    new_str = malloc(len + 1);
+    if (!new_str)
+        return (NULL);
+    new_str[len] = '\0';
+    return ((char *)ft_memcpy(new_str, str, len));
+}
+
+/**
+ * Fonction pour placer un token dans le tableau de tokens
+ * @param tokens: tableau de tokens
+ * @param token_count: empacement du token
+ * @param type: type de token
+ * @param value: valeur du token
+ */
+
+void lexer_setter(t_token tokens[], int *token_count, t_token_type type, char *value)
+{
+    tokens[*token_count].type = type;
+    tokens[*token_count].value = value;
+    (*token_count)++;
+}
+
+/**
  * Fonction pour analyser la chaîne d'entrée et générer des tokens
  * @param input: chaîne d'entrée
  * @param tokens: tableau de tokens
  * @param token_count: nombre de tokens
  */
 
-void lexer(const char *input, token tokens[], int *token_count)
+void lexer(const char *input, t_token tokens[], int *token_count)
 {
-    int i = 0, len = strlen(input);
-    *token_count = 0;
+    int i;
+    int len;
+    int offset;
+    int start_i;
 
+    i = 0;
+    len = ft_strlen(input);
+    *token_count = 0;
     while (i < len)
     {
         if (isspace(input[i]))
@@ -144,36 +186,22 @@ void lexer(const char *input, token tokens[], int *token_count)
             i++; 
             continue; 
         }
-
-        int offset = 0;
+        offset = 0;
         t_token_type type = find_token_type(&input[i], &offset);
-
         if (type != TOKEN_WORD)
         {
-            tokens[*token_count].type = type;
-            strncpy(tokens[*token_count].value, &input[i], offset + 1);
-            tokens[*token_count].value[offset + 1] = '\0';
-            (*token_count)++;
+            lexer_setter(tokens, token_count, type, ft_strndup(&input[i], offset + 1));
             i += (offset + 1);
         }
         else
         {
-            char buffer[MAX_TOKEN_LENGTH] = {0};
-            int j = 0;
-            while (i < len && !isspace(input[i]) && find_token_type(&input[i], &offset) == TOKEN_WORD) {
-                buffer[j++] = input[i++];
-            }
-            buffer[j] = '\0';
-            tokens[*token_count].type = TOKEN_WORD;
-            strncpy(tokens[*token_count].value, buffer, MAX_TOKEN_LENGTH - 1);
-            (*token_count)++;
+            start_i = i;
+            while (i < len && !isspace(input[i]) && find_token_type(&input[i], &offset) == TOKEN_WORD)
+                i++;
+            lexer_setter(tokens, token_count, TOKEN_WORD, ft_strndup(&input[start_i], i - start_i));
         }
     }
-
-    // Ajouter un token EOF pour signaler la fin
-    tokens[*token_count].type = TOKEN_EOF;
-    strcpy(tokens[*token_count].value, "EOF");
-    (*token_count)++;
+    lexer_setter(tokens, token_count, TOKEN_EOF, ft_strdup("EOF"));
 }
 
 /**
@@ -182,7 +210,7 @@ void lexer(const char *input, token tokens[], int *token_count)
  * @param count: nombre de tokens
  */
 
-void print_tokens(token tokens[], int count)
+void print_tokens(t_token tokens[], int count)
 {
     for (int i = 0; i < count; i++) {
         printf("Token: %-12s | Type: %s\n", tokens[i].value, token_names[tokens[i].type].name);
@@ -193,7 +221,7 @@ void print_tokens(token tokens[], int count)
 int main() {
     //const char *command = "ls -l |& grep \"main.c\" && echo \"Done\" > output.txt";
     const char *command = "ls -l | grep \"main.c\" && echo \"Done\" > output.txt";
-    token tokens[MAX_TOKENS];
+    t_token tokens[MAX_TOKENS];
     int token_count = 0;
 
     lexer(command, tokens, &token_count);
@@ -201,3 +229,6 @@ int main() {
 
     return 0;
 }
+
+// Commande pour compiler:
+// cc lexer.c -I ../../libs/libft/includes ../../libs/libft/srcs/**/*.c

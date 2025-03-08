@@ -1,6 +1,6 @@
 #include "type.h"
 
-void parser(t_token_type token)
+void parser(t_token_type t_token)
 {
 
 }

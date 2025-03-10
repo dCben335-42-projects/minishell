@@ -35,7 +35,7 @@ int main(int argc, char **argv, char **envp)
     char	*input;
 	char	**args;
     
-	shell.env = create_envs(envp);
+	shell = init_shell(envp);
     while (1)
 	{
 		input = readline(SHELL_NAME);

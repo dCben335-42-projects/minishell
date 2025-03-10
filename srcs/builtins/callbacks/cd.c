@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 13:40:14 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/03/10 18:11:58 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/03/10 19:38:33 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,32 +15,37 @@
 #include "messages.h"
 #include <stdio.h>
 
-static	void	handle_env(t_shell *shell, char *oldpwd)
+static char *get_oldpwd(t_shell *shell)
+{
+	const t_env	*oldpwd = find_env(shell->env, PWD_KEY);
+
+	if (oldpwd)
+		return (ft_strdup(oldpwd->value));
+	return (ft_strdup(""));
+}
+
+static	void	handle_env(t_shell *shell, char *new_oldpwd)
 {
 	char		*newpwd;
-	t_env		*oldpwd_env;
 
 	newpwd = getcwd(NULL, 0);
-	if (!oldpwd)
+	if (!new_oldpwd)
+		new_oldpwd = get_oldpwd(shell);	
+	if (!newpwd)
+		perror(ERROR_GETCWD);
+	if (!new_oldpwd)
+		perror(ERROR_CD);
+	if (!new_oldpwd || !newpwd || !ft_strcmp(new_oldpwd, newpwd))
 	{
-		oldpwd_env = find_env(shell->env, PWD_KEY);
-		if (oldpwd_env)
-			oldpwd = ft_strdup(oldpwd_env->value);
-		else
-			oldpwd = ft_strdup("");
-	}
-	if (!oldpwd || !newpwd)
-		perror("malloc");
-	if (!oldpwd || !newpwd || !ft_strcmp(oldpwd, newpwd))
-	{
-		free(oldpwd);
+		free(new_oldpwd);
 		free(newpwd);
 		return ;
 	}
-	if (!replace_env(shell->env, OLDPWD_KEY, (char *)oldpwd))
-		free(oldpwd);
-	if (!replace_env(shell->env, PWD_KEY, (char *)newpwd))
+	if (!replace_env(shell->env, OLDPWD_KEY, new_oldpwd))
+		free(new_oldpwd);
+	if (!replace_env(shell->env, PWD_KEY, newpwd))
 		free(newpwd);
+	shell->current_path = newpwd;
 }
 
 static	void	handle_home_relative(char *path, char *home)
@@ -50,18 +55,18 @@ static	void	handle_home_relative(char *path, char *home)
 	new_path = ft_strjoin(home, path + 1);
 	if (!new_path)
 	{
-		perror("malloc");
+		perror(ERROR_CD);
 		return ;
 	}
 	if (chdir(new_path) == -1)
-		perror("cd");
+		perror(ERROR_CD);
 	free(new_path);
 }
 
 static	void	handle_back(t_shell *shell)
 {
 	const t_env	*oldpwd = find_env(shell->env, OLDPWD_KEY);
-	char	*message;
+	char		*message;
 	
 	if (!oldpwd)
 	{
@@ -85,7 +90,7 @@ void	ft_cd(t_shell *shell, char **args)
 	const t_env *home = find_env(shell->env, HOME_KEY);
 	const char	*pwd = getcwd(NULL, 0);
 
-	if (!args[1] || !ft_strcmp(args[1], "~"))
+	if (!args[1] || *args[1] == '~')
 	{
 		if (!home)
 		{
@@ -93,14 +98,14 @@ void	ft_cd(t_shell *shell, char **args)
 			return ;
 		}
 		if (chdir(home->value) == -1)
-			perror("cd");
+			perror(ERROR_CD);
 	}
-	else if (!ft_strcmp(args[1], "-"))
+	else if (*args[1] == '-')
 		handle_back(shell);
 	else if (ft_strncmp(args[1], "~/", 2) == 0)
 		handle_home_relative(args[1], home->value);
 	else
 		if (chdir(args[1]) == -1)
-			perror("cd");
+			perror(ERROR_CD);
 	handle_env(shell, (char *)pwd);
 }

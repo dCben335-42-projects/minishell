@@ -5,7 +5,10 @@
 
 typedef struct s_shell {
     t_env	*env;
-	char	*home;
+	char	*current_path;
 } t_shell;
+
+t_shell	init_shell(char **envp);
+void	*destroy_shell(t_shell *shell);
 
 #endif

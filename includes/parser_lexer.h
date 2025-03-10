@@ -9,11 +9,13 @@
 
 # define MAX_TOKENS 100
 # define MAX_TOKEN_LENGTH 100
-# define OP_TABLE_SIZE 5
+# define OP_TABLE_SIZE 7
 # define OP_TABLE_MAX_BRANCH 3
 
 typedef enum e_token_type {
-    TOKEN_WORD,        // Mot ou commande
+    TOKEN_TEXT,             // Texte sans guillemets                    => tout est interpreté
+    TOKEN_VAR_TEXT,         // Texte entre guillemets doubles           => les variables sont interpretées (wildcard pas interprété si pas dans variable)
+    TOKEN_LITERAL_TEXT,     // Texte entre guillemets simples           => rien n'est interpreté
     TOKEN_PIPE,        // |
     TOKEN_AND,         // &&
     TOKEN_OR,          // ||
@@ -23,6 +25,8 @@ typedef enum e_token_type {
     TOKEN_APPEND,      // >>
     TOKEN_BACKGROUND,  // &
     TOKEN_PIPE_ERR,    // |&
+    TOKEN_QUOTE,       // '
+    TOKEN_DQUOTE,      // "
     TOKEN_EOF          // Fin de commande
 } t_token_type;
 

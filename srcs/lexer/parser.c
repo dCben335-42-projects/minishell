@@ -46,7 +46,9 @@ int parse_tokens(t_token tokens[], int token_count, char **minishell_error_msg) 
 
     // Vérifier si la commande commence par un opérateur de contrôle interdit
     if (is_control_operator(tokens[0].type)) {
-        *minishell_error_msg = ft_calloc(sizeof(char), 55);
+
+        size_t msg_len = strlen("erreur de syntaxe près du symbole inattendu « ") + strlen(tokens[0].value) + strlen(" »\n") + 1;
+        *minishell_error_msg = ft_calloc(msg_len, sizeof(char));
         ft_strcat(*minishell_error_msg, "erreur de syntaxe près du symbole inattendu «\u00A0");
         ft_strcat(*minishell_error_msg, tokens[0].value);
         ft_strcat(*minishell_error_msg, "\u00A0»\n");
@@ -60,7 +62,9 @@ int parse_tokens(t_token tokens[], int token_count, char **minishell_error_msg) 
         // Vérifier si deux opérateurs de contrôle se suivent sans mot entre eux
         if (is_control_operator(current) && is_control_operator(next)) {
             //fprintf(stderr, "erreur de syntaxe près du symbole inattendu « %s »\n", tokens[i + 1].value);
-            *minishell_error_msg = ft_calloc(sizeof(char), 55);
+
+            size_t msg_len = strlen("erreur de syntaxe près du symbole inattendu « ") + strlen(tokens[i + 1].value) + strlen(" »\n") + 1;
+            *minishell_error_msg = ft_calloc(msg_len, sizeof(char));
             ft_strcat(*minishell_error_msg, "erreur de syntaxe près du symbole inattendu «\u00A0");
             ft_strcat(*minishell_error_msg, tokens[i + 1].value);
             ft_strcat(*minishell_error_msg, "\u00A0»\n");

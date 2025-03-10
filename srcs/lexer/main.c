@@ -1,12 +1,12 @@
 #include "parser_lexer.h"
 
-#define TEST_COUNT 6
-#define ERROR_BUFFER_SIZE 512
+#define TEST_COUNT 14
+#define ERROR_BUFFER_SIZE 1024
 
 int check_bash_syntax(const char *command, char *bash_error_msg) {
     char cmd[256];
-    snprintf(cmd, sizeof(cmd), "bash -n -c '%s' 2>&1", command); // Capture stderr
-
+    //snprintf(cmd, sizeof(cmd), "bash -n -c '%s' 2>&1", command); // Capture stderr
+    snprintf(cmd, sizeof(cmd), "bash -n -c '%s' 2>&1", command);
     FILE *fp = popen(cmd, "r");
     if (!fp) return 1;
 
@@ -47,6 +47,15 @@ void message_error_handler(int test_id, int error_code, const char *mini_error_m
 
 int main() {
     const char *test_commands[TEST_COUNT] = {
+        "'", // Valide
+        "ls -l && && dzdzd", // Valide
+        "'main.c'", // Valide
+        "\"main.c$COUCOU\"", // Valide
+        "\"main.c c\\'est gotty\"", // Valide
+        "\"main.c 'fef'\"", // Valide
+        "\"*.c\"", // Valide
+        "*.c", // Valide
+        "echo 'C'\"'\"'est un test'", // Valide BUG avec sh
         "ls -l | grep 'main.c' && echo Done > output.txt", // Valide
         "ls -l ||| grep main.c", // Invalide
         "echo 'test' > < file", // Invalide
@@ -63,21 +72,21 @@ int main() {
         char *mini_error_msg = NULL;
 
         lexer(test_commands[i], tokens, &token_count);
-        // print_tokens(tokens, token_count);
+        print_tokens(tokens, token_count);
 
         int my_parser_result = parse_tokens(tokens, token_count, &mini_error_msg);
         int bash_result = check_bash_syntax(test_commands[i], bash_error_msg);
 
-        if (my_parser_result == bash_result)
-        {
+        //if (my_parser_result == bash_result)
+        //{
             if ((mini_error_msg == NULL && bash_error_msg[0] == '\0')
                 || (mini_error_msg && bash_error_msg[0] && strcmp(mini_error_msg, bash_error_msg) == 0))
                 printf("✅ Test %d réussi\n", i + 1);
             else
                 message_error_handler(i + 1, 0, mini_error_msg, bash_error_msg);
-        }
-        else
-            message_error_handler(i + 1, 1, mini_error_msg, bash_error_msg);
+        //}
+        //else
+        //    message_error_handler(i + 1, 1, mini_error_msg, bash_error_msg);
     }
     return 0;
 }

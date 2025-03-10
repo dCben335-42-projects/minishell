@@ -1,6 +1,6 @@
 #include "parser_lexer.h"
 
-operator_table op_table[OP_TABLE_SIZE] = {
+operator_table op_table[] = {
     {   
         '|',
         {
@@ -34,11 +34,25 @@ operator_table op_table[OP_TABLE_SIZE] = {
         {
             {'\0', TOKEN_SEMICOL}
         }
+    },
+    {
+        '\'', // Single quote
+        {
+            {'\0', TOKEN_QUOTE}
+        }
+    },
+    {
+        '"', // Double quote
+        {
+            {'\0', TOKEN_DQUOTE}
+        }
     }
 };
 
 t_token_name token_names[] = {
-    {"WORD"},
+    {"TEXT"},
+    {"VAR_TEXT"},
+    {"LITERAL_TEXT"},
     {"PIPE"},
     {"AND"},
     {"OR"},
@@ -48,6 +62,8 @@ t_token_name token_names[] = {
     {"APPEND"},
     {"BACKGROUND"},
     {"PIPE_ERR"},
+    {"QUOTE"},
+    {"DQUOTE"},
     {"EOF"}
 };
 
@@ -81,7 +97,7 @@ t_token_type find_token_type(const char *input, int *offset)
         }
         i++;
     }
-    return (TOKEN_WORD);
+    return (TOKEN_TEXT);
 }
 
 /**
@@ -146,7 +162,28 @@ void lexer(const char *input, t_token tokens[], int *token_count)
         }
         offset = 0;
         t_token_type type = find_token_type(&input[i], &offset);
-        if (type != TOKEN_WORD)
+
+        //printf("type: %d\n", type);
+
+        if (type == TOKEN_DQUOTE)
+        {
+            i++;
+            start_i = i;
+            while (i < len && (start_i == i || find_token_type(&input[i], &offset) != TOKEN_DQUOTE))
+                i++;
+            lexer_setter(tokens, token_count, TOKEN_VAR_TEXT, ft_strndup(&input[start_i], i - start_i));
+            i++;
+        }
+        else if (type == TOKEN_QUOTE)
+        {
+            i++;
+            start_i = i;
+            while (i < len && (start_i == i || find_token_type(&input[i], &offset) != TOKEN_QUOTE))
+                i++;
+            lexer_setter(tokens, token_count, TOKEN_LITERAL_TEXT, ft_strndup(&input[start_i], i - start_i));
+            i++;
+        }
+        else if (type != TOKEN_TEXT)
         {
             lexer_setter(tokens, token_count, type, ft_strndup(&input[i], offset + 1));
             i += (offset + 1);
@@ -154,9 +191,9 @@ void lexer(const char *input, t_token tokens[], int *token_count)
         else
         {
             start_i = i;
-            while (i < len && !isspace(input[i]) && find_token_type(&input[i], &offset) == TOKEN_WORD)
+            while (i < len && !isspace(input[i]) && find_token_type(&input[i], &offset) == TOKEN_TEXT)
                 i++;
-            lexer_setter(tokens, token_count, TOKEN_WORD, ft_strndup(&input[start_i], i - start_i));
+            lexer_setter(tokens, token_count, TOKEN_TEXT, ft_strndup(&input[start_i], i - start_i));
         }
     }
     lexer_setter(tokens, token_count, TOKEN_EOF, ft_strdup("EOF"));

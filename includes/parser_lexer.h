@@ -47,6 +47,6 @@ typedef struct {
 
 void    lexer(const char *input, t_token tokens[], int *token_count);
 void    print_tokens(t_token tokens[], int count);
-int     parse_tokens(t_token tokens[], int token_count);
+int     parse_tokens(t_token tokens[], int token_count, char **minishell_error_msg);
 
 #endif

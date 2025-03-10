@@ -6,29 +6,27 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 13:45:13 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/03/07 16:30:51 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/03/10 15:19:40 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
-#include "libft.h"
 
 t_env	*add_env(t_env **env, t_env *new)
 {
-	t_env	*tmp;
+  	t_env *tmp;
 
-	if (!new)
-		return (NULL);
-	if (!*env)
-	{
-		*env = new;
-		return (new);
-	}
+    if (!new)
+        return (NULL);
+    if (!*env)
+    {
+        *env = new;
+        return (new);
+    }
 	tmp = *env;
 	while (tmp->next)
 		tmp = tmp->next;
 	tmp->next = new;
 	new->prev = tmp;
-	return (new);
+    return (new);
 }
-

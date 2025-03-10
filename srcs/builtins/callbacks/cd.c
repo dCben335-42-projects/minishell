@@ -6,75 +6,101 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 13:40:14 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/03/07 18:05:12 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/03/10 18:11:58 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "env.h"
 #include "builtin.h"
-#include <unistd.h>
-#include <stdlib.h>
-#include <stdio.h>
 #include "libft.h"
+#include "messages.h"
+#include <stdio.h>
 
-static t_bool	is_absolute_path(const char *path)
+static	void	handle_env(t_shell *shell, char *oldpwd)
 {
-	if (!ft_strncmp(path, "/", 1) || !ft_strncmp(path, "~/", 2))
-		return (TRUE);
-	return (FALSE);
+	char		*newpwd;
+	t_env		*oldpwd_env;
+
+	newpwd = getcwd(NULL, 0);
+	if (!oldpwd)
+	{
+		oldpwd_env = find_env(shell->env, PWD_KEY);
+		if (oldpwd_env)
+			oldpwd = ft_strdup(oldpwd_env->value);
+		else
+			oldpwd = ft_strdup("");
+	}
+	if (!oldpwd || !newpwd)
+		perror("malloc");
+	if (!oldpwd || !newpwd || !ft_strcmp(oldpwd, newpwd))
+	{
+		free(oldpwd);
+		free(newpwd);
+		return ;
+	}
+	if (!replace_env(shell->env, OLDPWD_KEY, (char *)oldpwd))
+		free(oldpwd);
+	if (!replace_env(shell->env, PWD_KEY, (char *)newpwd))
+		free(newpwd);
 }
 
-static	void	handle_absolute(char *path, const char *home)
+static	void	handle_home_relative(char *path, char *home)
 {
-	if (*path == '~')
-		path++;
-	path = ft_strjoin(home, path);
-	if (!path)
+	char	*new_path;
+
+	new_path = ft_strjoin(home, path + 1);
+	if (!new_path)
 	{
 		perror("malloc");
 		return ;
 	}
-	if (chdir(path) == -1)
-	{
-		free(path);
+	if (chdir(new_path) == -1)
 		perror("cd");
-	}
-	free(path);
+	free(new_path);
 }
 
-static	void	handle_env(t_shell *shell)
+static	void	handle_back(t_shell *shell)
 {
-	const char *pwd = find_env(shell->env, "PWD")->value;
-	char		*oldpwd;
-	char		*newpwd;
-
-	newpwd = getcwd(NULL, 0);
-	if (!newpwd)
+	const t_env	*oldpwd = find_env(shell->env, OLDPWD_KEY);
+	char	*message;
+	
+	if (!oldpwd)
 	{
-		perror("cd");
+		ft_putendl_fd(ERROR_CD_OLDPWD, 2);
 		return ;
 	}
-	if (newpwd == pwd)
+	if (chdir(oldpwd->value) != -1)
 		return ;
-	oldpwd = ft_strdup(pwd);
-	replace_env(shell->env, "OLDPWD", (char *)oldpwd);
-	replace_env(shell->env, "PWD", (char *)newpwd);
+	message = ft_strjoin("cd: ", oldpwd->value);
+	if (message)
+	{
+		perror(message);
+		free(message);
+		return ;
+	}
+	perror("cd");
 }
 
 void	ft_cd(t_shell *shell, char **args)
 {
-	const t_env *home = find_env(shell->env, "HOME")->value;
+	const t_env *home = find_env(shell->env, HOME_KEY);
+	const char	*pwd = getcwd(NULL, 0);
 
 	if (!args[1] || !ft_strcmp(args[1], "~"))
 	{
-		if (chdir(home) == -1)
+		if (!home)
+		{
+			ft_putendl_fd(ERROR_CD_HOME, 2);
+			return ;
+		}
+		if (chdir(home->value) == -1)
 			perror("cd");
-		return ;
 	}
-	if (is_absolute_path(args[1]))
-		handle_absolute(args[1], home);
+	else if (!ft_strcmp(args[1], "-"))
+		handle_back(shell);
+	else if (ft_strncmp(args[1], "~/", 2) == 0)
+		handle_home_relative(args[1], home->value);
 	else
 		if (chdir(args[1]) == -1)
 			perror("cd");
-	handle_env(shell);
+	handle_env(shell, (char *)pwd);
 }

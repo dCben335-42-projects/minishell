@@ -6,12 +6,20 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 13:44:38 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/03/07 16:30:34 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/03/10 14:48:13 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
 #include <stdlib.h>
+
+static	void	*free_init_error(char *key, char *value)
+{
+	free(key);
+	free(value);
+	return (NULL);
+}
+
 
 t_env	*init_env(char *envp)
 {
@@ -22,10 +30,10 @@ t_env	*init_env(char *envp)
 	key = get_key_from_envp(envp);
 	value = get_value_from_envp(envp);
 	if (!key || !value)
-		return (NULL);
+		return (free_init_error(key, value));
 	new = malloc(sizeof(t_env));
 	if (!new)
-		return (NULL);
+		return (free_init_error(key, value));
 	new->key = key;
 	new->value = value;
 	new->next = NULL;

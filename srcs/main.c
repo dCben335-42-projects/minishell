@@ -28,9 +28,9 @@ char **create_args(char *input)
 		error_malloc(NULL, NULL);
 	return (args);
 }
+
 int main(int argc, char **argv, char **envp)
 {
-
 	t_shell	shell;
     char	*input;
 	char	**args;

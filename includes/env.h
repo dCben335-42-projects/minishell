@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 13:43:27 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/03/07 16:30:22 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/03/10 18:10:37 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,11 @@ typedef struct s_env {
 	struct s_env	*next;
 }	t_env;
 
+# define HOME_KEY "HOME"
+# define PATH_KEY "PATH"
+# define PWD_KEY "PWD"
+# define OLDPWD_KEY "OLDPWD"
+
 t_env	*add_env(t_env **env, t_env *new);
 t_env	*init_env(char *envp);
 t_env	*find_env(t_env *env, char *key);
@@ -33,6 +38,6 @@ char	*get_value_from_envp(char *envp);
 
 void	*destroy_one_env(t_env *env);
 void	*destroy_env(t_env *env);
-void	read_env(t_env *env);
+void	read_env(t_env *env, const char *prefix);
 
 #endif

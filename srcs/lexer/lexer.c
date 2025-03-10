@@ -1,46 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <ctype.h>
-#include "libft.h"
-
-#define MAX_TOKENS 100
-#define MAX_TOKEN_LENGTH 100
-#define OP_TABLE_SIZE 5
-#define OP_TABLE_MAX_BRANCH 3
-
-typedef enum e_token_type {
-    TOKEN_WORD,        // Mot ou commande
-    TOKEN_PIPE,        // |
-    TOKEN_AND,         // &&
-    TOKEN_OR,          // ||
-    TOKEN_SEMICOL,     // ;
-    TOKEN_REDIR_IN,    // <
-    TOKEN_REDIR_OUT,   // >
-    TOKEN_APPEND,      // >>
-    TOKEN_BACKGROUND,  // &
-    TOKEN_PIPE_ERR,    // |&
-    TOKEN_EOF          // Fin de commande
-} t_token_type;
-
-typedef struct s_token_name {
-    char *name;
-} t_token_name;
-
-typedef struct s_token{
-    t_token_type type;
-    char *value;
-} t_token;
-
-typedef struct {
-    char next_char;
-    t_token_type type;
-} transition;
-
-typedef struct {
-    char key;
-    transition transitions[OP_TABLE_MAX_BRANCH];
-} operator_table;
+#include "parser_lexer.h"
 
 operator_table op_table[OP_TABLE_SIZE] = {
     {   
@@ -216,19 +174,3 @@ void print_tokens(t_token tokens[], int count)
         printf("Token: %-12s | Type: %s\n", tokens[i].value, token_names[tokens[i].type].name);
     }
 }
-
-// Programme principal (test)
-int main() {
-    //const char *command = "ls -l |& grep \"main.c\" && echo \"Done\" > output.txt";
-    const char *command = "ls -l | grep \"main.c\" && echo \"Done\" > output.txt";
-    t_token tokens[MAX_TOKENS];
-    int token_count = 0;
-
-    lexer(command, tokens, &token_count);
-    print_tokens(tokens, token_count);
-
-    return 0;
-}
-
-// Commande pour compiler:
-// cc lexer.c -I ../../libs/libft/includes ../../libs/libft/srcs/**/*.c

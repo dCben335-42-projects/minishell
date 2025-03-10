@@ -1,0 +1,52 @@
+#ifndef PARSE_LEXER_H
+# define PARSE_LEXER_H
+
+# include <stdio.h>
+# include <stdlib.h>
+# include <string.h>
+# include <ctype.h>
+# include "libft.h"
+
+# define MAX_TOKENS 100
+# define MAX_TOKEN_LENGTH 100
+# define OP_TABLE_SIZE 5
+# define OP_TABLE_MAX_BRANCH 3
+
+typedef enum e_token_type {
+    TOKEN_WORD,        // Mot ou commande
+    TOKEN_PIPE,        // |
+    TOKEN_AND,         // &&
+    TOKEN_OR,          // ||
+    TOKEN_SEMICOL,     // ;
+    TOKEN_REDIR_IN,    // <
+    TOKEN_REDIR_OUT,   // >
+    TOKEN_APPEND,      // >>
+    TOKEN_BACKGROUND,  // &
+    TOKEN_PIPE_ERR,    // |&
+    TOKEN_EOF          // Fin de commande
+} t_token_type;
+
+typedef struct s_token_name {
+    char *name;
+} t_token_name;
+
+typedef struct s_token{
+    t_token_type type;
+    char *value;
+} t_token;
+
+typedef struct {
+    char next_char;
+    t_token_type type;
+} transition;
+
+typedef struct {
+    char key;
+    transition transitions[OP_TABLE_MAX_BRANCH];
+} operator_table;
+
+void    lexer(const char *input, t_token tokens[], int *token_count);
+void    print_tokens(t_token tokens[], int count);
+int     parse_tokens(t_token tokens[], int token_count);
+
+#endif

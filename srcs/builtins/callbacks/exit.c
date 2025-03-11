@@ -6,13 +6,14 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 15:26:52 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/03/11 20:38:11 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/03/11 21:04:47 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
 #include "libft.h"
 #include "messages.h"
+#include "math_utils.h"
 
 void	ft_exit(t_shell *shell, char **args)
 {
@@ -33,10 +34,8 @@ void	ft_exit(t_shell *shell, char **args)
 			status = 2;
 		}
 		else 
-			status = ft_atol_base(args[1], "0123456789");
+			status = ft_atol_base(args[1], BASE_10);
 	}
-		
-	status = abs(status % 256);
 	destroy_shell(shell);
-	exit(status);
+	exit(ft_abs(status % 256));
 }

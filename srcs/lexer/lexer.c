@@ -157,7 +157,7 @@ void lexer_setter(t_token tokens[], int *token_count, t_token_type type, char *v
  * @param token_count: nombre de tokens
  */
 
-void lexer(const char *input, t_token tokens[], int *token_count)
+void lexer(t_lexer_args *args)
 {
     int i;
     int len;
@@ -165,17 +165,61 @@ void lexer(const char *input, t_token tokens[], int *token_count)
     int start_i;
 
     i = 0;
-    len = ft_strlen(input);
-    *token_count = 0;
+    len = ft_strlen(args->input);
+
     while (i < len)
     {
-        if (isspace(input[i]))
+        if (isspace(args->input[i]))
         { 
             i++; 
             continue; 
         }
         offset = 0;
-        t_token_type type = find_token_type(&input[i], &offset);
+        t_token_type type = find_token_type(&args->input[i], &offset);
+
+        if (type == TOKEN_DQUOTE)
+        {
+            i++;
+            start_i = i;
+            while (i < len && (start_i == i || find_token_type(&args->input[i], &offset) != TOKEN_DQUOTE))
+                i++;
+            return ();
+            i++;
+        }
+        else if (type == TOKEN_QUOTE)
+        {
+            i++;
+            start_i = i;
+            while (i < len && (start_i == i || find_token_type(&args->input[i], &offset) != TOKEN_QUOTE))
+                i++;
+            args->token_count++;
+            i++;
+        }
+        else if (type != TOKEN_TEXT)
+        {
+            args->token_count++;
+            i += (offset + 1);
+        }
+        else
+        {
+            start_i = i;
+            while (i < len && !isspace(args->input[i]) && find_token_type(&args->input[i], &offset) == TOKEN_TEXT)
+                i++;
+            args->token_count++;
+        }
+    }
+    args->token_count++;
+
+
+    while (i < len)
+    {
+        if (isspace(args->input[i]))
+        { 
+            i++; 
+            continue; 
+        }
+        offset = 0;
+        t_token_type type = find_token_type(&args->input[i], &offset);
 
         //printf("type: %d\n", type);
 
@@ -183,34 +227,34 @@ void lexer(const char *input, t_token tokens[], int *token_count)
         {
             i++;
             start_i = i;
-            while (i < len && (start_i == i || find_token_type(&input[i], &offset) != TOKEN_DQUOTE))
+            while (i < len && (start_i == i || find_token_type(&args->input[i], &offset) != TOKEN_DQUOTE))
                 i++;
-            lexer_setter(tokens, token_count, TOKEN_VAR_TEXT, ft_strndup(&input[start_i], i - start_i));
+            lexer_setter(args->tokens, args->token_count, TOKEN_VAR_TEXT, ft_strndup(&args->input[start_i], i - start_i));
             i++;
         }
         else if (type == TOKEN_QUOTE)
         {
             i++;
             start_i = i;
-            while (i < len && (start_i == i || find_token_type(&input[i], &offset) != TOKEN_QUOTE))
+            while (i < len && (start_i == i || find_token_type(&args->input[i], &offset) != TOKEN_QUOTE))
                 i++;
-            lexer_setter(tokens, token_count, TOKEN_LITERAL_TEXT, ft_strndup(&input[start_i], i - start_i));
+            lexer_setter(args->tokens, args->token_count, TOKEN_LITERAL_TEXT, ft_strndup(&args->input[start_i], i - start_i));
             i++;
         }
         else if (type != TOKEN_TEXT)
         {
-            lexer_setter(tokens, token_count, type, ft_strndup(&input[i], offset + 1));
+            lexer_setter(args->tokens, args->token_count, type, ft_strndup(&args->input[i], offset + 1));
             i += (offset + 1);
         }
         else
         {
             start_i = i;
-            while (i < len && !isspace(input[i]) && find_token_type(&input[i], &offset) == TOKEN_TEXT)
+            while (i < len && !isspace(args->input[i]) && find_token_type(&args->input[i], &offset) == TOKEN_TEXT)
                 i++;
-            lexer_setter(tokens, token_count, TOKEN_TEXT, ft_strndup(&input[start_i], i - start_i));
+            lexer_setter(args->tokens, args->token_count, TOKEN_TEXT, ft_strndup(&args->input[start_i], i - start_i));
         }
     }
-    lexer_setter(tokens, token_count, TOKEN_EOF, ft_strdup("EOF"));
+    lexer_setter(args->tokens, args->token_count, TOKEN_EOF, ft_strdup("EOF"));
 }
 
 /**

@@ -51,7 +51,13 @@ typedef struct {
     transition transitions[OP_TABLE_MAX_BRANCH];
 } operator_table;
 
-void    lexer(const char *input, t_token tokens[], int *token_count);
+typedef struct s_lexer_args {
+	const char	*input;
+	t_token		*tokens;
+	int			token_count;
+} t_lexer_args;
+
+void	lexer(t_lexer_args args);
 void    print_tokens(t_token tokens[], int count);
 int     parse_tokens(t_token tokens[], int token_count, char **minishell_error_msg);
 

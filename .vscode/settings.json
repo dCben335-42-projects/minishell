@@ -4,6 +4,8 @@
 		"utility": "c",
 		"parser_lexer.h": "c",
 		"string.h": "c",
-		"stdio.h": "c"
+		"stdio.h": "c",
+		"readline.h": "c",
+		"history.h": "c"
 	}
 }

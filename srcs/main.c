@@ -9,6 +9,7 @@
 #include <readline/history.h>
 #include "libft.h"
 #include "errors.h"
+#include "parser_lexer.h"
 
 void	execute_command(char **args)
 {
@@ -30,6 +31,16 @@ char	**create_args(char *input)
 	return (args);
 }
 
+void command_handler(char *input)
+{
+	t_lexer_args args;
+
+	args.input = input;
+	args.tokens = NULL;
+	args.token_count = 0;
+	lexer(args);
+}
+
 int main(int argc, char **argv, char **envp)
 {
 	t_shell	shell;
@@ -44,6 +55,7 @@ int main(int argc, char **argv, char **envp)
 			break;
         if (*input)
 			add_history(input);
+		command_handler(input);
 		args = create_args(input);
 		if (args[0])
 			if (!is_builtin(args, &shell))

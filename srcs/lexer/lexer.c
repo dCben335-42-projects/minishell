@@ -46,6 +46,18 @@ operator_table op_table[] = {
         {
             {'\0', TOKEN_DQUOTE}
         }
+    },
+    {
+        '(', // Left bracket
+        {
+            {'\0', TOKEN_OPEN_BRACKET}
+        }
+    },
+    {
+        ')', // Right bracket
+        {
+            {'\0', TOKEN_CLOSE_BRACKET}
+        }
     }
 };
 
@@ -64,6 +76,8 @@ t_token_name token_names[] = {
     {"PIPE_ERR"},
     {"QUOTE"},
     {"DQUOTE"},
+    {"BRACKET_LEFT"},
+    {"BRACKET_RIGHT"},
     {"EOF"}
 };
 

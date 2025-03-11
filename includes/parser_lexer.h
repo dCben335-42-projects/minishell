@@ -9,7 +9,7 @@
 
 # define MAX_TOKENS 100
 # define MAX_TOKEN_LENGTH 100
-# define OP_TABLE_SIZE 7
+# define OP_TABLE_SIZE 9
 # define OP_TABLE_MAX_BRANCH 3
 
 typedef enum e_token_type {
@@ -27,6 +27,8 @@ typedef enum e_token_type {
     TOKEN_PIPE_ERR,    // |&
     TOKEN_QUOTE,       // '
     TOKEN_DQUOTE,      // "
+    TOKEN_OPEN_BRACKET,     // (
+    TOKEN_CLOSE_BRACKET,    // )
     TOKEN_EOF          // Fin de commande
 } t_token_type;
 

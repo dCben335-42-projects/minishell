@@ -1,6 +1,6 @@
 #include "parser_lexer.h"
 
-#define TEST_COUNT 14
+#define TEST_COUNT 18
 #define ERROR_BUFFER_SIZE 1024
 
 int check_bash_syntax(const char *command, char *bash_error_msg) {
@@ -61,7 +61,10 @@ int main() {
         "echo 'test' > < file", // Invalide
         "cat file.txt &&", // Invalide (se termine par &&)
         "echo Hello ; ; echo World", // Invalide (double ;)
-        "& echo Hello ;"
+        "& echo Hello ;",
+        "(echo Hello ; echo World) && echo Done", // Valide
+        ")echo Hello ; echo World) && echo Done", // Valide
+        "()"
     };
 
     for (int i = 0; i < TEST_COUNT; i++) {
@@ -76,7 +79,6 @@ int main() {
 
         int my_parser_result = parse_tokens(tokens, token_count, &mini_error_msg);
         int bash_result = check_bash_syntax(test_commands[i], bash_error_msg);
-
         //if (my_parser_result == bash_result)
         //{
             if ((mini_error_msg == NULL && bash_error_msg[0] == '\0')

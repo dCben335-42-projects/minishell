@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 13:40:14 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/03/11 01:37:57 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/03/11 02:59:54 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,12 @@ static	void	handle_env(t_shell *shell, char *new_oldpwd)
 		free(newpwd);
 		return ;
 	}
+	free(shell->current_path);
+	shell->current_path = ft_strdup(newpwd);
 	if (!replace_env(shell->env, OLDPWD_KEY, new_oldpwd))
 		free(new_oldpwd);
 	if (!replace_env(shell->env, PWD_KEY, newpwd))
 		free(newpwd);
-	shell->current_path = newpwd;
 }
 
 static	void	handle_home_relative(char *path, char *home)

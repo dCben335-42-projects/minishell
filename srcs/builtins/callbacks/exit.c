@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 15:26:52 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/03/11 01:19:54 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/03/11 02:58:05 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	ft_exit(t_shell *shell, char **args)
 	if (args[1])
 		status = ft_atoi_base(args[1], "0123456789");
 	status = abs(status % 256);
-	destroy_env(shell->env);
+	destroy_shell(shell);
+	ft_putendl_fd("\nexit", 1);
 	exit(status);
 }

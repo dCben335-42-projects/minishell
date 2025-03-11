@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 13:59:51 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/03/11 01:36:36 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/03/11 19:29:12 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ static t_bool	check_key(char *key, size_t len)
 	i = 0;
 	if (key[len - 1] == '+')
 		len--;
+	if (!ft_isalpha(key[i]) && key[i] != '_')
+		return (FALSE);
 	while (i < len)
 	{
 		if (!ft_isalnum(key[i]) && key[i] != '_')

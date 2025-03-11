@@ -16,5 +16,10 @@
 # define ERROR_SHELL_INIT \
 "shell-init: error retrieving current directory: getcwd: cannot access parent directories"
 
+
+# define EXIT_MSG "\nexit"
+# define ERROR_EXIT_ARGS_NUM "exit: too many arguments"
+# define ERROR_EXIT_NUM "exit: numeric argument required"
+
 #endif
 

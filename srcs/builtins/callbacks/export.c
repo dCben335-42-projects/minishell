@@ -6,33 +6,36 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 15:30:22 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/03/11 01:39:20 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/03/11 19:37:38 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
 #include "libft.h"
 #include <stdio.h>
-#include <string.h>
+#include "messages.h"
 
 static void	handle_export(t_shell *shell, char *key, char *arg)
 {
 	const t_env	*matched_env = find_env(shell->env, key);
 	char		*value;
 	char		*complete_value;
-	size_t		key_len;
-
+	
 	if (!matched_env)
 	{
 		add_env(&shell->env, init_env(arg));
 		return ;
 	}
-	key_len = ft_strlen(key);
 	value = get_value_from_envp(arg);
 	if (!value)
 		value = ft_strdup("");
+	if (!value)
+	{
+		perror(ERROR_CD);
+		return ;
+	}
 	complete_value = value;
-	if ((arg[key_len] == '+'))
+	if ((arg[ft_strlen(key)] == '+'))
 	{
 		complete_value = ft_strjoin(matched_env->value, value);
 		free(value);

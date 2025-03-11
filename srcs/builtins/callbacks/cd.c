@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 13:40:14 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/03/11 02:59:54 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/03/11 19:26:13 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,23 +26,26 @@ static char	*get_oldpwd(t_shell *shell)
 
 static	void	handle_env(t_shell *shell, char *new_oldpwd)
 {
-	char		*newpwd;
+	char	*new_path;
+	char	*newpwd;
 
+	new_path = getcwd(NULL, 0);
 	newpwd = getcwd(NULL, 0);
 	if (!new_oldpwd)
 		new_oldpwd = get_oldpwd(shell);
-	if (!newpwd)
+	if (!new_path || !new_oldpwd)
 		perror(ERROR_GETCWD);
 	if (!new_oldpwd)
 		perror(ERROR_CD);
-	if (!new_oldpwd || !newpwd || !ft_strcmp(new_oldpwd, newpwd))
+	if (!new_oldpwd || !new_path || !newpwd || !ft_strcmp(new_oldpwd, new_path))
 	{
 		free(new_oldpwd);
+		free(new_path);
 		free(newpwd);
 		return ;
 	}
 	free(shell->current_path);
-	shell->current_path = ft_strdup(newpwd);
+	shell->current_path = new_path;
 	if (!replace_env(shell->env, OLDPWD_KEY, new_oldpwd))
 		free(new_oldpwd);
 	if (!replace_env(shell->env, PWD_KEY, newpwd))

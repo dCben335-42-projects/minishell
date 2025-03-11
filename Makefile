@@ -61,7 +61,7 @@ re: fclean all
 bonus: all
 
 norm:
-	norminette $(SRC) $(INCLUDES) $(LIBFT_FOLDER)
+	$(SRC) $(INCLUDES) $(LIBFT_FOLDER)
 
 force:
 	@true

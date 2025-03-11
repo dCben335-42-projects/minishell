@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 13:59:51 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/03/10 20:36:00 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/03/11 01:36:36 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ char	*get_value_from_envp(char *envp)
 	size_t	i;
 
 	i = get_equal_index(envp);
-	if (*(envp + i) == '=' && *(envp + i + 1)) 
+	if (*(envp + i) == '=' && *(envp + i + 1))
 		return (ft_strdup(envp + i + 1));
 	return (NULL);
 }

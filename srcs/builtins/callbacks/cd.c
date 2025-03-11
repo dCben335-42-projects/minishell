@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 13:40:14 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/03/10 19:38:33 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/03/11 01:37:57 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "messages.h"
 #include <stdio.h>
 
-static char *get_oldpwd(t_shell *shell)
+static char	*get_oldpwd(t_shell *shell)
 {
 	const t_env	*oldpwd = find_env(shell->env, PWD_KEY);
 
@@ -30,7 +30,7 @@ static	void	handle_env(t_shell *shell, char *new_oldpwd)
 
 	newpwd = getcwd(NULL, 0);
 	if (!new_oldpwd)
-		new_oldpwd = get_oldpwd(shell);	
+		new_oldpwd = get_oldpwd(shell);
 	if (!newpwd)
 		perror(ERROR_GETCWD);
 	if (!new_oldpwd)
@@ -67,7 +67,7 @@ static	void	handle_back(t_shell *shell)
 {
 	const t_env	*oldpwd = find_env(shell->env, OLDPWD_KEY);
 	char		*message;
-	
+
 	if (!oldpwd)
 	{
 		ft_putendl_fd(ERROR_CD_OLDPWD, 2);
@@ -87,7 +87,7 @@ static	void	handle_back(t_shell *shell)
 
 void	ft_cd(t_shell *shell, char **args)
 {
-	const t_env *home = find_env(shell->env, HOME_KEY);
+	const t_env	*home = find_env(shell->env, HOME_KEY);
 	const char	*pwd = getcwd(NULL, 0);
 
 	if (!args[1] || *args[1] == '~')

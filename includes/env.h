@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 13:43:27 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/03/10 18:10:37 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/03/11 01:43:53 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@
 # include "types.h"
 # include <stddef.h>
 
-typedef struct s_env {
+typedef struct s_env
+{
     char			*key;
     char			*value;
     struct s_env	*prev;

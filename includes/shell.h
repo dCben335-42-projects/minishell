@@ -3,7 +3,8 @@
 
 # include "env.h"
 
-typedef struct s_shell {
+typedef struct s_shell
+{
     t_env	*env;
 	char	*current_path;
 } t_shell;

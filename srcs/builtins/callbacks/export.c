@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 15:30:22 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/03/10 20:16:08 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/03/11 01:39:20 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@
 static void	handle_export(t_shell *shell, char *key, char *arg)
 {
 	const t_env	*matched_env = find_env(shell->env, key);
-	char	*value;
-	char	*complete_value;
-	size_t	key_len;
+	char		*value;
+	char		*complete_value;
+	size_t		key_len;
 
 	if (!matched_env)
 	{
@@ -36,7 +36,7 @@ static void	handle_export(t_shell *shell, char *key, char *arg)
 	{
 		complete_value = ft_strjoin(matched_env->value, value);
 		free(value);
-	} 
+	}
 	if (complete_value && !replace_env(shell->env, key, complete_value))
 		free(complete_value);
 }

@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 15:14:14 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/03/10 18:09:06 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/03/11 01:40:09 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,15 @@
 
 static const t_builtin	*get_builtin(void)
 {
-	static const t_builtin	map[] ={
-		{ENV, &ft_env},
-		{CD, &ft_cd},
-		{EXPORT, &ft_export},
-		{UNSET, &ft_unset},
-		{PWD, &ft_pwd},
-		{EXIT, &ft_exit},
-		{ECHO, &ft_echo},
-		{NULL, NULL}
-	};
+	static const t_builtin	map[] = {
+	{ENV, &ft_env},
+	{CD, &ft_cd},
+	{EXPORT, &ft_export},
+	{UNSET, &ft_unset},
+	{PWD, &ft_pwd},
+	{EXIT, &ft_exit},
+	{ECHO, &ft_echo},
+	{NULL, NULL}};
 
 	return (map);
 }

@@ -10,7 +10,8 @@
 #include "libft.h"
 #include "errors.h"
 
-void execute_command(char **args) {
+void	execute_command(char **args)
+{
     if (fork() == 0) 
 	{ 
 		execvp(args[0], args);
@@ -19,9 +20,9 @@ void execute_command(char **args) {
     wait(NULL);
 }
 
-char **create_args(char *input)
+char	**create_args(char *input)
 {
-	char **args;
+	char	**args;
 
 	args = ft_split(input, ' ');
 	if (!args)
@@ -39,9 +40,9 @@ int main(int argc, char **argv, char **envp)
     while (1)
 	{
 		input = readline(SHELL_NAME);
-        if (!input) 
+        if (!input)
 			break;
-        if (*input) 
+        if (*input)
 			add_history(input);
 		args = create_args(input);
 		if (args[0])
@@ -50,8 +51,8 @@ int main(int argc, char **argv, char **envp)
 		ft_handle_free_split(args);
         free(input);
     }
-	destroy_env(shell.env);
-    return (0);
+	destroy_shell(&shell);
 	(void)argc;
 	(void)argv;
+    return (0);
 }

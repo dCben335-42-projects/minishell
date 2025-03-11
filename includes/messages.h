@@ -10,9 +10,11 @@
 # define ERROR_CD "cd"
 # define ERROR_CD_HOME "cd: HOME not set"
 # define ERROR_CD_OLDPWD "cd: OLDPWD not set"
-# define ERROR_GETCWD "cd: error retrieving current directory: getcwd: cannot access parent directories"
+# define ERROR_GETCWD \
+"cd: error retrieving current directory: getcwd: cannot access parent directories"
 
-# define ERROR_SHELL_INIT "shell-init: error retrieving current directory: getcwd: cannot access parent directories"
+# define ERROR_SHELL_INIT \
+"shell-init: error retrieving current directory: getcwd: cannot access parent directories"
 
 #endif
 

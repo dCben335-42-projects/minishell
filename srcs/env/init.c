@@ -6,20 +6,19 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 13:44:38 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/03/10 14:48:13 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/03/11 01:36:14 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
 #include <stdlib.h>
 
-static	void	*free_init_error(char *key, char *value)
+static void	*free_init_error(char *key, char *value)
 {
 	free(key);
 	free(value);
 	return (NULL);
 }
-
 
 t_env	*init_env(char *envp)
 {

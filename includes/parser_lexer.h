@@ -7,8 +7,7 @@
 # include <ctype.h>
 # include "libft.h"
 
-# define MAX_TOKENS 100
-# define MAX_TOKEN_LENGTH 100
+# define MAX_TOKENS 20
 # define OP_TABLE_SIZE 9
 # define OP_TABLE_MAX_BRANCH 3
 
@@ -32,6 +31,12 @@ typedef enum e_token_type {
     TOKEN_EOF          // Fin de commande
 } t_token_type;
 
+typedef enum e_parse_status {
+    COMMAND_VALID,
+    COMMAND_NOT_VALID,
+    COMMAND_NOT_FINISHED,
+}   t_parse_status;
+
 typedef struct s_token_name {
     char *name;
 } t_token_name;
@@ -54,11 +59,18 @@ typedef struct {
 typedef struct s_lexer_args {
 	const char	*input;
 	t_token		*tokens;
+    int			token_number_max;
 	int			token_count;
 } t_lexer_args;
 
-void	lexer(t_lexer_args args);
-void    print_tokens(t_token tokens[], int count);
-int     parse_tokens(t_token tokens[], int token_count, char **minishell_error_msg);
+typedef struct s_parser_static {
+	t_bool	is_init;
+	int		open_bracket_count;
+	int		close_bracket_count;
+} t_parser_static;
+
+t_parse_status	lexer(t_lexer_args *args, char **error);
+void            print_tokens(t_token tokens[], int count);
+t_parse_status  token_parser(t_lexer_args *args, char **error, t_token token);
 
 #endif

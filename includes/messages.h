@@ -4,6 +4,7 @@
 # include <stdio.h>
 
 # define SHELL_NAME "minishell >"
+# define SHELL_NEXT_NAME ">"
 
 # define ERROR_MALLOC "Error: malloc"
 

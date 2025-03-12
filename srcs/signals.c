@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 18:07:59 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/03/12 19:18:51 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/03/12 20:19:32 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,16 @@
 #include <unistd.h>
 #include <termios.h>
 #include "libft.h"
+
+static void	disable_ctrl_backslash(void)
+{
+	struct termios term;
+
+	tcgetattr(0, &term);
+	term.c_lflag &= ~(ISIG);
+	term.c_cc[VQUIT] = 0;
+	tcsetattr(0, TCSANOW, &term);
+}
 
 static void	signal_handler(int signum)
 {
@@ -42,6 +52,7 @@ void	init_signals(void)
 
     sa.sa_flags = 0;
     sa.sa_handler = signal_handler;
+	disable_ctrl_backslash();
     sigemptyset(&sa.sa_mask);
     sigaction(SIGINT, &sa, NULL);   
     sigaction(SIGQUIT, &sa, NULL);  

@@ -28,6 +28,7 @@ INCLUDES_FLAGS = -I $(INCLUDES_DIR) -I $(LIBFT_INCLUDE_FOLDER)
 SRC_DIR     = ./srcs
 SRC_FILES   = main.c \
 			errors/basics.c \
+			signals.c \
 			env/init.c env/add.c env/get.c env/replace.c env/find.c env/destroy.c env/read.c \
 			builtins/builtins.c builtins/callbacks/echo.c builtins/callbacks/cd.c builtins/callbacks/pwd.c builtins/callbacks/export.c builtins/callbacks/unset.c builtins/callbacks/env.c builtins/callbacks/exit.c \
 			shell/init.c shell/destroy.c
@@ -61,7 +62,8 @@ re: fclean all
 bonus: all
 
 norm:
-	$(SRC) $(INCLUDES) $(LIBFT_FOLDER)
+	$(MAKE) norm -C $(LIBFT_FOLDER)
+	norminette $(SRC) $(INCLUDES)
 
 force:
 	@true

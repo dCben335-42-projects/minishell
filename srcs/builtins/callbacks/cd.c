@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 13:40:14 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/03/11 19:26:13 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/03/12 18:46:37 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,11 @@ void	ft_cd(t_shell *shell, char **args)
 	const t_env	*home = find_env(shell->env, HOME_KEY);
 	const char	*pwd = getcwd(NULL, 0);
 
+	if (args[2])
+	{
+		ft_putendl_fd("cd: too many arguments", 2);
+		return ;
+	}
 	if (!args[1] || *args[1] == '~')
 	{
 		if (!home)

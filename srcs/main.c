@@ -1,14 +1,7 @@
 #include "messages.h"
 #include "minishell.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <string.h>
-#include <sys/wait.h>
-#include <readline/readline.h>
-#include <readline/history.h>
 #include "libft.h"
-#include "errors.h"
+#include "builtin.h"
 
 void	execute_command(char **args)
 {
@@ -20,39 +13,38 @@ void	execute_command(char **args)
     wait(NULL);
 }
 
-char	**create_args(char *input)
+static void handle_loop(t_shell *shell)
 {
-	char	**args;
+	char		*input;
+	char		**args;
 
-	args = ft_split(input, ' ');
-	if (!args)
-		error_malloc(NULL, NULL);
-	return (args);
+	while (TRUE)
+	{
+		input = readline(SHELL_NAME);
+		if (!input)
+			break ;
+		if (*input)
+			add_history(input);
+		args = ft_split(input, ' ');
+		if (args[0])
+			if (!is_builtin(args, shell))
+				execute_command(args);
+		ft_handle_free_split(args);
+		free(input);
+	}
 }
 
 int main(int argc, char **argv, char **envp)
 {
-	t_shell	shell;
-    char	*input;
-	char	**args;
-    
-	shell = init_shell(envp);
-    while (1)
-	{
-		input = readline(SHELL_NAME);
-        if (!input)
-			break;
-        if (*input)
-			add_history(input);
-		args = create_args(input);
-		if (args[0])
-			if (!is_builtin(args, &shell))
-				printf("Command not found\n");
-		ft_handle_free_split(args);
-        free(input);
-    }
-	destroy_shell(&shell);
+	const char	*exit_args[] = { "exit", NULL };    
+	t_shell		shell;
+
 	(void)argc;
 	(void)argv;
+	shell = init_shell(envp);
+	init_signals();
+	handle_loop(&shell);
+	ft_exit(&shell, (char **)exit_args);
     return (0);
 }
+

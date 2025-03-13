@@ -6,27 +6,35 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 13:45:13 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/03/11 01:45:47 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/03/13 19:17:39 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
+#include "libft.h"
+
+t_env	*add_existing_env(t_env *env, char *key, char *value)
+{
+	t_env	*matched_env;
+	
+	matched_env = get_env_node(env, key);
+	if (!matched_env)
+		return (NULL);
+	free(matched_env->value);
+	matched_env->value = value;
+	return (matched_env);
+}
 
 t_env	*add_env(t_env **env, t_env *new)
 {
-	t_env	*tmp;
-
-	if (!new)
-		return (NULL);
-	if (!*env)
-	{
-		*env = new;
-		return (new);
-	}
-	tmp = *env;
-	while (tmp->next)
-		tmp = tmp->next;
-	tmp->next = new;
-	new->prev = tmp;
-	return (new);
+    if (!new)
+        return (NULL);
+    if (!*env)
+    {
+        *env = new;
+        return (new);
+    }
+    if (ft_strcmp(new->key, (*env)->key) < 0)
+		return (add_env(&(*env)->left, new));
+	return (add_env(&(*env)->right, new));
 }

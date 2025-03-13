@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 13:44:38 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/03/11 01:36:14 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/03/13 19:08:27 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,14 @@ static void	*free_init_error(char *key, char *value)
 	return (NULL);
 }
 
-t_env	*init_env(char *envp)
+t_env	*init_env_node(char *envp)
 {
 	t_env	*new;
 	char	*key;
 	char	*value;
 
-	key = get_key_from_envp(envp);
-	value = get_value_from_envp(envp);
+	key = parse_env_key(envp);
+	value = parse_env_value(envp);
 	if (!key || !value)
 		return (free_init_error(key, value));
 	new = malloc(sizeof(t_env));
@@ -35,12 +35,12 @@ t_env	*init_env(char *envp)
 		return (free_init_error(key, value));
 	new->key = key;
 	new->value = value;
-	new->next = NULL;
-	new->prev = NULL;
+	new->left = NULL;
+	new->right = NULL;
 	return (new);
 }
 
-t_env	*create_envs(char **envp)
+t_env	*init_env(char **envp)
 {
 	t_env	*env;
 	size_t	i;
@@ -49,7 +49,7 @@ t_env	*create_envs(char **envp)
 	i = 0;
 	while (envp[i])
 	{
-		add_env(&env, init_env(envp[i]));
+		add_env(&env, init_env_node(envp[i]));
 		i++;
 	}
 	return (env);

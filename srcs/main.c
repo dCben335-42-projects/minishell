@@ -3,15 +3,47 @@
 #include "libft.h"
 #include "builtin.h"
 
-void	execute_command(char **args)
+void	execute_command(char *path, char **args)
 {
     if (fork() == 0) 
 	{ 
-		execvp(args[0], args);
+		execvp(path, args);
 		exit(1); 
 	}
     wait(NULL);
 }
+
+void	handle_command(t_shell *shell, char **args)
+{
+	const t_env	*node;
+
+	node = get_env_node(shell->env, PATH_KEY);
+	if (node)
+	{
+		char	**paths;
+		char	*path;
+		size_t	i;
+
+		paths = ft_split(node->value, ':');
+		i = 0;
+		while (paths[i])
+		{
+			path = ft_strjoin(paths[i], "/");
+			path = ft_strjoin(path, args[0]);
+			if (!access(path, F_OK))
+			{
+				execute_command(path, args);
+				break ;
+			}
+			free(path);
+			i++;
+		}
+		ft_handle_free_split(paths);
+		return ;
+	}
+	ft_putendl_fd("minishell: command not found: ", STDERR_FILENO);
+}
+
 
 static void handle_loop(t_shell *shell)
 {
@@ -28,7 +60,7 @@ static void handle_loop(t_shell *shell)
 		args = ft_split(input, ' ');
 		if (args[0])
 			if (!is_builtin(args, shell))
-				execute_command(args);
+				handle_command(shell, args);
 		ft_handle_free_split(args);
 		free(input);
 	}
@@ -45,6 +77,6 @@ int main(int argc, char **argv, char **envp)
 	init_signals();
 	handle_loop(&shell);
 	ft_exit(&shell, (char **)exit_args);
+	destroy_shell(&shell);
     return (0);
 }
-

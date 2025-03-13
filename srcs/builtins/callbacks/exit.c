@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 15:26:52 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/03/11 21:04:47 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/03/13 19:59:46 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 void	ft_exit(t_shell *shell, char **args)
 {
-	int	status;
+	int		status;
 
 	status = 0;
 	ft_putendl_fd(EXIT_MSG, 1);
@@ -33,7 +33,7 @@ void	ft_exit(t_shell *shell, char **args)
 			ft_putendl_fd(ERROR_EXIT_NUM, 2);
 			status = 2;
 		}
-		else 
+		else
 			status = ft_atol_base(args[1], BASE_10);
 	}
 	destroy_shell(shell);

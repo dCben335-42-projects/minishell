@@ -21,5 +21,7 @@
 # define ERROR_EXIT_ARGS_NUM "exit: too many arguments"
 # define ERROR_EXIT_NUM "exit: numeric argument required"
 
+# define EXPORT_PREFIX "export "
+
 #endif
 

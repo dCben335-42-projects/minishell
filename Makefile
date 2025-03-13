@@ -29,7 +29,7 @@ SRC_DIR     = ./srcs
 SRC_FILES   = main.c \
 			errors/basics.c \
 			signals.c \
-			env/init.c env/add.c env/get.c env/replace.c env/find.c env/destroy.c env/read.c \
+			env/init.c env/destroy.c env/add.c env/parse.c env/get.c env/read.c \
 			builtins/builtins.c builtins/callbacks/echo.c builtins/callbacks/cd.c builtins/callbacks/pwd.c builtins/callbacks/export.c builtins/callbacks/unset.c builtins/callbacks/env.c builtins/callbacks/exit.c \
 			shell/init.c shell/destroy.c
 

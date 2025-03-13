@@ -77,6 +77,5 @@ int main(int argc, char **argv, char **envp)
 	init_signals();
 	handle_loop(&shell);
 	ft_exit(&shell, (char **)exit_args);
-	destroy_shell(&shell);
     return (0);
 }

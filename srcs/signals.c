@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 18:07:59 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/03/12 20:19:32 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/03/13 15:31:36 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,18 @@ static void	disable_ctrl_backslash(void)
 {
 	struct termios term;
 
-	tcgetattr(0, &term);
+	if (tcgetattr(0, &term) == -1)
+	{
+		perror("tcgetattr");
+		return ;
+	}
 	term.c_lflag &= ~(ISIG);
 	term.c_cc[VQUIT] = 0;
-	tcsetattr(0, TCSANOW, &term);
+	if (tcsetattr(0, TCSANOW, &term) == -1)
+	{
+		perror("tcsetattr");
+		return ;
+	}
 }
 
 static void	signal_handler(int signum)

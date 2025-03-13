@@ -4,6 +4,6 @@
 # include <stdlib.h>
 # include <stdio.h>
 
-void	error_malloc(void *f(void *), void *data);
+void	*perror_wrapper(void *data, char *msg);
 
 #endif

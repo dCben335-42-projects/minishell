@@ -38,7 +38,7 @@ int main(int argc, char **argv, char **envp)
 {
 	const char	*exit_args[] = { "exit", NULL };    
 	t_shell		shell;
-
+	
 	(void)argc;
 	(void)argv;
 	shell = init_shell(envp);

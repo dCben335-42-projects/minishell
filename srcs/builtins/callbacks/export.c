@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 15:30:22 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/03/13 20:03:54 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/03/14 01:37:55 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static void	process_env(t_shell *shell, char *key, char *arg)
 		value = ft_strdup("");
 	if (!value)
 	{
-		perror(ERROR_CD);
+		perror(ERR_CD);
 		return ;
 	}
 	complete_value = value;
@@ -74,8 +74,8 @@ void	ft_export(t_shell *shell, char **args)
 		read_env(shell->env, EXPORT_PREFIX);
 	else if (!is_valid_export(shell, args))
 	{
-		shell->last_exit_code = 1;
+		shell->exit_code = 1;
 		return ;
 	}
-	shell->last_exit_code = 0;
+	shell->exit_code = 0;
 }

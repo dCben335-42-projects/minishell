@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 15:48:04 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/03/13 19:46:51 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/03/14 01:37:55 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,5 @@ void	ft_unset(t_shell *shell, char **args)
 			destroy_env_node(&shell->env, node);
 		i++;
 	}
-	shell->last_exit_code = 0;
+	shell->exit_code = 0;
 }

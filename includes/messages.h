@@ -7,11 +7,12 @@
 
 # define ERROR_MALLOC "Error: malloc"
 
-# define ERROR_CD "cd"
-# define ERROR_CD_HOME "cd: HOME not set"
-# define ERROR_CD_OLDPWD "cd: OLDPWD not set"
-# define ERROR_GETCWD \
-"cd: error retrieving current directory: getcwd: cannot access parent directories"
+# define ERR_CD "cd"
+# define ERR_CD_HOME "cd: HOME not set"
+# define ERR_CD_OLDPWD "cd: OLDPWD not set"
+# define ERR_CD_ARGS "cd: too many arguments"
+# define ERR_GETCWD \
+"chdir: error retrieving current directory: getcwd: cannot access parent directories"
 
 # define ERROR_SHELL_INIT \
 "shell-init: error retrieving current directory: getcwd: cannot access parent directories"

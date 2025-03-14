@@ -6,18 +6,38 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 01:36:46 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/03/13 15:30:36 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/03/14 00:32:55 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "messages.h"
 #include "errors.h"
+#include "libft.h"
 
-void	*perror_wrapper(void *data, char *msg)
+void	*p_ptr(void *data, const char *msg)
+{
+    if (!data)
+	{
+        perror(msg);
+        return (NULL);
+    }
+    return (data);
+}
+
+t_bool	p_int(int data, int error_value, const char *msg)
+{
+	if (data == error_value)
+	{
+		perror(msg);
+		return (FALSE);
+	}
+	return (TRUE);
+}
+
+void	*s_ptr(void *data, const char *msg)
 {
 	if (!data)
 	{
-		perror(msg);
+		ft_putendl_fd((char *)msg, 2);
 		return (NULL);
 	}
 	return (data);

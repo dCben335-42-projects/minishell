@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 15:26:39 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/03/11 01:38:54 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/03/14 01:37:55 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,5 +41,5 @@ void	ft_echo(t_shell *shell, char **args)
 	}
 	if (!is_n_option)
 		ft_putchar_fd('\n', 1);
-	(void)shell;
+	shell->exit_code = 0;
 }

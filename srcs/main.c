@@ -15,9 +15,7 @@ void	execute_command(char *path, char **args)
 
 void	handle_command(t_shell *shell, char **args)
 {
-	const t_env	*node;
-
-	node = get_env_node(shell->env, PATH_KEY);
+	const t_env	*node = get_env_node(shell->env, PATH_KEY);
 	if (node)
 	{
 		char	**paths;
@@ -63,6 +61,7 @@ static void handle_loop(t_shell *shell)
 				handle_command(shell, args);
 		ft_handle_free_split(args);
 		free(input);
+		printf("exit code: %d\n", shell->exit_code);
 	}
 }
 

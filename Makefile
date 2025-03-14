@@ -29,6 +29,7 @@ SRC_DIR     = ./srcs
 SRC_FILES   = main.c \
 			lexer/lexer.c lexer/parser.c \
 			errors/basics.c \
+			map/dynamic_array.c \
 			env/init.c env/add.c env/get.c env/replace.c env/find.c env/destroy.c env/read.c \
 			builtins/builtins.c builtins/callbacks/echo.c builtins/callbacks/cd.c builtins/callbacks/pwd.c builtins/callbacks/export.c builtins/callbacks/unset.c builtins/callbacks/env.c builtins/callbacks/exit.c \
 			shell/init.c shell/destroy.c

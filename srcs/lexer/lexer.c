@@ -174,7 +174,7 @@ t_parse_status  lexer(t_lexer_args *args, char **error)
     t_parse_status status;
     t_token token;
 
-    token_parser(args, error, (t_token){TOKEN_EOF, "init"});
+    token_parser(args, error, (t_token){TOKEN_EOF, ft_strdup("init")});
 
     i = 0;
     len = ft_strlen(args->input);
@@ -223,10 +223,15 @@ t_parse_status  lexer(t_lexer_args *args, char **error)
  * @param tokens: tableau de tokens
  * @param count: nombre de tokens
  */
-
-void print_tokens(t_token tokens[], int count)
+void print_tokens(t_dynamic_array *tokens, int count)
 {
-    for (int i = 0; i < count; i++) {
-        printf("Token: %-12s | Type: %s\n", tokens[i].value, token_names[tokens[i].type].name);
-    }
+	int i;
+
+	i = 0;
+	while (i < count)
+	{
+		t_token *data = (t_token *)get_value(tokens, i);
+		printf("Token: %-12s | Type: %s\n", data->value, token_names[data->type].name);
+		i++;
+	}
 }

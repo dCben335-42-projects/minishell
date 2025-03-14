@@ -103,12 +103,55 @@ t_parse_status get_error_message(t_token token, char **error)
 //    return 0;
 //}
 
+t_token *duplicate_token(const t_token *original) {
+    if (original == NULL) {
+        return NULL;
+    }
+
+    // Allouer de la mémoire pour la nouvelle structure t_token
+    t_token *duplicate = malloc(sizeof(t_token));
+    if (duplicate == NULL) {
+        // Gérer l'erreur d'allocation si nécessaire
+        return NULL;
+    }
+
+    // Copier le type du token
+    duplicate->type = original->type;
+
+    // Allouer de la mémoire pour la valeur du token et copier la chaîne
+    if (original->value != NULL) {
+        duplicate->value = strdup(original->value);
+        if (duplicate->value == NULL) {
+            // Gérer l'erreur d'allocation si nécessaire
+            free(duplicate);
+            return NULL;
+        }
+    } else {
+        duplicate->value = NULL;
+    }
+
+    return duplicate;
+}
+
 t_parse_status token_parser(t_lexer_args *args, char **error, t_token token)
 {
+    //printf("---------------------\n");
+    ////set_value(args->tokens, args->token_count, &token);
+
+    //(args->tokens)->data[args->token_count] = token;
+    //args->token_count++;
+    //print_tokens(args->tokens, args->token_count);
+    //for (int i = 0; i < args->token_count; i++)
+    //{
+    //    printf("data[%i]->value=%s\n", i, ((t_token *)(args->tokens->data[i]))->value);
+    //}
+
+
+
     t_token prev_token;
     t_parser_static parser_static = {.is_init = FALSE};
-    t_token *tmp;
-    int i = 0;
+    //t_token *tmp;
+    //int i = 0;
 
     if (token.type == TOKEN_EOF && token.value && strcmp(token.value, "init") == 0)
     {
@@ -126,7 +169,8 @@ t_parse_status token_parser(t_lexer_args *args, char **error, t_token token)
     }
     else
     {
-        prev_token = args->tokens[args->token_count - 1];
+        //prev_token = (args->tokens[args->token_count - 1]);
+        prev_token = *((t_token *)get_value(args->tokens, args->token_count - 1));
         if (is_control_operator(token) && is_control_operator(prev_token))
             return(get_error_message(token, error));
 
@@ -143,20 +187,7 @@ t_parse_status token_parser(t_lexer_args *args, char **error, t_token token)
             return(get_error_message(token, error));
     }
 
-    if (args->token_count == args->token_number_max)
-    {
-        args->token_number_max += MAX_TOKENS;
-        tmp = malloc(sizeof(t_token) * (args->token_number_max));
-        
-        while (i < args->token_count)
-        {
-            tmp[i] = args->tokens[i];
-            i++;
-        }
-        free(args->tokens);
-        args->tokens = tmp;
-    }
-    args->tokens[args->token_count] = token;
+    set_value(args->tokens, args->token_count, duplicate_token(&token));
     args->token_count++;
     return (COMMAND_VALID);
 }

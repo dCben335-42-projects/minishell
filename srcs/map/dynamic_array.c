@@ -2,8 +2,11 @@
 #include <stdlib.h>
 #include <string.h>
 #include "map.h"
+#include "types.h"
+#include "libft.h"
+#include "parser_lexer.h"
 
-t_dynamic_array	*create_array(int size)
+t_dynamic_array	*create_dynamic_array(int size)
 {
 	t_dynamic_array	*arr;
 
@@ -68,9 +71,124 @@ void	*get_value(t_dynamic_array *arr, int index)
 	return (0);
 }
 
-void	free_array(t_dynamic_array *arr)
+void	free_dynamic_array(t_dynamic_array *arr, void (*free_func)(void *))
 {
+	int i;
+
+	i = 0;
+	if (free_func != NULL)
+	{
+		while (i < arr->size)
+		{
+			if (arr->data[i] != NULL) {
+				free_func(arr->data[i]);
+			}
+			i++;
+		}
+	}
 	free(arr->data);
 	free(arr);
 }
+
+//void free_token(void *token)
+//{
+//	t_token *tok = (t_token *)token;
+//	if (tok->value != NULL) {
+//		free(tok->value);
+//		tok->value = NULL;
+//	}
+//}
+
+//int main() {
+//    t_dynamic_array *arr = create_dynamic_array(2);
+
+//    // Ajouter un entier
+//	t_token val1 = (t_token){TOKEN_LITERAL_TEXT, ft_strdup("bonjour")};
+//    set_value(arr, 0, &val1);
+
+//	t_token val2 = (t_token){TOKEN_LITERAL_TEXT, ft_strdup("bonjour2")};
+//    set_value(arr, 1, &val2);
+
+//    printf("arr[0] = %s\n", ((t_token *)get_value(arr, 0))->value);
+//    printf("arr[1] = %s\n", ((t_token *)get_value(arr, 1))->value);
+//    // Libérer la mémoire
+//    free_dynamic_array(arr, free_token);
+
+//    return 0;
+//}
+
+
+
+
+
+
+
+
+//void free_array(t_dynamic_array *arr)
+//{
+//    // Libérer chaque élément du tableau dynamique s'il est alloué dynamiquement
+//    for (int i = 0; i < arr->size; i++) {
+//        if (arr->data[i] != NULL) {
+//            free(arr->data[i]);  // Libère la mémoire allouée pour chaque élément
+//        }
+//    }
+
+//    free(arr->data);  // Libère la mémoire allouée pour le tableau dynamique lui-même
+//    free(arr);         // Libère la structure qui contient le tableau dynamique
+//}
+
+
+//int main(void)
+//{
+//	t_dynamic_array *arr;
+//	int value1 = 42;
+//	char *value2 = "Hello, world!";
+//	char *value3 = "BONJOUR!";
+
+//	arr = create_dynamic_array(4);
+//	set_value(arr, 2, &value1);  // Stocke un int
+//	set_value(arr, 10, value2);   // Stocke un char* (string)
+//	set_value(arr, 10, value3);   // Stocke un char* (string)
+	
+//	printf("arr[2] = %d\n", *(int *)get_value(arr, 2));  // Cast pour récupérer l'int
+//	printf("arr[10] = %s\n", (char *)get_value(arr, 10));  // Cast pour récupérer la string
+	
+//	// Tester un index qui n'a pas encore de valeur assignée
+//	if (get_value(arr, 5) == NULL)
+//	{
+//		printf("arr[5] is NULL\n");
+//	}
+
+//	free_array(arr);
+//	return (0);
+//}
+
+//int main(void) {
+//    t_dynamic_array *arr = create_dynamic_array(4);
+
+//    // Ajouter des entiers au tableau
+//    for (int i = 0; i < 10; i++) {
+//        int *value = malloc(sizeof(int));
+//        if (!value) {
+//            perror("Échec de l'allocation de mémoire pour la valeur");
+//            free_array(arr, TRUE);
+//            exit(EXIT_FAILURE);
+//        }
+//        *value = i * i; // Stocker le carré de l'indice
+//        set_value(arr, i, value);
+//    }
+
+//    // Afficher les valeurs du tableau
+//    for (int i = 0; i < 10; i++) {
+//        int *value = get_value(arr, i);
+//        if (value != NULL) {
+//            printf("arr[%d] = %d\n", i, *value);
+//        }
+//    }
+
+//    // Libérer la mémoire allouée
+//    free_array(arr, TRUE);
+
+//    return 0;
+//}
 

@@ -6,6 +6,7 @@
 # include <string.h>
 # include <ctype.h>
 # include "libft.h"
+# include "map.h"
 
 # define MAX_TOKENS 20
 # define OP_TABLE_SIZE 9
@@ -57,10 +58,10 @@ typedef struct {
 } operator_table;
 
 typedef struct s_lexer_args {
-	const char	*input;
-	t_token		*tokens;
-    int			token_number_max;
-	int			token_count;
+	const char          *input;
+	t_dynamic_array     *tokens;
+    int			        token_number_max;
+	int			        token_count;
 } t_lexer_args;
 
 typedef struct s_parser_static {
@@ -70,7 +71,7 @@ typedef struct s_parser_static {
 } t_parser_static;
 
 t_parse_status	lexer(t_lexer_args *args, char **error);
-void            print_tokens(t_token tokens[], int count);
+void            print_tokens(t_dynamic_array *tokens, int count);
 t_parse_status  token_parser(t_lexer_args *args, char **error, t_token token);
 
 #endif

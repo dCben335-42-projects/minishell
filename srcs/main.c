@@ -12,118 +12,83 @@
 #include "parser_lexer.h"
 #include "map.h"
 
-void command_handler_lexer(char **input, t_lexer_args *args);
-void command_not_finished(t_lexer_args *args, char **input);
-
-void free_token(void *token)
+t_bool	execute_command(char *path, char **args)
 {
-	t_token *tok = (t_token *)token;
-	if (tok->value != NULL) {
-		free(tok->value);
-		tok->value = NULL;
-	}
-}
-
-char **map_tokens(t_token *tokens, int token_count)
-{
-	char **tokens_value_map;
-	int i;
-
-	tokens_value_map = malloc(sizeof(char *) * token_count);
-	i = 0;
-	while (i < token_count)
-	{
-		tokens_value_map[i] = tokens[i].value;
-		i++;
-	}
-	return (tokens_value_map);
-}
-
-void	execute_command(char **tokens)
-{
-
-    if (fork() == 0)
+    if (fork() == 0) 
 	{ 
-		execvp(tokens[0], tokens);
+		execve(path, args, NULL);
+		free(path);
 		exit(1); 
 	}
-    wait(NULL);
+    waitpid(-1, NULL, 0);
+	free(path);
+	return (TRUE);
 }
 
-void command_handler_lexer(char **input, t_lexer_args *args)
+void	handle_command(t_shell *shell, char **args)
 {
-	char *error = NULL;
-	t_parse_status status;
+	const t_env	*node = get_env_node(shell->env, PATH_KEY);
+	char		**paths;
+	char		*path;
+	char		*tmp;
+	size_t		i;
 
-	args->input = *input;
-	args->tokens = create_dynamic_array(20);
-	args->token_count = 0;
-	//args->tokens = malloc(sizeof(t_token) * MAX_TOKENS);
-	//args->token_number_max = MAX_TOKENS;
-
-	//lexer(args, &error);
-	status = lexer(args, &error);
-	//printf("[0]=%s\n", ((t_token *)get_value(args->tokens, 0))->value);
-	//printf("[1]=%s\n", ((t_token *)get_value(args->tokens, 1))->value);
-	//printf("[2]=%s\n", ((t_token *)get_value(args->tokens, 2))->value);
-	//printf("ok1\n");
-
-	if (status == COMMAND_NOT_FINISHED)
-	{
-		command_not_finished(args, input);
+	if (!s_ptr((void *)node, ERR_NOT_FOUND))
 		return ;
-	}
-	else if (status != COMMAND_VALID)
-	{
-		printf("Error: %s\n", error);
-		free(error);
+	paths = ft_split(node->value, ':');
+	if (!s_ptr((void *)paths, ERROR_MALLOC))
 		return ;
-	}
-	else
+	i = 0;
+	while (paths[i])
 	{
-		print_tokens(args->tokens, args->token_count);
+		path = ft_strjoin(paths[i], "/");
+		tmp = path;
+		if (path)
+			path = ft_strjoin(path, args[0]);
+		ft_handle_free((void **)&tmp);
+		p_ptr((void *)path, ERROR_MALLOC);
+		if (path && !access(path, F_OK) && execute_command(path, args))
+			break ;
+		free(path);
+		i++;
 	}
-	if (**input)
-		add_history(*input);
-	//execute_command(map_tokens(args->tokens, args->token_count));
+	ft_handle_free_split(paths);
 }
 
-void command_not_finished(t_lexer_args *args, char **input)
-{
-	char *tmp2;
-	char *tmp;
-	
-	tmp = readline(SHELL_NEXT_NAME);
-	tmp2 = ft_strjoin(*input, tmp);
-	free(tmp);
-	free(*input);
-	input = &tmp2;
-	free_dynamic_array(args->tokens, free_token);
-	command_handler_lexer(input, args);
-}
 
-int command_handler(char **input)
+static void handle_loop(t_shell *shell)
 {
-	t_lexer_args args;
-	command_handler_lexer(input, &args);
-	return (0);
+	char		*input;
+	char		**args;
+
+	while (TRUE)
+	{
+		input = readline(SHELL_NAME);
+		if (!input)
+			break ;
+		if (*input)
+			add_history(input);
+		args = ft_split(input, ' ');
+		if (args[0])
+			if (!is_builtin(args, shell))
+				handle_command(shell, args);
+		ft_handle_free_split(args);
+		free(input);
+		printf("exit code: %d\n", shell->exit_code);
+	}
 }
 
 int main(int argc, char **argv, char **envp)
 {
-	t_shell	shell;
-    char	*input;
-    
-	shell = init_shell(envp);
-    while (1)
-	{
-		input = readline(SHELL_NAME);
-        if (!input)
-			break;
-		command_handler(&input);
-    }
-	destroy_shell(&shell);
+	const char	*exit_args[] = { "exit", NULL };    
+	t_shell		shell;
+	
 	(void)argc;
 	(void)argv;
+	(void) &handle_loop;
+	shell = init_shell(envp);
+	init_signals();
+	handle_loop(&shell);
+	ft_exit(&shell, (char **)exit_args);
     return (0);
 }

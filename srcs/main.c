@@ -8,10 +8,12 @@ t_bool	execute_command(char *path, char **args)
 {
     if (fork() == 0) 
 	{ 
-		execvp(path, args);
+		execve(path, args, NULL);
+		free(path);
 		exit(1); 
 	}
-    waitpid(-1, NULL, 0);\
+    waitpid(-1, NULL, 0);
+	free(path);
 	return (TRUE);
 }
 
@@ -20,6 +22,7 @@ void	handle_command(t_shell *shell, char **args)
 	const t_env	*node = get_env_node(shell->env, PATH_KEY);
 	char		**paths;
 	char		*path;
+	char		*tmp;
 	size_t		i;
 
 	if (!s_ptr((void *)node, ERR_NOT_FOUND))
@@ -31,7 +34,10 @@ void	handle_command(t_shell *shell, char **args)
 	while (paths[i])
 	{
 		path = ft_strjoin(paths[i], "/");
-		path = ft_strjoin(path, args[0]);
+		tmp = path;
+		if (path)
+			path = ft_strjoin(path, args[0]);
+		ft_handle_free((void **)&tmp);
 		p_ptr((void *)path, ERROR_MALLOC);
 		if (path && !access(path, F_OK) && execute_command(path, args))
 			break ;
@@ -71,6 +77,7 @@ int main(int argc, char **argv, char **envp)
 	
 	(void)argc;
 	(void)argv;
+	(void) &handle_loop;
 	shell = init_shell(envp);
 	init_signals();
 	handle_loop(&shell);

@@ -3,9 +3,9 @@ NAME        = minishell
 CC          = cc
 C_FLAGS     = -Wall -Wextra -Werror
 
-BUILD_DIR   = ./.build
 RM = rm -rf
 MKDIR = mkdir -p
+BUILD_DIR   = ./.build
 
 # libs
 LIBS_FOLDER = ./libs
@@ -39,12 +39,13 @@ OBJ 		= $(patsubst $(SRC_DIR)/%.c, $(BUILD_DIR)/%.o, $(SRC))
 
 # rules
 $(NAME): $(LIBFT) $(OBJ)
-	$(CC) $(C_FLAGS) $(OBJ) -o $(NAME) $(LIBS_FLAGS) $(INCLUDES_FLAGS)
+	$(CC) $(C_FLAGS) $(OBJ) -o $(NAME) $(INCLUDES_FLAGS) $(LIBS_FLAGS) 
 	
-all: $(NAME) 
+all: $(NAME)
+
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c $(INCLUDES) Makefile
 	@$(MKDIR) $(@D)
-	$(CC) $(C_FLAGS) -o $@ -c $< $(INCLUDES_FLAGS)
+	$(CC) $(C_FLAGS) -o $@ -c $< $(INCLUDES_FLAGS) $(LIBFT_FLAGS)
 
 $(LIBFT): force
 	$(MAKE) -C $(LIBFT_FOLDER)
@@ -68,4 +69,12 @@ norm:
 force:
 	@true
 
-.PHONY: all clean fclean re force bonus norminette
+val: all
+	valgrind --track-fds=all --suppressions=config/valgrind_ignore.conf --leak-check=full --show-leak-kinds=all --track-origins=yes -q -s ./$(NAME)
+
+run: all
+	./$(NAME)
+
+-include config/forbidden.mk
+
+.PHONY: all clean fclean re force bonus norminette val run

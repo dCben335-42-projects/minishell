@@ -6,19 +6,20 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 15:28:37 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/03/14 01:37:55 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/03/14 02:53:01 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
 #include "libft.h"
+#include "messages.h"
+#include "errors.h"
 
 void	ft_pwd(t_shell *shell, char **args)
 {
 	(void)args;
-	if (!shell->current_path)
+	if (!s_ptr(shell->current_path, ERR_PWD))
 	{
-		ft_putendl_fd("minishell: pwd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory", 2);
 		shell->exit_code = 1;
 		return ;
 	}

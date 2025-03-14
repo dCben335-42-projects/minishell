@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 15:30:22 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/03/14 01:37:55 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/03/14 02:54:32 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,14 @@
 #include "libft.h"
 #include <stdio.h>
 #include "messages.h"
+#include "errors.h"
 
 static void	process_env(t_shell *shell, char *key, char *arg)
 {
 	const t_env	*matched_env = get_env_node(shell->env, key);
 	char		*value;
 	char		*complete_value;
-	
+
 	if (!matched_env)
 	{
 		add_env(&shell->env, init_env_node(arg));
@@ -29,11 +30,8 @@ static void	process_env(t_shell *shell, char *key, char *arg)
 	value = parse_env_value(arg);
 	if (!value)
 		value = ft_strdup("");
-	if (!value)
-	{
-		perror(ERR_CD);
+	if (!p_ptr(value, ERROR_MALLOC))
 		return ;
-	}
 	complete_value = value;
 	if ((arg[ft_strlen(key)] == '+'))
 	{
@@ -58,7 +56,7 @@ static t_bool	is_valid_export(t_shell *shell, char **args)
 		if (!key)
 		{
 			is_valid = FALSE;
-			printf("export: '%s': not a valid identifier\n", args[i]);
+			printf(ERR_EXPORT_ID, args[i]);
 		}
 		else
 			process_env(shell, key, args[i]);

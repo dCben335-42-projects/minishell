@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 13:40:14 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/03/14 02:41:09 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/03/14 02:55:12 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,6 @@ void	ft_cd(t_shell *shell, char **args)
 	const char	*pwd = getcwd(NULL, 0);
 	t_bool		ret;
 
-	printf("is_current_dir: %d\n", is_current_dir(args[1]));
 	if (args[1] && args[2])
 	{
 		ft_putendl_fd(ERR_CD_ARGS, 2);
@@ -98,7 +97,8 @@ void	ft_cd(t_shell *shell, char **args)
 	if (!args[1] || !ft_strcmp(args[1], "~"))
 		ret = env_path((t_env *)home, ERR_CD_HOME, TRUE);
 	else if (ft_strcmp(args[1], "-") == 0)
-		ret = env_path(get_env_node(shell->env, OLDPWD_KEY), ERR_CD_OLDPWD, TRUE);
+		ret = env_path(get_env_node(shell->env, OLDPWD_KEY), \
+			ERR_CD_OLDPWD, TRUE);
 	else if (ft_strncmp(args[1], "~/", 2) == 0)
 		ret = home_relative(args[1], home->value);
 	else
@@ -107,5 +107,3 @@ void	ft_cd(t_shell *shell, char **args)
 	if (ret)
 		handle_env(shell, (char *)pwd);
 }
-
-

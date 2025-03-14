@@ -2,44 +2,43 @@
 #include "minishell.h"
 #include "libft.h"
 #include "builtin.h"
+#include "errors.h"
 
-void	execute_command(char *path, char **args)
+t_bool	execute_command(char *path, char **args)
 {
     if (fork() == 0) 
 	{ 
 		execvp(path, args);
 		exit(1); 
 	}
-    wait(NULL);
+    waitpid(-1, NULL, 0);\
+	return (TRUE);
 }
 
 void	handle_command(t_shell *shell, char **args)
 {
 	const t_env	*node = get_env_node(shell->env, PATH_KEY);
-	if (node)
-	{
-		char	**paths;
-		char	*path;
-		size_t	i;
+	char		**paths;
+	char		*path;
+	size_t		i;
 
-		paths = ft_split(node->value, ':');
-		i = 0;
-		while (paths[i])
-		{
-			path = ft_strjoin(paths[i], "/");
-			path = ft_strjoin(path, args[0]);
-			if (!access(path, F_OK))
-			{
-				execute_command(path, args);
-				break ;
-			}
-			free(path);
-			i++;
-		}
-		ft_handle_free_split(paths);
+	if (!s_ptr((void *)node, ERR_NOT_FOUND))
 		return ;
+	paths = ft_split(node->value, ':');
+	if (!s_ptr((void *)paths, ERROR_MALLOC))
+		return ;
+	i = 0;
+	while (paths[i])
+	{
+		path = ft_strjoin(paths[i], "/");
+		path = ft_strjoin(path, args[0]);
+		p_ptr((void *)path, ERROR_MALLOC);
+		if (path && !access(path, F_OK) && execute_command(path, args))
+			break ;
+		free(path);
+		i++;
 	}
-	ft_putendl_fd("minishell: command not found: ", STDERR_FILENO);
+	ft_handle_free_split(paths);
 }
 
 

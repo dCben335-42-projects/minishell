@@ -27,5 +27,7 @@
 # define EXPORT_PREFIX "export "
 # define ERR_EXPORT_ID "export: '%s': not a valid identifier\n"
 
+# define ERR_NOT_FOUND "minishell: command not found: "
+
 #endif
 

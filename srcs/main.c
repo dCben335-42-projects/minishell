@@ -1,13 +1,7 @@
 #include "messages.h"
 #include "minishell.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <string.h>
-#include <sys/wait.h>
-#include <readline/readline.h>
-#include <readline/history.h>
 #include "libft.h"
+#include "builtin.h"
 #include "errors.h"
 #include "parser_lexer.h"
 #include "map.h"

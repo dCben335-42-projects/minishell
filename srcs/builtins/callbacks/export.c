@@ -6,60 +6,74 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 15:30:22 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/03/11 01:39:20 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/03/14 02:54:32 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
 #include "libft.h"
 #include <stdio.h>
-#include <string.h>
+#include "messages.h"
+#include "errors.h"
 
-static void	handle_export(t_shell *shell, char *key, char *arg)
+static void	process_env(t_shell *shell, char *key, char *arg)
 {
-	const t_env	*matched_env = find_env(shell->env, key);
+	const t_env	*matched_env = get_env_node(shell->env, key);
 	char		*value;
 	char		*complete_value;
-	size_t		key_len;
 
 	if (!matched_env)
 	{
-		add_env(&shell->env, init_env(arg));
+		add_env(&shell->env, init_env_node(arg));
 		return ;
 	}
-	key_len = ft_strlen(key);
-	value = get_value_from_envp(arg);
+	value = parse_env_value(arg);
 	if (!value)
 		value = ft_strdup("");
+	if (!p_ptr(value, ERROR_MALLOC))
+		return ;
 	complete_value = value;
-	if ((arg[key_len] == '+'))
+	if ((arg[ft_strlen(key)] == '+'))
 	{
 		complete_value = ft_strjoin(matched_env->value, value);
 		free(value);
 	}
-	if (complete_value && !replace_env(shell->env, key, complete_value))
+	if (complete_value && !add_existing_env(shell->env, key, complete_value))
 		free(complete_value);
+}
+
+static t_bool	is_valid_export(t_shell *shell, char **args)
+{
+	char	*key;
+	size_t	i;
+	t_bool	is_valid;
+
+	i = 1;
+	is_valid = TRUE;
+	while (args[i])
+	{
+		key = parse_env_key(args[i]);
+		if (!key)
+		{
+			is_valid = FALSE;
+			printf(ERR_EXPORT_ID, args[i]);
+		}
+		else
+			process_env(shell, key, args[i]);
+		free(key);
+		i++;
+	}
+	return (is_valid);
 }
 
 void	ft_export(t_shell *shell, char **args)
 {
-	char	*key;
-	size_t	i;
-
 	if (!args[1])
+		read_env(shell->env, EXPORT_PREFIX);
+	else if (!is_valid_export(shell, args))
 	{
-		read_env(shell->env, "declare -x ");
+		shell->exit_code = 1;
 		return ;
 	}
-	i = 1;
-	while (args[i])
-	{
-		key = get_key_from_envp(args[i]);
-		if (!key)
-			printf("export: '%s': not a valid identifier\n", args[i]);
-		else
-			handle_export(shell, key, args[i]);
-		free(key);
-		i++;
-	}
+	shell->exit_code = 0;
 }

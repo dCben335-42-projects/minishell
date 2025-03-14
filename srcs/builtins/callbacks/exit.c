@@ -6,25 +6,36 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 15:26:52 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/03/11 02:58:05 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/03/13 23:25:03 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
 #include "libft.h"
-
-// INT_MAX = 2147483647
-// LONG_MAX = 9223372036854775807
+#include "messages.h"
+#include "math_utils.h"
 
 void	ft_exit(t_shell *shell, char **args)
 {
-	int	status;
+	int		status;
 
 	status = 0;
+	ft_putendl_fd(EXIT_MSG, 1);
+	if (args[1] && args[2])
+	{
+		ft_putendl_fd(ERROR_EXIT_ARGS_NUM, 2);
+		return ;
+	}
 	if (args[1])
-		status = ft_atoi_base(args[1], "0123456789");
-	status = abs(status % 256);
+	{
+		if (!ft_isnumber(args[1], TRUE))
+		{
+			ft_putendl_fd(ERROR_EXIT_NUM, 2);
+			status = 2;
+		}
+		else
+			status = ft_atol_base(args[1], BASE_10);
+	}
 	destroy_shell(shell);
-	ft_putendl_fd("\nexit", 1);
-	exit(status);
+	exit(ft_abs(status % 256));
 }

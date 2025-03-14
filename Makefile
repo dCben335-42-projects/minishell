@@ -27,10 +27,11 @@ INCLUDES_FLAGS = -I $(INCLUDES_DIR) -I $(LIBFT_INCLUDE_FOLDER)
 # sources
 SRC_DIR     = ./srcs
 SRC_FILES   = main.c \
-			errors/basics.c \
 			lexer/lexer.c lexer/parser.c \
 			map/dynamic_array.c \
-			env/init.c env/add.c env/get.c env/replace.c env/find.c env/destroy.c env/read.c \
+			errors/basics.c \
+			signals.c \
+			env/init.c env/destroy.c env/add.c env/parse.c env/get.c env/read.c \
 			builtins/builtins.c builtins/callbacks/echo.c builtins/callbacks/cd.c builtins/callbacks/pwd.c builtins/callbacks/export.c builtins/callbacks/unset.c builtins/callbacks/env.c builtins/callbacks/exit.c \
 			shell/init.c shell/destroy.c
 
@@ -70,4 +71,12 @@ norm:
 force:
 	@true
 
-.PHONY: all clean fclean re force bonus norminette
+val: all
+	valgrind --track-fds=all --suppressions=config/valgrind_ignore.conf --leak-check=full --show-leak-kinds=all --track-origins=yes -q -s ./$(NAME)
+
+run: all
+	./$(NAME)
+
+-include config/forbidden.mk
+
+.PHONY: all clean fclean re force bonus norminette val run

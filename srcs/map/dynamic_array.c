@@ -13,6 +13,7 @@ t_dynamic_array	*create_dynamic_array(t_uint size)
 	arr = malloc(sizeof(t_dynamic_array));
 	arr->data = ft_calloc(size, sizeof(void *));
 	arr->size = size;
+	arr->count = 0;
 	return (arr);
 }
 
@@ -45,12 +46,14 @@ void	*ft_realloc(void *ptr, size_t old_size, size_t new_size)
 
 void	set_value(t_dynamic_array *arr, t_uint index, void *value)
 {
-	unsigned int	new_size;
-	size_t			i;
+	t_uint	new_size;
+	t_uint	new_count;
+	size_t	i;
 
 	if (index >= arr->size)
 	{
 		new_size = arr->size * 2;
+		new_count = arr->count + 1;
 		arr->data = ft_realloc(arr->data, arr->size * sizeof(void *),
 				new_size * sizeof(void *));
 		i = arr->size;
@@ -60,7 +63,10 @@ void	set_value(t_dynamic_array *arr, t_uint index, void *value)
 			i++;
 		}
 		arr->size = new_size;
+		arr->count = new_count;
 	}
+	else
+		arr->count++;
 	arr->data[index] = value;
 }
 

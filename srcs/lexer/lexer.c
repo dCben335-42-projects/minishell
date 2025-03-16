@@ -61,32 +61,39 @@ operator_table op_table[] = {
     }
 };
 
-t_token_name token_names[] = {
-    {"TEXT"},
-    {"VAR_TEXT"},
-    {"LITERAL_TEXT"},
-    {"PIPE"},
-    {"AND"},
-    {"OR"},
-    {"SEMICOL"},
-    {"REDIR_IN"},
-    {"REDIR_OUT"},
-    {"APPEND"},
-    {"BACKGROUND"},
-    {"PIPE_ERR"},
-    {"QUOTE"},
-    {"DQUOTE"},
-    {"BRACKET_LEFT"},
-    {"BRACKET_RIGHT"},
-    {"EOF"}
-};
+/**
+ * Fonction pour obtenir le nom du token
+ * @param type: type de token
+ */
+char *get_token_name(const t_token_type type)
+{
+    char *token_name[] = {
+        "TEXT",
+        "VAR_TEXT",
+        "LITERAL_TEXT",
+        "PIPE",
+        "AND",
+        "OR",
+        "SEMICOL",
+        "REDIR_IN",
+        "REDIR_OUT",
+        "APPEND",
+        "BACKGROUND",
+        "PIPE_ERR",
+        "QUOTE",
+        "DQUOTE",
+        "BRACKET_LEFT",
+        "BRACKET_RIGHT",
+        "EOF"
+    };
+    return (token_name[type]);
+}
 
 /**
  * Fonction pour trouver le type de token
  * @param input: chaîne d'entrée
  * @param offset: décalage pour le prochain caractère
  */
-
 t_token_type find_token_type(const char *input, int *offset)
 {
     int i;
@@ -115,34 +122,12 @@ t_token_type find_token_type(const char *input, int *offset)
 }
 
 /**
- * Fonction pour dupliquer une chaîne de caractères
- * @param str: chaîne d'entrée
- * @param n: nombre de caractères à copier
- */
-
-char *ft_strndup(const char *str, size_t n)
-{
-    char *new_str;
-    size_t len;
-
-    len = ft_strlen(str);
-    if (n < len)
-        len = n;
-    new_str = malloc(len + 1);
-    if (!new_str)
-        return (NULL);
-    new_str[len] = '\0';
-    return ((char *)ft_memcpy(new_str, str, len));
-}
-
-/**
  * Fonction pour gérer les tokens entre guillemets
  * @param i: index de la chaîne d'entrée
  * @param len: longueur de la chaîne d'entrée
  * @param args: arguments du lexer
  * @param type: type de token
  */
-
 t_token handler_token_quoted(int *i, int len, t_lexer_args *args, t_token_type type)
 {
     int start_i;
@@ -154,9 +139,9 @@ t_token handler_token_quoted(int *i, int len, t_lexer_args *args, t_token_type t
         return (t_token){TOKEN_EOF, NULL};
     (*i)++;
     if (type == TOKEN_QUOTE)
-        return (t_token){TOKEN_LITERAL_TEXT, ft_strndup(&args->input[start_i], *i - start_i - 1)};
+        return (t_token){TOKEN_LITERAL_TEXT, ft_substr(args->input, start_i, *i - start_i - 1)};
     else
-        return (t_token){TOKEN_VAR_TEXT, ft_strndup(&args->input[start_i], *i - start_i - 1)};
+        return (t_token){TOKEN_VAR_TEXT, ft_substr(args->input, start_i, *i - start_i - 1)};
 }
 
 /**
@@ -164,7 +149,6 @@ t_token handler_token_quoted(int *i, int len, t_lexer_args *args, t_token_type t
  * @param args: arguments du lexer
  * @param error: message d'erreur
  */
-
 t_parse_status  lexer(t_lexer_args *args, char **error)
 {
     int i;
@@ -200,7 +184,7 @@ t_parse_status  lexer(t_lexer_args *args, char **error)
         }
         else if (type != TOKEN_TEXT)
         {
-            status = token_parser(args, error, (t_token){type, ft_strndup(&args->input[i], offset + 1)});
+            status = token_parser(args, error, (t_token){type, ft_substr(args->input, i, offset + 1)});
             if (status == COMMAND_NOT_VALID || status == COMMAND_NOT_FINISHED)
                 return (status);
             i += (offset + 1);
@@ -210,7 +194,7 @@ t_parse_status  lexer(t_lexer_args *args, char **error)
             start_i = i;
             while (i < len && !isspace(args->input[i]) && find_token_type(&args->input[i], &offset) == TOKEN_TEXT)
                 i++;
-            status = token_parser(args, error, (t_token){TOKEN_TEXT, ft_strndup(&args->input[start_i], i - start_i)});
+            status = token_parser(args, error, (t_token){TOKEN_TEXT, ft_substr(args->input, start_i, i - start_i)});
             if (status == COMMAND_NOT_VALID || status == COMMAND_NOT_FINISHED)
                 return (status);
         }
@@ -221,17 +205,18 @@ t_parse_status  lexer(t_lexer_args *args, char **error)
 /**
  * Fonction pour afficher les tokens
  * @param tokens: tableau de tokens
- * @param count: nombre de tokens
  */
-void print_tokens(t_dynamic_array *tokens, int count)
+void print_tokens(t_dynamic_array *tokens)
 {
-	int i;
+	t_uint i;
+    t_uint count;
 
 	i = 0;
+    count = tokens->count;
 	while (i < count)
 	{
 		t_token *data = (t_token *)get_value(tokens, i);
-		printf("Token: %-12s | Type: %s\n", data->value, token_names[data->type].name);
+		printf("Token: %-12s | Type: %s\n", data->value, get_token_name(data->type));
 		i++;
 	}
 }

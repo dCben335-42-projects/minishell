@@ -63,7 +63,6 @@ void command_handler_lexer(char **input, t_lexer_args *args)
 
 	args->input = *input;
 	args->tokens = create_dynamic_array(20);
-	args->token_count = 0;
 	status = lexer(args, &error);
 	if (status == COMMAND_NOT_FINISHED)
 	{
@@ -76,7 +75,7 @@ void command_handler_lexer(char **input, t_lexer_args *args)
 		free(error);
 		return ;
 	}
-	print_tokens(args->tokens, args->token_count);
+	print_tokens(args->tokens);
 	if (**input)
 		add_history(*input);
 	//execute_command(map_tokens(args->tokens, args->token_count));

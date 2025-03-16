@@ -9,6 +9,7 @@ typedef struct s_dynamic_array
 {
 	void	**data;
 	t_uint	size;
+	t_uint	count;
 }	t_dynamic_array;
 
 //typedef struct s_pointer {

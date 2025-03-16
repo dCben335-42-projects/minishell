@@ -38,10 +38,6 @@ typedef enum e_parse_status {
     COMMAND_NOT_FINISHED,
 }   t_parse_status;
 
-typedef struct s_token_name {
-    char *name;
-} t_token_name;
-
 typedef struct s_token{
     t_token_type type;
     char *value;
@@ -71,7 +67,7 @@ typedef struct s_parser_static {
 } t_parser_static;
 
 t_parse_status	lexer(t_lexer_args *args, char **error);
-void            print_tokens(t_dynamic_array *tokens, int count);
+void            print_tokens(t_dynamic_array *tokens);
 t_parse_status  token_parser(t_lexer_args *args, char **error, t_token token);
 
 #endif

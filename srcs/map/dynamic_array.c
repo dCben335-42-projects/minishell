@@ -6,12 +6,12 @@
 #include "libft.h"
 #include "parser_lexer.h"
 
-t_dynamic_array	*create_dynamic_array(int size)
+t_dynamic_array	*create_dynamic_array(t_uint size)
 {
 	t_dynamic_array	*arr;
 
 	arr = malloc(sizeof(t_dynamic_array));
-	arr->data = calloc(size, sizeof(void *));
+	arr->data = ft_calloc(size, sizeof(void *));
 	arr->size = size;
 	return (arr);
 }
@@ -37,20 +37,20 @@ void	*ft_realloc(void *ptr, size_t old_size, size_t new_size)
 			copy_size = old_size;
 		else
 			copy_size = new_size;
-		memcpy(new_ptr, ptr, copy_size);
+		ft_memcpy(new_ptr, ptr, copy_size);
 		free(ptr);
 	}
 	return (new_ptr);
 }
 
-void	set_value(t_dynamic_array *arr, int index, void *value)
+void	set_value(t_dynamic_array *arr, t_uint index, void *value)
 {
-	int	new_size;
-	int	i;
+	unsigned int	new_size;
+	size_t			i;
 
 	if (index >= arr->size)
 	{
-		new_size = index * 2;
+		new_size = arr->size * 2;
 		arr->data = ft_realloc(arr->data, arr->size * sizeof(void *),
 				new_size * sizeof(void *));
 		i = arr->size;
@@ -64,7 +64,7 @@ void	set_value(t_dynamic_array *arr, int index, void *value)
 	arr->data[index] = value;
 }
 
-void	*get_value(t_dynamic_array *arr, int index)
+void	*get_value(t_dynamic_array *arr, t_uint index)
 {
 	if (index < arr->size)
 		return (arr->data[index]);
@@ -73,7 +73,7 @@ void	*get_value(t_dynamic_array *arr, int index)
 
 void	free_dynamic_array(t_dynamic_array *arr, void (*free_func)(void *))
 {
-	int i;
+	size_t i;
 
 	i = 0;
 	if (free_func != NULL)
@@ -82,6 +82,7 @@ void	free_dynamic_array(t_dynamic_array *arr, void (*free_func)(void *))
 		{
 			if (arr->data[i] != NULL) {
 				free_func(arr->data[i]);
+				//free(arr->data[i]);
 			}
 			i++;
 		}

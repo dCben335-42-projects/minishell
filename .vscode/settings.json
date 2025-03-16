@@ -19,6 +19,9 @@
 		"string": "c",
 		"string_view": "c",
 		"span": "c",
-		"variant": "c"
+		"variant": "c",
+		"cstdlib": "c",
+		"unistd.h": "c",
+		"stdlib.h": "c"
 	}
 }

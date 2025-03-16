@@ -120,9 +120,10 @@ t_token *duplicate_token(const t_token *original) {
 
     // Allouer de la mémoire pour la valeur du token et copier la chaîne
     if (original->value != NULL) {
-        duplicate->value = strdup(original->value);
+        duplicate->value = original->value;
+        //free(original->value);
         if (duplicate->value == NULL) {
-            // Gérer l'erreur d'allocation si nécessaire
+            // Gérer l'erreur d'allocation si nécessaireXX
             free(duplicate);
             return NULL;
         }
@@ -135,23 +136,9 @@ t_token *duplicate_token(const t_token *original) {
 
 t_parse_status token_parser(t_lexer_args *args, char **error, t_token token)
 {
-    //printf("---------------------\n");
-    ////set_value(args->tokens, args->token_count, &token);
-
-    //(args->tokens)->data[args->token_count] = token;
-    //args->token_count++;
-    //print_tokens(args->tokens, args->token_count);
-    //for (int i = 0; i < args->token_count; i++)
-    //{
-    //    printf("data[%i]->value=%s\n", i, ((t_token *)(args->tokens->data[i]))->value);
-    //}
-
-
 
     t_token prev_token;
     t_parser_static parser_static = {.is_init = FALSE};
-    //t_token *tmp;
-    //int i = 0;
 
     if (token.type == TOKEN_EOF && token.value && strcmp(token.value, "init") == 0)
     {
@@ -159,6 +146,7 @@ t_parse_status token_parser(t_lexer_args *args, char **error, t_token token)
         parser_static.is_init = TRUE;
         parser_static.open_bracket_count = 0;
         parser_static.close_bracket_count = 0;
+        //free(token.value);
         return (COMMAND_VALID);
     }
 

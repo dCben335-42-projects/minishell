@@ -5,6 +5,7 @@
 #include "errors.h"
 #include "parser_lexer.h"
 #include "map.h"
+#include "cmd.h"
 
 t_bool	execute_command(char *path, char **args)
 {
@@ -52,22 +53,29 @@ void	handle_command(t_shell *shell, char **args)
 
 static void handle_loop(t_shell *shell)
 {
+	//(void)shell;
 	char		*input;
-	char		**args;
+	//char		**args;
 
+	//input = "bonjour sava bien";
+	//command_handler(&input);
 	while (TRUE)
 	{
 		input = readline(SHELL_NAME);
+		//input = "bonjour sava bien";
 		if (!input)
 			break ;
-		if (*input)
-			add_history(input);
-		args = ft_split(input, ' ');
-		if (args[0])
-			if (!is_builtin(args, shell))
-				handle_command(shell, args);
-		ft_handle_free_split(args);
-		free(input);
+		//free(input);
+		command_handler(&input);
+
+		//if (*input)
+		//	add_history(input);
+		//args = ft_split(input, ' ');
+		//if (args[0])
+		//	if (!is_builtin(args, shell))
+		//		handle_command(shell, args);
+		//ft_handle_free_split(args);
+		//free(input);
 		printf("exit code: %d\n", shell->exit_code);
 	}
 }

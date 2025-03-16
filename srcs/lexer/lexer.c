@@ -174,7 +174,7 @@ t_parse_status  lexer(t_lexer_args *args, char **error)
     t_parse_status status;
     t_token token;
 
-    token_parser(args, error, (t_token){TOKEN_EOF, ft_strdup("init")});
+    token_parser(args, error, (t_token){TOKEN_EOF, "init"});
 
     i = 0;
     len = ft_strlen(args->input);

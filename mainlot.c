@@ -11,6 +11,7 @@
 #include "errors.h"
 #include "parser_lexer.h"
 #include "map.h"
+#include "cmd.h"
 
 void command_handler_lexer(char **input, t_lexer_args *args);
 void command_not_finished(t_lexer_args *args, char **input);

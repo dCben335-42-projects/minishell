@@ -1,7 +1,7 @@
 NAME        = minishell
 
 CC          = cc
-C_FLAGS     = -Wall -Wextra -Werror
+C_FLAGS     = -Wall -Wextra -Werror -g3
 
 RM = rm -rf
 MKDIR = mkdir -p
@@ -29,6 +29,7 @@ SRC_DIR     = ./srcs
 SRC_FILES   = main.c \
 			lexer/lexer.c lexer/parser.c \
 			map/dynamic_array.c \
+			cmd/cmd.c \
 			errors/basics.c \
 			signals.c \
 			env/init.c env/destroy.c env/add.c env/parse.c env/get.c env/read.c \
@@ -72,7 +73,7 @@ force:
 	@true
 
 val: all
-	valgrind --track-fds=all --suppressions=config/valgrind_ignore.conf --leak-check=full --show-leak-kinds=all --track-origins=yes -q -s ./$(NAME)
+	valgrind --suppressions=config/valgrind_ignore.conf --leak-check=full --show-leak-kinds=all --track-origins=yes -q -s ./$(NAME)
 
 run: all
 	./$(NAME)

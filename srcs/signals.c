@@ -6,7 +6,7 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 18:07:59 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/03/14 23:59:19 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/03/16 18:40:39 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ static void	signal_handler(int signum)
 	if (signum == SIGINT)
 	{
 		write(1, "\n", 1);
+		rl_clear_history();
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();

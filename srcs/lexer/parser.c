@@ -117,19 +117,7 @@ t_token *duplicate_token(const t_token *original) {
 
     // Copier le type du token
     duplicate->type = original->type;
-
-    // Allouer de la mémoire pour la valeur du token et copier la chaîne
-    if (original->value != NULL) {
-        duplicate->value = original->value;
-        //free(original->value);
-        if (duplicate->value == NULL) {
-            // Gérer l'erreur d'allocation si nécessaireXX
-            free(duplicate);
-            return NULL;
-        }
-    } else {
-        duplicate->value = NULL;
-    }
+    duplicate->value = original->value;
 
     return duplicate;
 }

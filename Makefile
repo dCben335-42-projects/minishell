@@ -73,7 +73,7 @@ force:
 	@true
 
 val: all
-	valgrind --suppressions=config/valgrind_ignore.conf --leak-check=full --show-leak-kinds=all --track-origins=yes -q -s ./$(NAME)
+	valgrind --track-fds=all --suppressions=config/valgrind_ignore.conf --leak-check=full --show-leak-kinds=all --track-origins=yes -q -s ./$(NAME)
 
 run: all
 	./$(NAME)

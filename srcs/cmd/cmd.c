@@ -54,7 +54,7 @@ void command_handler_lexer(char **input, t_lexer_args *args)
 	t_parse_status status;
 
 	args->input = *input;
-	//args->input_size = (int)ft_strlen(*input);
+	args->input_size = ft_strlen(*input);
 	args->tokens = init_dynamic_array(20);
 	status = lexer(args, &error);
 	if (status == COMMAND_NOT_FINISHED)

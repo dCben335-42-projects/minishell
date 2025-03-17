@@ -26,6 +26,7 @@
 		"libft.h": "c",
 		"map.h": "c",
 		"types.h": "c",
-		"cmd.h": "c"
+		"cmd.h": "c",
+		"compare": "c"
 	}
 }

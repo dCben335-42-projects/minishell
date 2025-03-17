@@ -55,7 +55,7 @@ typedef struct s_op_table{
 
 typedef struct s_lexer_args {
 	const char          *input;
-    int                 input_size;
+    size_t              input_size;
 	t_dynamic_array     *tokens;
 } t_lexer_args;
 

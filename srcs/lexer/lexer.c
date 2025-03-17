@@ -41,33 +41,49 @@ t_token_type	find_token_type(const char *input, int *offset)
  * @param args: arguments du lexer
  * @param type: type de token
  */
-t_token	handler_token_quoted(int *i, int len,
+t_token	handler_token_quoted(size_t *i,
 	t_lexer_args *args, t_token_type type)
 {
-	int	start_i;
+	size_t	start_i;
 
 	(*i)++;
 	start_i = *i;
-	while (*i < len && (start_i == *i
+	while (*i < args->input_size && (start_i == *i
 			|| find_token_type(&args->input[*i], 0) != type))
 		(*i)++;
-	if (*i >= len)
+	if (*i >= args->input_size)
 		return ((t_token){TOKEN_EOF, NULL});
 	(*i)++;
 	if (type == TOKEN_QUOTE)
-		return ((t_token){TOKEN_LITERAL_TEXT, ft_substr(args->input, start_i, *i - start_i - 1)});
+		return ((t_token){TOKEN_LITERAL_TEXT,
+			ft_substr(args->input, start_i, *i - start_i - 1)});
 	else
-		return ((t_token){TOKEN_VAR_TEXT, ft_substr(args->input, start_i, *i - start_i - 1)});
+		return ((t_token){TOKEN_VAR_TEXT,
+			ft_substr(args->input, start_i, *i - start_i - 1)});
 }
 
-t_token handler_token_text(int *i, int len, t_lexer_args *args)
+t_token	handler_token_text(size_t *i, t_lexer_args *args)
 {
-	int	start_i;
+	size_t	start_i;
 
 	start_i = *i;
-	while (*i < len && !isspace(args->input[*i]) && find_token_type(&args->input[*i], 0) == TOKEN_TEXT)
+	while (*i < args->input_size && !isspace(args->input[*i])
+		&& find_token_type(&args->input[*i], 0) == TOKEN_TEXT)
 		(*i)++;
-	return ((t_token){TOKEN_TEXT, ft_substr(args->input, start_i, *i - start_i)});
+	return ((t_token){TOKEN_TEXT,
+		ft_substr(args->input, start_i, *i - start_i)});
+}
+
+t_parse_status	quote_part_lexer(t_token_type type, size_t *i,
+	t_lexer_args *args, t_token *token)
+{
+	if (type == TOKEN_QUOTE || type == TOKEN_DQUOTE)
+	{
+		*token = handler_token_quoted(i, args, type);
+		if (token->type == TOKEN_EOF)
+			return (COMMAND_NOT_FINISHED);
+	}
+	return (COMMAND_VALID);
 }
 
 /**
@@ -77,8 +93,7 @@ t_token handler_token_text(int *i, int len, t_lexer_args *args)
  */
 t_parse_status	lexer(t_lexer_args *args, char **error)
 {
-	int				i;
-	int				len;
+	size_t			i;
 	int				offset;
 	t_parse_status	status;
 	t_token			token;
@@ -86,16 +101,20 @@ t_parse_status	lexer(t_lexer_args *args, char **error)
 
 	token_parser(args, error, (t_token){TOKEN_EOF, "init"});
 	i = 0;
-	len = ft_strlen(args->input);
-	while (i < len)
+	while (i < args->input_size)
 	{
 		while (isspace(args->input[i]))
 			i++;
 		offset = 0;
 		type = find_token_type(&args->input[i], &offset);
+		//if (quote_part_lexer(type, &i, args, &token) == COMMAND_NOT_FINISHED)
+		//	return (COMMAND_NOT_FINISHED);
+		// &token ne semble pas recuperer la valeur t_token
+
+
 		if (type == TOKEN_QUOTE || type == TOKEN_DQUOTE)
 		{
-			token = handler_token_quoted(&i, len, args, type);
+			token = handler_token_quoted(&i, args, type);
 			if (token.type == TOKEN_EOF)
 				return (COMMAND_NOT_FINISHED);
 		}
@@ -105,7 +124,7 @@ t_parse_status	lexer(t_lexer_args *args, char **error)
 			i += (offset + 1);
 		}
 		else
-			token = handler_token_text(&i, len, args);
+			token = handler_token_text(&i, args);
 		status = token_parser(args, error, token);
 		if (status != COMMAND_VALID)
 			return (status);

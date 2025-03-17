@@ -103,7 +103,7 @@ t_parse_status	lexer(t_lexer_args *args, char **error)
 	i = 0;
 	while (i < args->input_size)
 	{
-		while (isspace(args->input[i]))
+		while (ft_isspace(args->input[i]))
 			i++;
 		offset = 0;
 		type = find_token_type(&args->input[i], &offset);

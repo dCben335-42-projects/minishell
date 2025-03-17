@@ -16,15 +16,6 @@
 void command_handler_lexer(char **input, t_lexer_args *args);
 void command_not_finished(t_lexer_args *args, char **input);
 
-//void free_token(void *token)
-//{
-//	t_token *tok = (t_token *)token;
-//	if (tok->value != NULL) {
-//		free(tok->value);
-//		tok->value = NULL;
-//	}
-//}
-
 void free_token(void *token)
 {
     if (token == NULL) {
@@ -41,18 +32,19 @@ void free_token(void *token)
 	free(token);
 }
 
-char **map_tokens(t_token *tokens, int token_count)
+char **map_tokens(t_dynamic_array *tokens)
 {
-	char **tokens_value_map;
-	int i;
+	char	**tokens_value_map;
+	t_uint	i;
 
-	tokens_value_map = malloc(sizeof(char *) * token_count);
+	tokens_value_map = malloc(sizeof(char *) * (tokens->count + 1));
 	i = 0;
-	while (i < token_count)
+	while (i < tokens->count)
 	{
-		tokens_value_map[i] = tokens[i].value;
+		tokens_value_map[i] = tokens->data[i];
 		i++;
 	}
+	tokens_value_map[i] = NULL;
 	return (tokens_value_map);
 }
 
@@ -62,7 +54,8 @@ void command_handler_lexer(char **input, t_lexer_args *args)
 	t_parse_status status;
 
 	args->input = *input;
-	args->tokens = create_dynamic_array(20);
+	//args->input_size = (int)ft_strlen(*input);
+	args->tokens = init_dynamic_array(20);
 	status = lexer(args, &error);
 	if (status == COMMAND_NOT_FINISHED)
 	{
@@ -78,7 +71,7 @@ void command_handler_lexer(char **input, t_lexer_args *args)
 	print_tokens(args->tokens);
 	if (**input)
 		add_history(*input);
-	//execute_command(map_tokens(args->tokens, args->token_count));
+	//execute_cmd(map_tokens(args->tokens));
 }
 
 void command_not_finished(t_lexer_args *args, char **input)
@@ -91,7 +84,7 @@ void command_not_finished(t_lexer_args *args, char **input)
 	free(tmp);
 	free(*input);
 	input = &tmp2;
-	free_dynamic_array(args->tokens, free_token);
+	destroy_dynamic_array(args->tokens, free_token);
 	command_handler_lexer(input, args);
 }
 
@@ -100,6 +93,6 @@ int command_handler(char **input)
 	t_lexer_args args;
 	command_handler_lexer(input, &args);
 	if (args.tokens)
-		free_dynamic_array(args.tokens, free_token);
+		destroy_dynamic_array(args.tokens, free_token);
 	return (0);
 }

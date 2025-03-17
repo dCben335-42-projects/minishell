@@ -7,19 +7,6 @@
 #include "map.h"
 #include "cmd.h"
 
-t_bool	execute_command(char *path, char **args)
-{
-    if (fork() == 0) 
-	{ 
-		execve(path, args, NULL);
-		free(path);
-		exit(1); 
-	}
-    waitpid(-1, NULL, 0);
-	free(path);
-	return (TRUE);
-}
-
 void	handle_command(t_shell *shell, char **args)
 {
 	const t_env	*node = get_env_node(shell->env, PATH_KEY);
@@ -42,7 +29,7 @@ void	handle_command(t_shell *shell, char **args)
 			path = ft_strjoin(path, args[0]);
 		ft_handle_free((void **)&tmp);
 		p_ptr((void *)path, ERROR_MALLOC);
-		if (path && !access(path, F_OK) && execute_command(path, args))
+		if (path && !access(path, F_OK) && execute_cmd(path, args))
 			break ;
 		free(path);
 		i++;

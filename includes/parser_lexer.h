@@ -48,16 +48,15 @@ typedef struct {
     t_token_type type;
 } transition;
 
-typedef struct {
+typedef struct s_op_table{
     char key;
     transition transitions[OP_TABLE_MAX_BRANCH];
-} operator_table;
+} t_op_table;
 
 typedef struct s_lexer_args {
 	const char          *input;
+    int                 input_size;
 	t_dynamic_array     *tokens;
-    int			        token_number_max;
-	int			        token_count;
 } t_lexer_args;
 
 typedef struct s_parser_static {
@@ -69,5 +68,7 @@ typedef struct s_parser_static {
 t_parse_status	lexer(t_lexer_args *args, char **error);
 void            print_tokens(t_dynamic_array *tokens);
 t_parse_status  token_parser(t_lexer_args *args, char **error, t_token token);
+t_op_table	    get_operator_table(int i);
+char            *get_token_name(const t_token_type type);
 
 #endif

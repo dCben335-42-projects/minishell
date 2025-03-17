@@ -22,6 +22,10 @@
 		"variant": "c",
 		"cstdlib": "c",
 		"unistd.h": "c",
-		"stdlib.h": "c"
+		"stdlib.h": "c",
+		"libft.h": "c",
+		"map.h": "c",
+		"types.h": "c",
+		"cmd.h": "c"
 	}
 }

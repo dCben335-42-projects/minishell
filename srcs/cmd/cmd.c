@@ -16,22 +16,6 @@
 void command_handler_lexer(char **input, t_lexer_args *args);
 void command_not_finished(t_lexer_args *args, char **input);
 
-void free_token(void *token)
-{
-    if (token == NULL) {
-        return;
-    }
-
-    t_token *tok = (t_token *)token;
-
-    if (tok->value != NULL) {
-        free(tok->value);
-        tok->value = NULL;
-    }
-
-	free(token);
-}
-
 char **map_tokens(t_dynamic_array *tokens)
 {
 	char	**tokens_value_map;
@@ -54,11 +38,11 @@ void command_handler_lexer(char **input, t_lexer_args *args)
 	t_parse_status status;
 
 	args->input = *input;
-	args->input_size = ft_strlen(*input);
-	args->tokens = init_dynamic_array(20);
+	args->tokens = init_dynamic_array(20, (void *(*)(void *))destroy_token);
 	status = lexer(args, &error);
 	if (status == COMMAND_NOT_FINISHED)
 	{
+		destroy_dynamic_array(&args->tokens);
 		command_not_finished(args, input);
 		return ;
 	}
@@ -68,7 +52,8 @@ void command_handler_lexer(char **input, t_lexer_args *args)
 		free(error);
 		return ;
 	}
-	print_tokens(args->tokens);
+	print_tokens(&args->tokens);
+	destroy_dynamic_array(&args->tokens);
 	if (**input)
 		add_history(*input);
 	//execute_cmd(map_tokens(args->tokens));
@@ -83,16 +68,15 @@ void command_not_finished(t_lexer_args *args, char **input)
 	tmp2 = ft_strjoin(*input, tmp);
 	free(tmp);
 	free(*input);
-	input = &tmp2;
-	destroy_dynamic_array(args->tokens, free_token);
-	command_handler_lexer(input, args);
+	*input = NULL;
+	printf("tmp2: %s\n", tmp2);
+	command_handler_lexer(&tmp2, args);
+	free(tmp2);
 }
 
 int command_handler(char **input)
 {
 	t_lexer_args args;
 	command_handler_lexer(input, &args);
-	if (args.tokens)
-		destroy_dynamic_array(args.tokens, free_token);
 	return (0);
 }

@@ -28,8 +28,8 @@ size_t	ft_strcat(char *dest, const char *src)
  * Vérifie si le token est un opérateur de contrôle
  * @param token: token à vérifier
  */
-int is_control_operator(t_token token) {
-    t_token_type type = token.type;
+int is_control_operator(t_token *token) {
+    t_token_type type = token->type;
     return (type == TOKEN_PIPE || type == TOKEN_AND || type == TOKEN_OR ||
             type == TOKEN_SEMICOL || type == TOKEN_BACKGROUND ||
             type == TOKEN_PIPE_ERR || type == TOKEN_REDIR_IN || type == TOKEN_REDIR_OUT);
@@ -73,43 +73,44 @@ t_token *duplicate_token(const t_token *original) {
  * @param token: token à analyser
  * @return le statut de la commande
  */
-t_parse_status token_parser(t_lexer_args *args, char **error, t_token token)
+t_parse_status token_parser(t_lexer_args *args, char **error, t_token *token)
 {
 
-    t_token prev_token;
+    //t_token prev_token;
     static t_parser_static parser_static = {.is_init = FALSE};
 
-    if (token.type == TOKEN_EOF && token.value && strcmp(token.value, "init") == 0)
+    if (!parser_static.is_init)
     {
         parser_static.is_init = TRUE;
-        parser_static.open_bracket_count = 0;
-        parser_static.close_bracket_count = 0;
+        parser_static.open_parenthesis_count = 0;
+        parser_static.close_parenthesis_count = 0;
+        free(token->value);
+        free(token);
         return (COMMAND_VALID);
     }
-
-    if (args->tokens->count == 0)
+    if (args->tokens.count == 0)
     {
         if (is_control_operator(token))
-            return(get_error_message(token, error));
+            return(get_error_message(*token, error));
     }
-    else
-    {
-        prev_token = *((t_token *)get_value(args->tokens, args->tokens->count - 1));
-        if (is_control_operator(token) && is_control_operator(prev_token))
-            return(get_error_message(token, error));
+    //else
+    //{
+    //    prev_token = *((t_token *)get_value(&args->tokens, args->tokens.count - 1));
+    //    if (is_control_operator(*token) && is_control_operator(prev_token))
+    //        return(get_error_message(*token, error));
 
-        if (prev_token.type == TOKEN_OPEN_BRACKET && token.type == TOKEN_CLOSE_BRACKET)
-            return(get_error_message(token, error));
+    //    if (prev_token.type == TOKEN_OPEN_BRACKET && token->type == TOKEN_CLOSE_BRACKET)
+    //        return(get_error_message(*token, error));
 
-        if (token.type == TOKEN_OPEN_BRACKET)
-            parser_static.open_bracket_count++;
-        else if (token.type == TOKEN_CLOSE_BRACKET)
-            parser_static.close_bracket_count++;
+    //    if (token->type == TOKEN_OPEN_BRACKET)
+    //        parser_static.open_parenthesis_count++;
+    //    else if (token->type == TOKEN_CLOSE_BRACKET)
+    //        parser_static.close_parenthesis_count++;
         
-        if (parser_static.close_bracket_count > parser_static.open_bracket_count)
-            return(get_error_message(token, error));
-    }
+    //    if (parser_static.close_parenthesis_count > parser_static.open_parenthesis_count)
+    //        return(get_error_message(*token, error));
+    //}
 
-    set_value(args->tokens, args->tokens->count, duplicate_token(&token));
+    set_value(&args->tokens, args->tokens.count, token);
     return (COMMAND_VALID);
 }

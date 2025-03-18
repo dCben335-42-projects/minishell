@@ -1,30 +1,24 @@
 #include "map.h"
 #include "libft.h"
 
-void	*ft_realloc(void *ptr, size_t old_size, size_t new_size)
+void	*ft_realloc(t_dynamic_array *arr, size_t new_size)
 {
 	void	*new_ptr;
 	size_t	copy_size;
 
-	if (!ptr)
+	if (!arr->data)
 		return (malloc(new_size));
 	if (new_size == 0)
-	{
-		free(ptr);
-		return (NULL);
-	}
+		return (destroy_dynamic_array(arr));
 	new_ptr = malloc(new_size);
 	if (!new_ptr)
-		return (NULL);
-	if (ptr)
-	{
-		if (old_size < new_size)
-			copy_size = old_size;
-		else
-			copy_size = new_size;
-		ft_memcpy(new_ptr, ptr, copy_size);
-		free(ptr);
-	}
+		return (destroy_dynamic_array(arr));
+	if (arr->size < new_size)
+		copy_size = arr->size;
+	else
+		copy_size = new_size;
+	ft_memcpy(new_ptr, arr->data, copy_size);
+	destroy_dynamic_array(arr);
 	return (new_ptr);
 }
 
@@ -38,8 +32,7 @@ void	set_value(t_dynamic_array *arr, t_uint index, void *value)
 	{
 		new_size = arr->size * 2;
 		new_count = arr->count + 1;
-		arr->data = ft_realloc(arr->data, arr->size * sizeof(void *),
-				new_size * sizeof(void *));
+		arr->data = ft_realloc(arr, new_size * sizeof(void *));
 		i = arr->size;
 		while (i < new_size)
 		{

@@ -62,8 +62,6 @@ static void handle_loop(t_shell *shell)
 		//	if (!is_builtin(args, shell))
 		//		handle_command(shell, args);
 		//ft_handle_free_split(args);
-		if (input)
-			free(input);
 		printf("exit code: %d\n", shell->exit_code);
 	}
 }

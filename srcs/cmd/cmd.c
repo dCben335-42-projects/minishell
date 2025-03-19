@@ -40,18 +40,15 @@ void command_handler_lexer(char *input, t_lexer_args *args)
 	status = lexer(args);
 	if (status == COMMAND_NOT_FINISHED)
 	{
-		destroy_dynamic_array(&args->tokens);
 		command_not_finished(args, input);
 		return ;
 	}
 	if (status != COMMAND_VALID)
 	{
 		printf("Error: %s\n", args->error);
-		destroy_lexer_args(args);
 		return ;
 	}
 	print_tokens(&args->tokens);
-	destroy_dynamic_array(&args->tokens);
 	if (*input)
 		add_history(input);
 	//execute_cmd(map_tokens(args->tokens));
@@ -68,16 +65,15 @@ void command_not_finished(t_lexer_args *args, char *input)
 	tmp = readline(SHELL_NEXT_NAME);
 	new_input = ft_strjoin(input, tmp);
 	free(tmp);
-	if (input)
-		free(input);
-	input = NULL;
+	destroy_lexer_args(args);
 	command_handler_lexer(new_input, args);
-	free(new_input);
 }
 
 int command_handler(char *input)
 {
 	t_lexer_args args;
 	command_handler_lexer(input, &args);
+	
+	destroy_lexer_args(&args);
 	return (0);
 }

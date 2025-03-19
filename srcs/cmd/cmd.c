@@ -10,7 +10,7 @@
 #include "libft.h"
 #include "errors.h"
 #include "parser_lexer.h"
-#include "map.h"
+#include "dynamic_array.h"
 #include "cmd.h"
 
 void command_handler_lexer(char *input, t_lexer_args *args);
@@ -59,9 +59,6 @@ void command_not_finished(t_lexer_args *args, char *input)
 	char *new_input;
 	char *tmp;
 
-	printf("Command not finished\n");
-	printf("oksa=%s\n", input);
-	
 	tmp = readline(SHELL_NEXT_NAME);
 	new_input = ft_strjoin(input, tmp);
 	free(tmp);

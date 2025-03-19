@@ -1,9 +1,9 @@
-#include "map.h"
+#include "dynamic_array.h"
 #include "libft.h"
 
 void	*destroy_dynamic_array(t_dynamic_array *arr)
 {
-	size_t i;
+	size_t	i;
 
 	i = 0;
 	if (arr->free_func != NULL)
@@ -18,4 +18,3 @@ void	*destroy_dynamic_array(t_dynamic_array *arr)
 	free(arr->data);
 	return (NULL);
 }
-

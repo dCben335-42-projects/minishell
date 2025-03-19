@@ -1,7 +1,7 @@
 #ifndef LEXER_ARGS_H
 # define LEXER_ARGS_H
 
-#include "map.h"
+# include "dynamic_array.h"
 
 typedef struct s_bracket
 {

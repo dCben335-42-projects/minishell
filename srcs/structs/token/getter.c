@@ -5,25 +5,25 @@
  * Function to get the operator table
  * @return operator table
  */
-static const t_token_map *get_operator_table(void)
+static const t_token_map	*get_operator_table(void)
 {
-    static const t_token_map op_table[] = {
-		{">>", TOKEN_APPEND},
-		{"||", TOKEN_OR},
-		{"|&", TOKEN_PIPE_ERR},
-		{"&&", TOKEN_AND},
-		{"|", TOKEN_PIPE},
-		{"&", TOKEN_BACKGROUND},
-		{">", TOKEN_REDIR_OUT},
-		{"<", TOKEN_REDIR_IN},
-		{";", TOKEN_SEMICOL},
-		{"'", TOKEN_QUOTE},
-		{"\"", TOKEN_DQUOTE},
-		{"(", TOKEN_OPEN_BRACKET},
-		{")", TOKEN_CLOSE_BRACKET},
-		{NULL, TOKEN_EOF}
-    };
-    return (op_table);
+	static const t_token_map	op_table[] = {
+	{">>", TOKEN_APPEND},
+	{"||", TOKEN_OR},
+	{"|&", TOKEN_PIPE_ERR},
+	{"&&", TOKEN_AND},
+	{"|", TOKEN_PIPE},
+	{"&", TOKEN_BACKGROUND},
+	{">", TOKEN_REDIR_OUT},
+	{"<", TOKEN_REDIR_IN},
+	{";", TOKEN_SEMICOL},
+	{"'", TOKEN_QUOTE},
+	{"\"", TOKEN_DQUOTE},
+	{"(", TOKEN_OPEN_BRACKET},
+	{")", TOKEN_CLOSE_BRACKET},
+	{NULL, TOKEN_EOF}};
+
+	return (op_table);
 }
 
 /**
@@ -32,7 +32,7 @@ static const t_token_map *get_operator_table(void)
  * @param offset: offset for the next str after the operator
  * @return token type
  */
-t_token_type    get_token_type(const char *str, int *offset)
+t_token_type	get_token_type(const char *str, int *offset)
 {
 	const t_token_map	*op_table = get_operator_table();
 	size_t				len;
@@ -77,5 +77,6 @@ const char	*get_token_type_name(const t_token_type type)
 		"CLOSE_BRACKET",
 		"EOF",
 	};
+
 	return (token_name[type]);
 }

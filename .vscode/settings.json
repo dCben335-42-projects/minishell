@@ -5,6 +5,10 @@
 		"libft.h": "c",
 		"map.h": "c",
 		"token.h": "c",
-		"parser_lexer.h": "c"
+		"parser_lexer.h": "c",
+		"compare": "c",
+		"cstdlib": "c",
+		"lexer_args.h": "c",
+		"cmd.h": "c"
 	}
 }

@@ -1,10 +1,11 @@
 #include "token.h"
 #include "libft.h"
 
-t_token	*init_token(int token_type, const char *value, unsigned int start, size_t len)
+t_token	*init_token(int token_type, const char *value,
+	unsigned int start, size_t len)
 {
-	t_token *token;
-	
+	t_token	*token;
+
 	token = malloc(sizeof(t_token));
 	if (!token)
 		return (NULL);

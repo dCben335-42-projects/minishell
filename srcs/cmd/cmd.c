@@ -13,8 +13,8 @@
 #include "map.h"
 #include "cmd.h"
 
-void command_handler_lexer(char **input, t_lexer_args *args);
-void command_not_finished(t_lexer_args *args, char **input);
+void command_handler_lexer(char *input, t_lexer_args *args);
+void command_not_finished(t_lexer_args *args, char *input);
 
 char **map_tokens(t_dynamic_array *tokens)
 {
@@ -32,14 +32,12 @@ char **map_tokens(t_dynamic_array *tokens)
 	return (tokens_value_map);
 }
 
-void command_handler_lexer(char **input, t_lexer_args *args)
+void command_handler_lexer(char *input, t_lexer_args *args)
 {
-	char *error = NULL;
 	t_parse_status status;
 
-	args->input = *input;
-	args->tokens = init_dynamic_array(20, (void *(*)(void *))destroy_token);
-	status = lexer(args, &error);
+	*args = init_lexer_args(input);
+	status = lexer(args);
 	if (status == COMMAND_NOT_FINISHED)
 	{
 		destroy_dynamic_array(&args->tokens);
@@ -48,33 +46,36 @@ void command_handler_lexer(char **input, t_lexer_args *args)
 	}
 	if (status != COMMAND_VALID)
 	{
-		printf("Error: %s\n", error);
-		free(error);
+		printf("Error: %s\n", args->error);
+		destroy_lexer_args(args);
 		return ;
 	}
 	print_tokens(&args->tokens);
 	destroy_dynamic_array(&args->tokens);
-	if (**input)
-		add_history(*input);
+	if (*input)
+		add_history(input);
 	//execute_cmd(map_tokens(args->tokens));
 }
 
-void command_not_finished(t_lexer_args *args, char **input)
+void command_not_finished(t_lexer_args *args, char *input)
 {
-	char *tmp2;
+	char *new_input;
 	char *tmp;
+
+	printf("Command not finished\n");
+	printf("oksa=%s\n", input);
 	
 	tmp = readline(SHELL_NEXT_NAME);
-	tmp2 = ft_strjoin(*input, tmp);
+	new_input = ft_strjoin(input, tmp);
 	free(tmp);
-	free(*input);
-	*input = NULL;
-	printf("tmp2: %s\n", tmp2);
-	command_handler_lexer(&tmp2, args);
-	free(tmp2);
+	if (input)
+		free(input);
+	input = NULL;
+	command_handler_lexer(new_input, args);
+	free(new_input);
 }
 
-int command_handler(char **input)
+int command_handler(char *input)
 {
 	t_lexer_args args;
 	command_handler_lexer(input, &args);

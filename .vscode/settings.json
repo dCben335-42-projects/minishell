@@ -4,6 +4,7 @@
 		"utility": "c",
 		"libft.h": "c",
 		"map.h": "c",
-		"token.h": "c"
+		"token.h": "c",
+		"parser_lexer.h": "c"
 	}
 }

@@ -64,9 +64,8 @@ t_token	*handler_token_text(size_t *i, t_lexer_args *args)
 /**
  * Fonction pour analyser les tokens
  * @param args: arguments du lexer
- * @param error: message d'erreur
  */
-t_parse_status	lexer(t_lexer_args *args, char **error)
+t_parse_status	lexer(t_lexer_args *args)
 {
 	size_t			i;
 	int				offset;
@@ -75,7 +74,6 @@ t_parse_status	lexer(t_lexer_args *args, char **error)
 	t_token_type	type;
 
 	i = 0;
-	token_parser(args, error, init_token(TOKEN_TEXT, "init", 0, 0));
 	while (args->input[i])
 	{
 		while (ft_isspace(args->input[i]))
@@ -91,7 +89,10 @@ t_parse_status	lexer(t_lexer_args *args, char **error)
 		{
 			token = handler_token_quoted(&i, args, type);
 			if (token->type == TOKEN_EOF)
+			{
+				destroy_token(token);
 				return (COMMAND_NOT_FINISHED);
+			}
 		}
 		else if (type != TOKEN_TEXT)
 		{
@@ -102,7 +103,7 @@ t_parse_status	lexer(t_lexer_args *args, char **error)
 			token = handler_token_text(&i, args);
 		if (token == NULL)
 			return (COMMAND_NOT_VALID);
-		status = token_parser(args, error, token);
+		status = token_parser(args, token);
 		if (status != COMMAND_VALID)
 			return (status);
 	}

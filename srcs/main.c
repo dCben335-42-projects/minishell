@@ -53,7 +53,7 @@ static void handle_loop(t_shell *shell)
 		if (!input)
 			break ;
 		//free(input);
-		command_handler(&input);
+		command_handler(input);
 
 		//if (*input)
 		//	add_history(input);

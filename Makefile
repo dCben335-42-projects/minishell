@@ -34,6 +34,7 @@ SRC_FILES   = main.c \
 			env/init.c env/destroy.c env/add.c env/parse.c env/get.c env/read.c \
 			structs/dynamic_array/init.c structs/dynamic_array/destroy.c structs/dynamic_array/setter.c structs/dynamic_array/getter.c \
 			structs/token/init.c structs/token/destroy.c structs/token/getter.c \
+			structs/lexer_args/init.c structs/lexer_args/destroy.c \
 			builtins/builtins.c builtins/callbacks/echo.c builtins/callbacks/cd.c builtins/callbacks/pwd.c builtins/callbacks/export.c builtins/callbacks/unset.c builtins/callbacks/env.c builtins/callbacks/exit.c \
 			shell/init.c shell/destroy.c
 

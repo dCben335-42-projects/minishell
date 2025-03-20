@@ -9,11 +9,8 @@ static t_bool	is_command_finished(const char *input, t_token *token)
 	{
 		while (ft_isspace(*input))
 			input++;
-		if (*input == 0)
-		{
-			destroy_token(token);
+		if (!*input)
 			return (FALSE);
-		}
 	}
 	return (TRUE);
 }
@@ -21,25 +18,26 @@ static t_bool	is_command_finished(const char *input, t_token *token)
 static t_token	*get_token(t_lexer_args *args,
 	size_t *i, int offset, t_token_type type)
 {
-	t_token	*token;
-
 	if (type == TOKEN_QUOTE || type == TOKEN_DQUOTE)
-		token = handler_token_quote(i, args, type);
-	else if (type != TOKEN_TEXT)
-		token = handler_token_operator(args, i, offset, type);
-	else
-		token = handler_token_text(i, args);
-	return (token);
+		return (handler_token_quote(i, args, type));
+	if (type == TOKEN_TEXT)
+		return (handler_token_text(i, args));
+	return (handler_token_operator(args, i, offset, type));
 }
 
 static t_parse_status	get_parsing_error_status(t_token *token,
 	t_lexer_args *args, size_t *i)
 {
+	t_parse_status	status; 
+
 	if (token == NULL)
 		return (COMMAND_NOT_VALID);
+	status = token_parser(args, token);
+	if (status != COMMAND_VALID)
+		return (status);
 	if (!is_command_finished(&args->input[*i], token))
 		return (COMMAND_NOT_FINISHED);
-	return (token_parser(args, token));
+	return (status);
 }
 
 t_parse_status	lexer(t_lexer_args *args)

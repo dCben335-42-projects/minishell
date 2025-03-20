@@ -9,6 +9,7 @@
 		"compare": "c",
 		"cstdlib": "c",
 		"lexer_args.h": "c",
-		"cmd.h": "c"
+		"cmd.h": "c",
+		"stdio.h": "c"
 	}
 }

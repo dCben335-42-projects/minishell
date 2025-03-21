@@ -28,6 +28,7 @@ INCLUDES_FLAGS = -I $(INCLUDES_DIR) -I $(LIBFT_INCLUDE_FOLDER)
 SRC_DIR     = ./srcs
 SRC_FILES   = main.c \
 			lexer/lexer.c lexer/handler_token.c lexer/parser.c \
+			ast_builder/ast_builder.c \
 			cmd/cmd.c cmd/execute_cmd.c \
 			errors/basics.c \
 			signals.c \

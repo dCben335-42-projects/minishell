@@ -12,6 +12,7 @@
 #include "parser_lexer.h"
 #include "dynamic_array.h"
 #include "cmd.h"
+#include "ast.h"
 
 void command_handler_lexer(char *input, t_lexer_args *args);
 void command_not_finished(t_lexer_args *args, char *input);
@@ -70,6 +71,7 @@ int command_handler(char *input)
 {
 	t_lexer_args args;
 	command_handler_lexer(input, &args);
+	ast_builder(&args.tokens);
 	
 	destroy_lexer_args(&args);
 	return (0);

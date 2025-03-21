@@ -10,6 +10,9 @@
 		"cstdlib": "c",
 		"lexer_args.h": "c",
 		"cmd.h": "c",
-		"stdio.h": "c"
+		"stdio.h": "c",
+		"ast.h": "c",
+		"stdlib.h": "c",
+		"initializer_list": "c"
 	}
 }

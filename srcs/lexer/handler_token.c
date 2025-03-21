@@ -7,7 +7,7 @@ t_token	*handler_token_quote(size_t *i,
 
 	(*i)++;
 	if (!args->input[*i])
-		return (init_token(TOKEN_EOF, "", 0, 0));
+		return (init_token(TOKEN_UNKNOWN, "", 0, 0));
 	if (get_token_type(&args->input[*i], 0) == type)
 	{
 		(*i)++;
@@ -17,8 +17,8 @@ t_token	*handler_token_quote(size_t *i,
 	while (args->input[*i] && (start_i == *i
 			|| get_token_type(&args->input[*i], 0) != type))
 		(*i)++;
-	//if (!args->input[*i])
-	//	return (init_token(TOKEN_EOF, "", 0, 0));
+	if (!args->input[*i])
+		return (init_token(TOKEN_UNKNOWN, "", 0, 0));
 	(*i)++;
 	if (type == TOKEN_QUOTE)
 		return (init_token(TOKEN_LITERAL_TEXT,

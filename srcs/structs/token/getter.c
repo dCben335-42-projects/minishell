@@ -75,6 +75,7 @@ const char	*get_token_type_name(const t_token_type type)
 		"DQUOTE",
 		"OPEN_BRACKET",
 		"CLOSE_BRACKET",
+		"UNKNOWN",
 		"EOF",
 	};
 

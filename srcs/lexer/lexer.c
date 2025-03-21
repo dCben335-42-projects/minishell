@@ -5,7 +5,7 @@ static t_bool	is_command_finished(const char *input, t_token *token)
 	const t_token_type	type = token->type;
 
 	if (type == TOKEN_AND || type == TOKEN_OR || type == TOKEN_PIPE
-		|| type == TOKEN_PIPE_ERR || type == TOKEN_EOF)
+		|| type == TOKEN_PIPE_ERR || type == TOKEN_UNKNOWN)
 	{
 		while (ft_isspace(*input))
 			input++;
@@ -60,7 +60,7 @@ t_parse_status	lexer(t_lexer_args *args)
 		if (status != COMMAND_VALID)
 			return (status);
 	}
-	return (COMMAND_VALID);
+	return (get_parsing_error_status(init_token(TOKEN_EOF, "", 0, 0), args, &i));
 }
 
 void	print_tokens(t_dynamic_array *tokens)

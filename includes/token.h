@@ -20,6 +20,7 @@ typedef enum e_token_type {
 	TOKEN_DQUOTE,      // "
 	TOKEN_OPEN_BRACKET,     // (
 	TOKEN_CLOSE_BRACKET,    // )
+	TOKEN_UNKNOWN,     // Token inconnu
 	TOKEN_EOF          // Fin de commande
 }	t_token_type;
 

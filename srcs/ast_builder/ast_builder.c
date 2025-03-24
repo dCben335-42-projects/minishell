@@ -280,6 +280,10 @@ t_ast_node *convert_token_to_cmd(t_token *token)
 		return (create_node(CMD_AND, NULL));
 	else if (token->type == TOKEN_OR)
 		return (create_node(CMD_OR, NULL));
+	else if (token->type == TOKEN_OPEN_BRACKET)
+		return (create_node(CMD_PARENTHESIS_OPEN, NULL));
+	else if (token->type == TOKEN_CLOSE_BRACKET)
+		return (create_node(CMD_PARENTHESIS_CLOSE, NULL));
 	return (NULL);
 }
 
@@ -290,20 +294,20 @@ t_ast_node *get_cmd(t_dynamic_array *tokens, int *i)
 	t_token *token;
 
 	new_cmd = NULL;
-	if (*i >= tokens->count)
+	if (*i >= tokens->count - 1)
 		return (NULL);
 	token = (t_token *)get_value(tokens, *i);
 	if (!is_operator_token(*token))
 	{
 		//printf("i=%d\n",*i);
-		while (*i < tokens->count && !is_operator_token(*token))
+		while (*i < (tokens->count - 1) && !is_operator_token(*token))
 		{
 			//printf("token->value: %s\n", token->value);
 			if (!new_cmd)
 				new_cmd = create_node(CMD, NULL);
 			add_child(new_cmd, convert_token_to_cmd(token));
 			(*i)++;
-			if (*i < tokens->count)
+			if (*i < tokens->count - 1)
 				token = (t_token *)get_value(tokens, *i);
 		}
 	}
@@ -329,31 +333,50 @@ int main() {
 	t_ast_node *new_cmd3;
 	t_ast_node *new_cmd4;
 	t_dynamic_array	*cmd = init_dynamic_array_malloc(20, NULL);
-	t_dynamic_array *tokens = init_dynamic_array_malloc(20, NULL);
-	set_value(tokens, 0, init_token(TOKEN_TEXT, "ls", 0, 2));
-	set_value(tokens, 1, init_token(TOKEN_TEXT, "-l", 0, 2));
-	set_value(tokens, 2, init_token(TOKEN_AND, "&&", 0, 2));
-	set_value(tokens, 3, init_token(TOKEN_TEXT, "echo", 0, 4));
-	set_value(tokens, 4, init_token(TOKEN_VAR_TEXT, "hello", 0, 5));
-	set_value(tokens, 5, init_token(TOKEN_AND, "&&", 0, 2));
-	set_value(tokens, 6, init_token(TOKEN_TEXT, "cat", 0, 3));
-	set_value(tokens, 7, init_token(TOKEN_LITERAL_TEXT, "file.txt", 0, 8));
-	set_value(tokens, 8, init_token(TOKEN_PIPE, "|", 0, 1));
-	set_value(tokens, 9, init_token(TOKEN_LITERAL_TEXT, "output.txt", 0, 10));
-	set_value(tokens, 10, init_token(TOKEN_AND, "&&", 0, 2));
-	set_value(tokens, 11, init_token(TOKEN_TEXT, "echo", 0, 4));
-	set_value(tokens, 12, init_token(TOKEN_LITERAL_TEXT, "jojo", 0, 4));
-	set_value(tokens, 13, init_token(TOKEN_OR, "||", 0, 2));
-	set_value(tokens, 14, init_token(TOKEN_TEXT, "echo", 0, 4));
-	set_value(tokens, 15, init_token(TOKEN_LITERAL_TEXT, "tata", 0, 4));
+	t_dynamic_array *tokens;
+	
+	//tokens = init_dynamic_array_malloc(20, NULL);
+	//set_value(tokens, 0, init_token(TOKEN_TEXT, "ls", 0, 2));
+	//set_value(tokens, 1, init_token(TOKEN_TEXT, "-l", 0, 2));
+	//set_value(tokens, 2, init_token(TOKEN_AND, "&&", 0, 2));
+	//set_value(tokens, 3, init_token(TOKEN_TEXT, "echo", 0, 4));
+	//set_value(tokens, 4, init_token(TOKEN_VAR_TEXT, "hello", 0, 5));
+	//set_value(tokens, 5, init_token(TOKEN_AND, "&&", 0, 2));
+	//set_value(tokens, 6, init_token(TOKEN_TEXT, "cat", 0, 3));
+	//set_value(tokens, 7, init_token(TOKEN_LITERAL_TEXT, "file.txt", 0, 8));
+	//set_value(tokens, 8, init_token(TOKEN_PIPE, "|", 0, 1));
+	//set_value(tokens, 9, init_token(TOKEN_LITERAL_TEXT, "output.txt", 0, 10));
+	//set_value(tokens, 10, init_token(TOKEN_AND, "&&", 0, 2));
+	//set_value(tokens, 11, init_token(TOKEN_TEXT, "echo", 0, 4));
+	//set_value(tokens, 12, init_token(TOKEN_LITERAL_TEXT, "jojo", 0, 4));
+	//set_value(tokens, 13, init_token(TOKEN_OR, "||", 0, 2));
+	//set_value(tokens, 14, init_token(TOKEN_TEXT, "echo", 0, 4));
+	//set_value(tokens, 15, init_token(TOKEN_LITERAL_TEXT, "tata", 0, 4));
 	// ls -l && echo "hello" && cat file.txt | output.txt && echo "jojo" || echo "tata"
+	t_parse_status status;
+	t_lexer_args args;
+	
+	//args = init_lexer_args("true || (echo 'A' && echo 'B')");
+	args = init_lexer_args("ls -l && echo 'hello' && cat file.txt | output.txt && echo 'jojo' || echo 'tata'");
+	status = lexer(&args);
+	if (status != COMMAND_VALID)
+	{
+		printf("Error: %s\n", (&args)->error);
+		return (0);
+	}
+	print_tokens(&(&args)->tokens);
+
+	tokens = &args.tokens;
+
+	// Parenthesis recursive function
+	
 
 	i = 0;
 	pos = 0;
 	new_cmd = get_cmd(tokens, &i);
 	set_value(cmd, pos, new_cmd);
 	pos++;
-	while (i < tokens->count)
+	while (i < tokens->count - 1)
 	{
 		new_cmd = get_cmd(tokens, &i);
 		if (new_cmd->type != CMD)
@@ -366,6 +389,14 @@ int main() {
 				new_cmd4 = get_cmd(tokens, &i);
 				add_child(new_cmd3, new_cmd4);
 				add_child(new_cmd, new_cmd3);
+			}
+			else if (new_cmd3 && new_cmd3->type == CMD_PARENTHESIS_OPEN)
+			{
+
+			}
+			else if (new_cmd3 && new_cmd3->type == CMD_PARENTHESIS_CLOSE)
+			{
+				
 			}
 			else
 			{

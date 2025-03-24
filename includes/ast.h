@@ -28,7 +28,9 @@ typedef enum e_node_type
     CMD_LITERAL_TEXT,
     CMD_AND,
     CMD_OR,
-    CMD_PIPE
+    CMD_PIPE,
+    CMD_PARENTHESIS_OPEN,
+    CMD_PARENTHESIS_CLOSE
 } t_node_type;
 
 // Structure du nœud AST

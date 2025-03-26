@@ -13,6 +13,7 @@
 		"stdio.h": "c",
 		"ast.h": "c",
 		"stdlib.h": "c",
-		"initializer_list": "c"
+		"initializer_list": "c",
+		"dynamic_array.h": "c"
 	}
 }

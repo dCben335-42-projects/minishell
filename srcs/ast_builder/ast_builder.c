@@ -4,6 +4,9 @@
 #include <stdlib.h>
 #include "parser_lexer.h"
 
+void print_ast_json(t_print_ast_json_args args);
+int count_token_between_brackets(t_dynamic_array *tokens, int i);
+
 t_ast_node	*create_node(t_node_type type, char *value)
 {
     t_ast_node *node = malloc(sizeof(t_ast_node));
@@ -50,158 +53,68 @@ void print_indentation(int depth)
 	}
 }
 
-void print_ast_json(t_dynamic_array	*cmd, int depth) {
+void print_ast_node_json(t_ast_node *node, int i, char *node_type, t_print_ast_json_args args)
+{
+	print_indentation(args.depth);
+	printf("{ type: '%s', content: ", node_type);
+	if (!node->content)
+		printf("'null' }\n");
+	if (node->child_count == 1)
+		printf("'%s' }\n", (char *)node->content);
+	if (node->child_count > 1)
+	{
+		printf("[\n");
+		print_ast_json((t_print_ast_json_args){(t_dynamic_array *)node->content, args.depth + 2});
+		print_indentation(args.depth);
+		printf("]}");
+		if (i < args.cmd->count - 1)
+			printf(",");
+		printf("\n");
+	}
+}
+
+void print_ast_json(t_print_ast_json_args args) {
 	int i;
 	t_ast_node *node;
 
-    if (!cmd)
+    if (!args.cmd)
 		return;
 	i = 0;
-	while (i < cmd->count)
+	while (i < args.cmd->count)
 	{
-		//printf("i: %d\n", i);
-		//printf("cmd->count: %d\n", cmd->count);
-		//printf()
-		node = (t_ast_node *)get_value(cmd, i);
-		//printf("i: %d\n", i);
-		//printf(node->type == CMD_SEQ ? "CMD_SEQ" :
-		//	node->type == CMD ? "CMD" :
-		//	node->type == CMD_AND ? "AND_CMD" :
-		//	node->type == CMD_OR ? "OR_CMD" :
-		//	node->type == CMD_PIPE ? "CMD_PIPE" :
-		//	node->type == CMD_TEXT ? "CMD_TEXT" :
-		//	node->type == CMD_VAR_TEXT ? "CMD_VAR_TEXT" :
-		//	node->type == CMD_LITERAL_TEXT ? "CMD_LITERAL_TEXT" : "UNKNOWN");
-
-		//printf("node->content: %s\n", (char *)node->content);
+		node = (t_ast_node *)get_value(args.cmd, i);
 		
 		if (node->type == CMD_SEQ)
 		{
-			print_indentation(depth);
-			printf("{ type: 'CMD_SEQ', content: ");
-			if (!node->content)
-				printf("'null' }\n");
-			if (node->child_count == 1)
-				printf("'%s' }\n", (char *)node->content);
-			if (node->child_count > 1)
-			{
-				printf("[\n");
-				print_ast_json((t_dynamic_array *)node->content, depth + 2);
-				print_indentation(depth);
-				printf("]}\n");
-			}
+			print_ast_node_json(node, i, "CMD_SEQ", args);
 		}
 		else if (node->type == CMD)
 		{
-			print_indentation(depth);
-			printf("{ type: 'CMD', content: ");
-			if (!node->content)
-				printf("'null' }\n");
-			if (node->child_count == 1)
-				printf("'%s' }\n", (char *)node->content);
-			if (node->child_count > 1)
-			{
-				printf("[\n");
-				print_ast_json((t_dynamic_array *)node->content, depth + 2);
-				print_indentation(depth);
-				printf("]}\n");
-			}
+			print_ast_node_json(node, i, "CMD", args);
 		}
 		else if (node->type == CMD_AND)
 		{
-			print_indentation(depth);
-			printf("{ type: 'CMD_AND', content: ");
-			if (!node->content)
-				printf("'null' }\n");
-			if (node->child_count == 1)
-				printf("'%s' }\n", (char *)node->content);
-			if (node->child_count > 1)
-			{
-				printf("[\n");
-				print_ast_json((t_dynamic_array *)node->content, depth + 2);
-				print_indentation(depth);
-				printf("]}\n");
-			}
+			print_ast_node_json(node, i, "CMD_AND", args);
 		}
 		else if (node->type == CMD_OR)
 		{
-			print_indentation(depth);
-			printf("{ type: 'CMD_OR', content: ");
-			if (!node->content)
-				printf("'null' }\n");
-			if (node->child_count == 1)
-				printf("'%s' }\n", (char *)node->content);
-			if (node->child_count > 1)
-			{
-				printf("[\n");
-				print_ast_json((t_dynamic_array *)node->content, depth + 2);
-				print_indentation(depth);
-				printf("]}\n");
-			}
+			print_ast_node_json(node, i, "CMD_OR", args);
 		}
 		else if (node->type == CMD_PIPE)
 		{
-			print_indentation(depth);
-			printf("{ type: 'CMD_PIPE', content: ");
-			if (!node->content)
-				printf("'null' }\n");
-			if (node->child_count == 1)
-				printf("'%s' }\n", (char *)node->content);
-			if (node->child_count > 1)
-			{
-				printf("[\n");
-				print_ast_json((t_dynamic_array *)node->content, depth + 2);
-				print_indentation(depth);
-				printf("]}\n");
-			}
+			print_ast_node_json(node, i, "CMD_PIPE", args);
 		}
 		else if (node->type == CMD_TEXT)
 		{
-			print_indentation(depth);
-			printf("{ type: 'CMD_TEXT', content: ");
-			if (!node->content)
-				printf("'null' }\n");
-			if (node->child_count == 1)
-				printf("'%s' }\n", (char *)node->content);
-			if (node->child_count > 1)
-			{
-				printf("[\n");
-				print_ast_json((t_dynamic_array *)node->content, depth + 2);
-				print_indentation(depth);
-				printf("]}\n");
-			}
+			print_ast_node_json(node, i, "CMD_TEXT", args);
 		}
 		else if (node->type == CMD_LITERAL_TEXT)
 		{
-			print_indentation(depth);
-			printf("{ type: 'CMD_LITERAL_TEXT', content: ");
-			if (!node->content)
-				printf("'null' }\n");
-			if (node->child_count == 1)
-				printf("'%s' }\n", (char *)node->content);
-			if (node->child_count > 1)
-			{
-				printf("[\n");
-				print_ast_json((t_dynamic_array *)node->content, depth + 2);
-				print_indentation(depth);
-				printf("]}\n");
-			}
+			print_ast_node_json(node, i, "CMD_LITERAL_TEXT", args);
 		}
 		else if (node->type == CMD_VAR_TEXT)
 		{
-			print_indentation(depth);
-			printf("{ type: 'CMD_VAR_TEXT', content: ");
-			if (!node->content)
-				printf("'null' }\n");
-			if (node->child_count == 1)
-				printf("'%s' }\n", (char *)node->content);
-			if (node->child_count > 1)
-			{
-				printf("[\n");
-				print_ast_json((t_dynamic_array *)node->content, depth + 2);
-				print_indentation(depth);
-				printf("]}\n");
-			}
+			print_ast_node_json(node, i, "CMD_VAR_TEXT", args);
 		}
 		i++;
 	}
@@ -261,7 +174,7 @@ void print_ast_json(t_dynamic_array	*cmd, int depth) {
 void print_ast_json_wrapper(t_dynamic_array *cmd)
 {
 	printf("[\n");
-	print_ast_json(cmd, 2);
+	print_ast_json((t_print_ast_json_args){cmd, 2});
 	printf("]\n");
 }
 
@@ -288,26 +201,26 @@ t_ast_node *convert_token_to_cmd(t_token *token)
 }
 
 
-t_ast_node *get_cmd(t_dynamic_array *tokens, int *i)
+t_ast_node *get_cmd(t_dynamic_array *tokens, int *i, int end)
 {
 	t_ast_node *new_cmd;
 	t_token *token;
 
 	new_cmd = NULL;
-	if (*i >= tokens->count - 1)
+	if (*i >= end)
 		return (NULL);
 	token = (t_token *)get_value(tokens, *i);
 	if (!is_operator_token(*token))
 	{
 		//printf("i=%d\n",*i);
-		while (*i < (tokens->count - 1) && !is_operator_token(*token))
+		while (*i < end && !is_operator_token(*token))
 		{
 			//printf("token->value: %s\n", token->value);
 			if (!new_cmd)
 				new_cmd = create_node(CMD, NULL);
 			add_child(new_cmd, convert_token_to_cmd(token));
 			(*i)++;
-			if (*i < tokens->count - 1)
+			if (*i < end)
 				token = (t_token *)get_value(tokens, *i);
 		}
 	}
@@ -321,18 +234,245 @@ t_ast_node *get_cmd(t_dynamic_array *tokens, int *i)
 }
 
 
+int	get_pipe_cmd(t_ast_node *cmd_master, t_get_cmd_master args, int *i, t_ast_node **cmd_prev)
+{
+	t_ast_node *cmd;
 
+	while (*i < args.tokens->count - 1)
+	{
+		cmd = get_cmd(args.tokens, i, args.end);
+		if (*i == args.tokens->count - 1)
+		{
+			add_child(cmd_master, cmd);
+			return (1);
+		}
+		else if (cmd->type == CMD_PIPE)
+		{
+			add_child(cmd_master, *cmd_prev);
+		}
+		else if (cmd->type != CMD)
+		{
+			(*i)--;
+			add_child(cmd_master, *cmd_prev);
+			*cmd_prev = NULL;
+			return (1);
+		}
+		else if (cmd->type == CMD)
+		{
+			*cmd_prev = cmd;
+		}
+	}
+	return (1);
+}
+
+int	get_and_cmd(t_ast_node *cmd_master, t_get_cmd_master args, int *i, t_ast_node **cmd_prev)
+{
+	t_ast_node *cmd;
+	t_dynamic_array *sub_cmd;
+	int sub_cmd_count;
+
+	sub_cmd_count = 0;
+	while (*i < args.tokens->count - 1)
+	{
+		cmd = get_cmd(args.tokens, i, args.end);
+		if (*i == args.tokens->count - 1)
+		{
+			add_child(cmd_master, cmd);
+			return (1);
+		}
+		if (cmd->type == CMD_PIPE)
+		{
+			add_child(cmd, *cmd_prev);
+			if (get_pipe_cmd(cmd, args, i, cmd_prev) == 1)
+			{
+				add_child(cmd_master, cmd);
+			}
+		}
+		else if (cmd->type == CMD_PARENTHESIS_OPEN)
+		{
+			int count = count_token_between_brackets(args.tokens, *i);
+			sub_cmd = get_cmd_master((t_get_cmd_master){args.tokens, i, i + count});
+			while (sub_cmd_count < sub_cmd->count)
+			{
+				add_child(cmd_master, (t_ast_node *)get_value(sub_cmd, sub_cmd_count));
+				sub_cmd_count++;
+			}
+			*i += count + 1;
+			return (1);
+			
+		}
+		else if (cmd->type == CMD_PARENTHESIS_CLOSE)
+		{
+
+		}
+		else if (cmd->type == CMD_AND)
+		{
+			(*i)--; // on revient en arrière pour traiter le AND
+			if (*cmd_prev)
+				add_child(cmd_master, *cmd_prev);
+			return (1);
+		}
+		else if (cmd->type == CMD_OR)
+		{
+			(*i)--; // on revient en arrière pour traiter le OR
+			if (*cmd_prev)
+				add_child(cmd_master, *cmd_prev);
+			return (1);
+		}
+		else
+		{
+			*cmd_prev = cmd;
+		}
+	}
+	return (1);
+}
+
+int	get_or_cmd(t_ast_node *cmd_master, t_get_cmd_master args, int *i, t_ast_node **cmd_prev)
+{
+	t_ast_node *cmd;
+
+	while (*i < args.tokens->count - 1)
+	{
+		cmd = get_cmd(args.tokens, i, args.end);
+		if (*i == args.tokens->count - 1)
+		{
+			add_child(cmd_master, cmd);
+			return (1);
+		}
+		if (cmd->type == CMD_PIPE)
+		{
+			add_child(cmd, *cmd_prev);
+			if (get_pipe_cmd(cmd, args, i, cmd_prev) == 1)
+			{
+				add_child(cmd_master, cmd);
+			}
+		}
+		else if (cmd->type == CMD_PARENTHESIS_OPEN)
+		{
+
+		}
+		else if (cmd->type == CMD_PARENTHESIS_CLOSE)
+		{
+
+		}
+		else if (cmd->type == CMD_AND)
+		{
+			(*i)--; // on revient en arrière pour traiter le AND
+			if (*cmd_prev)
+				add_child(cmd_master, *cmd_prev);
+			return (1);
+		}
+		else if (cmd->type == CMD_OR)
+		{
+			(*i)--; // on revient en arrière pour traiter le OR
+			if (*cmd_prev)
+				add_child(cmd_master, *cmd_prev);
+			return (1);
+		}
+		else
+		{
+			*cmd_prev = cmd;
+		}
+	}
+	return (1);
+}
+
+int count_token_between_brackets(t_dynamic_array *tokens, int i)
+{
+	int count;
+	t_token *token;
+
+	count = 0;
+	while (i < tokens->count - 1)
+	{
+		token = (t_token *)get_value(tokens, i);
+		if (token->type == TOKEN_CLOSE_BRACKET)
+			return (count);
+		count++;
+		i++;
+	}
+	return (count);
+}
+
+t_dynamic_array	*get_cmd_master(t_get_cmd_master args)
+{
+	int i;
+	int pos;
+	t_ast_node *cmd_prev;
+	t_ast_node *cmd;
+	t_dynamic_array	*cmd_master = init_dynamic_array_malloc(20, NULL);
+	(void)args.end;
+
+	i = args.start;
+	pos = 0;
+	cmd_prev = NULL;
+	while (i < args.tokens->count - 1)
+	{
+		cmd = get_cmd(args.tokens, &i, args.end);
+		if (cmd->type == CMD_PIPE)
+		{
+			add_child(cmd, cmd_prev);
+			if (get_pipe_cmd(cmd, args, &i, &cmd_prev) == 1)
+			{
+				set_value(cmd_master, pos, cmd);
+				pos++;
+			}
+		}
+		else if (cmd->type == CMD_PARENTHESIS_OPEN)
+		{
+			//int count = count_token_between_brackets(args.tokens, i);
+			//get_cmd_master((t_get_cmd_master){args.tokens, i, i + count});
+		}
+		else if (cmd->type == CMD_PARENTHESIS_CLOSE)
+		{
+
+		}
+		else if (cmd->type == CMD_AND)
+		{
+			if (pos == 0)
+			{
+				set_value(cmd_master, pos, cmd_prev);
+				pos++;
+			}
+			if (get_and_cmd(cmd, args, &i, &cmd_prev))
+			{
+				set_value(cmd_master, pos, cmd);
+				pos++;
+			}
+		}
+		else if (cmd->type == CMD_OR)
+		{
+			if (pos == 0)
+			{
+				set_value(cmd_master, pos, cmd_prev);
+				pos++;
+			}
+			if (get_or_cmd(cmd, args, &i, &cmd_prev))
+			{
+				set_value(cmd_master, pos, cmd);
+				pos++;
+			}
+		}
+		else
+		{
+			cmd_prev = cmd;
+		}
+	}
+
+	return (cmd_master);
+}
 
 
 
 int main() {
-	int i;
-	int pos;
-	t_ast_node *new_cmd;
-	t_ast_node *new_cmd2;
-	t_ast_node *new_cmd3;
-	t_ast_node *new_cmd4;
-	t_dynamic_array	*cmd = init_dynamic_array_malloc(20, NULL);
+	//int i;
+	//int pos;
+	//t_ast_node *cmd_prev;
+	//t_ast_node *cmd;
+	//t_ast_node *new_cmd2;
+	//t_ast_node *new_cmd3;
+	//t_ast_node *new_cmd4;
+	t_dynamic_array	*cmd_master;
 	t_dynamic_array *tokens;
 	
 	//tokens = init_dynamic_array_malloc(20, NULL);
@@ -357,7 +497,10 @@ int main() {
 	t_lexer_args args;
 	
 	//args = init_lexer_args("true || (echo 'A' && echo 'B')");
-	args = init_lexer_args("ls -l && echo 'hello' && cat file.txt | output.txt && echo 'jojo' || echo 'tata'");
+	//args = init_lexer_args("ls -l && echo 'hello' && cat file.txt | output.txt && echo 'jojo' || echo 'tata'");
+	//args = init_lexer_args("ls -l && echo 'hello' && cat file.txt | output.txt | momo.txt && echo 'jojo' || echo 'tata'");
+	//args = init_lexer_args("dzidziu\"$PATH\""); // ajouter les espaces au token
+	args = init_lexer_args("echo \"bonjour\" || cat file.txt | output.txt | momo.txt | toto.txt | jiji.txt && echo \"jojo\" && echo \"toto\"");
 	status = lexer(&args);
 	if (status != COMMAND_VALID)
 	{
@@ -367,52 +510,74 @@ int main() {
 	print_tokens(&(&args)->tokens);
 
 	tokens = &args.tokens;
+	cmd_master = get_cmd_master((t_get_cmd_master){tokens, 0, tokens->count - 1});
+	print_ast_json_wrapper(cmd_master);
 
-	// Parenthesis recursive function
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	// FONCTIONNEL
 	
 
-	i = 0;
-	pos = 0;
-	new_cmd = get_cmd(tokens, &i);
-	set_value(cmd, pos, new_cmd);
-	pos++;
-	while (i < tokens->count - 1)
-	{
-		new_cmd = get_cmd(tokens, &i);
-		if (new_cmd->type != CMD)
-		{
-			new_cmd2 = get_cmd(tokens, &i);
-			new_cmd3 = get_cmd(tokens, &i);
-			if (new_cmd3 && new_cmd3->type == CMD_PIPE)
-			{
-				add_child(new_cmd3, new_cmd2);
-				new_cmd4 = get_cmd(tokens, &i);
-				add_child(new_cmd3, new_cmd4);
-				add_child(new_cmd, new_cmd3);
-			}
-			else if (new_cmd3 && new_cmd3->type == CMD_PARENTHESIS_OPEN)
-			{
+	//i = 0;
+	//pos = 0;
+	//new_cmd = get_cmd(tokens, &i);
+	//set_value(cmd, pos, new_cmd);
+	//pos++;
+	//while (i < tokens->count - 1)
+	//{
+	//	new_cmd = get_cmd(tokens, &i);
 
-			}
-			else if (new_cmd3 && new_cmd3->type == CMD_PARENTHESIS_CLOSE)
-			{
+	//	if (new_cmd->type != CMD)
+	//	{
+	//		new_cmd2 = get_cmd(tokens, &i);
+
+
+
+
+	//		//new_cmd3 = get_cmd(tokens, &i);
+	//		//if (new_cmd3 && new_cmd3->type == CMD_PIPE)
+	//		//{
+	//		//	add_child(new_cmd3, new_cmd2);
+	//		//	new_cmd4 = get_cmd(tokens, &i);
+	//		//	add_child(new_cmd3, new_cmd4);
+	//		//	add_child(new_cmd, new_cmd3);
+	//		//}
+	//		//else if (new_cmd3 && new_cmd3->type == CMD_PARENTHESIS_OPEN)
+	//		//{
+
+	//		//}
+	//		//else if (new_cmd3 && new_cmd3->type == CMD_PARENTHESIS_CLOSE)
+	//		//{
 				
-			}
-			else
-			{
-				if (new_cmd3)
-					i--;
-				add_child(new_cmd, new_cmd2);
-			}
-		}
-		set_value(cmd, pos, new_cmd);
-		pos++;
-	}
-	print_ast_json_wrapper(cmd);
+	//		//}
+	//		//else
+	//		//{
+	//		//	if (new_cmd3)
+	//		//		i--;
+	//			add_child(new_cmd, new_cmd2);
+	//		//}
+	//	}
+	//	set_value(cmd, pos, new_cmd);
+	//	pos++;
+	//}
+	//print_ast_json_wrapper(cmd);
     return 0;
 }
 
-//cc srcs/ast_builder/ast_builder.c libs/libft/srcs/**/*.c srcs/structs/**/*.c -I includes -I libs/libft/includes
+//cc srcs/ast_builder/ast_builder.c libs/libft/srcs/**/*.c srcs/structs/**/*.c srcs/lexer/*.c -I includes -I libs/libft/includes
 
 
 

@@ -43,6 +43,19 @@ typedef struct s_ast_node
     int     child_count;
 }   t_ast_node;
 
+typedef struct s_print_ast_json_args
+{
+    t_dynamic_array *cmd;
+    int depth;
+}   t_print_ast_json_args;
+
+typedef struct s_get_cmd_master
+{
+    t_dynamic_array *tokens;
+    int start;
+    int end;
+} t_get_cmd_master;
+
 //void	ast_builder(t_dynamic_array *tokens);
 t_ast_node  *create_node(t_node_type type, char *value);
 

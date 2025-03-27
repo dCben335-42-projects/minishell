@@ -42,10 +42,8 @@ static void handle_loop(t_shell *shell)
 {
 	//(void)shell;
 	char		*input;
-	//char		**args;
+	// char		**args;
 
-	//input = "bonjour sava bien";
-	//command_handler(&input);
 	while (TRUE)
 	{
 		input = readline(SHELL_NAME);
@@ -55,13 +53,13 @@ static void handle_loop(t_shell *shell)
 		//free(input);
 		command_handler(input);
 
-		//if (*input)
-		//	add_history(input);
-		//args = ft_split(input, ' ');
-		//if (args[0])
-		//	if (!is_builtin(args, shell))
-		//		handle_command(shell, args);
-		//ft_handle_free_split(args);
+		// if (*input)
+		// 	add_history(input);
+		// args = ft_split(input, ' ');
+		// if (args[0])
+		// 	if (!is_builtin(args, shell))
+		// 		handle_command(shell, args);
+		// ft_handle_free_split(args);
 		printf("exit code: %d\n", shell->exit_code);
 	}
 }

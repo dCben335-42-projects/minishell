@@ -36,7 +36,7 @@ SRC_FILES   = main.c \
 			structs/token/init.c structs/token/destroy.c structs/token/getter.c structs/token/is.c \
 			structs/lexer_args/init.c structs/lexer_args/destroy.c \
 			builtins/builtins.c builtins/callbacks/echo.c builtins/callbacks/cd.c builtins/callbacks/pwd.c builtins/callbacks/export.c builtins/callbacks/unset.c builtins/callbacks/env.c builtins/callbacks/exit.c \
-			shell/init.c shell/destroy.c
+			structs/shell/init.c structs/shell/destroy.c
 
 			
 SRC         = $(addprefix $(SRC_DIR)/, $(SRC_FILES))

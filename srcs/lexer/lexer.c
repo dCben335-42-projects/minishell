@@ -63,7 +63,7 @@ t_parse_status	lexer(t_lexer_args *args)
 	return (get_parsing_error_status(init_token(TOKEN_EOF, "", 0, 0), args, &i));
 }
 
-void	print_tokens(t_dynamic_array *tokens)
+void	print_tokens(t_dynarray *tokens)
 {
 	t_uint	i;
 	t_uint	count;

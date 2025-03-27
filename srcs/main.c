@@ -4,7 +4,7 @@
 #include "builtin.h"
 #include "errors.h"
 #include "parser_lexer.h"
-#include "dynamic_array.h"
+#include "dynarray.h"
 #include "cmd.h"
 
 void	handle_command(t_shell *shell, char **args)

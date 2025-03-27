@@ -1,7 +1,7 @@
-#include "dynamic_array.h"
+#include "dynarray.h"
 #include "libft.h"
 
-void	*destroy_dynarray(t_dynamic_array *arr)
+void	*destroy_dynarray(t_dynarray *arr)
 {
 	size_t	i;
 

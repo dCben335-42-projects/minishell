@@ -1,9 +1,9 @@
-#include "dynamic_array.h"
+#include "dynarray.h"
 #include "libft.h"
 #include <stdio.h>
 #include "parser_lexer.h"
 
-static void	**ft_realloc(t_dynamic_array *arr, size_t new_size)
+static void	**ft_realloc(t_dynarray *arr, size_t new_size)
 {
 	void	**new;
 	size_t	copy_size;
@@ -27,7 +27,7 @@ static void	**ft_realloc(t_dynamic_array *arr, size_t new_size)
 	return (new);
 }
 
-void	set_dynarray_value(t_dynamic_array *arr, t_uint index, void *value)
+void	set_dynarray_value(t_dynarray *arr, t_uint index, void *value)
 {
 	t_uint	new_size;
 

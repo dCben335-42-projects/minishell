@@ -3,7 +3,7 @@
 
 # include <stdio.h>
 # include "libft.h"
-# include "dynamic_array.h"
+# include "dynarray.h"
 # include "token.h"
 # include "lexer_args.h"
 
@@ -35,7 +35,7 @@ t_parse_status	lexer(t_lexer_args *args);
  * @param tokens: tokens to print
  * @return void
  */
-void			print_tokens(t_dynamic_array *tokens);
+void			print_tokens(t_dynarray *tokens);
 
 /**
  * @brief Function to check whether the command is still in a valid

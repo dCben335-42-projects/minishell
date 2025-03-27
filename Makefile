@@ -20,7 +20,7 @@ LIBS_FLAGS = $(LIBFT_FLAGS) -lreadline -lhistory
 
 # includes
 INCLUDES_DIR = ./includes
-INCLUDES_FILES = minishell.h messages.h errors.h env.h
+INCLUDES_FILES = builtin.h cmd.h dynarray.h env.h errors.h lexer_args.h messages.h minishell.h parser_lexer.h shell.h token.h
 INCLUDES = $(addprefix $(INCLUDES_DIR)/, $(INCLUDES_FILES))
 INCLUDES_FLAGS = -I $(INCLUDES_DIR) -I $(LIBFT_INCLUDE_FOLDER)
 

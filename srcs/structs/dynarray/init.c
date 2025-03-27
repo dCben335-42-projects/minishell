@@ -1,9 +1,9 @@
-#include "dynamic_array.h"
+#include "dynarray.h"
 #include "libft.h"
 
-t_dynamic_array	init_dynarray(t_uint size, void *(*destroyer)(void *))
+t_dynarray	init_dynarray(t_uint size, void *(*destroyer)(void *))
 {
-	t_dynamic_array	arr;
+	t_dynarray	arr;
 
 	arr.data = ft_calloc(size + 1, sizeof(void *));
 	arr.size = size;

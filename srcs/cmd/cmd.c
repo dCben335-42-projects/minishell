@@ -10,13 +10,13 @@
 #include "libft.h"
 #include "errors.h"
 #include "parser_lexer.h"
-#include "dynamic_array.h"
+#include "dynarray.h"
 #include "cmd.h"
 
 void command_handler_lexer(char *input, t_lexer_args *args);
 void command_not_finished(t_lexer_args *args, char *input);
 
-char **map_tokens(t_dynamic_array *tokens)
+char **map_tokens(t_dynarray *tokens)
 {
 	char	**tokens_value_map;
 	t_uint	i;

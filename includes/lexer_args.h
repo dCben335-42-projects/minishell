@@ -1,7 +1,7 @@
 #ifndef LEXER_ARGS_H
 # define LEXER_ARGS_H
 
-# include "dynamic_array.h"
+# include "dynarray.h"
 
 typedef struct s_bracket
 {
@@ -13,7 +13,7 @@ typedef struct s_lexer_args
 {
 	const char			*input;
 	char				*error;
-	t_dynamic_array		tokens;
+	t_dynarray		tokens;
 	t_bracket			parenthesis;
 	t_bracket			bracket;
 }	t_lexer_args;

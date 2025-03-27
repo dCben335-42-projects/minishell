@@ -12,6 +12,7 @@
 #include "parser_lexer.h"
 #include "dynarray.h"
 #include "cmd.h"
+#include "builtin.h"
 
 void command_handler_lexer(char *input, t_lexer_args *args);
 void command_not_finished(t_lexer_args *args, char *input);
@@ -66,11 +67,18 @@ void command_not_finished(t_lexer_args *args, char *input)
 	command_handler_lexer(new_input, args);
 }
 
-int command_handler(char *input)
+void expand_env(t_dynarray *arr, t_shell *shell);
+int command_handler(char *input, t_shell *shell)
 {
 	t_lexer_args args;
 	command_handler_lexer(input, &args);
-	
+	if (args.tokens.count == 0)
+	{
+		destroy_lexer_args(&args);
+		return (0);
+	}
+	(void)shell;
+	expand_env(&args.tokens, shell);
 	destroy_lexer_args(&args);
 	return (0);
 }

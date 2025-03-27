@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 13:59:51 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/03/13 19:01:46 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/03/27 20:48:57 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "libft.h"
 #include <stdio.h>
 
-static t_bool	check_key(char *key, size_t len)
+static t_bool	is_key(char *key, size_t len)
 {
 	size_t	i;
 
@@ -42,12 +42,32 @@ static size_t	get_equal_index(char *envp)
 	return (i);
 }
 
+size_t	parse_env_key_len(const char *str)
+{
+	size_t	len;
+
+	len = 1;
+	if (!str || !*str || (!ft_isalpha(*str) && *str != '_'))
+		return (0);
+	if (*str == '?')
+		return (1);
+	str++;
+	while (*str)
+	{
+		if (!ft_isalnum(*str) && *str != '_')
+			break ;
+		len++;
+		str++;
+	}
+	return (len);
+}
+
 char	*parse_env_key(char *envp)
 {
 	size_t	i;
 
 	i = get_equal_index(envp);
-	if (*(envp) && *(envp) != '=' && check_key(envp, i))
+	if (*(envp) && *(envp) != '=' && is_key(envp, i))
 	{
 		if (envp[i - 1] == '+')
 			return (ft_substr(envp, 0, i - 1));

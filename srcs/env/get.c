@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 14:34:12 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/03/13 19:18:56 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/03/27 19:12:54 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ t_env	*get_parent_node(t_env *env, t_env *node)
 
 t_env	*get_env_node(t_env *env, char *key)
 {
-	if (!env)
+	if (!env || !key)
 		return (NULL);
 	if (ft_strcmp(key, env->key) == 0)
 		return (env);

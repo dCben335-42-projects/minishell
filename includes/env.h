@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 13:43:27 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/03/13 19:23:03 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/03/27 20:49:26 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ typedef struct s_env
 # define PWD_KEY "PWD"
 # define OLDPWD_KEY "OLDPWD"
 
+size_t	parse_env_key_len(const char *str);
 char	*parse_env_key(char *envp);
 char	*parse_env_value(char *envp);
 

@@ -1,7 +1,7 @@
 #include "dynamic_array.h"
 #include "libft.h"
 
-void	*get_value(t_dynamic_array *arr, t_uint index)
+void	*get_dynarray_value(t_dynamic_array *arr, t_uint index)
 {
 	if (index < arr->size)
 		return (arr->data[index]);

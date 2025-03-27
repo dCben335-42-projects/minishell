@@ -2,7 +2,7 @@
 
 void	*destroy_lexer_args(t_lexer_args *args)
 {
-	destroy_dynamic_array(&args->tokens);
+	destroy_dynarray(&args->tokens);
 	free(args->error);
 	free((char *)args->input);
 	return (NULL);

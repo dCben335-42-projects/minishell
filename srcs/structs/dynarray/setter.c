@@ -13,7 +13,7 @@ static void	**ft_realloc(t_dynamic_array *arr, size_t new_size)
 	{
 		arr->count = 0;
 		arr->size = 0;
-		return (destroy_dynamic_array(arr));
+		return (destroy_dynarray(arr));
 	}
 	if (arr->data)
 	{
@@ -27,7 +27,7 @@ static void	**ft_realloc(t_dynamic_array *arr, size_t new_size)
 	return (new);
 }
 
-void	set_value(t_dynamic_array *arr, t_uint index, void *value)
+void	set_dynarray_value(t_dynamic_array *arr, t_uint index, void *value)
 {
 	t_uint	new_size;
 

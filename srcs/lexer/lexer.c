@@ -73,7 +73,7 @@ void	print_tokens(t_dynamic_array *tokens)
 	count = tokens->count;
 	while (i < count)
 	{
-		data = (t_token *)get_value(tokens, i);
+		data = (t_token *)get_dynarray_value(tokens, i);
 		printf("Token: %-12s | Type: %s\n", data->value,
 			get_token_type_name(data->type));
 		i++;

@@ -9,6 +9,6 @@ t_lexer_args	init_lexer_args(const char *input)
 	args.error = NULL;
 	args.parenthesis = (t_bracket){0, 0};
 	args.bracket = (t_bracket){0, 0};
-	args.tokens = init_dynamic_array(2, (void *(*)(void *))destroy_token);
+	args.tokens = init_dynarray(2, (void *(*)(void *))destroy_token);
 	return (args);
 }

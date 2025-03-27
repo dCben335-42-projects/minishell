@@ -62,7 +62,7 @@ t_parse_status	token_parser(t_lexer_args *args, t_token *token)
 	}
 	else
 	{
-		prev_token = ((t_token *)get_value(&args->tokens,
+		prev_token = ((t_token *)get_dynarray_value(&args->tokens,
 					args->tokens.count - 1));
 		if (is_operator_token(*token) && is_operator_token(*prev_token))
 			return (get_error_message(token, &args->error));
@@ -70,6 +70,6 @@ t_parse_status	token_parser(t_lexer_args *args, t_token *token)
 			&& token->type == TOKEN_CLOSE_BRACKET)
 			return (get_error_message(token, &args->error));
 	}
-	set_value(&args->tokens, args->tokens.count, token);
+	set_dynarray_value(&args->tokens, args->tokens.count, token);
 	return (COMMAND_VALID);
 }

@@ -79,6 +79,7 @@ int command_handler(char *input, t_shell *shell)
 	}
 	(void)shell;
 	expand_env(&args.tokens, shell);
+	expand_wildcard(&args.tokens, shell);
 	destroy_lexer_args(&args);
 	return (0);
 }

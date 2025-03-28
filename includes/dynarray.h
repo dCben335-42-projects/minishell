@@ -16,4 +16,5 @@ void			set_dynarray_value(t_dynarray *arr, t_uint index, void *value);
 void			*get_dynarray_value(t_dynarray *arr, t_uint index);
 void			*destroy_dynarray(t_dynarray *arr);
 t_dynarray	init_dynarray(t_uint size, void *(*destroyer)(void *));
+
 #endif

@@ -39,5 +39,6 @@ const char		*get_token_type_name(const t_token_type type);
 t_token_type    get_token_type(const char *str, int *offset);
 t_token			*init_token(int token_type, const char *value, unsigned int start, size_t len);
 int				is_operator_token(t_token token);
+int				is_text_token(t_token token);
 
 #endif

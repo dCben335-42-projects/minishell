@@ -6,6 +6,8 @@
 
 void print_ast_json(t_print_ast_json_args args);
 int count_token_between_brackets(t_dynamic_array *tokens, int i);
+int	get_and_cmd(t_ast_node *cmd_master, t_get_cmd_master args, int *i, t_ast_node **cmd_prev);
+t_dynamic_array	*get_cmd_master(t_get_cmd_master args);
 
 t_ast_node	*create_node(t_node_type type, char *value)
 {
@@ -30,7 +32,7 @@ void add_child(t_ast_node *parent, t_ast_node *child)
 
 	if (parent->child_count == 0)
 	{
-		sub_cmd = init_dynamic_array_malloc(6, NULL);
+		sub_cmd = init_dynamic_array_malloc(40, NULL);
 		set_value(sub_cmd, 0, child);
 		parent->content = sub_cmd;
 		parent->child_count = 2;
@@ -84,6 +86,7 @@ void print_ast_json(t_print_ast_json_args args) {
 	{
 		node = (t_ast_node *)get_value(args.cmd, i);
 		
+		// duizhjduzhd
 		if (node->type == CMD_SEQ)
 		{
 			print_ast_node_json(node, i, "CMD_SEQ", args);
@@ -197,9 +200,72 @@ t_ast_node *convert_token_to_cmd(t_token *token)
 		return (create_node(CMD_PARENTHESIS_OPEN, NULL));
 	else if (token->type == TOKEN_CLOSE_BRACKET)
 		return (create_node(CMD_PARENTHESIS_CLOSE, NULL));
+	else if (token->type == TOKEN_EOF)
+		return (create_node(CMD_EOF, NULL));
 	return (NULL);
 }
 
+void print_cmd_type(t_node_type type)
+{
+	if (type == CMD_SEQ)
+		printf("CMD_SEQ\n");
+	else if (type == CMD)
+		printf("CMD\n");
+	else if (type == CMD_TEXT)
+		printf("CMD_TEXT\n");
+	else if (type == CMD_VAR_TEXT)
+		printf("CMD_VAR_TEXT\n");
+	else if (type == CMD_LITERAL_TEXT)
+		printf("CMD_LITERAL_TEXT\n");
+	else if (type == CMD_AND)
+		printf("CMD_AND\n");
+	else if (type == CMD_OR)
+		printf("CMD_OR\n");
+	else if (type == CMD_PIPE)
+		printf("CMD_PIPE\n");
+	else if (type == CMD_PARENTHESIS_OPEN)
+		printf("CMD_PARENTHESIS_OPEN\n");
+	else if (type == CMD_PARENTHESIS_CLOSE)
+		printf("CMD_PARENTHESIS_CLOSE\n");
+	else if (type == CMD_EOF)
+		printf("CMD_EOF\n");
+}
+
+int get_seq_cmd(t_get_cmd_master args, t_dynamic_array *cmd_master, int *i, int *pos)
+{
+	t_dynamic_array *sub_cmd;
+	int count;
+
+	count = count_token_between_brackets(args.tokens, *i);
+	//printf("count: %d\n", count);
+	sub_cmd = get_cmd_master((t_get_cmd_master){args.tokens, *i, *i + count});
+	//printf("%d =---------------------\n", count);
+	//print_ast_json_wrapper(sub_cmd);
+	set_value(cmd_master, *pos, sub_cmd);
+	*i += count + 1;
+	return (1);
+}
+
+int get_parenthesis_cmd(t_get_cmd_master args, t_ast_node *cmd_master, int *i)
+{
+	t_dynamic_array *sub_cmd;
+	int sub_cmd_count;
+	int count;
+
+	sub_cmd_count = 0;
+	count = count_token_between_brackets(args.tokens, *i);
+	//printf("count: %d\n", count);
+	sub_cmd = get_cmd_master((t_get_cmd_master){args.tokens, *i, *i + count});
+	//printf("%d =---------------------\n", count);
+	//print_ast_json_wrapper(sub_cmd);
+	while (sub_cmd_count < sub_cmd->count)
+	{
+		add_child(cmd_master, (t_ast_node *)get_value(sub_cmd, sub_cmd_count));
+		sub_cmd_count++;
+	}
+	*i += count + 1;
+	return (1);
+}
 
 t_ast_node *get_cmd(t_dynamic_array *tokens, int *i, int end)
 {
@@ -210,12 +276,10 @@ t_ast_node *get_cmd(t_dynamic_array *tokens, int *i, int end)
 	if (*i >= end)
 		return (NULL);
 	token = (t_token *)get_value(tokens, *i);
-	if (!is_operator_token(*token))
+	if (is_text_token(*token))
 	{
-		//printf("i=%d\n",*i);
 		while (*i < end && !is_operator_token(*token))
 		{
-			//printf("token->value: %s\n", token->value);
 			if (!new_cmd)
 				new_cmd = create_node(CMD, NULL);
 			add_child(new_cmd, convert_token_to_cmd(token));
@@ -226,7 +290,6 @@ t_ast_node *get_cmd(t_dynamic_array *tokens, int *i, int end)
 	}
 	else
 	{
-		//printf("ERROR\n");
 		(*i)++;
 		return (convert_token_to_cmd(token));
 	}	
@@ -238,10 +301,10 @@ int	get_pipe_cmd(t_ast_node *cmd_master, t_get_cmd_master args, int *i, t_ast_no
 {
 	t_ast_node *cmd;
 
-	while (*i < args.tokens->count - 1)
+	while (*i < args.end)
 	{
 		cmd = get_cmd(args.tokens, i, args.end);
-		if (*i == args.tokens->count - 1)
+		if (*i == args.end)
 		{
 			add_child(cmd_master, cmd);
 			return (1);
@@ -272,10 +335,11 @@ int	get_and_cmd(t_ast_node *cmd_master, t_get_cmd_master args, int *i, t_ast_nod
 	int sub_cmd_count;
 
 	sub_cmd_count = 0;
-	while (*i < args.tokens->count - 1)
+	while (*i < args.end)
 	{
 		cmd = get_cmd(args.tokens, i, args.end);
-		if (*i == args.tokens->count - 1)
+		//print_cmd_type(cmd->type);
+		if (*i == args.end)
 		{
 			add_child(cmd_master, cmd);
 			return (1);
@@ -289,22 +353,7 @@ int	get_and_cmd(t_ast_node *cmd_master, t_get_cmd_master args, int *i, t_ast_nod
 			}
 		}
 		else if (cmd->type == CMD_PARENTHESIS_OPEN)
-		{
-			int count = count_token_between_brackets(args.tokens, *i);
-			sub_cmd = get_cmd_master((t_get_cmd_master){args.tokens, i, i + count});
-			while (sub_cmd_count < sub_cmd->count)
-			{
-				add_child(cmd_master, (t_ast_node *)get_value(sub_cmd, sub_cmd_count));
-				sub_cmd_count++;
-			}
-			*i += count + 1;
-			return (1);
-			
-		}
-		else if (cmd->type == CMD_PARENTHESIS_CLOSE)
-		{
-
-		}
+			get_parenthesis_cmd(args, cmd_master, i);
 		else if (cmd->type == CMD_AND)
 		{
 			(*i)--; // on revient en arrière pour traiter le AND
@@ -331,10 +380,10 @@ int	get_or_cmd(t_ast_node *cmd_master, t_get_cmd_master args, int *i, t_ast_node
 {
 	t_ast_node *cmd;
 
-	while (*i < args.tokens->count - 1)
+	while (*i < args.end)
 	{
 		cmd = get_cmd(args.tokens, i, args.end);
-		if (*i == args.tokens->count - 1)
+		if (*i == args.end)
 		{
 			add_child(cmd_master, cmd);
 			return (1);
@@ -348,13 +397,7 @@ int	get_or_cmd(t_ast_node *cmd_master, t_get_cmd_master args, int *i, t_ast_node
 			}
 		}
 		else if (cmd->type == CMD_PARENTHESIS_OPEN)
-		{
-
-		}
-		else if (cmd->type == CMD_PARENTHESIS_CLOSE)
-		{
-
-		}
+			get_parenthesis_cmd(args, cmd_master, i);
 		else if (cmd->type == CMD_AND)
 		{
 			(*i)--; // on revient en arrière pour traiter le AND
@@ -380,13 +423,21 @@ int	get_or_cmd(t_ast_node *cmd_master, t_get_cmd_master args, int *i, t_ast_node
 int count_token_between_brackets(t_dynamic_array *tokens, int i)
 {
 	int count;
+	int count_parenthesis_open;
+	int count_parenthesis_close;
 	t_token *token;
 
 	count = 0;
+	count_parenthesis_open = 1;
+	count_parenthesis_close = 0;
 	while (i < tokens->count - 1)
 	{
 		token = (t_token *)get_value(tokens, i);
-		if (token->type == TOKEN_CLOSE_BRACKET)
+		if (token->type == TOKEN_OPEN_BRACKET)
+			count_parenthesis_open++;
+		else if (token->type == TOKEN_CLOSE_BRACKET)
+			count_parenthesis_close++;
+		if (count_parenthesis_open == count_parenthesis_close)
 			return (count);
 		count++;
 		i++;
@@ -400,15 +451,19 @@ t_dynamic_array	*get_cmd_master(t_get_cmd_master args)
 	int pos;
 	t_ast_node *cmd_prev;
 	t_ast_node *cmd;
-	t_dynamic_array	*cmd_master = init_dynamic_array_malloc(20, NULL);
+	t_dynamic_array	*cmd_master = init_dynamic_array_malloc(40, NULL);
 	(void)args.end;
 
 	i = args.start;
 	pos = 0;
 	cmd_prev = NULL;
-	while (i < args.tokens->count - 1)
+	while (i < args.end)
 	{
 		cmd = get_cmd(args.tokens, &i, args.end);
+		if (i == args.end)
+		{
+			set_value(cmd_master, pos, cmd);
+		}
 		if (cmd->type == CMD_PIPE)
 		{
 			add_child(cmd, cmd_prev);
@@ -417,15 +472,6 @@ t_dynamic_array	*get_cmd_master(t_get_cmd_master args)
 				set_value(cmd_master, pos, cmd);
 				pos++;
 			}
-		}
-		else if (cmd->type == CMD_PARENTHESIS_OPEN)
-		{
-			//int count = count_token_between_brackets(args.tokens, i);
-			//get_cmd_master((t_get_cmd_master){args.tokens, i, i + count});
-		}
-		else if (cmd->type == CMD_PARENTHESIS_CLOSE)
-		{
-
 		}
 		else if (cmd->type == CMD_AND)
 		{
@@ -452,6 +498,10 @@ t_dynamic_array	*get_cmd_master(t_get_cmd_master args)
 				set_value(cmd_master, pos, cmd);
 				pos++;
 			}
+		}
+		else if (cmd->type == CMD_PARENTHESIS_OPEN)
+		{
+			get_seq_cmd(args, cmd_master, &i, &pos);
 		}
 		else
 		{
@@ -500,7 +550,10 @@ int main() {
 	//args = init_lexer_args("ls -l && echo 'hello' && cat file.txt | output.txt && echo 'jojo' || echo 'tata'");
 	//args = init_lexer_args("ls -l && echo 'hello' && cat file.txt | output.txt | momo.txt && echo 'jojo' || echo 'tata'");
 	//args = init_lexer_args("dzidziu\"$PATH\""); // ajouter les espaces au token
-	args = init_lexer_args("echo \"bonjour\" || cat file.txt | output.txt | momo.txt | toto.txt | jiji.txt && echo \"jojo\" && echo \"toto\"");
+	//args = init_lexer_args("echo \"bonjour\" && ( echo \"jojo\" && echo \"pipi\" ) || cat file.txt | output.txt | momo.txt | toto.txt | jiji.txt && echo \"jojo\" && echo \"toto\"");
+	//args = init_lexer_args("echo \"bonjour\" && ( echo \"jojo\" || ( echo \"lord\" && echo \"dart\" ) && (echo \"pipi\") )" );
+	args = init_lexer_args("( echo \"bonjour\" &&  echo \"jojo\" )");
+	args = init_lexer_args("(ls | cat)|cat|(g || ls)|wc");
 	status = lexer(&args);
 	if (status != COMMAND_VALID)
 	{

@@ -37,7 +37,7 @@ typedef struct s_print_ast_json_args
 
 t_ast_node  *init_node(t_node_type type, char *value);
 t_ast_node	*convert_token_to_cmd(t_token *token);
-void		add_child(t_ast_node *parent, t_ast_node *child);
+int         add_child(t_ast_node *parent, t_ast_node *child);
 void		print_ast_json_wrapper(t_dynamic_array *cmd);
 void		print_ast_json(t_print_ast_json_args args);
 void		print_cmd_type(t_node_type type);

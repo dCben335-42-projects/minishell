@@ -17,7 +17,7 @@ t_ast_node	*init_node(t_node_type type, char *value)
     return (node);
 }
 
-void add_child(t_ast_node *parent, t_ast_node *child)
+int add_child(t_ast_node *parent, t_ast_node *child)
 {
 	t_dynamic_array	*sub_cmd;
 
@@ -27,8 +27,9 @@ void add_child(t_ast_node *parent, t_ast_node *child)
 		set_value(sub_cmd, 0, child);
 		parent->content = sub_cmd;
 		parent->child_count = 2;
-		return ;
+		return (1);
 	}
 	set_value(parent->content, parent->child_count - 1, child);
 	parent->child_count++;
+	return (1);
 }

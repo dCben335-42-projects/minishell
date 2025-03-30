@@ -1,9 +1,9 @@
 #include "ast.h"
 
-t_ast_node *get_cmd(t_dynamic_array *tokens, int *i, int end)
+t_ast_node	*get_cmd(t_dynamic_array *tokens, int *i, int end)
 {
-	t_ast_node *new_cmd;
-	t_token *token;
+	t_ast_node	*new_cmd;
+	t_token		*token;
 
 	new_cmd = NULL;
 	if (*i >= end)
@@ -25,6 +25,6 @@ t_ast_node *get_cmd(t_dynamic_array *tokens, int *i, int end)
 	{
 		(*i)++;
 		return (convert_token_to_cmd(token));
-	}	
+	}
 	return (new_cmd);
 }

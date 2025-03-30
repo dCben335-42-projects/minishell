@@ -1,46 +1,50 @@
 #include "ast.h"
 
-int	get_or_and_cmd(t_ast_node *cmd_master, t_get_cmd_master args, int *i, t_ast_node **cmd_prev)
+void	get_or_and_cmd_wrapper(t_ast_node *cmd,
+	t_get_cmd_master args, int *i, t_ast_node **cmd_prev)
 {
-	t_ast_node *cmd;
+	if (*args.local_node_info.pos == 0)
+	{
+		set_value(
+			args.local_node_info.cmd_master,
+			*args.local_node_info.pos,
+			*cmd_prev
+			);
+		(*args.local_node_info.pos)++;
+	}
+	if (get_or_and_cmd(cmd, args, i, cmd_prev))
+	{
+		set_value(
+			args.local_node_info.cmd_master,
+			*args.local_node_info.pos,
+			cmd
+			);
+		(*args.local_node_info.pos)++;
+	}
+}
+
+int	get_or_and_cmd(t_ast_node *cmd_master,
+	t_get_cmd_master args, int *i, t_ast_node **cmd_prev)
+{
+	t_ast_node	*cmd;
 
 	while (*i < args.end)
 	{
 		cmd = get_cmd(args.tokens, i, args.end);
-		print_cmd_type(cmd->type);
 		if (*i == args.end)
-		{
-			add_child(cmd_master, cmd);
-			return (1);
-		}
+			return (add_child(cmd_master, cmd));
 		if (cmd->type == CMD_PIPE)
 		{
-			add_child(cmd, *cmd_prev);
+			add_previous_cmd(cmd, cmd_prev, i, FALSE);
 			if (get_pipe_cmd(cmd, args, i, cmd_prev) == 1)
-			{
 				add_child(cmd_master, cmd);
-			}
 		}
 		else if (cmd->type == CMD_PARENTHESIS_OPEN)
 			get_parenthesis_cmd(args, cmd_master, i);
-		else if (cmd->type == CMD_AND)
-		{
-			(*i)--; // on revient en arrière pour traiter le AND
-			if (*cmd_prev)
-				add_child(cmd_master, *cmd_prev);
-			return (1);
-		}
-		else if (cmd->type == CMD_OR)
-		{
-			(*i)--; // on revient en arrière pour traiter le OR
-			if (*cmd_prev)
-				add_child(cmd_master, *cmd_prev);
-			return (1);
-		}
+		else if (cmd->type == CMD_AND || cmd->type == CMD_OR)
+			return (add_previous_cmd(cmd_master, cmd_prev, i, TRUE));
 		else
-		{
 			*cmd_prev = cmd;
-		}
 	}
 	return (1);
 }

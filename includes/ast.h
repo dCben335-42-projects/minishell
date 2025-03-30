@@ -22,6 +22,7 @@
 typedef enum e_node_type 
 {
     CMD_SEQ,
+    CMD_PARENTHESIS,
     CMD,
     CMD_TEXT,
     CMD_VAR_TEXT,

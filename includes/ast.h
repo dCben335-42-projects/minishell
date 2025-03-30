@@ -1,64 +1,20 @@
 #ifndef AST_H
 # define AST_H
 
-# include "dynamic_array.h"
+# include "node.h"
 
-//typedef enum {
-//    NODE_CMD,
-//    NODE_AND,
-//    NODE_OR,
-//    NODE_PIPE,
-//    NODE_SEQ
-//} node_type;
-
-//typedef struct ast_node {
-//    node_type type;
-//    t_dynamic_array	*command;
-//    struct ast_node *left;
-//    struct ast_node *right;
-//} ast_node;
-
-
-typedef enum e_node_type 
+typedef struct	s_get_cmd_master
 {
-    CMD_SEQ,
-    CMD_PARENTHESIS,
-    CMD,
-    CMD_TEXT,
-    CMD_VAR_TEXT,
-    CMD_LITERAL_TEXT,
-    CMD_AND,
-    CMD_OR,
-    CMD_PIPE,
-    CMD_PARENTHESIS_OPEN,
-    CMD_PARENTHESIS_CLOSE,
-    CMD_EOF
-} t_node_type;
+    t_dynamic_array	*tokens;
+    int				start;
+    int				end;
+}	t_get_cmd_master;
 
-// Structure du nœud AST
-typedef struct s_ast_node
-{
-    t_node_type type;
-    //char *value;
-    //struct s_ast_node **children;
-    void    *content;
-    int     child_count;
-}   t_ast_node;
-
-typedef struct s_print_ast_json_args
-{
-    t_dynamic_array *cmd;
-    int depth;
-}   t_print_ast_json_args;
-
-typedef struct s_get_cmd_master
-{
-    t_dynamic_array *tokens;
-    int start;
-    int end;
-} t_get_cmd_master;
-
-//void	ast_builder(t_dynamic_array *tokens);
-t_ast_node  *create_node(t_node_type type, char *value);
+t_dynamic_array	*get_cmd_master(t_get_cmd_master args);
+t_ast_node		*get_cmd(t_dynamic_array *tokens, int *i, int end);
+int				get_pipe_cmd(t_ast_node *cmd_master, t_get_cmd_master args, int *i, t_ast_node **cmd_prev);
+int				get_or_and_cmd(t_ast_node *cmd_master, t_get_cmd_master args, int *i, t_ast_node **cmd_prev);
+int				get_parenthesis_cmd_master(t_get_cmd_master args, t_dynamic_array *array, int *i, int pos);
+int				get_parenthesis_cmd(t_get_cmd_master args, t_ast_node *cmd_master, int *i);
 
 #endif

@@ -14,6 +14,7 @@
 		"ast.h": "c",
 		"stdlib.h": "c",
 		"initializer_list": "c",
-		"dynamic_array.h": "c"
+		"dynamic_array.h": "c",
+		"node.h": "c"
 	}
 }

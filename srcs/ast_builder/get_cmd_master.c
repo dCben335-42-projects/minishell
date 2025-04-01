@@ -15,7 +15,9 @@ t_dynamic_array	*get_cmd_master(t_get_cmd_master args)
 	cmd_prev = NULL;
 	while (i < args.end)
 	{
+		//printf("get_cmd_master>--------------------\n");
 		cmd = get_cmd(args.tokens, &i, args.end);
+		//print_cmd_type(cmd->type);
 		if (i == args.end)
 			set_value(cmd_master, pos, cmd);
 		else if (cmd->type == CMD_PIPE)

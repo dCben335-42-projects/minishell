@@ -30,7 +30,9 @@ int	get_or_and_cmd(t_ast_node *cmd_master,
 
 	while (*i < args.end)
 	{
+		//printf("get_or_and_cmd>--------------------\n");
 		cmd = get_cmd(args.tokens, i, args.end);
+		//print_cmd_type(cmd->type);
 		if (*i == args.end)
 			return (add_child(cmd_master, cmd));
 		if (cmd->type == CMD_PIPE)

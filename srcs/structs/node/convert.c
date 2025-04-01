@@ -18,6 +18,14 @@ t_ast_node *convert_token_to_cmd(t_token *token)
 		return (init_node(CMD_PARENTHESIS_OPEN, NULL));
 	else if (token->type == TOKEN_CLOSE_BRACKET)
 		return (init_node(CMD_PARENTHESIS_CLOSE, NULL));
+	else if (token->type == TOKEN_REDIR_IN)
+		return (init_node(CMD_REDIR_IN, NULL));
+	else if (token->type == TOKEN_REDIR_OUT)
+		return (init_node(CMD_REDIR_OUT, NULL));
+	else if (token->type == TOKEN_APPEND)
+		return (init_node(CMD_APPEND, NULL));
+	else if (token->type == TOKEN_HEREDOC)
+		return (init_node(CMD_HEREDOC, NULL));
 	else if (token->type == TOKEN_EOF)
 		return (init_node(CMD_EOF, NULL));
 	return (NULL);

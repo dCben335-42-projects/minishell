@@ -9,6 +9,9 @@ int main() {
 	t_dynamic_array *tokens;
 	t_parse_status status;
 	t_lexer_args args;
+
+	//const char *command = "(ls | cat | ba && co | ga) | cat | josd | ls";
+	const char *command = "(ls | cat | ba >> co | ga) | cat | josd | ls";
 	
 	//args = init_lexer_args("true || (echo 'A' && echo 'B')");
 	//args = init_lexer_args("ls -l && echo 'hello' && cat file.txt | output.txt && echo 'jojo' || echo 'tata'");
@@ -17,10 +20,10 @@ int main() {
 	//args = init_lexer_args("echo \"bonjour\" && ( echo \"jojo\" && echo \"pipi\" ) || cat file.txt | output.txt | momo.txt | toto.txt | jiji.txt && echo \"jojo\" && echo \"toto\"");
 	//args = init_lexer_args("echo \"bonjour\" && ( echo \"jojo\" || ( echo \"lord\" && echo \"dart\" ) && (echo \"pipi\") )" );
 	//args = init_lexer_args("( echo \"bonjour\" &&  echo \"jojo\" )");
-	args = init_lexer_args("(ls | (cat) | (ba && co) | (ga)) |cat|josd|ls");
 	//args = init_lexer_args("( ls && cat file.txt && echo 'hello') || (echo 'jojo' && echo 'tata' && (echo 'toto' 'tata'))");
 	//args = init_lexer_args("echo \"bonjour\"");
 
+	args = init_lexer_args(command);
 	status = lexer(&args);
 	if (status != COMMAND_VALID)
 	{
@@ -28,7 +31,7 @@ int main() {
 		return (0);
 	}
 	print_tokens(&(&args)->tokens);
-
+	printf("command=%s\n", command);
 	tokens = &args.tokens;
 	cmd_master = get_cmd_master((t_get_cmd_master){tokens, 0, tokens->count - 1});
 	print_ast_json_wrapper(cmd_master);

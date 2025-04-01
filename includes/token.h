@@ -14,6 +14,7 @@ typedef enum e_token_type {
 	TOKEN_REDIR_IN,    // <
 	TOKEN_REDIR_OUT,   // >
 	TOKEN_APPEND,      // >>
+	TOKEN_HEREDOC,
 	TOKEN_BACKGROUND,  // &
 	TOKEN_PIPE_ERR,    // |&
 	TOKEN_QUOTE,       // '
@@ -40,5 +41,6 @@ t_token_type    get_token_type(const char *str, int *offset);
 t_token			*init_token(int token_type, const char *value, unsigned int start, size_t len);
 int				is_operator_token(t_token token);
 int				is_text_token(t_token token);
+int				is_redir_token(t_token token);
 
 #endif

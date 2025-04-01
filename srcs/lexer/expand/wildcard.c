@@ -14,146 +14,102 @@
 #include <stdlib.h>
 
 
-#include <dirent.h>
-#include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
 
-bool my_fnmatch(const char *pattern, const char *str)
+
+static size_t compute_length(char **strs, size_t count, t_bool need_space)
 {
-    if (*pattern == '\0')
-        return *str == '\0';
+	size_t	len;
 
-    if (*pattern == '*') {
-        while (*str) {
-            if (my_fnmatch(pattern + 1, str)) {
-                return true;
-            }
-            str++;
-        }
-        return my_fnmatch(pattern + 1, str);
-    }
-
-    if (*pattern == *str) {
-        return my_fnmatch(pattern + 1, str + 1);
-    }
-
-    return false;
+	if (count == 0)
+		return 0;
+	len = ft_strlen(*strs);
+	if (need_space && count > 1)
+		len += 1; 
+	return (len + compute_length(strs + 1, count - 1, need_space));
 }
 
-char *strjoin(const char *s1, const char *s2)
+static void concat_strings(char *dest, char **strs, size_t count, t_bool need_space)
 {
-    size_t len1 = strlen(s1);
-    size_t len2 = strlen(s2);
-    char *result = malloc(len1 + len2 + 1);
-    if (!result) return NULL;
-    strcpy(result, s1);
-    strcat(result, s2);
-    return result;
+	if (count == 0)
+		return;
+	ft_strcat(dest, *strs);
+	if (need_space && count > 1)
+		ft_strcat(dest, " ");
+	concat_strings(dest, strs + 1, count - 1, need_space);
 }
 
-char *get_wildcard_content(const char *path, const char *pattern)
+char *handle_concat(char **data, size_t count)
 {
     char *content;
-    char *tmp;
-    DIR *dirp;
-    struct dirent *entry;
+	
+	content = malloc(compute_length(data, count, TRUE) + 1);
+    if (!content)
+        return (NULL);
+    content[0] = '\0';
+    concat_strings(content, data, count, TRUE);
+    return (content);
+}
+
+char **get_wildcard_content(const char *path, const char *pattern, t_dynarray *arr)
+{
+	struct dirent	*entry;
+    DIR 			*dirp;
+	char			*copy;
 
     dirp = opendir(path);
     if (!dirp)
-        return NULL;
-
-    content = strdup("");
+        return (NULL);
     entry = readdir(dirp);
     while (entry) 
 	{
-		if (strcmp(entry->d_name, ".") == 0 || strcmp(entry->d_name, "..") == 0) {
+		if (strcmp(entry->d_name, ".") == 0 || strcmp(entry->d_name, "..") == 0)
+		{
             entry = readdir(dirp);
             continue;
         }
-        if (strcmp(pattern, "*") == 0 && entry->d_name[0] == '.') {
+        if (strcmp(pattern, "*") == 0 && entry->d_name[0] == '.')
+		{
             entry = readdir(dirp);
             continue;
         }
-        if (my_fnmatch(pattern, entry->d_name)) {
-            tmp = content;
-            content = strjoin(content, entry->d_name);
-            free(tmp);
-            tmp = content;
-            content = strjoin(content, " ");
-            free(tmp);
+        if (my_fnmatch(pattern, entry->d_name))
+        {
+            copy = strdup(entry->d_name);
+            if (!copy)
+            {
+                closedir(dirp);
+                return NULL;
+            }
+            set_dynarray_value(arr, arr->count, copy);
         }
         entry = readdir(dirp);
     }
     closedir(dirp);
+    return ((char **)arr->data);
+}
+
+void *handle_free(void *data)
+{
+	free(data);
+	return (NULL);
+}
+
+char *interpret_wildcard_pattern(t_shell *shell, const char *pattern)
+{
+	t_dynarray	arr;
+	char		*content;
+
+	arr = init_dynarray(1, (void *)(void *) &handle_free);
+	if (!get_wildcard_content(shell->current_path, pattern, &arr) || !arr.count)
+		return (destroy_dynarray(&arr));
+	ft_isort((char **)arr.data, arr.count, &ft_strcasecmp);
+	content = handle_concat((char **)arr.data, arr.count);
+	destroy_dynarray(&arr);
 	printf("content: %s\n", content);
-    return content;
-}
-
-int	compare_strings_case_insensitive(const char *a, const char *b)
-{
-	int	ca;
-	int	cb;
-
-    while (*a || *b) 
-	{
-        ca = ft_tolower(*a);
-        cb = ft_tolower(*b);
-        if (ca != cb)
-            return ca - cb;
-        a++;
-        b++;
-    }
-    return (ft_tolower(*a) - ft_tolower(*b));
-}
-
-void	insertion_sort(char **array, size_t	count, int (*cmp)(const char *, const char *))
-{
-	char	*key;
-    size_t	i;
-	ssize_t	j;
-
-	i = 1;
-	while (i < count)
-	{
-		key = array[i];
-		j = i - 1;
-		while (j >= 0 && cmp(array[j], key) > 0)
-		{
-            array[j + 1] = array[j];
-            j = j - 1;
-        }
-		array[j + 1] = key;
-		i++;
-	}
-}
-
-char *sort_wildcard_content(char **content)
-{
-	char	**files;
-	char	*sorted;
-	char	*tmp;
-	size_t	i;
-
-	files = ft_split(content, ' ');
-	if (!files)
-		return (NULL);
-	insertion_sort(files, ft_split_len(files), &compare_strings_case_insensitive);
-	i = 0;
-	while (files[i])
-	{
-		tmp = sorted;
-		sorted = strjoin(sorted, files[i]);
-		free(tmp);
-		tmp = sorted;
-		sorted = strjoin(sorted, " ");
-		free(tmp);
-		i++;
-	}
-	ft_handle_free_split(files);
 	return (content);
 }
-
 void	*expand_wildcard_token(t_shell *shell, void *data)
 {
 	t_token	*token;
@@ -161,7 +117,7 @@ void	*expand_wildcard_token(t_shell *shell, void *data)
 	token = (t_token *)data;
 	if (token->type == TOKEN_TEXT)
 	{
-		free(sort_wildcard_content(get_wildcard_content(shell->current_path, ".*")));
+		free(interpret_wildcard_pattern(shell, token->value));
 	}
 	return (NULL);
 }

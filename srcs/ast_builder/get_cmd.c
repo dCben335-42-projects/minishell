@@ -9,7 +9,7 @@ t_ast_node	*get_cmd(t_dynamic_array *tokens, int *i, int end)
 	if (*i >= end)
 		return (NULL);
 	token = (t_token *)get_value(tokens, *i);
-	if (is_text_token(*token) || is_redir_token(*token))
+	if (is_text_token(*token) || is_redir_token(*token) || token->type == TOKEN_SPACE)
 	{
 		while (*i < end && !is_operator_token(*token))
 		{

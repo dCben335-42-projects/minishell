@@ -8,9 +8,6 @@ int	get_pipe_cmd(t_ast_node *cmd_master, t_get_cmd_master args, int *i, t_ast_no
 	{
 		//printf("\nget_pipe_cmd>--------------------\n");
 		cmd = get_cmd(args.tokens, i, args.end);
-
-
-
 		//print_cmd_type(cmd->type);
 		if (*i == args.end)
 			return (add_child(cmd_master, cmd));

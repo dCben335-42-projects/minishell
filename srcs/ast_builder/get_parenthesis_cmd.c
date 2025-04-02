@@ -69,14 +69,18 @@ int	get_parenthesis_cmd_master(t_get_cmd_master args,
 	count = count_token_between_brackets(args.tokens, *i);
 	prev_cmd = convert_token_to_cmd(
 			(t_token *)get_value(args.tokens, *i + count + 1));
+	if (prev_cmd && prev_cmd->type == CMD_SPACE)
+		prev_cmd = convert_token_to_cmd((t_token *)get_value(args.tokens, *i + count + 2));
 	cmd_master = init_node(CMD_PARENTHESIS, NULL);
 	get_parenthesis_cmd(args, cmd_master, i);
 	if (prev_cmd && prev_cmd->type == CMD_PIPE)
 	{
 		add_child(prev_cmd, cmd_master);
+		cmd_master = NULL;
 		(*i)++;
 		if (get_pipe_cmd(prev_cmd, args, i, &cmd_master) == 1)
 			set_value(array, pos, prev_cmd);
+		//print_ast_json_wrapper(array);
 	}
 	else
 		set_value(array, pos, cmd_master);

@@ -11,7 +11,7 @@ int main() {
 	t_lexer_args args;
 
 	//const char *command = "(ls | cat | ba && co | ga) | cat | josd | ls";
-	const char *command = "(ls | cat | ba >> co | ga) | cat | josd | ls";
+	const char *command = "(ls | cat | ba << co | ga) | cat | josd | ls";
 	
 	//args = init_lexer_args("true || (echo 'A' && echo 'B')");
 	//args = init_lexer_args("ls -l && echo 'hello' && cat file.txt | output.txt && echo 'jojo' || echo 'tata'");

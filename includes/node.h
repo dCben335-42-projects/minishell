@@ -23,6 +23,7 @@ typedef enum e_node_type
     CMD_REDIR_IN,
     CMD_REDIR_OUT,
     CMD_HEREDOC,
+    CMD_SPACE,
     CMD_EOF
 } t_node_type;
 

@@ -26,6 +26,8 @@ t_ast_node *convert_token_to_cmd(t_token *token)
 		return (init_node(CMD_APPEND, NULL));
 	else if (token->type == TOKEN_HEREDOC)
 		return (init_node(CMD_HEREDOC, NULL));
+	else if (token->type == TOKEN_SPACE)
+		return (init_node(CMD_SPACE, NULL));
 	else if (token->type == TOKEN_EOF)
 		return (init_node(CMD_EOF, NULL));
 	return (NULL);

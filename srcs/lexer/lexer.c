@@ -40,6 +40,13 @@ static t_parse_status	get_parsing_error_status(t_token *token,
 	return (status);
 }
 
+static t_token *get_isspace_token(t_lexer_args *args, size_t *i)
+{
+	while (ft_isspace(args->input[*i]))
+		(*i)++;
+	return (init_token(TOKEN_SPACE, "", 0, 0));
+}
+
 t_parse_status	lexer(t_lexer_args *args)
 {
 	size_t			i;
@@ -51,8 +58,13 @@ t_parse_status	lexer(t_lexer_args *args)
 	i = 0;
 	while (args->input[i])
 	{
-		while (ft_isspace(args->input[i]))
-			i++;
+		if (ft_isspace(args->input[i]))
+		{
+			token = get_isspace_token(args, &i);
+			status = get_parsing_error_status(token, args, &i);
+			if (status != COMMAND_VALID)
+				return (status);
+		}
 		offset = 0;
 		type = get_token_type(&args->input[i], &offset);
 		token = get_token(args, &i, offset, type);

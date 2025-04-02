@@ -9,6 +9,7 @@ static const t_token_map	*get_operator_table(void)
 {
 	static const t_token_map	op_table[] = {
 	{">>", TOKEN_APPEND},
+	{"<<", TOKEN_HEREDOC},
 	{"||", TOKEN_OR},
 	{"|&", TOKEN_PIPE_ERR},
 	{"&&", TOKEN_AND},
@@ -16,7 +17,6 @@ static const t_token_map	*get_operator_table(void)
 	{"&", TOKEN_BACKGROUND},
 	{">", TOKEN_REDIR_OUT},
 	{"<", TOKEN_REDIR_IN},
-	{"<<", TOKEN_HEREDOC},
 	{";", TOKEN_SEMICOL},
 	{"'", TOKEN_QUOTE},
 	{"\"", TOKEN_DQUOTE},
@@ -77,6 +77,7 @@ const char	*get_token_type_name(const t_token_type type)
 		"DQUOTE",
 		"OPEN_BRACKET",
 		"CLOSE_BRACKET",
+		"SPACE",
 		"UNKNOWN",
 		"EOF",
 	};

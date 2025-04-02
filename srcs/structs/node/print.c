@@ -55,7 +55,8 @@ t_ast_print_mapping *get_mappings()
         {CMD_REDIR_IN, "CMD_REDIR_IN", 1},
         {CMD_REDIR_OUT, "CMD_REDIR_OUT", 1},
         {CMD_APPEND, "CMD_APPEND", 1},
-        {CMD_HEREDOC, "CMD_HEREDOC", 1}
+        {CMD_HEREDOC, "CMD_HEREDOC", 1},
+		{CMD_SPACE, "CMD_SPACE", 1}
     };
 
     return (mappings);

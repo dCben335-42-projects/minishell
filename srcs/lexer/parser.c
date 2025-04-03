@@ -1,24 +1,5 @@
 #include "parser_lexer.h"
 
-static size_t	ft_strcat(char *dest, const char *src)
-{
-	size_t	i;
-	size_t	j;
-
-	i = 0;
-	j = 0;
-	while (dest[i])
-		i++;
-	while (src[j])
-	{
-		dest[i] = src[j];
-		i++;
-		j++;
-	}
-	dest[i] = '\0';
-	return (i);
-}
-
 static t_parse_status	get_error_message(t_token *token, char **error)
 {
 	const size_t	msg_len

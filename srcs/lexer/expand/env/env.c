@@ -87,7 +87,7 @@ static char	*create_new_value(const char *str, char *new_value, t_shell *shell)
             if (key_len)
 			{
 				if (!copy_env_value(str, key_len, shell, new_value + i))
-					return (ft_handle_free((void **)new_value));
+					return (ft_free((void **)new_value));
 				str += key_len;
 				i += ft_strlen(new_value + i);
 				continue;

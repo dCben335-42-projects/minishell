@@ -37,7 +37,7 @@ t_pipex	init_pipex(char *input)
 
 void	*destroy_pipex(t_pipex *pipex)
 {
-	ft_handle_free_split(pipex->cmds);
+	ft_free_split(pipex->cmds);
 	return (NULL);
 }
 
@@ -46,7 +46,7 @@ void	exec_cmd(char **argv, t_pipex *pipex)
 {
 	execve(argv[0], argv, NULL);
 	perror("execve");
-	ft_handle_free_split(argv);
+	ft_free_split(argv);
 	destroy_pipex(pipex);
 	exit(EXIT_FAILURE);
 }
@@ -148,13 +148,13 @@ void execute_pipex(t_pipex *pipex)
 			cmd[0] = get_full_cmd_path(cmd, pipex->paths);
 			if (!is_valid_cmd_path(cmd[0], &pipex->exit_code))
 			{
-				ft_handle_free_split(cmd);
+				ft_free_split(cmd);
 				destroy_pipex(pipex);
 				exit(pipex->exit_code);
 			}
             execvp(cmd[0], cmd);
 			perror("execvp");
-			ft_handle_free_split(cmd);
+			ft_free_split(cmd);
 			destroy_pipex(pipex);
 			exit(EXIT_FAILURE);
         }

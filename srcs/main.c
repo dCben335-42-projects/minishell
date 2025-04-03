@@ -27,14 +27,14 @@ void	handle_command(t_shell *shell, char **args)
 		tmp = path;
 		if (path)
 			path = ft_strjoin(path, args[0]);
-		ft_handle_free((void **)&tmp);
+		ft_free((void **)&tmp);
 		p_ptr((void *)path, ERROR_MALLOC);
 		if (path && !access(path, F_OK) && execute_cmd(path, args))
 			break ;
 		free(path);
 		i++;
 	}
-	ft_handle_free_split(paths);
+	ft_free_split(paths);
 }
 
 

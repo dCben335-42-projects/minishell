@@ -9,6 +9,7 @@ t_dynamic_array	init_dynamic_array(t_uint size, void *(*free_func)(void *))
 	arr.size = size;
 	arr.count = 0;
 	arr.free_func = free_func;
+	arr.is_malloc = FALSE;
 	return (arr);
 }
 
@@ -21,5 +22,6 @@ t_dynamic_array	*init_dynamic_array_malloc(t_uint size, void *(*free_func)(void 
 	arr->size = size;
 	arr->count = 0;
 	arr->free_func = free_func;
+	arr->is_malloc = TRUE;
 	return (arr);
 }

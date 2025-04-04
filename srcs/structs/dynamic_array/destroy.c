@@ -16,5 +16,14 @@ void	*destroy_dynamic_array(t_dynamic_array *arr)
 		}
 	}
 	free(arr->data);
+	if (arr->is_malloc == TRUE)
+		free(arr);
+	return (NULL);
+}
+
+void	*destroy_dynamic_array_malloc(t_dynamic_array *arr)
+{
+	destroy_dynamic_array(arr);
+	free(arr);
 	return (NULL);
 }

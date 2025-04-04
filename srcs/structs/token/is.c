@@ -10,6 +10,14 @@ int	is_operator_token(t_token token)
 		|| type == TOKEN_PIPE_ERR);
 }
 
+int is_parenthesis_token(t_token token)
+{
+	t_token_type	type;
+
+	type = token.type;
+	return (type == TOKEN_OPEN_BRACKET || type == TOKEN_CLOSE_BRACKET);
+}
+
 int is_text_token(t_token token)
 {
 	t_token_type	type;

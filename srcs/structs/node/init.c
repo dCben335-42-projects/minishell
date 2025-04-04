@@ -23,7 +23,7 @@ int add_child(t_ast_node *parent, t_ast_node *child)
 
 	if (parent->child_count == 0)
 	{
-		sub_cmd = init_dynamic_array_malloc(40, NULL);
+		sub_cmd = init_dynamic_array_malloc(80, (void *(*)(void *))recursive_destroy_node);
 		set_value(sub_cmd, 0, child);
 		parent->content = sub_cmd;
 		parent->child_count = 2;
@@ -31,5 +31,12 @@ int add_child(t_ast_node *parent, t_ast_node *child)
 	}
 	set_value(parent->content, parent->child_count - 1, child);
 	parent->child_count++;
+	return (1);
+}
+
+int add_childs(t_ast_node *parent, t_dynamic_array *child)
+{
+	parent->content = child;
+	parent->child_count = child->count + 1;
 	return (1);
 }

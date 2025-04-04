@@ -54,5 +54,8 @@ int         add_child(t_ast_node *parent, t_ast_node *child);
 void		print_ast_json_wrapper(t_dynamic_array *cmd);
 void		print_ast_json(t_print_ast_json_args args);
 void		print_cmd_type(t_node_type type);
+void        *destroy_node(t_ast_node *node);
+void        *recursive_destroy_node(t_ast_node *node);
+int         add_childs(t_ast_node *parent, t_dynamic_array *child);
 
 #endif

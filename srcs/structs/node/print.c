@@ -76,7 +76,6 @@ void print_ast_json(t_print_ast_json_args args)
     int i;
 	int j;
     t_ast_node *node;
-    int mapping_count;
     
     if (!args.cmd)
         return;
@@ -85,7 +84,7 @@ void print_ast_json(t_print_ast_json_args args)
     {
         node = (t_ast_node *)get_value(args.cmd, i);
 		j = 0;
-        while (j < mapping_count)
+        while (j >= 0)
 		{
             if (node->type == args.mappings[j].type)
 			{

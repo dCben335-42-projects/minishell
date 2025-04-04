@@ -6,7 +6,8 @@ t_dynamic_array	*get_cmd_master(t_get_cmd_master args)
 	int pos;
 	t_ast_node *cmd_prev;
 	t_ast_node *cmd;
-	t_dynamic_array	*cmd_master = init_dynamic_array_malloc(40, NULL);
+	t_dynamic_array	*cmd_master = init_dynamic_array_malloc(80, (void *(*)(void *))recursive_destroy_node); // 1
+	t_bool is_empty;
 
 	i = args.start;
 	pos = 0;
@@ -15,9 +16,14 @@ t_dynamic_array	*get_cmd_master(t_get_cmd_master args)
 	cmd_prev = NULL;
 	while (i < args.end)
 	{
-		//printf("get_cmd_master>--------------------\n");
-		cmd = get_cmd(args.tokens, &i, args.end);
-		//print_cmd_type(cmd->type);
+		cmd = get_cmd(args.tokens, &i, args.end, &is_empty);
+		if (is_empty)
+		{
+			is_empty = FALSE;
+			continue ;
+		}
+		if (cmd == NULL)
+			return (NULL);
 		if (i == args.end)
 			set_value(cmd_master, pos, cmd);
 		else if (cmd->type == CMD_PIPE)
@@ -31,9 +37,24 @@ t_dynamic_array	*get_cmd_master(t_get_cmd_master args)
 			}
 		}
 		else if (cmd->type == CMD_AND || cmd->type == CMD_OR)
+		{
+			if (cmd_prev)
+			{
+				set_value(cmd_master, pos, cmd_prev);
+				cmd_prev = NULL;
+				pos++;
+			}
 			get_or_and_cmd_wrapper(cmd, args, &i, &cmd_prev);
+		}
 		else if (cmd->type == CMD_PARENTHESIS_OPEN)
 		{
+			free(cmd);
+			if (cmd_prev)
+			{
+				set_value(cmd_master, pos, cmd_prev);
+				cmd_prev = NULL;
+				pos++;
+			}
 			get_parenthesis_cmd_master(args, cmd_master, &i, pos);
 			pos++;
 		}

@@ -1,6 +1,12 @@
 #include "dynarray.h"
 #include "libft.h"
 
+void	*basic_destroyer(void *data)
+{
+	free(data);
+	return (NULL);
+}
+
 void	*destroy_dynarray(t_dynarray *arr)
 {
 	size_t	i;

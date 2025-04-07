@@ -22,16 +22,6 @@ t_bool	ft_ispath(const char *str)
 	return (FALSE);
 }
 
-char	*extract_path(const char *str)
-{
-    size_t i;
-
-	i = 0;
-    while (str[i] && (str[i] == '/' || str[i] == '.'))
-        i++;
-    return (ft_substr(str, 0, i));
-}
-
 /**
  * @brief Adds a prefix to each string in the array.
  *
@@ -91,32 +81,7 @@ void	*handle_free(void *data)
 }
 
 
-char *create_new_path(const char *path, const char *current_path)
-{
-	const char *args[3] = {current_path, "/", path};
-	char *tmp;
 
-	tmp = ft_strsjoin(args, 3, FALSE);
-	free((char *) path);
-	if (!tmp)
-		return (NULL);
-	return (tmp);
-}
-
-char *get_right_path(const char **pattern, const char *current_path, char **extracted_path)
-{
-	const char	*path = extract_path(*pattern);
-
-	if (!path)
-		return (NULL);
-	*pattern += ft_strlen(path);
-	*extracted_path = ft_strdup(path);
-	if (!*extracted_path)
-		return (ft_free((void *) &path));
-	if (*path == '/')
-		return ((char *) path);
-	return (create_new_path(path, current_path));
-}
 
 static void *free_interpret_wildcard_pattern(t_dynarray *arr, char *path, char *extracted_path)
 {

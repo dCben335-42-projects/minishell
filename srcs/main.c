@@ -7,35 +7,35 @@
 #include "dynamic_array.h"
 #include "cmd.h"
 
-void	handle_command(t_shell *shell, char **args)
-{
-	const t_env	*node = get_env_node(shell->env, PATH_KEY);
-	char		**paths;
-	char		*path;
-	char		*tmp;
-	size_t		i;
+// void	handle_command(t_shell *shell, char **args)
+// {
+// 	const t_env	*node = get_env_node(shell->env, PATH_KEY);
+// 	char		**paths;
+// 	char		*path;
+// 	char		*tmp;
+// 	size_t		i;
 
-	if (!s_ptr((void *)node, ERR_NOT_FOUND))
-		return ;
-	paths = ft_split(node->value, ':');
-	if (!s_ptr((void *)paths, ERROR_MALLOC))
-		return ;
-	i = 0;
-	while (paths[i])
-	{
-		path = ft_strjoin(paths[i], "/");
-		tmp = path;
-		if (path)
-			path = ft_strjoin(path, args[0]);
-		ft_handle_free((void **)&tmp);
-		p_ptr((void *)path, ERROR_MALLOC);
-		if (path && !access(path, F_OK) && execute_cmd(path, args))
-			break ;
-		free(path);
-		i++;
-	}
-	ft_handle_free_split(paths);
-}
+// 	if (!s_ptr((void *)node, ERR_NOT_FOUND))
+// 		return ;
+// 	paths = ft_split(node->value, ':');
+// 	if (!s_ptr((void *)paths, ERROR_MALLOC))
+// 		return ;
+// 	i = 0;
+// 	while (paths[i])
+// 	{
+// 		path = ft_strjoin(paths[i], "/");
+// 		tmp = path;
+// 		if (path)
+// 			path = ft_strjoin(path, args[0]);
+// 		ft_free_split((char **)&tmp);
+// 		p_ptr((void *)path, ERROR_MALLOC);
+// 		if (path && !access(path, F_OK) && execute_cmd(path, args))
+// 			break ;
+// 		free(path);
+// 		i++;
+// 	}
+// 	ft_free_split_split(paths);
+// }
 
 
 static void handle_loop(t_shell *shell)
@@ -61,7 +61,7 @@ static void handle_loop(t_shell *shell)
 		//if (args[0])
 		//	if (!is_builtin(args, shell))
 		//		handle_command(shell, args);
-		//ft_handle_free_split(args);
+		//ft_free_split_split(args);
 		printf("exit code: %d\n", shell->exit_code);
 	}
 }

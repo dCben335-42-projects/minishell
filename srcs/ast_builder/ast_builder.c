@@ -27,9 +27,40 @@ int main() {
 	//const char *command = "(((echo 'salut')&&(echo 'hello'))&& echo 'bonjour')";
 	//const char *command = "(((echo 'salut')&&(echo 'hello'))&&echo 'bonjour')";
 	//const char *command = "( ( ( echo 'salut' ) ) && echo 'bonjour' )";
-	const char *command = "( ls && cat file.txt && echo 'hello') || (echo 'jojo' && echo 'tata' && (echo 'toto' 'tata'))";
-
+	// const char *command = "find ~ -type f -size +100M -print0 | tar --null -czf - --files-from=- | openssl enc -aes-256-cbc -salt -pass pass:secret -out ~/backup.enc && sha256sum ~/backup.enc >> ~/sha256.log && notify-send \"Backup\" \"Done\"";
 	
+	// const char *command = "(find ~ -type f -size +50M ! -name \"*.mp4\" -print0 | tar --null -czf - --files-from=-) \
+	// | 	( \
+	// 	openssl enc -aes-256-cbc -salt -pass pass:secret -out \
+	// 	&& archive=~/backup_$(date +%Y%m%d_%H%M%S).enc \
+	// 	&& 	( \
+	// 			du -h \"$archive\" \
+	// 			&& sha256sum \"$archive\" \
+	// 	 	) \
+	// 		>> ~/backup.log \
+	// 	&& notify-send \"✅ Backup Success\" \"$archive archived & encrypted\" \
+	// 	) \
+	// || (notify-send \"❌ Backup Failed\" \"An error occurred during backup\")";
+
+	// const char *command =
+	// "bash -c "
+	// "log=~/backup.log && "
+	// "timestamp=$(date +%Y%m%d_%H%M%S) && "
+	// "archive=~/backup_$timestamp.enc && "
+	// "find ~ -type f -size +50M ! -name \\\"*.mp4\\\" -print0 "
+	// "| tar --null -czf - --files-from=- "
+	// "| openssl enc -aes-256-cbc -salt -pass pass:secret -out $archive "
+	// "&& du -h $archive >> $log "
+	// "&& sha256sum $archive >> $log "
+	// "&& echo [✔] Backup created at $(date) >> $log "
+	// "&& notify-send \\\"✅ Backup\\\" \\\"Success: $archive\\\" "
+	// "|| (echo [✘] Backup failed at $(date) >> $log && notify-send \\\"❌ Backup\\\" \\\"Failure: See log\\\")"
+	// "";
+	
+	const char *command = "echo";
+	
+	
+
 	//args = init_lexer_args("true || (echo 'A' && echo 'B')");
 	//args = init_lexer_args("ls -l && echo 'hello' && cat file.txt | output.txt && echo 'jojo' || echo 'tata'");
 	//args = init_lexer_args("ls -l && echo 'hello' && cat file.txt | output.txt | momo.txt && echo 'jojo' || echo 'tata'");

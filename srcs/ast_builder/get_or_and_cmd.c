@@ -5,7 +5,7 @@ void	get_or_and_cmd_wrapper(t_ast_node *cmd,
 {
 	if (get_or_and_cmd(cmd, args, i, cmd_prev))
 	{
-		set_value(
+		set_dynarray_value(
 			args.local_node_info.cmd_master,
 			*args.local_node_info.pos,
 			cmd

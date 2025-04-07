@@ -25,14 +25,14 @@ t_dynamic_array	*get_cmd_master(t_get_cmd_master args)
 		if (cmd == NULL)
 			return (NULL);
 		if (i == args.end)
-			set_value(cmd_master, pos, cmd);
+			set_dynarray_value(cmd_master, pos, cmd);
 		else if (cmd->type == CMD_PIPE)
 		{
 			add_child(cmd, cmd_prev);
 			cmd_prev = NULL;
 			if (get_pipe_cmd(cmd, args, &i, &cmd_prev) == 1)
 			{
-				set_value(cmd_master, pos, cmd);
+				set_dynarray_value(cmd_master, pos, cmd);
 				pos++;
 			}
 		}
@@ -40,7 +40,7 @@ t_dynamic_array	*get_cmd_master(t_get_cmd_master args)
 		{
 			if (cmd_prev)
 			{
-				set_value(cmd_master, pos, cmd_prev);
+				set_dynarray_value(cmd_master, pos, cmd_prev);
 				cmd_prev = NULL;
 				pos++;
 			}
@@ -51,7 +51,7 @@ t_dynamic_array	*get_cmd_master(t_get_cmd_master args)
 			free(cmd);
 			if (cmd_prev)
 			{
-				set_value(cmd_master, pos, cmd_prev);
+				set_dynarray_value(cmd_master, pos, cmd_prev);
 				cmd_prev = NULL;
 				pos++;
 			}

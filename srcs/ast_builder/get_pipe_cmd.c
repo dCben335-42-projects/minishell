@@ -24,7 +24,10 @@ int	get_pipe_cmd(t_ast_node *cmd_master, t_get_cmd_master args, int *i, t_ast_no
 			free(cmd);
 		}
 		else if (cmd->type == CMD_PARENTHESIS_OPEN)
+		{
+			destroy_node(cmd);
 			get_parenthesis_cmd(args, cmd_master, i);
+		}
 		else if (cmd->type != CMD)
 			return (add_previous_cmd(cmd_master, cmd_prev, i, cmd));
 		else

@@ -65,12 +65,12 @@ int	get_parenthesis_cmd_master(t_get_cmd_master args,
 		add_child_secure(prev_cmd, &cmd_master);
 		(*i)++;
 		if (get_pipe_cmd(prev_cmd, args, i, &cmd_master) == 1)
-			set_value(array, pos, prev_cmd);
+			set_dynarray_value(array, pos, prev_cmd);
 	}
 	else
 	{
 		free(prev_cmd);
-		set_value(array, pos, cmd_master);
+		set_dynarray_value(array, pos, cmd_master);
 	}
 }
 

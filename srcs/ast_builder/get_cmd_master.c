@@ -16,7 +16,14 @@ t_dynamic_array	*get_cmd_master(t_get_cmd_master args)
 	cmd_prev = NULL;
 	while (i < args.end)
 	{
-		cmd = get_cmd(args.tokens, &i, args.end, &is_empty);
+		if (*(args.has_malloc_error) == TRUE)
+		{
+			printf("bool: %d", *(args.has_malloc_error));
+			printf("i=%d", i);
+			printf("malloc error\n");
+			return (cmd_master);
+		}
+		cmd = get_cmd(args, &i, &is_empty);
 		if (is_empty)
 		{
 			is_empty = FALSE;
@@ -25,14 +32,13 @@ t_dynamic_array	*get_cmd_master(t_get_cmd_master args)
 		if (cmd == NULL)
 			return (NULL);
 		if (i == args.end)
-			set_dynarray_value(cmd_master, pos, cmd);
+			set_dynarray_value_secure(cmd_master, pos, cmd, args);
 		else if (cmd->type == CMD_PIPE)
 		{
-			add_child(cmd, cmd_prev);
-			cmd_prev = NULL;
+			add_child_secure(cmd, &cmd_prev, args);
 			if (get_pipe_cmd(cmd, args, &i, &cmd_prev) == 1)
 			{
-				set_dynarray_value(cmd_master, pos, cmd);
+				set_dynarray_value_secure(cmd_master, pos, cmd, args);
 				pos++;
 			}
 		}
@@ -40,7 +46,7 @@ t_dynamic_array	*get_cmd_master(t_get_cmd_master args)
 		{
 			if (cmd_prev)
 			{
-				set_dynarray_value(cmd_master, pos, cmd_prev);
+				set_dynarray_value_secure(cmd_master, pos, cmd_prev, args);
 				cmd_prev = NULL;
 				pos++;
 			}
@@ -51,7 +57,7 @@ t_dynamic_array	*get_cmd_master(t_get_cmd_master args)
 			free(cmd);
 			if (cmd_prev)
 			{
-				set_dynarray_value(cmd_master, pos, cmd_prev);
+				set_dynarray_value_secure(cmd_master, pos, cmd_prev, args);
 				cmd_prev = NULL;
 				pos++;
 			}

@@ -28,7 +28,7 @@ static void	**ft_realloc(t_dynamic_array *arr, size_t new_size)
 	return (new);
 }
 
-void	set_dynarray_value(t_dynamic_array *arr, t_uint index, void *value)
+void	*set_dynarray_value(t_dynamic_array *arr, t_uint index, void *value)
 {
 	t_uint	new_size;
 
@@ -37,9 +37,10 @@ void	set_dynarray_value(t_dynamic_array *arr, t_uint index, void *value)
 		new_size = arr->size * 2;
 		arr->data = ft_realloc(arr, new_size);
 		if (!arr->data)
-			return ;
+			return (NULL);
 		arr->size = new_size;
 	}
 	arr->count++;
 	arr->data[index] = value;
+	return (arr->data[index]);
 }

@@ -9,6 +9,7 @@ int main() {
 	t_dynamic_array *tokens;
 	t_parse_status status;
 	t_lexer_args args;
+	t_get_cmd_master cmd_master_params;
 
 	//const char *command = "(ls | cat | ba && co | ga) | cat | josd | ls";
 	//const char *command = "(ls | cat | ba << co | ga) | cat | josd | ls";
@@ -26,7 +27,7 @@ int main() {
 	//const char *command = "echo 'bonjour' && ( echo no )";
 	//const char *command = "(((echo 'salut')&&(echo 'hello'))&& echo 'bonjour')";
 	//const char *command = "(((echo 'salut')&&(echo 'hello'))&&echo 'bonjour')";
-	//const char *command = "( ( ( echo 'salut' ) ) && echo 'bonjour' )";
+	const char *command = "( ( ( echo 'salut' ) ) && echo 'bonjour' )";
 	// const char *command = "find ~ -type f -size +100M -print0 | tar --null -czf - --files-from=- | openssl enc -aes-256-cbc -salt -pass pass:secret -out ~/backup.enc && sha256sum ~/backup.enc >> ~/sha256.log && notify-send \"Backup\" \"Done\"";
 	
 	// const char *command = "(find ~ -type f -size +50M ! -name \"*.mp4\" -print0 | tar --null -czf - --files-from=-) \
@@ -57,7 +58,7 @@ int main() {
 	// "|| (echo [✘] Backup failed at $(date) >> $log && notify-send \\\"❌ Backup\\\" \\\"Failure: See log\\\")"
 	// "";
 	
-	const char *command = "echo";
+	//const char *command = "echo";
 	
 	
 
@@ -82,8 +83,16 @@ int main() {
 	printf("command=%s\n", command);
 	tokens = &args.tokens;
 
-	cmd_master = get_cmd_master((t_get_cmd_master){tokens, 0, tokens->count - 1});
-	print_ast_json_wrapper(cmd_master);
+	t_bool has_malloc_error = FALSE;
+
+	cmd_master_params = (t_get_cmd_master){tokens, 0, tokens->count - 1};
+	cmd_master_params.has_malloc_error = &has_malloc_error;
+
+	cmd_master = get_cmd_master(cmd_master_params);
+	if (!cmd_master)
+		printf("Malloc error \n");
+	else
+		print_ast_json_wrapper(cmd_master);
 	destroy_dynamic_array(cmd_master);
 	destroy_dynamic_array(tokens);
 

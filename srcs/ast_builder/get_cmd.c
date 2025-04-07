@@ -35,23 +35,24 @@ int count_new_cmd_child(int *i, int end, t_dynamic_array *tokens, t_bool *is_fin
 	return (count);
 }
 
-t_ast_node	*get_cmd(t_dynamic_array *tokens, int *i, int end, t_bool *is_empty)
+t_ast_node	*get_cmd(t_get_cmd_master args, int *i, t_bool *is_empty)
 {
 	t_ast_node	*new_cmd;
 	t_token		*token;
 	int count;
 	t_bool		is_finished_by_space;
+	t_ast_node	*temp_cmd;
 
 	*is_empty = FALSE;
 	new_cmd = NULL;
-	if (*i >= end)
+	if (*i >= args.end)
 		return (NULL);
-	token = (t_token *)get_value(tokens, *i);
+	token = (t_token *)get_value(args.tokens, *i);
 	if (is_text_token(*token) || is_redir_token(*token) || token->type == TOKEN_SPACE)
 	{
-		count = count_new_cmd_child(i, end, tokens, &is_finished_by_space);
+		count = count_new_cmd_child(i, args.end, args.tokens, &is_finished_by_space);
 		if (count > 0)
-			new_cmd = init_node(CMD, NULL);
+			new_cmd = init_node_secure(CMD, NULL, args);
 		else 
 		{
 			*is_empty = TRUE;
@@ -59,8 +60,9 @@ t_ast_node	*get_cmd(t_dynamic_array *tokens, int *i, int end, t_bool *is_empty)
 		}
 		while (count--)
 		{
-			token = (t_token *)get_value(tokens, *i);
-			add_child(new_cmd, convert_token_to_cmd(token));
+			token = (t_token *)get_value(args.tokens, *i);
+			temp_cmd = convert_token_to_cmd_secure(token, args);
+			add_child_secure(new_cmd, &temp_cmd, args);
 			(*i)++;
 		}
 		if (is_finished_by_space)
@@ -69,7 +71,7 @@ t_ast_node	*get_cmd(t_dynamic_array *tokens, int *i, int end, t_bool *is_empty)
 	else
 	{
 		(*i)++;
-		return (convert_token_to_cmd(token));
+		return (convert_token_to_cmd_secure(token, args));
 	}
 	return (new_cmd);
 }

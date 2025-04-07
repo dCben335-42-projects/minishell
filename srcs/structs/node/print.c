@@ -22,7 +22,7 @@ void print_ast_node_json(t_ast_node *node, int i, const char *node_type, t_print
 			print_indentation(args.depth);
 			printf("}");
 		}
-		if (node->child_count > 1)
+		if (node->child_count > 2)
 		{
 			printf("[\n");
 			print_ast_json((t_print_ast_json_args){(t_dynamic_array *)node->content, args.depth + 4, args.mappings});

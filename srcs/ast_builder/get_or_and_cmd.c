@@ -3,15 +3,13 @@
 void	get_or_and_cmd_wrapper(t_ast_node *cmd,
 	t_get_cmd_master args, int *i, t_ast_node **cmd_prev)
 {
-	if (get_or_and_cmd(cmd, args, i, cmd_prev))
-	{
-		set_dynarray_value(
-			args.local_node_info.cmd_master,
-			*args.local_node_info.pos,
-			cmd
-			);
-		(*args.local_node_info.pos)++;
-	}
+	get_or_and_cmd(cmd, args, i, cmd_prev);
+	set_dynarray_value(
+		args.local_node_info.cmd_master,
+		*args.local_node_info.pos,
+		cmd
+		);
+	(*args.local_node_info.pos)++;
 }
 
 int	get_or_and_cmd(t_ast_node *cmd_master,
@@ -22,7 +20,8 @@ int	get_or_and_cmd(t_ast_node *cmd_master,
 
 	while (*i < args.end)
 	{
-		cmd = get_cmd(args.tokens, i, args.end, &is_empty);
+		cmd = get_cmd(args, i, &is_empty);
+		//simulate_malloc_failure(&cmd);
 		if (is_empty)
 		{
 			is_empty = FALSE;
@@ -31,21 +30,21 @@ int	get_or_and_cmd(t_ast_node *cmd_master,
 		if (cmd == NULL)
 			return (1);
 		if (*i == args.end)
-			return (add_child(cmd_master, cmd));
+			return (add_child_secure(cmd_master, &cmd, args));
 		if (cmd->type == CMD_PIPE)
 		{
-			add_previous_cmd(cmd, cmd_prev, i, NULL);
+			add_previous_cmd(cmd, cmd_prev, i, NULL, args);
 			if (get_pipe_cmd(cmd, args, i, cmd_prev) == 1)
-				add_child(cmd_master, cmd);
+				add_child_secure(cmd_master, &cmd, args);
 		}
 		else if (cmd->type == CMD_PARENTHESIS_OPEN)
 		{
 			free(cmd);
-			add_previous_cmd(cmd_master, cmd_prev, i, NULL);
+			add_previous_cmd(cmd_master, cmd_prev, i, NULL, args);
 			get_parenthesis_cmd(args, cmd_master, i);
 		}
 		else if (cmd->type == CMD_AND || cmd->type == CMD_OR)
-			return (add_previous_cmd(cmd_master, cmd_prev, i, cmd));
+			return (add_previous_cmd(cmd_master, cmd_prev, i, cmd, args));
 		else
 			*cmd_prev = cmd;
 	}

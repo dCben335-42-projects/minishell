@@ -9,7 +9,7 @@ int main() {
 	t_dynamic_array *tokens;
 	t_parse_status status;
 	t_lexer_args args;
-	t_get_cmd_master cmd_master_params;
+	t_get_cmd_master *cmd_master_params;
 
 	//const char *command = "(ls | cat | ba && co | ga) | cat | josd | ls";
 	//const char *command = "(ls | cat | ba << co | ga) | cat | josd | ls";
@@ -83,12 +83,16 @@ int main() {
 	printf("command=%s\n", command);
 	tokens = &args.tokens;
 
-	t_bool has_malloc_error = FALSE;
+	t_bool	has_malloc_error = FALSE;
 
-	cmd_master_params = (t_get_cmd_master){tokens, 0, tokens->count - 1};
-	cmd_master_params.has_malloc_error = &has_malloc_error;
-
+	cmd_master_params = init_t_get_cmd_master(tokens, 0, tokens->count - 1, &has_malloc_error);
+	if (!cmd_master_params)
+	{
+		printf("Malloc error \n");
+		return (0);
+	}
 	cmd_master = get_cmd_master(cmd_master_params);
+	free(cmd_master_params);
 	if (!cmd_master)
 		printf("Malloc error \n");
 	else

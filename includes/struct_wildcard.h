@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 18:52:25 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/04/07 21:32:26 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/04/08 21:51:32 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ typedef struct s_wildcard
 	char		*prefix;
 	char		*suffix;
 	char		*base_path;
+	char		**segments;
 	t_dynarray	arr;
 }	t_wildcard;
 

@@ -3,6 +3,7 @@
 		"struct_wildcard.h": "c",
 		"dynarray.h": "c",
 		"types.h": "c",
-		"libft.h": "c"
+		"libft.h": "c",
+		"dirent.h": "c"
 	}
 }

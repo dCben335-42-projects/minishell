@@ -3,7 +3,7 @@
 #include "struct_wildcard.h"
 #include <stdio.h>
 
-char **match_wildcard_entries(const char *path, const char *pattern, t_dynarray *arr);
+char **match_wildcard_entries(t_wildcard *wildcard);
 
 /*
  * @brief Checks if the string is a path.
@@ -29,23 +29,23 @@ char **match_wildcard_entries(const char *path, const char *pattern, t_dynarray 
  * @return The modified array of strings with the prefix added.
  * 	NULL if memory allocation fails.
  */
-static char	**ft_strsaddprefix(const char *prefix, char **content)
-{
-	char	*tmp;
-	size_t	i;
+// static char	**ft_strsaddprefix(const char *prefix, char **content)
+// {
+// 	char	*tmp;
+// 	size_t	i;
 
-	i = 0;
-	while (content[i])
-	{
-		tmp = ft_strjoin(prefix, content[i]);
-		if (!tmp)
-			return (NULL);
-		free(content[i]);
-		content[i] = tmp;
-		i++;
-	}
-	return (content);
-}
+// 	i = 0;
+// 	while (content[i])
+// 	{
+// 		tmp = ft_strjoin(prefix, content[i]);
+// 		if (!tmp)
+// 			return (NULL);
+// 		free(content[i]);
+// 		content[i] = tmp;
+// 		i++;
+// 	}
+// 	return (content);
+// }
 
 /**
  * @brief Adds a suffix to each string in the array.
@@ -55,28 +55,30 @@ static char	**ft_strsaddprefix(const char *prefix, char **content)
  * @return The modified array of strings with the suffix added.
  * 	NULL if memory allocation fails.
  */
-static char	**ft_strsaddsuffix(const char *suffix, char **content)
-{
-	char	*tmp;
-	size_t	i;
+// static char	**ft_strsaddsuffix(const char *suffix, char **content)
+// {
+// 	char	*tmp;
+// 	size_t	i;
 
-	i = 0;
-	while (content[i])
-	{
-		tmp = ft_strjoin(content[i], suffix);
-		if (!tmp)
-			return (NULL);
-		free(content[i]);
-		content[i] = tmp;
-		i++;
-	}
-	return (content);
-}
+// 	i = 0;
+// 	while (content[i])
+// 	{
+// 		tmp = ft_strjoin(content[i], suffix);
+// 		if (!tmp)
+// 			return (NULL);
+// 		free(content[i]);
+// 		content[i] = tmp;
+// 		i++;
+// 	}
+// 	return (content);
+// }
 
 char *get_wildcard(t_shell *shell, const char *value)
 {
 	t_wildcard	wildcard;
 	char 	*content;
+
+	content = NULL;
 
 	wildcard = init_wildcard(value, shell->current_path);
 	if (wildcard.is_error)
@@ -87,20 +89,20 @@ char *get_wildcard(t_shell *shell, const char *value)
 	printf("base_path: %s\n", wildcard.base_path);
 	printf("is_prefix: %d\n", wildcard.is_prefix);
 	printf("is_suffix: %d\n", wildcard.is_suffix);
-	if (!match_wildcard_entries(wildcard.base_path, wildcard.pattern, &wildcard.arr) || !wildcard.arr.count)
-		return (destroy_wildcard(&wildcard));
-	ft_isort((char **)wildcard.arr.data, wildcard.arr.count, &ft_strcasecmp, FALSE);
-	if (wildcard.is_prefix )
-	{
-		if (!ft_strsaddprefix(wildcard.prefix, (char **)wildcard.arr.data))
-			return (destroy_wildcard(&wildcard));
-	}
-	if (wildcard.is_suffix)
-	{
-		if (!ft_strsaddsuffix(wildcard.suffix, (char **)wildcard.arr.data))
-			return (destroy_wildcard(&wildcard));
-	}
-	content = ft_strsjoin((const char **)wildcard.arr.data, wildcard.arr.count, TRUE);
+	// if (!match_wildcard_entries(&wildcard) || !wildcard.arr.count)
+	// 	return (destroy_wildcard(&wildcard));
+	// ft_isort((char **)wildcard.arr.data, wildcard.arr.count, &ft_strcasecmp, FALSE);
+	// if (wildcard.is_prefix)
+	// {
+	// 	if (!ft_strsaddprefix(wildcard.prefix, (char **)wildcard.arr.data))
+	// 		return (destroy_wildcard(&wildcard));
+	// }
+	// if (wildcard.is_suffix)
+	// {
+	// 	if (!ft_strsaddsuffix(wildcard.suffix, (char **)wildcard.arr.data))
+	// 		return (destroy_wildcard(&wildcard));
+	// }
+	// content = ft_strsjoin((const char **)wildcard.arr.data, wildcard.arr.count, TRUE);
 	destroy_wildcard(&wildcard);
 	return (content);
 }

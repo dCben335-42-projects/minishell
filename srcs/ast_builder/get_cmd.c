@@ -1,7 +1,7 @@
 #include "ast.h"
 
 static inline void	remove_last_cmd_if_space(t_token *last_token,
-	t_bool *is_finished_by_space, int *count)
+	t_bool *is_finished_by_space, t_uint *count)
 {
 	if (last_token && last_token->type == TOKEN_SPACE)
 	{
@@ -14,8 +14,8 @@ int	count_new_cmd_child(t_get_cmd_master *args, t_bool *is_finished_by_space)
 {
 	t_token		*token;
 	t_token		*last_token;
-	int			count;
-	int			start;
+	t_uint		count;
+	t_uint		start;
 
 	last_token = NULL;
 	start = args->i;

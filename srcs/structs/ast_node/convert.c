@@ -1,6 +1,7 @@
 #include "node.h"
 
-t_ast_node *convert_token_to_cmd(t_token *token)
+// FIX: A faire coincider les map de token et cmd
+t_ast_node	*convert_token_to_cmd(t_token *token)
 {
 	if (token->type == TOKEN_TEXT)
 		return (init_node(CMD_TEXT, token->value));

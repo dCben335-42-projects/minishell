@@ -28,7 +28,7 @@ INCLUDES_FLAGS = -I $(INCLUDES_DIR) -I $(LIBFT_INCLUDE_FOLDER)
 SRC_DIR     = ./srcs
 SRC_FILES   = main.c \
 			lexer/lexer.c lexer/handler_token.c lexer/parser.c \
-			ast_builder/ast_builder.c \
+			ast_builder/ast_builder.c ast_builder/add_cmd_utils.c ast_builder/get_cmd_master.c ast_builder/get_cmd.c ast_builder/get_or_and_cmd.c ast_builder/get_parenthesis_cmd.c ast_builder/get_pipe_cmd.c ast_builder/utils.c \
 			cmd/cmd.c cmd/execute_cmd.c \
 			errors/basics.c \
 			signals.c \
@@ -36,6 +36,7 @@ SRC_FILES   = main.c \
 			structs/dynamic_array/init.c structs/dynamic_array/destroy.c structs/dynamic_array/setter.c structs/dynamic_array/getter.c \
 			structs/token/init.c structs/token/destroy.c structs/token/getter.c structs/token/is.c \
 			structs/lexer_args/init.c structs/lexer_args/destroy.c \
+			structs/ast_node/init.c structs/ast_node/destroy.c structs/ast_node/convert.c structs/ast_node/print.c \
 			builtins/builtins.c builtins/callbacks/echo.c builtins/callbacks/cd.c builtins/callbacks/pwd.c builtins/callbacks/export.c builtins/callbacks/unset.c builtins/callbacks/env.c builtins/callbacks/exit.c \
 			shell/init.c shell/destroy.c
 

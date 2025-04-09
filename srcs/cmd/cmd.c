@@ -69,10 +69,16 @@ void command_not_finished(t_lexer_args *args, char *input)
 
 int command_handler(char *input)
 {
+	t_dynamic_array		*cmd_master;
 	t_lexer_args args;
+
 	command_handler_lexer(input, &args);
-	ast_builder(&args.tokens);
-	
+	cmd_master = ast_builder(&args.tokens);
+	if (cmd_master)
+	{
+		print_ast_json_wrapper(cmd_master);
+		destroy_dynamic_array(cmd_master);
+	}
 	destroy_lexer_args(&args);
 	return (0);
 }

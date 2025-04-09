@@ -7,13 +7,29 @@ void	get_or_and_cmd_wrapper(t_ast_node *cmd,
 	get_or_and_cmd(cmd, args, cmd_prev);
 	set_dynarray_value(
 		args->local_node_info.cmd_master,
-		*(args->local_node_info.pos),
+		args->local_node_info.pos,
 		cmd
 		);
-	(*args->local_node_info.pos)++;
+	args->local_node_info.pos++;
 }
 
-int	get_or_and_cmd(t_ast_node *cmd_master,
+static void	get_or_and_cmd_next_pipe(t_ast_node **cmd_prev,
+	t_ast_node *cmd, t_ast_node *cmd_master, t_get_cmd_master *args)
+{
+	add_previous_cmd(cmd, cmd_prev, NULL, args);
+	get_pipe_cmd(cmd, args, cmd_prev);
+	add_child_secure(cmd_master, &cmd, args);
+}
+
+static void	get_or_and_cmd_next_parenthesis(t_ast_node **cmd_prev,
+	t_ast_node *cmd, t_ast_node *cmd_master, t_get_cmd_master *args)
+{
+	free(cmd);
+	add_previous_cmd(cmd_master, cmd_prev, NULL, args);
+	get_parenthesis_cmd(args, cmd_master);
+}
+
+void	get_or_and_cmd(t_ast_node *cmd_master,
 	t_get_cmd_master *args, t_ast_node **cmd_prev)
 {
 	t_ast_node	*cmd;
@@ -25,25 +41,16 @@ int	get_or_and_cmd(t_ast_node *cmd_master,
 		if (is_true_then_false(&is_empty))
 			continue ;
 		if (cmd == NULL)
-			return (1);
+			return ;
 		if (args->i == args->end)
-			return (add_child_secure(cmd_master, &cmd, args));
+			return ((void)add_child_secure(cmd_master, &cmd, args));
 		if (cmd->type == CMD_PIPE)
-		{
-			add_previous_cmd(cmd, cmd_prev, NULL, args);
-			if (get_pipe_cmd(cmd, args, cmd_prev) == 1)
-				add_child_secure(cmd_master, &cmd, args);
-		}
+			get_or_and_cmd_next_pipe(cmd_prev, cmd, cmd_master, args);
 		else if (cmd->type == CMD_PARENTHESIS_OPEN)
-		{
-			free(cmd);
-			add_previous_cmd(cmd_master, cmd_prev, NULL, args);
-			get_parenthesis_cmd(args, cmd_master);
-		}
+			get_or_and_cmd_next_parenthesis(cmd_prev, cmd, cmd_master, args);
 		else if (cmd->type == CMD_AND || cmd->type == CMD_OR)
-			return (add_previous_cmd(cmd_master, cmd_prev, cmd, args));
+			return ((void)add_previous_cmd(cmd_master, cmd_prev, cmd, args));
 		else
 			*cmd_prev = cmd;
 	}
-	return (1);
 }

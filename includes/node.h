@@ -50,6 +50,13 @@ typedef struct s_print_ast_json_args
 
 t_ast_node  *init_node(t_node_type type, char *value);
 t_ast_node	*convert_token_to_cmd(t_token *token);
+
+/**
+ * @brief Add a child node to the parent node.
+ * if child_count == 1, it means that the parent node has string as content.
+ * if child_count == 2, it means that the parent node has dynamic array empty as content. (malloc error)
+ * if child_count == n, it means that the parent node has dynamic array with n - 2 child as content.
+ */
 int         add_child(t_ast_node *parent, t_ast_node *child);
 void		print_ast_json_wrapper(t_dynamic_array *cmd);
 void		print_ast_json(t_print_ast_json_args args);

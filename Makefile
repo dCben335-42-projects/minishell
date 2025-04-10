@@ -37,7 +37,7 @@ SRC_FILES   = main.c \
 			structs/lexer_args/init.c structs/lexer_args/destroy.c \
 			builtins/builtins.c builtins/callbacks/echo.c builtins/callbacks/cd.c builtins/callbacks/pwd.c builtins/callbacks/export.c builtins/callbacks/unset.c builtins/callbacks/env.c builtins/callbacks/exit.c \
 			structs/shell/init.c structs/shell/destroy.c \
-			structs/wildcard/init.c structs/wildcard/destroy.c \
+			structs/wildcard/init.c structs/wildcard/destroy.c structs/wildcard/prefix.c structs/wildcard/suffix.c \
 			
 SRC         = $(addprefix $(SRC_DIR)/, $(SRC_FILES))
 OBJ 		= $(patsubst $(SRC_DIR)/%.c, $(BUILD_DIR)/%.o, $(SRC))

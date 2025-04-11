@@ -1,35 +1,44 @@
 #include "node.h"
 
-// FIX: A faire coincider les map de token et cmd
+const t_token_node_map	*get_token_cmd_map(void)
+{
+	static const t_token_node_map	map[] = {
+	{TOKEN_TEXT, CMD_TEXT},
+	{TOKEN_VAR_TEXT, CMD_VAR_TEXT},
+	{TOKEN_LITERAL_TEXT, CMD_LITERAL_TEXT},
+	{TOKEN_PIPE, CMD_PIPE},
+	{TOKEN_AND, CMD_AND},
+	{TOKEN_OR, CMD_OR},
+	{TOKEN_OPEN_BRACKET, CMD_PARENTHESIS_OPEN},
+	{TOKEN_CLOSE_BRACKET, CMD_PARENTHESIS_CLOSE},
+	{TOKEN_REDIR_IN, CMD_REDIR_IN},
+	{TOKEN_REDIR_OUT, CMD_REDIR_OUT},
+	{TOKEN_APPEND, CMD_APPEND},
+	{TOKEN_HEREDOC, CMD_HEREDOC},
+	{TOKEN_SPACE, CMD_SPACE},
+	{TOKEN_EOF, CMD_EOF},
+	};
+
+	return (map);
+}
+
 t_ast_node	*convert_token_to_cmd(t_token *token)
 {
-	if (token->type == TOKEN_TEXT)
-		return (init_node(CMD_TEXT, token->value));
-	else if (token->type == TOKEN_VAR_TEXT)
-		return (init_node(CMD_VAR_TEXT, token->value));
-	else if (token->type == TOKEN_LITERAL_TEXT)
-		return (init_node(CMD_LITERAL_TEXT, token->value));
-	else if (token->type == TOKEN_PIPE)
-		return (init_node(CMD_PIPE, NULL));
-	else if (token->type == TOKEN_AND)
-		return (init_node(CMD_AND, NULL));
-	else if (token->type == TOKEN_OR)
-		return (init_node(CMD_OR, NULL));
-	else if (token->type == TOKEN_OPEN_BRACKET)
-		return (init_node(CMD_PARENTHESIS_OPEN, NULL));
-	else if (token->type == TOKEN_CLOSE_BRACKET)
-		return (init_node(CMD_PARENTHESIS_CLOSE, NULL));
-	else if (token->type == TOKEN_REDIR_IN)
-		return (init_node(CMD_REDIR_IN, NULL));
-	else if (token->type == TOKEN_REDIR_OUT)
-		return (init_node(CMD_REDIR_OUT, NULL));
-	else if (token->type == TOKEN_APPEND)
-		return (init_node(CMD_APPEND, NULL));
-	else if (token->type == TOKEN_HEREDOC)
-		return (init_node(CMD_HEREDOC, NULL));
-	else if (token->type == TOKEN_SPACE)
-		return (init_node(CMD_SPACE, NULL));
-	else if (token->type == TOKEN_EOF)
-		return (init_node(CMD_EOF, NULL));
-	return (NULL);
+	const t_token_node_map	*map;
+	int						i;
+
+	if (!token)
+		return (NULL);
+	map = get_token_cmd_map();
+	i = 0;
+	while (TRUE)
+	{
+		if (map[i].token == token->type)
+		{
+			if (is_text_token(*token))
+				return (init_node(map[i].cmd, token->value));
+			return (init_node(map[i].cmd, NULL));
+		}
+		i++;
+	}
 }

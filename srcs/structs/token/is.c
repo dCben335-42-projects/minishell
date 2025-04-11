@@ -10,7 +10,7 @@ int	is_operator_token(t_token token)
 		|| type == TOKEN_PIPE_ERR);
 }
 
-int is_parenthesis_token(t_token token)
+int	is_parenthesis_token(t_token token)
 {
 	t_token_type	type;
 
@@ -18,7 +18,7 @@ int is_parenthesis_token(t_token token)
 	return (type == TOKEN_OPEN_BRACKET || type == TOKEN_CLOSE_BRACKET);
 }
 
-int is_text_token(t_token token)
+int	is_text_token(t_token token)
 {
 	t_token_type	type;
 
@@ -27,7 +27,7 @@ int is_text_token(t_token token)
 		|| type == TOKEN_LITERAL_TEXT);
 }
 
-int is_redir_token(t_token token)
+int	is_redir_token(t_token token)
 {
 	t_token_type	type;
 

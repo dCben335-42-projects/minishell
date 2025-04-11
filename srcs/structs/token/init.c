@@ -2,7 +2,7 @@
 #include "libft.h"
 
 t_token	*init_token(int token_type, const char *value,
-	unsigned int start, size_t len)
+	t_uint start, size_t len)
 {
 	t_token	*token;
 

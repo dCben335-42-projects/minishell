@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 18:52:25 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/04/10 21:57:00 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/04/11 20:30:47 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,10 @@ typedef struct s_wildcard
 	t_dynarray	arr;
 }	t_wildcard;
 
-t_wildcard	init_wildcard(void);
-t_wildcard	*fill_wildcard(t_wildcard *wildcard, const char *str, char *current_path);
+t_wildcard	init_wildcard(const char *str, char *current_path);
 void		*destroy_wildcard(t_wildcard *wildcard);
+void		*nullify_wildcard(t_wildcard *wildcard);
+
 t_bool		is_prefix(const char *str, char **prefix);
 t_bool		is_suffix(const char *str, char **suffix);
 size_t		get_wildcard_suffix_start(const char *str);

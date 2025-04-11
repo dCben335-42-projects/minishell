@@ -5,16 +5,16 @@
 #include "struct_wildcard.h"
 #include "libft.h"
 #include "types.h"
+#include <sys/stat.h>
+#include <sys/types.h>
 
-#define MAX_PATH_LEN 4096
-#define MAX_WILDCARD_LEN 1024
-#define MAX_SEGMENTS 100
+static char	**recursive_match(t_wildcard *wildcard, const char *curr_path, char **segment);
 
-static void recursive_match(t_wildcard *wildcard, const char *current_path, char **segment);
-
-static char *join_paths(const char *base, const char *suffix)
+static char *join_paths(const char *base, const char *suffix, char **segs)
 {
-	const char *join[3] = {base, "/", suffix};
+	const char *join[4] = {base, "/", suffix, "/"};
+	char	*new;
+	char	*tmp;
 
 	if (!base || !suffix)
 		return (NULL);
@@ -22,57 +22,63 @@ static char *join_paths(const char *base, const char *suffix)
 		return (ft_strdup(suffix));
 	if (!suffix || !*suffix)
 		return (ft_strdup(base));
-    return (ft_strsjoin(join, 3, FALSE));
+    new = ft_strsjoin(join, 4, FALSE);
+	if (!new || !segs)
+		return (new);
+	while (*segs && (!ft_strcmp(*segs, ".") || !ft_strcmp(*segs, "..")))
+	{
+		tmp = ft_strsjoin((const char *[3]){new, *segs, "/"}, 3, FALSE);
+		free(new);
+		if (!tmp)
+			return (NULL);
+		new = tmp;
+		segs++;
+	}
+	return (new);
 }
 
-static t_bool ftr_fnmatch(const char *pattern, const char *str)
+char *join_entry(const char *base, const char *suffix, char **segs)
 {
-    const char *star = NULL;
-    const char *match = NULL;
+	char	*new;
+	char 	*tmp;
 
-    while (*str)
-    {
-        if (*pattern == '*')
-        {
-            star = pattern++;
-            match = str;
-        }
-        else if (*pattern == *str)
-        {
-            pattern++;
-            str++;
-        }
-        else if (star)
-        {
-            pattern = star + 1;
-            str = ++match;
-        }
-        else
-        {
-            return (FALSE);
-        }
-    }
-	// while (*pattern && *pattern == '*')
-	// 	pattern++;
-    return (*pattern == '\0');
+	if (!base || !suffix)
+		return (NULL);
+	if (!base || !*base)
+		return (ft_strdup(suffix));
+	if (!suffix || !*suffix)
+		return (ft_strdup(base));
+	new = ft_strjoin(base, "/");
+	while (*segs && (!ft_strcmp(*segs, ".") || !ft_strcmp(*segs, "..")))
+	{
+		tmp = ft_strsjoin((const char *[3]){new, *segs, "/"}, 3, FALSE);
+		free(new);
+		if (!tmp)
+			return (NULL);
+		new = tmp;
+		segs++;
+	}
+	tmp = ft_strjoin(new, suffix);
+	free(new);
+	if (!tmp)
+		return (NULL);
+	new = tmp;
+	return (new);
 }
 
-#include <sys/stat.h>
-#include <sys/types.h>
 
-static int get_correct_type(struct dirent *entry, const char *path)
+static inline int get_correct_type(struct dirent *entry, const char *path, char **segs)
 {
     struct stat	entry_stat;
 	char		*entry_path;
 
 	if (entry->d_type == DT_UNKNOWN || entry->d_type == DT_LNK)
 	{
-		entry_path = join_paths(path, entry->d_name);
+		entry_path = join_entry(path, entry->d_name, segs);
 		if (!entry_path)
 			return (DT_UNKNOWN);
         if (stat(entry_path, &entry_stat) == -1)
 		{
-			perror("stat");
 			free(entry_path);
 			return (DT_UNKNOWN);
 		}
@@ -86,82 +92,109 @@ static int get_correct_type(struct dirent *entry, const char *path)
 	return (entry->d_type);
 }
 
-static t_bool is_valid_entry(struct dirent *entry, const char *pattern, t_bool expect_dir, t_bool is_last_segment)
+static t_bool	is_last_segment(char **segs)
+{
+	while(*segs && (!ft_strcmp(*segs, ".") || !ft_strcmp(*segs, "..")))
+		segs++;
+	return (!*(segs + 1));
+}
+
+static t_bool is_valid_entry(struct dirent *entry, char **pattern, t_bool expect_dir, t_bool is_last_segment)
 {
     const char *name = entry->d_name;
 	const int	type = entry->d_type;
 
     if (!ft_strcmp(name, ".") || !ft_strcmp(name, ".."))
 		return (FALSE);
-    if (is_last_segment && expect_dir && type != DT_DIR)   
+    if (is_last_segment && expect_dir && type != DT_DIR)
+		return (FALSE);
+	while(*pattern && (!ft_strcmp(*pattern, ".") || !ft_strcmp(*pattern, "..")))
+		pattern++;
+	if (**pattern != '.' && *name == '.')
         return (FALSE);
-    if (*pattern == '*' && *name == '.')
-        return (FALSE);
-    return (ftr_fnmatch(pattern, name));
+    return (ft_fnmatch(*pattern, name));
 }
 
-
-
-static void process_entry(t_wildcard *wildcard, const char *current_path, char **segment, struct dirent *entry, t_bool is_last)
+static char **process_entry(t_wildcard *wildcard, const char *curr_path, char **segs, struct dirent *entry, t_bool is_last)
 {
 	char *next_rel;
 	
-	next_rel = join_paths(current_path, entry->d_name);
-    if (!next_rel)
-		return ;
 	if (is_last)
 	{
+		next_rel = join_entry(curr_path, entry->d_name, segs);
+		if (!next_rel)
+			return (NULL);
 		set_dynarray_value(&wildcard->arr, wildcard->arr.count, next_rel);
-		return ;
+		return ((char **)wildcard->arr.data);
 	}
 	if (entry->d_type != DT_REG) 
-		recursive_match(wildcard, next_rel, (segment + 1));
-	free(next_rel);
+	{
+		next_rel = join_entry(curr_path, entry->d_name, segs);
+		if (!next_rel)
+			return (NULL);
+		while(*segs && (!ft_strcmp(*segs, ".") || !ft_strcmp(*segs, "..")))
+			segs++;
+		if (!recursive_match(wildcard, next_rel, (segs + 1)))
+		{
+			free(next_rel);
+			return (NULL);
+		}
+		free(next_rel);
+	}
+	return ((char **)wildcard->arr.data);
 }
 
-static void open_and_match_directory(t_wildcard *wildcard, const char *full_path, const char *current_path, char **segment)
+static char	**open_and_match_directory(t_wildcard *wildcard, const char *full_path, const char *curr_path, char **segs)
 {
-	const t_bool is_last_segment = !*(segment + 1);
+	const t_bool is_last_seg = is_last_segment(segs);
 	DIR				*dirp;
     struct dirent	*entry;
 
 	dirp = opendir(full_path);
     if (!dirp)
-	{
-		perror("opendir");
-		return ;
-	}
+		return ((char **)wildcard->arr.data);
     entry = readdir(dirp);
     while (entry)
     {
-		entry->d_type = get_correct_type(entry, full_path);
-        if (is_valid_entry(entry, *segment, wildcard->is_dir, is_last_segment))
-			process_entry(wildcard, current_path, segment, entry, is_last_segment);
+		entry->d_type = get_correct_type(entry, full_path, segs);
+        if (is_valid_entry(entry, segs, wildcard->is_dir, is_last_seg))
+		{
+			if (!process_entry(wildcard, curr_path, segs, entry, is_last_seg))
+			{
+				closedir(dirp);
+				return (NULL);
+			}
+		}
         entry = readdir(dirp);
     }
     closedir(dirp);
+	return ((char **)wildcard->arr.data);
 }
 
-static void recursive_match(t_wildcard *wildcard, const char *current_path, char **segment)
+static char	**recursive_match(t_wildcard *wildcard, const char *curr_path, char **segs)
 {
 	char *full_path;
-    if (!segment || !*segment)
-		return;
-    full_path = join_paths(wildcard->base_path, current_path);
+	char **ret;
+
+    if (!segs || !*segs)
+		return (NULL);
+	full_path = join_paths(wildcard->base_path, curr_path, segs);
     if (!full_path)
-		return;
-    open_and_match_directory(wildcard, full_path, current_path, segment);
+		return (NULL);
+	ret = open_and_match_directory(wildcard, full_path, curr_path, segs);
     free(full_path);
+	return (ret);
 }
 
 char **match_wildcard_entries(t_wildcard *wildcard)
 {
 	char **segs;
+	char **ret;
 
 	segs = ft_split(wildcard->pattern, '/');
 	if (!segs)
 		return (NULL);
-    recursive_match(wildcard, "", segs);
+	ret = recursive_match(wildcard, "", segs);
 	ft_free_split(segs);
-    return ((char **)wildcard->arr.data);
+    return (ret);
 }

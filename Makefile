@@ -27,7 +27,7 @@ INCLUDES_FLAGS = -I $(INCLUDES_DIR) -I $(LIBFT_INCLUDE_FOLDER)
 # sources
 SRC_DIR     = ./srcs
 SRC_FILES   = main.c \
-			lexer/lexer.c lexer/handler_token.c lexer/parser.c lexer/expand/expand.c lexer/expand/env/env.c lexer/expand/wildcard/entries.c lexer/expand/wildcard/pattern.c lexer/expand/wildcard/wildcard.c \
+			lexer/lexer.c lexer/handler_token.c lexer/parser.c lexer/expand/expand.c lexer/expand/env/env.c lexer/expand/wildcard/entries.c lexer/expand/wildcard/wildcard.c \
 			cmd/cmd.c cmd/execute_cmd.c \
 			errors/basics.c \
 			signals.c \

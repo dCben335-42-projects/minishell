@@ -6,14 +6,13 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 19:05:58 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/04/10 21:59:50 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/04/11 20:30:16 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "struct_wildcard.h"
 #include "libft.h"
-#include "stdio.h"
-
+#include <stdio.h>
 
 static size_t skip_slashes(const char **str)
 {
@@ -43,7 +42,6 @@ static size_t	get_suffix_len(const char *str, char **segment)
 	}
 	return (len);
 }
-#include <stdio.h>
 
 static char *create(const char *str, char **split, t_bool need_last_slash)
 {
@@ -87,10 +85,20 @@ size_t	get_wildcard_suffix_start(const char *str)
 {
 	const size_t len = ft_strlen(str);
 	size_t  i;
+	size_t  dot_count;
 
 	i = len;
+	dot_count = 0;
 	while (i > 0 && (str[i - 1] == '/' || str[i - 1] == '.'))
+	{
+		if (str[i - 1] == '.')
+			dot_count++;
+		else 
+			dot_count = 0;
+		if (dot_count > 2)
+			break ;
 		i--;
+	}
 	while (str[i] && str[i] != '/')
 		i++;
 	return (i);

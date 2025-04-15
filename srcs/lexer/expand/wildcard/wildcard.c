@@ -21,9 +21,9 @@ static char *get_wildcard(t_shell *shell, const char *value)
 	printf("stored %u entries\n", wildcard.arr.count);
 	ft_isort(*data, wildcard.arr.count, &ft_strcasecmp, FALSE);
 	printf("sorted %u entries\n", wildcard.arr.count);
-	if ((wildcard.is_prefix && !ft_strsaddprefix(wildcard.prefix, *data))
-		|| (wildcard.is_suffix && !ft_strsaddsuffix(wildcard.suffix, *data)))
-		return (destroy_wildcard(&wildcard));
+	// if ((wildcard.is_prefix && !ft_strsaddprefix(wildcard.prefix, *data))
+	// 	|| (wildcard.is_suffix && !ft_strsaddsuffix(wildcard.suffix, *data)))
+	// 	return (destroy_wildcard(&wildcard));
 	content = ft_strsjoin((const char **) wildcard.arr.data, wildcard.arr.count, " ");
 	destroy_wildcard(&wildcard);
 	return (content);

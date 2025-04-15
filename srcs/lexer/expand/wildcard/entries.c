@@ -114,18 +114,53 @@ static t_bool is_valid_entry(struct dirent *entry, char **pattern, t_bool expect
     return (ft_fnmatch(*pattern, name));
 }
 
+static char *get_final_entry(struct dirent *entry, const char *curr_path, char **segs, t_wildcard *wildcard)
+{
+	char *next_rel;
+	char *tmp;
+
+	next_rel = join_entry(curr_path, entry->d_name, segs);
+	if (!next_rel)
+		return (NULL);
+	if (wildcard->is_prefix)
+	{
+		tmp = ft_strjoin(wildcard->prefix, next_rel);
+		free(next_rel);
+		if (!tmp)
+			return (NULL);
+		next_rel = tmp;
+	}
+	if (wildcard->is_suffix)
+	{
+		tmp = ft_strjoin(next_rel, wildcard->suffix);
+		free(next_rel);
+		if (!tmp)
+			return (NULL);
+		next_rel = tmp;
+	}
+	return (next_rel);
+}
+
+static char *handle_last(struct dirent *entry, const char *curr_path, char **segs, t_wildcard *wildcard)
+{
+	char *next_rel;
+
+	next_rel = get_final_entry(entry, curr_path, segs, wildcard);
+	if (!next_rel)
+		return (NULL);
+	set_dynarray_value(&wildcard->arr, wildcard->arr.count, next_rel);
+
+	
+	return (next_rel);
+}
+
+
 static char **process_entry(t_wildcard *wildcard, const char *curr_path, char **segs, struct dirent *entry, t_bool is_last)
 {
 	char *next_rel;
 	
 	if (is_last)
-	{
-		next_rel = join_entry(curr_path, entry->d_name, segs);
-		if (!next_rel)
-			return (NULL);
-		set_dynarray_value(&wildcard->arr, wildcard->arr.count, next_rel);
-		return ((char **)wildcard->arr.data);
-	}
+		return ((char **)handle_last(entry, curr_path, segs, wildcard));
 	if (entry->d_type != DT_REG) 
 	{
 		next_rel = join_entry(curr_path, entry->d_name, segs);

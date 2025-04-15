@@ -6,14 +6,14 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 13:43:27 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/04/15 19:23:02 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/04/15 23:57:35 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ENV_H
 # define ENV_H
 
-# include "struct_tree.h"
+# include "libft_tree.h"
 
 typedef t_tree t_env;
 

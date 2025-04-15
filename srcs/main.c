@@ -42,7 +42,7 @@ static void handle_loop(t_shell *shell)
 {
 	//(void)shell;
 	char		*input;
-	char		**args;
+	// char		**args;
 
 	while (TRUE)
 	{
@@ -50,15 +50,15 @@ static void handle_loop(t_shell *shell)
 		//input = "bonjour sava bien";
 		if (!input)
 			break ;
-			// command_handler(input, shell);
-		if (*input)
-			add_history(input);
-		args = ft_split(input, ' ');
-		if (args[0])
-			if (!is_builtin(args, shell))
-				handle_command(shell, args);
-		ft_free_split(args);
-		free(input);
+		command_handler(input, shell);
+		// if (*input)
+		// 	add_history(input);
+		// args = ft_split(input, ' ');
+		// if (args[0])
+		// 	if (!is_builtin(args, shell))
+		// 		handle_command(shell, args);
+		// ft_free_split(args);
+		// free(input);
 		printf("exit code: %d\n", shell->exit_code);
 	}
 }

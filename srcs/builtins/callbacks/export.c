@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 15:30:22 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/04/15 19:23:02 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/04/16 00:04:30 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static void	process_env(t_shell *shell, char *key, char *arg)
 	if (!p_ptr(value, ERROR_MALLOC))
 		return ;
 	complete_value = value;
-	if ((arg[ft_strlen(key)] == '+'))
+	if ((arg[ft_strlen(key)] == '+') && matched_env->value)
 	{
 		complete_value = ft_strjoin(matched_env->value, value);
 		free(value);

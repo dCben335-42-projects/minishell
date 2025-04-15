@@ -20,7 +20,7 @@ LIBS_FLAGS = $(LIBFT_FLAGS) -lreadline -lhistory
 
 # includes
 INCLUDES_DIR = ./includes
-INCLUDES_FILES = builtin.h cmd.h dynarray.h env.h errors.h lexer_args.h messages.h minishell.h parser_lexer.h shell.h token.h struct_tree.h
+INCLUDES_FILES = builtin.h cmd.h dynarray.h env.h errors.h lexer_args.h messages.h minishell.h parser_lexer.h shell.h token.h
 INCLUDES = $(addprefix $(INCLUDES_DIR)/, $(INCLUDES_FILES))
 INCLUDES_FLAGS = -I $(INCLUDES_DIR) -I $(LIBFT_INCLUDE_FOLDER)
 
@@ -38,7 +38,6 @@ SRC_FILES   = main.c \
 			builtins/builtins.c builtins/callbacks/echo.c builtins/callbacks/cd.c builtins/callbacks/pwd.c builtins/callbacks/export.c builtins/callbacks/unset.c builtins/callbacks/env.c builtins/callbacks/exit.c \
 			structs/shell/init.c structs/shell/destroy.c \
 			structs/wildcard/init.c structs/wildcard/destroy.c structs/wildcard/prefix.c structs/wildcard/suffix.c \
-			structs/tree/init.c structs/tree/destroy.c structs/tree/add.c structs/tree/get.c structs/tree/read.c \
 			
 SRC         = $(addprefix $(SRC_DIR)/, $(SRC_FILES))
 OBJ 		= $(patsubst $(SRC_DIR)/%.c, $(BUILD_DIR)/%.o, $(SRC))

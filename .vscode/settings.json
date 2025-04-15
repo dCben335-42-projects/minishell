@@ -1,9 +1,13 @@
 {
 	"files.associations": {
-		"struct_wildcard.h": "c",
-		"dynarray.h": "c",
-		"types.h": "c",
-		"libft.h": "c",
-		"dirent.h": "c"
+		"env.h": "c",
+		"libft_tree.h": "c",
+		"optional": "c",
+		"system_error": "c",
+		"array": "c",
+		"functional": "c",
+		"tuple": "c",
+		"type_traits": "c",
+		"utility": "c"
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 13:44:38 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/04/15 19:23:02 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/04/16 00:32:08 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,16 @@
 #include <stdio.h>
 #include "libft.h"
 
-static void	*free_val(char *key)
+static void	*free_val(char *value)
+{
+	free(value);
+	return (NULL);
+}
+
+static void *free_node_params(char *key, char *value)
 {
 	free(key);
+	free(value);
 	return (NULL);
 }
 
@@ -28,17 +35,19 @@ t_env	*init_env_node(char *envp)
 	char	*value;
 	
 	key = parse_env_key(envp);
+	if (!key || !ft_strcmp(key, "_"))
+		return (free_node_params(key, NULL));
 	value = parse_env_value(envp);
-	if (!value)
+	if (!value && ft_strchr(envp, '='))
+	{
 		value = ft_strdup("");
-	node = init_tree_node(key, value, FALSE,\
+		if (!value)
+			return (free_node_params(key, NULL));
+	}
+	node = init_tree_node(key, value, &ft_strcmp,
 		(void * (*)(void *))&free_val);
 	if (!node)
-	{
-		free(key);
-		free(value);
-		return (NULL);
-	}
+		return (free_node_params(key, value));
 	return (node);
 }
 

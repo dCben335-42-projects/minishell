@@ -41,9 +41,11 @@ typedef enum e_node_type
 
 typedef struct s_ast_node
 {
-	t_node_type	type;
-	void		*content;
-	int			child_count;
+	t_node_type			type;
+	void				*content;
+	int					child_count;
+	struct s_ast_node	*parent;
+	struct s_ast_node	*next;
 }	t_ast_node;
 
 typedef struct s_ast_print_mapping
@@ -82,7 +84,7 @@ void		print_ast_json_wrapper(t_dynarray *cmd);
 void		print_ast_json(t_print_ast_json_args args);
 void		*destroy_node(t_ast_node *node);
 void		*recursive_destroy_node(t_ast_node *node);
-int			add_childs(t_ast_node *parent, t_dynarray *child);
+int			add_childs(t_ast_node *parent, t_dynarray *childs);
 void		cmd_join(t_ast_node *node, t_uint index,
 				const char *name, t_print_ast_json_args args);
 void		print_ast_node_json(t_ast_node *node, t_uint i,

@@ -16,6 +16,8 @@ t_ast_node	*init_node(t_node_type type, char *value)
 	}
 	node->content = NULL;
 	node->child_count = 0;
+	node->parent = NULL;
+	node->next = NULL;
 	return (node);
 }
 
@@ -23,6 +25,7 @@ int	add_child(t_ast_node *parent, t_ast_node *child)
 {
 	t_dynarray	*sub_cmd;
 
+	child->parent = parent;
 	if (parent->child_count == 0)
 	{
 		sub_cmd = init_dynarray_malloc(80,
@@ -37,13 +40,24 @@ int	add_child(t_ast_node *parent, t_ast_node *child)
 	}
 	if (!set_dynarray_value(parent->content, parent->child_count - 2, child))
 		return (0);
+	((t_ast_node *)get_value(parent->content, parent->child_count - 3))->next = child;
 	parent->child_count++;
 	return (1);
 }
 
-int	add_childs(t_ast_node *parent, t_dynarray *child)
+int	add_childs(t_ast_node *parent, t_dynarray *childs)
 {
-	parent->content = child;
-	parent->child_count = child->count + 2;
+	t_uint	i;
+
+	i = 0;
+	while (i < childs->count)
+	{
+		if (i > 0)
+			((t_ast_node *)get_value(childs, i - 1))->next = ((t_ast_node *)get_value(childs, i));
+		((t_ast_node *)get_value(childs, i))->parent = parent;
+		i++;
+	}
+	parent->content = childs;
+	parent->child_count = childs->count + 2;
 	return (1);
 }

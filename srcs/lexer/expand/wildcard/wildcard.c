@@ -6,10 +6,6 @@
 
 char **match_wildcard_entries(t_wildcard *wildcard);
 
-
-
-
-
 static char *get_wildcard(t_shell *shell, const char *value)
 {
 	t_wildcard	wildcard;

@@ -10,21 +10,13 @@
 
 static char	**recursive_match(t_wildcard *wildcard, const char *curr_path, char **segment);
 
-static char *join_paths(const char *base, const char *suffix, char **segs)
+
+char *join_segs(char *new, char **segs)
 {
-	const char *join[4] = {base, "/", suffix, "/"};
-	char	*new;
 	char	*tmp;
 
-	if (!base || !suffix)
-		return (NULL);
-	if (!base || !*base)
-		return (ft_strdup(suffix));
-	if (!suffix || !*suffix)
-		return (ft_strdup(base));
-    new = ft_strsjoin(join, 4, FALSE);
 	if (!new || !segs)
-		return (new);
+		return (NULL);
 	while (*segs && (!ft_strcmp(*segs, ".") || !ft_strcmp(*segs, "..")))
 	{
 		tmp = ft_strsjoin((const char *[3]){new, *segs, "/"}, 3, FALSE);
@@ -37,28 +29,35 @@ static char *join_paths(const char *base, const char *suffix, char **segs)
 	return (new);
 }
 
-char *join_entry(const char *base, const char *suffix, char **segs)
+static char *join_paths(const char *base, const char *suffix, char **segs)
+{
+	const char *join[4] = {base, "/", suffix, "/"};
+	char	*new;
+
+	if (!base || !suffix)
+		return (NULL);
+	if (!*base)
+		return (ft_strdup(suffix));
+	if (!*suffix)
+		return (ft_strdup(base));
+    new = ft_strsjoin(join, 4, FALSE);
+	return (join_segs(new, segs));
+}
+
+char *join_entry(const char *curr_path, const char *name, char **segs)
 {
 	char	*new;
 	char 	*tmp;
 
-	if (!base || !suffix)
+	if (!curr_path || !name)
 		return (NULL);
-	if (!base || !*base)
-		return (ft_strdup(suffix));
-	if (!suffix || !*suffix)
-		return (ft_strdup(base));
-	new = ft_strjoin(base, "/");
-	while (*segs && (!ft_strcmp(*segs, ".") || !ft_strcmp(*segs, "..")))
-	{
-		tmp = ft_strsjoin((const char *[3]){new, *segs, "/"}, 3, FALSE);
-		free(new);
-		if (!tmp)
-			return (NULL);
-		new = tmp;
-		segs++;
-	}
-	tmp = ft_strjoin(new, suffix);
+	if (!*curr_path)
+		return (ft_strdup(name));
+	new = ft_strjoin(curr_path, "/");
+	new = join_segs(new, segs);
+	if (!new)
+		return (NULL);
+	tmp = ft_strjoin(new, name);
 	free(new);
 	if (!tmp)
 		return (NULL);

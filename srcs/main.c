@@ -17,7 +17,7 @@ void	handle_command(t_shell *shell, char **args)
 
 	if (!s_ptr((void *)node, ERR_NOT_FOUND))
 		return ;
-	paths = ft_split(node->value, ':');
+	paths = ft_split((char *)node->value, ':');
 	if (!s_ptr((void *)paths, ERROR_MALLOC))
 		return ;
 	i = 0;
@@ -42,7 +42,7 @@ static void handle_loop(t_shell *shell)
 {
 	//(void)shell;
 	char		*input;
-	// char		**args;
+	char		**args;
 
 	while (TRUE)
 	{
@@ -50,16 +50,15 @@ static void handle_loop(t_shell *shell)
 		//input = "bonjour sava bien";
 		if (!input)
 			break ;
-		//free(input);
-		command_handler(input, shell);
-
-		// if (*input)
-		// 	add_history(input);
-		// args = ft_split(input, ' ');
-		// if (args[0])
-		// 	if (!is_builtin(args, shell))
-		// 		handle_command(shell, args);
-		// ft_handle_free_split(args);
+			// command_handler(input, shell);
+		if (*input)
+			add_history(input);
+		args = ft_split(input, ' ');
+		if (args[0])
+			if (!is_builtin(args, shell))
+				handle_command(shell, args);
+		ft_free_split(args);
+		free(input);
 		printf("exit code: %d\n", shell->exit_code);
 	}
 }

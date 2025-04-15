@@ -6,23 +6,16 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 13:43:27 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/03/27 20:49:26 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/04/15 15:25:01 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ENV_H
 # define ENV_H
 
-# include "types.h"
-# include <stddef.h>
+# include "struct_tree.h"
 
-typedef struct s_env
-{
-	char			*key;
-	char			*value;
-	struct s_env	*left;
-	struct s_env	*right;
-}	t_env;
+typedef t_tree t_env;
 
 # define HOME_KEY "HOME"
 # define PATH_KEY "PATH"

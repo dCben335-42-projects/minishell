@@ -6,38 +6,40 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 13:44:38 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/03/13 19:08:27 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/04/15 16:04:47 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "env.h"
 #include <stdlib.h>
+#include <stdio.h>
+#include "libft.h"
 
-static void	*free_init_error(char *key, char *value)
+static void	*free_val(char *key)
 {
 	free(key);
-	free(value);
 	return (NULL);
 }
 
 t_env	*init_env_node(char *envp)
 {
-	t_env	*new;
+	t_env	*node;
 	char	*key;
 	char	*value;
-
+	
 	key = parse_env_key(envp);
 	value = parse_env_value(envp);
-	if (!key || !value)
-		return (free_init_error(key, value));
-	new = malloc(sizeof(t_env));
-	if (!new)
-		return (free_init_error(key, value));
-	new->key = key;
-	new->value = value;
-	new->left = NULL;
-	new->right = NULL;
-	return (new);
+	if (!value)
+		value = ft_strdup("");
+	node = init_tree_node(key, value, FALSE,\
+		(void * (*)(void *))&free_val);
+	if (!node)
+	{
+		free(key);
+		free(value);
+		return (NULL);
+	}
+	return (node);
 }
 
 t_env	*init_env(char **envp)

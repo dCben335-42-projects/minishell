@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 14:42:22 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/04/15 14:56:54 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/04/15 15:39:11 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ t_tree	*add_existing_tree(t_tree *tree, char *key, void *value)
 		return (NULL);
 	if (matched->value_destroyer)
 		matched->value_destroyer(matched->value);
-	free(matched->value);
 	matched->value = value;
 	return (matched);
 }

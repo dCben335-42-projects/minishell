@@ -22,7 +22,9 @@ static char *get_wildcard(t_shell *shell, const char *value)
 	data = (char ***) &wildcard.arr.data;
 	if (!match_wildcard_entries(&wildcard) || !wildcard.arr.count)
 		return (destroy_wildcard(&wildcard));
+	printf("stored %u entries\n", wildcard.arr.count);
 	ft_isort(*data, wildcard.arr.count, &ft_strcasecmp, FALSE);
+	printf("sorted %u entries\n", wildcard.arr.count);
 	if ((wildcard.is_prefix && !ft_strsaddprefix(wildcard.prefix, *data))
 		|| (wildcard.is_suffix && !ft_strsaddsuffix(wildcard.suffix, *data)))
 		return (destroy_wildcard(&wildcard));

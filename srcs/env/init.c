@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 13:44:38 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/04/15 16:04:47 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/04/15 19:23:02 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ t_env	*init_env(char **envp)
 	i = 0;
 	while (envp[i])
 	{
-		add_env(&env, init_env_node(envp[i]));
+		add_env_node(&env, init_env_node(envp[i]));
 		i++;
 	}
 	return (env);

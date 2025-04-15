@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 15:30:22 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/04/15 16:10:15 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/04/15 19:23:02 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	process_env(t_shell *shell, char *key, char *arg)
 
 	if (!matched_env)
 	{
-		add_env(&shell->env, init_env_node(arg));
+		add_env_node(&shell->env, init_env_node(arg));
 		return ;
 	}
 	value = parse_env_value(arg);

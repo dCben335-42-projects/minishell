@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 19:05:58 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/04/11 20:30:16 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/04/16 20:51:03 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ static size_t	get_suffix_len(const char *str, char **segment)
 	size_t seg_len;
 
 	len = skip_slashes(&str);
-	printf("str: %s\n", str);
 	while (*segment)
 	{
 		seg_len = ft_strlen(*segment);
@@ -43,18 +42,19 @@ static size_t	get_suffix_len(const char *str, char **segment)
 	return (len);
 }
 
-static char *create(const char *str, char **split, t_bool need_last_slash)
+static char *create_suffix(const char *str, char **split, t_bool need_last_slash)
 {
-	char	*dest;
 	size_t	i;
 	size_t	seg_len;
+	char	*dest;
 	
-	dest = malloc(get_suffix_len(str, split) + 1);
+	dest = malloc((get_suffix_len(str, split) + 1) * sizeof(char));
 	if (!dest)
 		return (NULL);
 	i = 0;
 	if (*str == '/')
 		dest[i++] = '/';
+	dest[i] = '\0';
 	while (*split)
 	{
 		seg_len = ft_strlen(*split);
@@ -68,19 +68,19 @@ static char *create(const char *str, char **split, t_bool need_last_slash)
 	return (dest);
 }
 
-static char *create_suffix(const char *str, t_bool need_last_slash)
-{
-	char	**split;
-	char	*dest;
-	
-	split = ft_split(str, '/');
-	if (!split)
-		return (NULL);
-	dest = create(str, split, need_last_slash);
-	ft_free_split(split);
-	return (dest);
-}
-
+/**
+ * @brief Gets the starting index of the wildcard suffix in the given string.
+ * 
+ * @param str The string to search for a wildcard suffix.
+ * @return size_t The starting index of the wildcard suffix.
+ * 
+ * This function iterates through the string from the end to find the starting
+ * index of the wildcard suffix. It counts the number of dots and slashes
+ * encountered, and stops when it finds more than two dots or reaches a
+ * non-dot/slash character.
+ * 
+ * @note It skips any trailing slashes at the begining of the suffix.
+ */
 size_t	get_wildcard_suffix_start(const char *str)
 {
 	const size_t len = ft_strlen(str);
@@ -104,12 +104,31 @@ size_t	get_wildcard_suffix_start(const char *str)
 	return (i);
 }
 
-t_bool is_suffix(const char *str, char **suffix)
+/**
+ * @brief Checks if the given string has a wildcard suffix and extracts it.
+ * 
+ * @param str The string to check for a wildcard suffix.
+ * @param suffix A pointer to store the extracted suffix.
+ * @return t_bool TRUE if the string has a wildcard suffix, FALSE otherwise.
+ * 
+ * This function checks if the given string has a wildcard suffix (i.e., a
+ * substring that starts with a wildcard character). If a wildcard suffix is
+ * found, it extracts it and stores it in the provided pointer.
+ */
+t_bool	is_wildcard_suffix(const char *str, char **suffix)
 {
 	const size_t len = ft_strlen(str);
 	const size_t i = get_wildcard_suffix_start(str);
-	
+	char		**split;
+
 	if (i != len)
-		*suffix = create_suffix(&str[i], str[len - 1] == '/');
+	{
+		split = ft_split(&str[i], '/');
+		if (split)
+		{
+			*suffix = create_suffix(&str[i], split, str[len - 1] == '/');
+			ft_free_split(split);
+		}
+	}
 	return (i < len);
 }

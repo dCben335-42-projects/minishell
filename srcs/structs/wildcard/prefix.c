@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 19:03:02 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/04/11 20:27:05 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/04/16 20:18:12 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,18 @@ static size_t get_suffix_len(const char *str, char **segment, const size_t index
 	return (len);
 }
 
-
-t_bool	is_prefix(const char *str, char **prefix)
+/**
+ * @brief Checks if the given string has a wildcard prefix and extracts it.
+ * 
+ * @param str The string to check for a wildcard prefix.
+ * @param prefix A pointer to store the extracted prefix.
+ * @return t_bool TRUE if the string has a wildcard prefix, FALSE otherwise.
+ * 
+ * This function checks if the given string has a wildcard prefix (i.e., a
+ * substring that starts with a wildcard character). If a wildcard prefix is
+ * found, it extracts it and stores it in the provided pointer.
+ */
+t_bool	is_wildcard_prefix(const char *str, char **prefix)
 {
 	char	**segs;
 	size_t	i;

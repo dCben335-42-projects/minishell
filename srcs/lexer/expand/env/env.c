@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   env.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/16 21:34:50 by bcabocel          #+#    #+#             */
+/*   Updated: 2025/04/16 21:37:37 by bcabocel         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "shell.h"
 #include "libft.h"
 #include "env.h"
@@ -44,7 +56,12 @@ size_t	get_total_len(const char *str, t_shell *shell)
 	return (total_len);
 }
 
-char	*copy_env_value(const char *str, size_t key_len, t_shell *shell, char *new_value)
+char	*copy_env_value(
+	const char *str,
+	size_t key_len,
+	t_shell *shell,
+	char *new_value
+)
 {
 	t_env	*env;
 	char	*substr;
@@ -74,30 +91,30 @@ char	*copy_env_value(const char *str, size_t key_len, t_shell *shell, char *new_
 
 static char	*create_new_value(const char *str, char *new_value, t_shell *shell)
 {
-    size_t	i;
-    size_t	key_len;
+	size_t	i;
+	size_t	key_len;
 
 	i = 0;
-    while (*str)
-    {
-        new_value[i] = '\0';
-        if (*str == '$')
-        {
-            key_len = parse_env_key_len(++str);
-            if (key_len)
+	while (*str)
+	{
+		new_value[i] = '\0';
+		if (*str == '$')
+		{
+			key_len = parse_env_key_len(++str);
+			if (key_len)
 			{
 				if (!copy_env_value(str, key_len, shell, new_value + i))
 					return (ft_free((void **)new_value));
 				str += key_len;
 				i += ft_strlen(new_value + i);
-				continue;
+				continue ;
 			}
 			str--;
-        }
+		}
 		new_value[i++] = *str++;
-    }
-    new_value[i] = '\0';
-    return (new_value);
+	}
+	new_value[i] = '\0';
+	return (new_value);
 }
 
 void	*expand_env_token(t_shell *shell, void *data)
@@ -108,7 +125,7 @@ void	*expand_env_token(t_shell *shell, void *data)
 	token = (t_token *)data;
 	if (token->type == TOKEN_TEXT || token->type == TOKEN_VAR_TEXT)
 	{
-		new_value = malloc(sizeof(char) * (get_total_len(token->value, shell) + 1));
+		new_value = malloc((get_total_len(token->value, shell) + 1));
 		if (!new_value)
 			return (NULL);
 		new_value = create_new_value(token->value, new_value, shell);
@@ -119,4 +136,3 @@ void	*expand_env_token(t_shell *shell, void *data)
 	}
 	return (NULL);
 }
-

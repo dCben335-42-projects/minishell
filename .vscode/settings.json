@@ -1,0 +1,8 @@
+{
+	"files.associations": {
+		"typeinfo": "c",
+		"stdio.h": "c",
+		"libft_tree.h": "c",
+		"types.h": "c"
+	}
+}

@@ -59,7 +59,7 @@ static void handle_loop(t_shell *shell)
 		// 		handle_command(shell, args);
 		// ft_free_split(args);
 		// free(input);
-		printf("exit code: %d\n", shell->exit_code);
+		// printf("exit code: %d\n", shell->exit_code);
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 20:58:02 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/04/11 20:31:20 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/04/16 01:31:20 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void    *nullify_wildcard(t_wildcard *wildcard)
 	wildcard->suffix = NULL;
 	wildcard->base_path = NULL;
 	wildcard->arr.data = NULL;
+	wildcard->tree = NULL;
 	return (NULL);
 }
 
@@ -34,5 +35,6 @@ void	*destroy_wildcard(t_wildcard *wildcard)
 	free(wildcard->suffix);
 	free(wildcard->base_path);
 	destroy_dynarray(&wildcard->arr);
+	destroy_tree(wildcard->tree);
 	return (nullify_wildcard(wildcard));
 }

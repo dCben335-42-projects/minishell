@@ -10,7 +10,6 @@
 
 static char	**recursive_match(t_wildcard *wildcard, const char *curr_path, char **segment);
 
-
 char *join_segs(char *new, char **segs)
 {
 	char	*tmp;
@@ -141,18 +140,34 @@ static char *get_final_entry(struct dirent *entry, const char *curr_path, char *
 	return (next_rel);
 }
 
-static char *handle_last(struct dirent *entry, const char *curr_path, char **segs, t_wildcard *wildcard)
+// static char *handle_last(struct dirent *entry, const char *curr_path, char **segs, t_wildcard *wildcard)
+// {
+// 	char *next_rel;
+
+// 	next_rel = get_final_entry(entry, curr_path, segs, wildcard);
+// 	if (!next_rel)
+// 		return (NULL);
+// 	set_dynarray_value(&wildcard->arr, wildcard->arr.count, next_rel);
+// 	return (next_rel);
+// }
+
+static t_tree	*handle_last(struct dirent *entry, const char *curr_path, char **segs, t_wildcard *wildcard)
 {
+	t_tree	*node;
 	char *next_rel;
 
 	next_rel = get_final_entry(entry, curr_path, segs, wildcard);
 	if (!next_rel)
 		return (NULL);
-	set_dynarray_value(&wildcard->arr, wildcard->arr.count, next_rel);
-
-	
-	return (next_rel);
+	node = init_tree_node(next_rel, NULL, &ft_strcasecmp, NULL);
+	if (!node)
+	{
+		free(next_rel);
+		return (NULL);
+	}
+	return (add_tree_node(&wildcard->tree, node));
 }
+
 
 
 static char **process_entry(t_wildcard *wildcard, const char *curr_path, char **segs, struct dirent *entry, t_bool is_last)

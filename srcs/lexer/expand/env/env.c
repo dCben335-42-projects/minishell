@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 21:34:50 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/04/16 21:37:37 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/04/17 19:16:08 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ char	*copy_env_value(
 	const char *str,
 	size_t key_len,
 	t_shell *shell,
-	char *new_value
+	char *dest
 )
 {
 	t_env	*env;
@@ -72,9 +72,9 @@ char	*copy_env_value(
 		tmp = ft_itoa_base(shell->exit_code, "0123456789");
 		if (!tmp)
 			return (NULL);
-		ft_strlcpy(new_value, tmp, ft_strlen(tmp) + 1);
+		ft_strlcpy(dest, tmp, ft_strlen(tmp) + 1);
 		free(tmp);
-		return (new_value);
+		return (dest);
 	}
 	else if (key_len)
 	{
@@ -84,12 +84,12 @@ char	*copy_env_value(
 		env = get_env_node(shell->env, substr);
 		free(substr);
 		if (env && env->value)
-			ft_strlcpy(new_value, env->value, ft_strlen(env->value) + 1);
+			ft_strlcpy(dest, env->value, ft_strlen(env->value) + 1);
 	}
-	return (new_value);
+	return (dest);
 }
 
-static char	*create_new_value(const char *str, char *new_value, t_shell *shell)
+static char	*create_new_value(const char *str, char *dest, t_shell *shell)
 {
 	size_t	i;
 	size_t	key_len;
@@ -97,32 +97,38 @@ static char	*create_new_value(const char *str, char *new_value, t_shell *shell)
 	i = 0;
 	while (*str)
 	{
-		new_value[i] = '\0';
+		dest[i] = '\0';
 		if (*str == '$')
 		{
 			key_len = parse_env_key_len(++str);
 			if (key_len)
 			{
-				if (!copy_env_value(str, key_len, shell, new_value + i))
-					return (ft_free((void **)new_value));
+				if (!copy_env_value(str, key_len, shell, dest + i))
+					return (ft_free((void **)dest));
 				str += key_len;
-				i += ft_strlen(new_value + i);
+				i += ft_strlen(dest + i);
 				continue ;
 			}
 			str--;
 		}
-		new_value[i++] = *str++;
+		dest[i++] = *str++;
 	}
-	new_value[i] = '\0';
-	return (new_value);
+	dest[i] = '\0';
+	return (dest);
 }
 
-void	*expand_env_token(t_shell *shell, void *data)
+/**
+ * @brief Expands the environment variables in the token.
+ *
+ * @param shell The shell instance.
+ * @param token The token to expand.
+ *
+ * @return The expanded token or NULL if an error occurred.
+ */
+void	*expand_env_token(t_shell *shell, t_token *token)
 {
-	t_token	*token;
 	char	*new_value;
 
-	token = (t_token *)data;
 	if (token->type == TOKEN_TEXT || token->type == TOKEN_VAR_TEXT)
 	{
 		new_value = malloc((get_total_len(token->value, shell) + 1));
@@ -134,5 +140,5 @@ void	*expand_env_token(t_shell *shell, void *data)
 		free(token->value);
 		token->value = new_value;
 	}
-	return (NULL);
+	return (token);
 }

@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 19:05:58 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/04/16 20:51:03 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/04/17 20:32:36 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 #include "libft.h"
 #include <stdio.h>
 
-static size_t skip_slashes(const char **str)
+static size_t	skip_slashes(const char **str)
 {
-	size_t len;
+	size_t	len;
 
 	len = 0;
 	if (**str == '/')
@@ -28,8 +28,8 @@ static size_t skip_slashes(const char **str)
 
 static size_t	get_suffix_len(const char *str, char **segment)
 {
-	size_t len;
-	size_t seg_len;
+	size_t	len;
+	size_t	seg_len;
 
 	len = skip_slashes(&str);
 	while (*segment)
@@ -42,27 +42,31 @@ static size_t	get_suffix_len(const char *str, char **segment)
 	return (len);
 }
 
-static char *create_suffix(const char *str, char **split, t_bool need_last_slash)
+static char	*create_suffix(
+	const char *str,
+	char **segs,
+	t_bool need_last_slash
+)
 {
 	size_t	i;
 	size_t	seg_len;
 	char	*dest;
-	
-	dest = malloc((get_suffix_len(str, split) + 1) * sizeof(char));
+
+	dest = malloc((get_suffix_len(str, segs) + 1) * sizeof(char));
 	if (!dest)
 		return (NULL);
 	i = 0;
 	if (*str == '/')
 		dest[i++] = '/';
 	dest[i] = '\0';
-	while (*split)
+	while (*segs)
 	{
-		seg_len = ft_strlen(*split);
-		ft_strlcpy(&dest[i], *split, seg_len + 1);
+		seg_len = ft_strlen(*segs);
+		ft_strlcpy(&dest[i], *segs, seg_len + 1);
 		i += seg_len;
-		if (*(split + 1) || need_last_slash)
+		if (*(segs + 1) || need_last_slash)
 			dest[i++] = '/';
-		split++;
+		segs++;
 	}
 	dest[i] = '\0';
 	return (dest);
@@ -83,9 +87,9 @@ static char *create_suffix(const char *str, char **split, t_bool need_last_slash
  */
 size_t	get_wildcard_suffix_start(const char *str)
 {
-	const size_t len = ft_strlen(str);
-	size_t  i;
-	size_t  dot_count;
+	const size_t	len = ft_strlen(str);
+	size_t			i;
+	size_t			dot_count;
 
 	i = len;
 	dot_count = 0;
@@ -93,7 +97,7 @@ size_t	get_wildcard_suffix_start(const char *str)
 	{
 		if (str[i - 1] == '.')
 			dot_count++;
-		else 
+		else
 			dot_count = 0;
 		if (dot_count > 2)
 			break ;
@@ -117,17 +121,17 @@ size_t	get_wildcard_suffix_start(const char *str)
  */
 t_bool	is_wildcard_suffix(const char *str, char **suffix)
 {
-	const size_t len = ft_strlen(str);
-	const size_t i = get_wildcard_suffix_start(str);
-	char		**split;
+	const size_t	len = ft_strlen(str);
+	const size_t	i = get_wildcard_suffix_start(str);
+	char			**segs;
 
 	if (i != len)
 	{
-		split = ft_split(&str[i], '/');
-		if (split)
+		segs = ft_split(&str[i], '/');
+		if (segs)
 		{
-			*suffix = create_suffix(&str[i], split, str[len - 1] == '/');
-			ft_free_split(split);
+			*suffix = create_suffix(&str[i], segs, str[len - 1] == '/');
+			ft_free_split(segs);
 		}
 	}
 	return (i < len);

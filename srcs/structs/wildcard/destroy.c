@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 20:58:02 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/04/16 20:15:24 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/04/17 20:29:28 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,6 @@
  * the wildcard structure, including the pattern, prefix, suffix, base path,
  * and the tree.
  * 
- * @note All pointers in the wildcard structure are set to NULL after freeing
- * the memory to avoid dangling pointers.
 */
 void	*destroy_wildcard(t_wildcard *wildcard)
 {
@@ -34,10 +32,5 @@ void	*destroy_wildcard(t_wildcard *wildcard)
 	free(wildcard->suffix);
 	free(wildcard->base_path);
 	destroy_tree(wildcard->tree);
-	wildcard->pattern = NULL;
-	wildcard->prefix = NULL;
-	wildcard->suffix = NULL;
-	wildcard->base_path = NULL;
-	wildcard->tree = NULL;
 	return (NULL);
 }

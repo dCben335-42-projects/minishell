@@ -77,9 +77,7 @@ int command_handler(char *input, t_shell *shell)
 		destroy_lexer_args(&args);
 		return (0);
 	}
-	expand_env(&args.tokens, shell);
-	expand_wildcard(&args.tokens, shell);
-	printf("============================\n");
+	expand(shell, &args.tokens);
 	print_tokens(&args.tokens);
 	destroy_lexer_args(&args);
 	return (0);

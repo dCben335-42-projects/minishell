@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 18:51:44 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/04/16 20:33:20 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/04/17 20:29:21 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@
 
 static char	*get_pattern(const char *str, char *prefix, char *suffix)
 {
-	size_t start;
-	size_t end;
+	size_t	start;
+	size_t	end;
 
 	start = 0;
 	end = ft_strlen(str);
@@ -28,9 +28,9 @@ static char	*get_pattern(const char *str, char *prefix, char *suffix)
 	return (ft_substr(str, start, end - start));
 }
 
-static char *get_base_path(char *prefix, char *current_path)
+static char	*get_base_path(char *prefix, char *current_path)
 {
-	const char *args[3] = {current_path, "/", prefix};
+	const char	*args[3] = {current_path, "/", prefix};
 
 	if (!prefix)
 	{
@@ -44,7 +44,7 @@ static char *get_base_path(char *prefix, char *current_path)
 }
 
 /**
- * @brief Initializes a wildcard structure based on the given string and current path.
+ * @brief Initializes a wildcard structure based on the given string and path.
  * 
  * @param str The string to initialize the wildcard from.
  * @param current_path The current path to use for base path calculation.
@@ -54,11 +54,11 @@ static char *get_base_path(char *prefix, char *current_path)
  * string has a prefix or suffix, extracting the pattern, and determining the
  * base path. If any of the components are invalid, it destroys the wildcard
  * structure and returns an empty one.
- */
+*/
 t_wildcard	init_wildcard(const char *str, char *current_path)
 {
 	t_wildcard	wildcard;
-	
+
 	wildcard.prefix = NULL;
 	wildcard.suffix = NULL;
 	wildcard.tree = NULL;
@@ -67,9 +67,5 @@ t_wildcard	init_wildcard(const char *str, char *current_path)
 	wildcard.is_dir = wildcard.is_suffix;
 	wildcard.pattern = get_pattern(str, wildcard.prefix, wildcard.suffix);
 	wildcard.base_path = get_base_path(wildcard.prefix, current_path);
-	if ((wildcard.is_prefix && !wildcard.prefix)
-		|| (wildcard.is_suffix && !wildcard.suffix)
-		|| !wildcard.pattern || !wildcard.base_path)
-		destroy_wildcard(&wildcard);
 	return (wildcard);
 }

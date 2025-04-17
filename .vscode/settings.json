@@ -3,6 +3,20 @@
 		"typeinfo": "c",
 		"stdio.h": "c",
 		"libft_tree.h": "c",
-		"types.h": "c"
+		"types.h": "c",
+		"libft.h": "c",
+		"struct_wildcard.h": "c",
+		"expand.h": "c",
+		"dirent.h": "c",
+		"stat.h": "c",
+		"shell.h": "c",
+		"token.h": "c",
+		"minishell.h": "c",
+		"wait.h": "c",
+		"messages.h": "c",
+		"readline.h": "c",
+		"history.h": "c",
+		"env.h": "c",
+		"dynarray.h": "c"
 	}
 }

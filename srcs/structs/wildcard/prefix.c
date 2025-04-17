@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 19:03:02 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/04/16 20:18:12 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/04/17 20:32:48 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 #include "libft.h"
 #include "stdio.h"
 
-static size_t skip_slashes(const char **str)
+static size_t	skip_slashes(const char **str)
 {
-	size_t len;
+	size_t	len;
 
 	len = 0;
 	while (**str && **str == '/')
@@ -27,17 +27,21 @@ static size_t skip_slashes(const char **str)
 	return (len);
 }
 
-static size_t get_suffix_len(const char *str, char **segment, const size_t index)
+static size_t	get_suffix_len(
+	const char *str,
+	char **segs,
+	const size_t index
+)
 {
-	size_t i;
-	size_t len;
-	size_t seg_len;
+	size_t	i;
+	size_t	len;
+	size_t	seg_len;
 
 	i = 0;
 	len = skip_slashes(&str);
 	while (i < index)
 	{
-		seg_len = ft_strlen(segment[i]);
+		seg_len = ft_strlen(segs[i]);
 		str += seg_len;
 		len += seg_len + skip_slashes(&str);
 		i++;
@@ -60,7 +64,7 @@ t_bool	is_wildcard_prefix(const char *str, char **prefix)
 {
 	char	**segs;
 	size_t	i;
-	size_t len;
+	size_t	len;
 
 	segs = ft_split(str, '/');
 	i = 0;

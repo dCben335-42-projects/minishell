@@ -1,17 +1,33 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ast.h                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/18 20:20:38 by bcabocel          #+#    #+#             */
+/*   Updated: 2025/04/18 20:58:05 by bcabocel         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef AST_H
 # define AST_H
 
-# include "node.h"
+# include "ast_node.h"
+# include "struct_dynarray.h"
+# include "struct_token.h"
+
+t_dynarray			*ast_builder(t_dynarray *tokens);
 
 typedef struct s_local_node_info
 {
-	t_dynamic_array	*cmd_master;
-	int				pos;
+	t_dynarray	*cmd_master;
+	int			pos;
 }	t_local_node_info;
 
 typedef struct s_get_cmd_master
 {
-	t_dynamic_array		*tokens;
+	t_dynarray			*tokens;
 	t_uint				start;
 	t_uint				i;
 	t_uint				end;
@@ -19,12 +35,8 @@ typedef struct s_get_cmd_master
 	t_local_node_info	local_node_info;
 }	t_get_cmd_master;
 
-t_dynamic_array		*get_cmd_master(
-						t_get_cmd_master *args);
-
-t_ast_node			*get_cmd(
-						t_get_cmd_master *args,
-						t_bool *is_empty);
+t_dynarray			*get_cmd_master(t_get_cmd_master *args);
+t_ast_node			*get_cmd(t_get_cmd_master *args, t_bool *is_empty);
 
 void				get_pipe_cmd(
 						t_ast_node *cmd_master,
@@ -40,11 +52,11 @@ void				get_or_and_cmd_wrapper(
 						t_ast_node *cmd,
 						t_get_cmd_master *args,
 						t_ast_node **cmd_prev,
-						t_dynamic_array *cmd_master);
+						t_dynarray *cmd_master);
 
 void				get_parenthesis_cmd_master(
 						t_get_cmd_master *args,
-						t_dynamic_array *array,
+						t_dynarray *array,
 						int pos);
 
 int					get_parenthesis_cmd(
@@ -59,7 +71,7 @@ int					add_previous_cmd(
 
 int					add_childs_and_increment(
 						t_ast_node *cmd_master,
-						t_dynamic_array *sub_cmd,
+						t_dynarray *sub_cmd,
 						t_uint *i, int count);
 
 int					add_child_secure(
@@ -68,7 +80,7 @@ int					add_child_secure(
 						t_get_cmd_master *args);
 
 void				set_dynarray_value_secure(
-						t_dynamic_array *arr,
+						t_dynarray *arr,
 						t_uint index,
 						void *value,
 						t_get_cmd_master *args);
@@ -83,13 +95,13 @@ void				*init_node_secure(
 						t_get_cmd_master *args);
 
 t_get_cmd_master	*init_t_get_cmd_master(
-						t_dynamic_array *tokens,
+						t_dynarray *tokens,
 						int start,
 						int end,
 						t_bool *has_malloc_error);
 
 void				set_cmd_in_cmd_master(
-						t_dynamic_array *cmd_master,
+						t_dynarray *cmd_master,
 						t_ast_node **cmd_prev,
 						t_get_cmd_master *args);
 
@@ -97,18 +109,14 @@ void				get_pipe_cmd_wrapper(
 						t_ast_node *cmd,
 						t_ast_node **cmd_prev,
 						t_get_cmd_master *args,
-						t_dynamic_array *cmd_master);
+						t_dynarray *cmd_master);
 
 void				get_parenthesis_cmd_master_wrapper(
 						t_ast_node *cmd,
-						t_dynamic_array *cmd_master,
+						t_dynarray *cmd_master,
 						t_ast_node **cmd_prev,
 						t_get_cmd_master *args);
 
-t_bool				is_true_then_false(
-						t_bool *val);
-
-t_dynamic_array		*ast_builder(
-						t_dynamic_array *tokens);
+t_bool				is_true_then_false(t_bool *val);
 
 #endif

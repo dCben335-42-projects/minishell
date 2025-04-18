@@ -1,8 +1,20 @@
-#ifndef NODE_H
-# define NODE_H
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ast_node.h                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/18 20:33:47 by bcabocel          #+#    #+#             */
+/*   Updated: 2025/04/18 20:54:23 by bcabocel         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-# include "dynamic_array.h"
-# include "token.h"
+#ifndef AST_NODE_H
+# define AST_NODE_H
+
+# include "struct_dynarray.h"
+# include "struct_token.h"
 # include "libft.h"
 # include <stdio.h>
 
@@ -43,7 +55,7 @@ typedef struct s_ast_print_mapping
 
 typedef struct s_print_ast_json_args
 {
-	t_dynamic_array		*cmd;
+	t_dynarray			*cmd;
 	t_uint				depth;
 	t_ast_print_mapping	*mappings;
 }	t_print_ast_json_args;
@@ -66,11 +78,11 @@ t_ast_node	*convert_token_to_cmd(t_token *token);
  * node has dynamic array with n - 2 child as content.
  */
 int			add_child(t_ast_node *parent, t_ast_node *child);
-void		print_ast_json_wrapper(t_dynamic_array *cmd);
+void		print_ast_json_wrapper(t_dynarray *cmd);
 void		print_ast_json(t_print_ast_json_args args);
 void		*destroy_node(t_ast_node *node);
 void		*recursive_destroy_node(t_ast_node *node);
-int			add_childs(t_ast_node *parent, t_dynamic_array *child);
+int			add_childs(t_ast_node *parent, t_dynarray *child);
 void		cmd_join(t_ast_node *node, t_uint index,
 				const char *name, t_print_ast_json_args args);
 void		print_ast_node_json(t_ast_node *node, t_uint i,

@@ -1,4 +1,4 @@
-#include "node.h"
+#include "ast_node.h"
 
 t_ast_node	*init_node(t_node_type type, char *value)
 {
@@ -21,11 +21,11 @@ t_ast_node	*init_node(t_node_type type, char *value)
 
 int	add_child(t_ast_node *parent, t_ast_node *child)
 {
-	t_dynamic_array	*sub_cmd;
+	t_dynarray	*sub_cmd;
 
 	if (parent->child_count == 0)
 	{
-		sub_cmd = init_dynamic_array_malloc(80,
+		sub_cmd = init_dynarray_malloc(80,
 				(void *(*)(void *))recursive_destroy_node);
 		if (!sub_cmd)
 			return (0);
@@ -41,7 +41,7 @@ int	add_child(t_ast_node *parent, t_ast_node *child)
 	return (1);
 }
 
-int	add_childs(t_ast_node *parent, t_dynamic_array *child)
+int	add_childs(t_ast_node *parent, t_dynarray *child)
 {
 	parent->content = child;
 	parent->child_count = child->count + 2;

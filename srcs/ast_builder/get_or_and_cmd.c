@@ -1,7 +1,7 @@
 #include "ast.h"
 
 void	get_or_and_cmd_wrapper(t_ast_node *cmd,
-	t_get_cmd_master *args, t_ast_node **cmd_prev, t_dynamic_array *cmd_master)
+	t_get_cmd_master *args, t_ast_node **cmd_prev, t_dynarray *cmd_master)
 {
 	set_cmd_in_cmd_master(cmd_master, cmd_prev, args);
 	get_or_and_cmd(cmd, args, cmd_prev);

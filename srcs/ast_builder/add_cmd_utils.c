@@ -17,7 +17,7 @@ int	add_child_secure(t_ast_node *cmd_master,
 }
 
 int	add_childs_and_increment(t_ast_node *cmd_master,
-	t_dynamic_array *sub_cmd, t_uint *i, int count)
+	t_dynarray *sub_cmd, t_uint *i, int count)
 {
 	add_childs(cmd_master, sub_cmd);
 	*i += count + 1;
@@ -35,7 +35,7 @@ int	add_previous_cmd(t_ast_node *cmd_master,
 	return (add_child_secure(cmd_master, cmd_prev, args));
 }
 
-void	set_dynarray_value_secure(t_dynamic_array *arr,
+void	set_dynarray_value_secure(t_dynarray *arr,
 	t_uint index, void *value, t_get_cmd_master *args)
 {
 	if (!set_dynarray_value(arr, index, value))
@@ -45,7 +45,7 @@ void	set_dynarray_value_secure(t_dynamic_array *arr,
 	}
 }
 
-void	set_cmd_in_cmd_master(t_dynamic_array *cmd_master,
+void	set_cmd_in_cmd_master(t_dynarray *cmd_master,
 	t_ast_node **cmd_prev, t_get_cmd_master *args)
 {
 	if (*cmd_prev)

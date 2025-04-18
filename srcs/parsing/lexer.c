@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 19:15:03 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/04/18 19:20:36 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/04/18 21:00:38 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,19 +59,31 @@ static t_parse_status	get_parsing_error_status(
 	return (status);
 }
 
+static t_token	*get_isspace_token(t_lexer_args *args, size_t *i)
+{
+	while (ft_isspace(args->input[*i]))
+		(*i)++;
+	return (init_token(TOKEN_SPACE, "", 0, 0));
+}
+
 t_parse_status	lexer(t_lexer_args *args)
 {
+	size_t			i;
+	int				offset;
 	t_parse_status	status;
 	t_token			*token;
 	t_token_type	type;
-	size_t			i;
-	int				offset;
 
 	i = 0;
 	while (args->input[i])
 	{
-		while (ft_isspace(args->input[i]))
-			i++;
+		if (ft_isspace(args->input[i]))
+		{
+			token = get_isspace_token(args, &i);
+			status = get_parsing_error_status(token, args, &i);
+			if (status != COMMAND_VALID)
+				return (status);
+		}
 		offset = 0;
 		type = get_token_type(&args->input[i], &offset);
 		token = get_token(args, &i, offset, type);

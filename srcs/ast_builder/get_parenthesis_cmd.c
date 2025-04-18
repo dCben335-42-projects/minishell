@@ -1,7 +1,7 @@
 #include "ast.h"
 
 void	get_parenthesis_cmd_master_wrapper(t_ast_node *cmd,
-	t_dynamic_array *cmd_master, t_ast_node **cmd_prev, t_get_cmd_master *args)
+	t_dynarray *cmd_master, t_ast_node **cmd_prev, t_get_cmd_master *args)
 {
 	free(cmd);
 	set_cmd_in_cmd_master(cmd_master, cmd_prev, args);
@@ -9,7 +9,7 @@ void	get_parenthesis_cmd_master_wrapper(t_ast_node *cmd,
 	args->local_node_info.pos++;
 }
 
-static int	count_token_between_brackets(t_dynamic_array *tokens, t_uint i)
+static int	count_token_between_brackets(t_dynarray *tokens, t_uint i)
 {
 	int		count;
 	int		count_parenthesis_open;
@@ -21,7 +21,7 @@ static int	count_token_between_brackets(t_dynamic_array *tokens, t_uint i)
 	count_parenthesis_close = 0;
 	while (i < tokens->count - 1)
 	{
-		token = (t_token *)get_value(tokens, i);
+		token = (t_token *)get_dynarray_value(tokens, i);
 		if (token->type == TOKEN_OPEN_BRACKET)
 			count_parenthesis_open++;
 		else if (token->type == TOKEN_CLOSE_BRACKET)
@@ -36,10 +36,10 @@ static int	count_token_between_brackets(t_dynamic_array *tokens, t_uint i)
 
 int	get_parenthesis_cmd(t_get_cmd_master *args, t_ast_node *cmd_master)
 {
-	t_dynamic_array		*sub_cmd;
+	t_get_cmd_master	*cmd_master_params;
+	t_dynarray			*sub_cmd;
 	t_ast_node			*cmd_parenthesis;
 	int					count;
-	t_get_cmd_master	*cmd_master_params;
 
 	count = count_token_between_brackets(args->tokens, args->i);
 	cmd_master_params = init_t_get_cmd_master(args->tokens,
@@ -65,20 +65,23 @@ int	get_parenthesis_cmd(t_get_cmd_master *args, t_ast_node *cmd_master)
 t_ast_node	*get_next_cmd_not_space(t_get_cmd_master *args, int count)
 {
 	t_ast_node	*cmd_not_space;
+	t_token		*token;
+	t_uint		index;
 
-	cmd_not_space = convert_token_to_cmd_secure(
-			(t_token *)get_value(args->tokens, args->i + count + 1), args);
+	index = args->i + count;
+	token = (t_token *)get_dynarray_value(args->tokens, index + 1);
+	cmd_not_space = convert_token_to_cmd_secure(token, args);
 	if (cmd_not_space && cmd_not_space->type == CMD_SPACE)
 	{
 		free(cmd_not_space);
-		cmd_not_space = convert_token_to_cmd_secure(
-				(t_token *)get_value(args->tokens, args->i + count + 2), args);
+		token = (t_token *)get_dynarray_value(args->tokens, index + 2);
+		cmd_not_space = convert_token_to_cmd_secure(token, args);
 	}
 	return (cmd_not_space);
 }
 
 void	get_parenthesis_cmd_master(t_get_cmd_master *args,
-	t_dynamic_array *array, int pos)
+	t_dynarray *array, int pos)
 {
 	t_ast_node	*cmd_master;
 	t_ast_node	*next_operator;

@@ -1,6 +1,5 @@
-#include "dynamic_array.h"
-#include "libft.h"
-#include "node.h"
+#include "struct_dynarray.h"
+#include "ast_node.h"
 
 void	*destroy_node(t_ast_node *node)
 {
@@ -17,7 +16,7 @@ void	*recursive_destroy_node(t_ast_node *node)
 		return (destroy_node(node));
 	if (node->child_count > 1)
 	{
-		destroy_dynamic_array(node->content);
+		destroy_dynarray(node->content);
 		free(node);
 		return (NULL);
 	}

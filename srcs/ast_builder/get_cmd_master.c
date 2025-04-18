@@ -1,7 +1,7 @@
 #include "ast.h"
 
 void	add_cmd_master(t_get_cmd_master *args, t_ast_node *cmd,
-	t_ast_node **cmd_prev, t_dynamic_array *cmd_master)
+	t_ast_node **cmd_prev, t_dynarray *cmd_master)
 {
 	if (args->i == args->end)
 		set_dynarray_value_secure(cmd_master,
@@ -16,14 +16,14 @@ void	add_cmd_master(t_get_cmd_master *args, t_ast_node *cmd,
 		*cmd_prev = cmd;
 }
 
-t_dynamic_array	*get_cmd_master(t_get_cmd_master *args)
+t_dynarray	*get_cmd_master(t_get_cmd_master *args)
 {
+	t_dynarray		*cmd_master;
 	t_ast_node		*cmd_prev;
 	t_ast_node		*cmd;
-	t_dynamic_array	*cmd_master;
 	t_bool			is_empty;
 
-	cmd_master = init_dynamic_array_malloc(80,
+	cmd_master = init_dynarray_malloc(1,
 			(void *(*)(void *))recursive_destroy_node);
 	if (!cmd_master)
 		*(args->has_malloc_error) = TRUE;

@@ -1,40 +1,7 @@
 {
 	"files.associations": {
+		"ast_node.h": "c",
 		"struct_dynarray.h": "c",
-		"struct_shell.h": "c",
-		"cmd_builtin.h": "c",
-		"stdio.h": "c",
-		"stdlib.h": "c",
-		"struct_env.h": "c",
-		"libft.h": "c",
-<<<<<<< HEAD
-		"libft_tree.h": "c",
-		"struct_lexer_args.h": "c",
-		"struct_wildcard.h": "c",
-		"types.h": "c",
-		"minishell.h": "c",
-		"parsing.h": "c",
-		"messages.h": "c",
-		"cmd_expand.h": "c",
-		"readline.h": "c",
-		"struct_token.h": "c",
-		"errors.h": "c"
-=======
-		"map.h": "c",
-		"token.h": "c",
-		"parser_lexer.h": "c",
-		"compare": "c",
-		"cstdlib": "c",
-		"lexer_args.h": "c",
-		"cmd.h": "c",
-		"stdio.h": "c",
-		"ast.h": "c",
-		"stdlib.h": "c",
-		"initializer_list": "c",
-		"dynamic_array.h": "c",
-		"node.h": "c",
-		"printf.h": "c",
-		"types.h": "c"
->>>>>>> AST_builder
+		"ft_printf.h": "c"
 	}
 }

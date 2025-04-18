@@ -36,21 +36,29 @@ SRC_PARSING_DIR = ./parsing
 SRC_EXEC_DIR = ./exec
 SRC_BUILTINS_DIR = $(SRC_EXEC_DIR)/run/builtins
 SRC_EXPAND_DIR = $(SRC_EXEC_DIR)/expand
+SRC_AST_DIR = ./ast_builder
 
 SRC_FILES   = main.c signals.c errors.c
 
 SRC_FILES += $(SRC_PARSING_DIR)/lexer.c $(SRC_PARSING_DIR)/parser.c $(SRC_PARSING_DIR)/handler_token.c 
-
+SRC_FILES += $(SRC_AST_DIR)/ast_builder.c $(SRC_AST_DIR)/add_cmd_utils.c $(SRC_AST_DIR)/utils.c $(SRC_AST_DIR)/get_cmd_master.c $(SRC_AST_DIR)/get_cmd.c $(SRC_AST_DIR)/get_or_and_cmd.c $(SRC_AST_DIR)/get_parenthesis_cmd.c $(SRC_AST_DIR)/get_pipe_cmd.c
 SRC_FILES += $(SRC_EXEC_DIR)/cmd.c
 SRC_FILES += $(SRC_EXPAND_DIR)/expand.c $(SRC_EXPAND_DIR)/env/env.c $(SRC_EXPAND_DIR)/wildcard/match/match.c $(SRC_EXPAND_DIR)/wildcard/wildcard.c $(SRC_EXPAND_DIR)/wildcard/match/entry.c $(SRC_EXPAND_DIR)/wildcard/match/path.c
-SRC_FILES += $(SRC_BUILTINS_DIR)/builtins.c $(SRC_BUILTINS_DIR)/callbacks/echo.c $(SRC_BUILTINS_DIR)/callbacks/cd.c $(SRC_BUILTINS_DIR)/callbacks/pwd.c $(SRC_BUILTINS_DIR)/callbacks/export.c $(SRC_BUILTINS_DIR)/callbacks/unset.c $(SRC_BUILTINS_DIR)/callbacks/env.c $(SRC_BUILTINS_DIR)/callbacks/exit.c \
-	
+SRC_FILES += $(SRC_BUILTINS_DIR)/builtins.c $(SRC_BUILTINS_DIR)/callbacks/echo.c $(SRC_BUILTINS_DIR)/callbacks/cd.c $(SRC_BUILTINS_DIR)/callbacks/pwd.c $(SRC_BUILTINS_DIR)/callbacks/export.c $(SRC_BUILTINS_DIR)/callbacks/unset.c $(SRC_BUILTINS_DIR)/callbacks/env.c $(SRC_BUILTINS_DIR)/callbacks/exit.c
+
 SRC_FILES += $(SRC_STRUCTS_DIR)/dynarray/init.c $(SRC_STRUCTS_DIR)/dynarray/destroy.c $(SRC_STRUCTS_DIR)/dynarray/setter.c $(SRC_STRUCTS_DIR)/dynarray/getter.c
 SRC_FILES += $(SRC_STRUCTS_DIR)/token/init.c $(SRC_STRUCTS_DIR)/token/destroy.c $(SRC_STRUCTS_DIR)/token/getter.c $(SRC_STRUCTS_DIR)/token/is.c
 SRC_FILES += $(SRC_STRUCTS_DIR)/lexer_args/init.c $(SRC_STRUCTS_DIR)/lexer_args/destroy.c
 SRC_FILES += $(SRC_STRUCTS_DIR)/shell/init.c $(SRC_STRUCTS_DIR)/shell/destroy.c
 SRC_FILES += $(SRC_STRUCTS_DIR)/env/init.c $(SRC_STRUCTS_DIR)/env/destroy.c $(SRC_STRUCTS_DIR)/env/add.c $(SRC_STRUCTS_DIR)/env/parse.c $(SRC_STRUCTS_DIR)/env/get.c $(SRC_STRUCTS_DIR)/env/read.c
 SRC_FILES += $(SRC_STRUCTS_DIR)/wildcard/init.c $(SRC_STRUCTS_DIR)/wildcard/destroy.c $(SRC_STRUCTS_DIR)/wildcard/is_valid.c $(SRC_STRUCTS_DIR)/wildcard/prefix.c $(SRC_STRUCTS_DIR)/wildcard/suffix.c $(SRC_STRUCTS_DIR)/wildcard/tree/init.c $(SRC_STRUCTS_DIR)/wildcard/tree/add.c
+
+SRC_FILES += $(SRC_STRUCTS_DIR)/ast_node/init.c \
+			$(SRC_STRUCTS_DIR)/ast_node/destroy.c \
+			$(SRC_STRUCTS_DIR)/ast_node/convert.c \
+			$(SRC_STRUCTS_DIR)/ast_node/print.c \
+			$(SRC_STRUCTS_DIR)/ast_node/print_utils.c
+
 
 SRC         = $(addprefix $(SRC_DIR)/, $(SRC_FILES))
 OBJ 		= $(patsubst $(SRC_DIR)/%.c, $(BUILD_DIR)/%.o, $(SRC))
@@ -88,7 +96,7 @@ force:
 	@true
 
 val: all
-	valgrind --track-fds=all --suppressions=config/valgrind_ignore.conf --leak-check=full --show-leak-kinds=all --track-origins=yes -q -s ./$(NAME)
+	valgrind --track-fds=all --suppressions=config/valgrind_ignore.conf --leak-check=full --show-leak-kinds=all --track-origins=yes -q -s ./$(NAME) 
 
 run: all
 	./$(NAME)

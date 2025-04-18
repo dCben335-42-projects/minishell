@@ -6,13 +6,14 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 13:48:13 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/04/18 18:29:32 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/04/18 20:26:31 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# include "ast.h"
 # include "struct_shell.h"
 # include "struct_token.h"
 # include "parsing.h"

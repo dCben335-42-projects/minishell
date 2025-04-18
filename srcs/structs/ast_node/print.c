@@ -1,4 +1,4 @@
-#include "node.h"
+#include "ast_node.h"
 #include "ft_printf.h"
 
 t_ast_print_mapping	*get_mappings(void)
@@ -33,7 +33,7 @@ void	print_ast_json(t_print_ast_json_args args)
 	i = 0;
 	while (i < args.cmd->count)
 	{
-		node = (t_ast_node *)get_value(args.cmd, i);
+		node = (t_ast_node *)get_dynarray_value(args.cmd, i);
 		j = 0;
 		while (TRUE)
 		{
@@ -51,7 +51,7 @@ void	print_ast_json(t_print_ast_json_args args)
 	}
 }
 
-void	print_ast_json_wrapper(t_dynamic_array *cmd)
+void	print_ast_json_wrapper(t_dynarray *cmd)
 {
 	ft_printf("[\n");
 	print_ast_json((t_print_ast_json_args){cmd, 2, get_mappings()});

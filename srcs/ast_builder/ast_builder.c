@@ -1,13 +1,10 @@
 #include "ast.h"
-#include "dynamic_array.h"
-#include "token.h"
 #include <stdlib.h>
-#include "parser_lexer.h"
 
-t_dynamic_array	*ast_builder(t_dynamic_array *tokens)
+t_dynarray	*ast_builder(t_dynarray *tokens)
 {
 	t_get_cmd_master	*cmd_master_params;
-	t_dynamic_array		*cmd_master;
+	t_dynarray			*cmd_master;
 	t_bool				has_malloc_error;
 
 	has_malloc_error = FALSE;
@@ -19,7 +16,7 @@ t_dynamic_array	*ast_builder(t_dynamic_array *tokens)
 	free(cmd_master_params);
 	if (cmd_master && has_malloc_error)
 	{
-		destroy_dynamic_array(cmd_master);
+		destroy_dynarray(cmd_master);
 		return (NULL);
 	}
 	return (cmd_master);
@@ -27,8 +24,8 @@ t_dynamic_array	*ast_builder(t_dynamic_array *tokens)
 
 //int	main(void)
 //{
-//	t_dynamic_array		*cmd_master;
-//	t_dynamic_array		*tokens;
+//	t_dynarray		*cmd_master;
+//	t_dynarray		*tokens;
 //	t_parse_status		status;
 //	t_lexer_args		args;
 
@@ -47,13 +44,13 @@ t_dynamic_array	*ast_builder(t_dynamic_array *tokens)
 //	cmd_master = ast_builder(tokens);
 //	if (!cmd_master)
 //	{
-//		destroy_dynamic_array(tokens);
+//		destroy_dynarray(tokens);
 //	}
 //	else
 //	{
 //		print_ast_json_wrapper(cmd_master);
-//		destroy_dynamic_array(cmd_master);
-//		destroy_dynamic_array(tokens);
+//		destroy_dynarray(cmd_master);
+//		destroy_dynarray(tokens);
 //	}
 //    return (0);
 //}

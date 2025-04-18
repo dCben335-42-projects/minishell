@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:57:59 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/04/18 19:13:41 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/04/18 21:00:45 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ void	command_handler_lexer(char *input, t_lexer_args *args)
 int	command_handler(char *input, t_shell *shell)
 {
 	t_lexer_args	args;
+	t_dynarray		*cmds;
 
 	command_handler_lexer(input, &args);
 	if (args.tokens.count == 0)
@@ -87,8 +88,16 @@ int	command_handler(char *input, t_shell *shell)
 		destroy_lexer_args(&args);
 		return (0);
 	}
+	cmds = ast_builder(&args.tokens);
+	if (!cmds)
+	{
+		destroy_lexer_args(&args);
+		return (0);
+	}
+	print_ast_json_wrapper(cmds);
 	expand(shell, &args.tokens);
 	print_tokens(&args.tokens);
 	destroy_lexer_args(&args);
-	return (0);
+	destroy_dynarray(cmds);
+	return (1);
 }

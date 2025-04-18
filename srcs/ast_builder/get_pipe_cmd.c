@@ -1,7 +1,7 @@
 #include "ast.h"
 
 void	get_pipe_cmd_wrapper(t_ast_node *cmd,
-	t_ast_node **cmd_prev, t_get_cmd_master *args, t_dynamic_array *cmd_master)
+	t_ast_node **cmd_prev, t_get_cmd_master *args, t_dynarray *cmd_master)
 {
 	add_child_secure(cmd, cmd_prev, args);
 	get_pipe_cmd(cmd, args, cmd_prev);

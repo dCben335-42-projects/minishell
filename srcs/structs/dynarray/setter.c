@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 17:46:29 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/04/18 17:46:29 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/04/18 20:27:10 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static void	**ft_realloc(t_dynarray *arr, size_t new_size)
 	return (new);
 }
 
-void	set_dynarray_value(t_dynarray *arr, t_uint index, void *value)
+void	*set_dynarray_value(t_dynarray *arr, t_uint index, void *value)
 {
 	t_uint	new_size;
 
@@ -46,9 +46,10 @@ void	set_dynarray_value(t_dynarray *arr, t_uint index, void *value)
 		new_size = arr->size * 2;
 		arr->data = ft_realloc(arr, new_size);
 		if (!arr->data)
-			return ;
+			return (NULL);
 		arr->size = new_size;
 	}
 	arr->count++;
 	arr->data[index] = value;
+	return (arr->data[index]);
 }

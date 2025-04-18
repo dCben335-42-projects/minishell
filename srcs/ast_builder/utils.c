@@ -28,7 +28,7 @@ void	*init_node_secure(t_node_type type, char *value, t_get_cmd_master *args)
 	return (node);
 }
 
-t_get_cmd_master	*init_t_get_cmd_master(t_dynamic_array *tokens,
+t_get_cmd_master	*init_t_get_cmd_master(t_dynarray *tokens,
 	int start, int end, t_bool *has_malloc_error)
 {
 	t_get_cmd_master	*args;

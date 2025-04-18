@@ -1,4 +1,4 @@
-#include "node.h"
+#include "ast_node.h"
 #include "ft_printf.h"
 
 static void	print_indentation(t_uint depth)
@@ -42,7 +42,7 @@ void	print_ast_node_json(t_ast_node *node,
 		{
 			ft_printf("[\n");
 			print_ast_json((t_print_ast_json_args){
-				(t_dynamic_array *)node->content,
+				(t_dynarray *)node->content,
 				args.depth + 4, args.mappings});
 			print_indent_text(args.depth + 2, "]\n");
 			print_indent_text(args.depth, "}");

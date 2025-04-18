@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 17:48:55 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/04/18 19:12:07 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/04/18 20:31:04 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,7 @@ void	*destroy_dynarray(t_dynarray *arr)
 		}
 	}
 	free(arr->data);
+	if (arr->is_malloc)
+		free(arr);
 	return (NULL);
 }

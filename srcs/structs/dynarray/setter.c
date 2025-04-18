@@ -1,7 +1,17 @@
-#include "dynarray.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   setter.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/18 17:46:29 by bcabocel          #+#    #+#             */
+/*   Updated: 2025/04/18 17:46:29 by bcabocel         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "struct_dynarray.h"
 #include "libft.h"
-#include <stdio.h>
-#include "parser_lexer.h"
 
 static void	**ft_realloc(t_dynarray *arr, size_t new_size)
 {

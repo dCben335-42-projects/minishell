@@ -1,8 +1,24 @@
-#include "token.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/18 18:16:15 by bcabocel          #+#    #+#             */
+/*   Updated: 2025/04/18 18:42:28 by bcabocel         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "struct_token.h"
 #include "libft.h"
 
-t_token	*init_token(int token_type, const char *value,
-	unsigned int start, size_t len)
+t_token	*init_token(
+	int token_type,
+	const char *value,
+	unsigned int start,
+	size_t len
+)
 {
 	t_token	*token;
 

@@ -1,5 +1,16 @@
-#include "lexer_args.h"
-#include "token.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/18 18:18:18 by bcabocel          #+#    #+#             */
+/*   Updated: 2025/04/18 18:18:18 by bcabocel         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "struct_lexer_args.h"
 
 t_lexer_args	init_lexer_args(const char *input)
 {

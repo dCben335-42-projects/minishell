@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   messages.h                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/18 18:39:44 by bcabocel          #+#    #+#             */
+/*   Updated: 2025/04/18 18:40:50 by bcabocel         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MESSAGES_H
 # define MESSAGES_H
 
@@ -12,14 +24,18 @@
 # define ERR_CD_HOME "cd: HOME not set"
 # define ERR_CD_OLDPWD "cd: OLDPWD not set"
 # define ERR_CD_ARGS "cd: too many arguments"
+
 # define ERR_GETCWD \
-"chdir: error retrieving current directory: getcwd: cannot access parent directories"
+"chdir: error retrieving current directory: \
+getcwd: cannot access parent directories"
 
 # define ERR_PWD \
-"minishell: pwd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory"
+"minishell: pwd: error retrieving current directory: \
+getcwd: cannot access parent directories: No such file or directory"
 
 # define ERROR_SHELL_INIT \
-"shell-init: error retrieving current directory: getcwd: cannot access parent directories"
+"shell-init: error retrieving current directory: \
+getcwd: cannot access parent directories"
 
 # define EXIT_MSG "exit"
 # define ERROR_EXIT_ARGS_NUM "exit: too many arguments"
@@ -31,4 +47,3 @@
 # define ERR_NOT_FOUND "minishell: command not found: "
 
 #endif
-

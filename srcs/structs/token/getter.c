@@ -1,10 +1,18 @@
-#include "token.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   getter.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/18 18:15:48 by bcabocel          #+#    #+#             */
+/*   Updated: 2025/04/18 18:48:48 by bcabocel         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "struct_token.h"
 #include "libft.h"
-#include <stdio.h>
-/**
- * Function to get the operator table
- * @return operator table
- */
+
 static const t_token_map	*get_operator_table(void)
 {
 	static const t_token_map	op_table[] = {
@@ -27,9 +35,15 @@ static const t_token_map	*get_operator_table(void)
 }
 
 /**
- * Function to get the token type
+ * @brief Function that loop trough the operator table and check if the
+ * string starts with an operator and return the token type.
+ * 
  * @param str: input string
  * @param offset: offset for the next str after the operator
+ * 
+ * @note The function will also update the offset if an operator is found
+ *  and the offset pointer is not NULL.
+ * 
  * @return token type
  */
 t_token_type	get_token_type(const char *str, int *offset)
@@ -52,9 +66,12 @@ t_token_type	get_token_type(const char *str, int *offset)
 }
 
 /**
- * Function to get the name of the token type
+ * @brief Function that return the name of the token type 
+ * 	based on the enum (index).
+ * 
  * @param type: token type
- * @return token name
+ * 
+ * @return String corresponding to the token type
  */
 const char	*get_token_type_name(const t_token_type type)
 {

@@ -1,7 +1,19 @@
-#include "dynarray.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   destroy.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/18 17:48:55 by bcabocel          #+#    #+#             */
+/*   Updated: 2025/04/18 19:12:07 by bcabocel         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "struct_dynarray.h"
 #include "libft.h"
 
-void	*basic_destroyer(void *data)
+void	*free_value(void *data)
 {
 	free(data);
 	return (NULL);
@@ -12,7 +24,7 @@ void	*destroy_dynarray(t_dynarray *arr)
 	size_t	i;
 
 	i = 0;
-	if (arr->destroyer != NULL)
+	if (arr->destroyer)
 	{
 		while (i < arr->size)
 		{

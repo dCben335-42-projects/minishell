@@ -1,22 +1,22 @@
 {
 	"files.associations": {
-		"typeinfo": "c",
+		"struct_dynarray.h": "c",
+		"struct_shell.h": "c",
+		"cmd_builtin.h": "c",
 		"stdio.h": "c",
-		"libft_tree.h": "c",
-		"types.h": "c",
+		"stdlib.h": "c",
+		"struct_env.h": "c",
 		"libft.h": "c",
+		"libft_tree.h": "c",
+		"struct_lexer_args.h": "c",
 		"struct_wildcard.h": "c",
-		"expand.h": "c",
-		"dirent.h": "c",
-		"stat.h": "c",
-		"shell.h": "c",
-		"token.h": "c",
+		"types.h": "c",
 		"minishell.h": "c",
-		"wait.h": "c",
+		"parsing.h": "c",
 		"messages.h": "c",
+		"cmd_expand.h": "c",
 		"readline.h": "c",
-		"history.h": "c",
-		"env.h": "c",
-		"dynarray.h": "c"
+		"struct_token.h": "c",
+		"errors.h": "c"
 	}
 }

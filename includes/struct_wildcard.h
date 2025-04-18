@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 18:52:25 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/04/17 20:27:52 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/04/18 18:18:46 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,7 @@
 # define STRUCT_WILDCARD_H
 
 # include "types.h"
-# include "dynarray.h"
-# include "shell.h"
+# include "libft_tree.h"
 
 typedef struct s_wildcard
 {

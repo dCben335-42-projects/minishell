@@ -17,6 +17,7 @@ static const t_token_map	*get_operator_table(void)
 {
 	static const t_token_map	op_table[] = {
 	{">>", TOKEN_APPEND},
+	{"<<", TOKEN_HEREDOC},
 	{"||", TOKEN_OR},
 	{"|&", TOKEN_PIPE_ERR},
 	{"&&", TOKEN_AND},
@@ -86,12 +87,14 @@ const char	*get_token_type_name(const t_token_type type)
 		"REDIR_IN",
 		"REDIR_OUT",
 		"APPEND",
+		"HEREDOC",
 		"BACKGROUND",
 		"PIPE_ERR",
 		"QUOTE",
 		"DQUOTE",
 		"OPEN_BRACKET",
 		"CLOSE_BRACKET",
+		"SPACE",
 		"UNKNOWN",
 		"EOF",
 	};

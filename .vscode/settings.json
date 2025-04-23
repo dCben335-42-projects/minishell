@@ -1,7 +1,0 @@
-{
-	"files.associations": {
-		"ast_node.h": "c",
-		"struct_dynarray.h": "c",
-		"ft_printf.h": "c"
-	}
-}

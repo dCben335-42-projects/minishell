@@ -1,0 +1,15 @@
+INCLUDES_FILES += ast.h
+INCLUDES_FILES += ast_node.h
+INCLUDES_FILES += cmd_builtin.h
+INCLUDES_FILES += cmd_expand.h
+INCLUDES_FILES += cmd.h
+INCLUDES_FILES += errors.h
+INCLUDES_FILES += messages.h
+INCLUDES_FILES += minishell.h
+INCLUDES_FILES += parsing.h
+INCLUDES_FILES += struct_dynarray.h
+INCLUDES_FILES += struct_env.h
+INCLUDES_FILES += struct_lexer_args.h
+INCLUDES_FILES += struct_shell.h
+INCLUDES_FILES += struct_token.h
+INCLUDES_FILES += struct_wildcard.h

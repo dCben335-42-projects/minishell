@@ -26,6 +26,7 @@ typedef struct s_lexer_args
 {
 	const char			*input;
 	char				*error;
+	char				quote;
 	t_dynarray			tokens;
 	t_bracket			parenthesis;
 	t_bracket			bracket;

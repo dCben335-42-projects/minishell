@@ -61,6 +61,9 @@ typedef enum e_control_operator
 	OP_PARENTHESIS_CLOSE		= 1 << 13,	// )
 }	t_control_operator;
 
+# define E_CONTROL_OPERATOR_MASK 4088	// WITHOUT PARENTHESIS
+# define E_PARENTHESIS_MASK 12288		// PARENTHESIS ONLY
+
 typedef enum e_redir_operator
 {
 	REDIR_IN					= 1 << 14,	// <
@@ -68,6 +71,8 @@ typedef enum e_redir_operator
 	REDIR_APPEND				= 1 << 16,	// >>
 	REDIR_HEREDOC				= 1 << 17,	// <<
 }	t_redir_operator;
+
+# define E_REDIR_OPERATOR_MASK 245760
 
 typedef enum e_token_name
 {
@@ -78,11 +83,16 @@ typedef enum e_token_name
 
 typedef enum e_token_flag
 {
-	EXPECT_CONTINUATION			= 1 << 21,
-	ERR_MISSING_LEFT_OPERAND	= 1 << 22,
-	ERR_MISSING_RIGHT_OPERAND	= 1 << 23,
-	ERR_UNOPENED_PARENTHESIS	= 1 << 24,
+	EXPECT_CONTINUATION			= 1 << 23,
+	ERR_MISSING_LEFT_OPERAND	= 1 << 24,
+	ERR_MISSING_RIGHT_OPERAND	= 1 << 25,
+	ERR_UNOPENED_PARENTHESIS	= 1 << 26,
 }	t_token_flag;
+
+# define EXPAND_EXPR			"$"
+# define WILDCARD_EXPR			"*"
+# define QUOTE 					'\''
+# define DQUOTE 				'"'
 
 typedef enum e_token_type_flags
 {
@@ -107,7 +117,8 @@ typedef enum e_token_type_flags
 	TOKEN_REDIR_OUT				= REDIR_OUT | ERR_MISSING_LEFT_OPERAND,
 	TOKEN_APPEND				= REDIR_APPEND | ERR_MISSING_LEFT_OPERAND,
 	TOKEN_HEREDOC				= REDIR_HEREDOC | ERR_MISSING_LEFT_OPERAND,
-	TOKEN_UNKNOWN				= 1 << 25,	// unknown
+	TOKEN_UNKNOWN				= 1 << 21,	// unknown
+	TOKEN_EOF					= 1 << 22,	// EOF
 }	t_token_type_flags;
 
 typedef struct s_token_map

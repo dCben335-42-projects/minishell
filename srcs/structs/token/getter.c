@@ -97,27 +97,34 @@ t_token_type_flags	get_token_type(const char *str, int *offset)
 const char	*get_token_type_name(const t_token_type_flags type)
 {
 	static const char	*token_name[] = {
+		"SPACE",
+		"TAB",
+		"NEWLINE",
 		"TEXT",
-		"VAR_TEXT",
-		"LITERAL_TEXT",
-		"PIPE",
-		"AND",
+		"EXPAND",
+		"WILDCARD",
 		"OR",
+		"BACKGROUND",
+		"AND",
 		"SEMICOL",
+		"DB_SEMICOL",
+		"SEMICOL_AMP",
+		"DB_SEMICOL_AMP",
+		"PIPE",
+		"PIPE_ERR",
+		"PARENTHESIS_OPEN",
+		"PARENTHESIS_CLOSE",
 		"REDIR_IN",
 		"REDIR_OUT",
 		"APPEND",
 		"HEREDOC",
-		"BACKGROUND",
-		"PIPE_ERR",
-		"QUOTE",
-		"DQUOTE",
-		"OPEN_BRACKET",
-		"CLOSE_BRACKET",
-		"SPACE",
 		"UNKNOWN",
 		"EOF",
 	};
+	t_uint	i;
 
-	return (token_name[type]);
+	i = 0;
+	while ((type & (1 << i)) == 0)
+		i++;
+	return (token_name[i]);
 }

@@ -12,7 +12,7 @@
 
 #include "struct_token.h"
 #include "libft.h"
-
+#include <stdio.h>
 /* static const t_token_map	*get_operator_table(void)
 {
 	static const t_token_map	op_table[] = {
@@ -97,7 +97,7 @@ t_token_type_flags	get_token_type(const char *str, int *offset)
 const char	*get_token_type_name(const t_token_type_flags type)
 {
 	static const char	*token_name[] = {
-		"SPACE",
+		"SPACE",	// 1
 		"TAB",
 		"NEWLINE",
 		"TEXT",

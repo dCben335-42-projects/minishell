@@ -2,35 +2,77 @@
 
 t_token	*handler_token_text(size_t *i, t_lexer_args *args)
 {
-	size_t	start_i;
+	size_t				start_i;
+    t_token_type_flags	current_type;
 
 	start_i = *i;
+	current_type = TOKEN_TEXT;
 	while (args->input[*i] && !ft_isspace(args->input[*i])
 		&& get_token_type(&args->input[*i], 0) == TOKEN_TEXT)
     {
         if (args->input[*i] == DQUOTE)
         {
-            if (args->quote != QUOTE)
-            {
+            if (args->quote == 0)
+			{
                 args->quote = DQUOTE;
-                break ;
-            }
-            else
-                (*i)++;
+				if (*i - start_i > 0)
+				{
+					(*i)++;
+					return (init_token(current_type, args->input, start_i, *i - start_i - 1));
+				}
+				if (*i - start_i == 0)
+					start_i++;
+			}
+            else if (args->quote == DQUOTE)
+			{
+                args->quote = 0;
+				if (*i - start_i > 0)
+				{
+					(*i)++;
+					return (init_token(current_type, args->input, start_i, *i - start_i - 1));
+				}
+			}
         }
         if (args->input[*i] == QUOTE)
         {
-            if (args->quote != DQUOTE)
-            {
+            if (args->quote == 0)
+			{
                 args->quote = QUOTE;
-                break ;
-            }
-            else
-                (*i)++;
+				if (*i - start_i > 0)
+				{
+					(*i)++;
+					return (init_token(current_type, args->input, start_i, *i - start_i - 1));
+				}
+				if (*i - start_i == 0)
+					start_i++;
+			}
+            else if (args->quote == QUOTE)
+			{
+                args->quote = 0;
+				if (*i - start_i > 0)
+				{
+					(*i)++;
+					return (init_token(current_type, args->input, start_i, *i - start_i - 1));
+				}
+			}
         }
+        if (args->input[*i] == EXPAND_EXPR && (args->quote == 0 || args->quote == DQUOTE))
+        {
+            if (*i - start_i > 0)
+                return (init_token(current_type, args->input, start_i, *i - start_i));
+            else
+				current_type = TOKEN_EXPAND;
+        }
+		// if (args->input[*i] == WILDCARD_EXPR && args->quote == 0)
+        // {
+        //     if (*i - start_i > 0)
+        //         return (init_token(current_type, args->input, start_i, *i - start_i));
+        //     else
+		// 		current_type = WILDCARD_EXPR;
+        // }
 		(*i)++;
     }
-	return (init_token(TOKEN_TEXT, args->input, start_i, *i - start_i));
+	return (init_token(current_type, args->input, start_i, *i - start_i));
 }
 
 
@@ -80,7 +122,15 @@ t_token	*handler_token_text(size_t *i, t_lexer_args *args)
 	return (status);
 } */
 
+t_token	*handler_token_operator(t_lexer_args *args,
+	size_t *i, int offset, t_token_type_flags type)
+{
+	t_token	*token;
 
+	token = init_token(type, args->input, *i, offset);
+	*i += offset;
+	return (token);
+}
 
 static t_token	*get_token(
 	t_lexer_args *args,
@@ -91,6 +141,7 @@ static t_token	*get_token(
 {
 	if (type == TOKEN_TEXT)
 		return (handler_token_text(i, args));
+    return (handler_token_operator(args, i, offset, type));
 }
 
 static t_token *get_isspace_token(t_lexer_args *args, size_t *i)
@@ -112,8 +163,6 @@ t_token *get_next_token(t_lexer_args *args, size_t *i)
             return (get_isspace_token(args, i));
         offset = 0;
         type = get_token_type(&args->input[*i], &offset);
-        printf("type: %i\n", type);
-        printf("type = %s", get_token_type_name(type));
         token = get_token(args, i, offset, type);
         return (token);
     }
@@ -132,13 +181,19 @@ t_parse_status    lexer(t_lexer_args *args)
     i = 0;
     printf("input:%s\n",args->input);
     token = get_next_token(args, &i);
+    // printf("type = %s; %-12s\n", get_token_type_name(token->type) , token->value);
+    printf("%-40s %-40s\n", get_token_type_name(token->type), token->value);
+
     while (token)
     {
         okash++;
-        if (okash > 20)
+        if (okash > 40)
             break ;
         token = get_next_token(args, &i);
-        printf("token: %s\n", token->value);
+        if (!token)
+            break ;
+        // printf("type = %s; %s\n", get_token_type_name(token->type) , token->value);
+        printf("%-40s %-40s\n", get_token_type_name(token->type), token->value);
 /*         status = get_parsing_error_status(token, args, &i);
 		if (status != COMMAND_VALID)
 			return (status); */
@@ -152,7 +207,8 @@ int main()
 {
     t_parse_status		status;
     t_lexer_args		args;
-	const char *command = "( ( ( echo 'salut' ) ) && echo 'bonjour' )";
+	// const char *command = "( ( ( echo 'salut' ) ) && echo 'bonjour' )";
+    const char *command = "( ( ( echo jojo$PATH'$GOOD'\"ijiji$HELLO\" ) ) && echo 'bonjour' )";
 
 	args = init_lexer_args(command);
 	status = lexer(&args);

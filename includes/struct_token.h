@@ -46,19 +46,26 @@ typedef enum e_only_metachar
 	NEWLINE						= 1 << 2,	// \n
 }	t_only_metachar;
 
+typedef enum e_token_name
+{
+	TEXT						= 1 << 3,	// TEXT
+	EXPAND						= 1 << 4,	// $VAR
+	WILDCARD					= 1 << 5,	// WILDCARD
+}	t_token_name;
+
 typedef enum e_control_operator
 {
-	OP_OR						= 1 << 3,	// ||
-	OP_PIPE						= 1 << 4,	// |
-	OP_AND						= 1 << 5,	// &&
-	OP_AMP						= 1 << 6,	// &
-	OP_SEMICOL					= 1 << 7,	// ;
-	OP_DB_SEMICOL				= 1 << 8,	// ;;
-	OP_SEMICOL_AMP				= 1 << 9,	// ;&
-	OP_DB_SEMICOL_AMP			= 1 << 10,	// ;;&
-	OP_PIPE_ERR					= 1 << 11,	// |&
-	OP_PARENTHESIS_OPEN			= 1 << 12,	// (
-	OP_PARENTHESIS_CLOSE		= 1 << 13,	// )
+	OP_OR						= 1 << 6,	// ||
+	OP_PIPE						= 1 << 7,	// |
+	OP_AND						= 1 << 8,	// &&
+	OP_AMP						= 1 << 9,	// &
+	OP_SEMICOL					= 1 << 10,	// ;
+	OP_DB_SEMICOL				= 1 << 11,	// ;;
+	OP_SEMICOL_AMP				= 1 << 12,	// ;&
+	OP_DB_SEMICOL_AMP			= 1 << 13,	// ;;&
+	OP_PIPE_ERR					= 1 << 14,	// |&
+	OP_PARENTHESIS_OPEN			= 1 << 15,	// (
+	OP_PARENTHESIS_CLOSE		= 1 << 16,	// )
 }	t_control_operator;
 
 # define E_CONTROL_OPERATOR_MASK 4088	// WITHOUT PARENTHESIS
@@ -66,20 +73,14 @@ typedef enum e_control_operator
 
 typedef enum e_redir_operator
 {
-	REDIR_IN					= 1 << 14,	// <
-	REDIR_OUT					= 1 << 15,	// >
-	REDIR_APPEND				= 1 << 16,	// >>
-	REDIR_HEREDOC				= 1 << 17,	// <<
+	REDIR_IN					= 1 << 17,	// <
+	REDIR_OUT					= 1 << 18,	// >
+	REDIR_APPEND				= 1 << 19,	// >>
+	REDIR_HEREDOC				= 1 << 20,	// <<
 }	t_redir_operator;
 
 # define E_REDIR_OPERATOR_MASK 245760
 
-typedef enum e_token_name
-{
-	TEXT						= 1 << 18,	// TEXT
-	EXPAND						= 1 << 19,	// $VAR
-	WILDCARD					= 1 << 20,	// WILDCARD
-}	t_token_name;
 
 typedef enum e_token_flag
 {
@@ -89,8 +90,8 @@ typedef enum e_token_flag
 	ERR_UNOPENED_PARENTHESIS	= 1 << 26,
 }	t_token_flag;
 
-# define EXPAND_EXPR			"$"
-# define WILDCARD_EXPR			"*"
+# define EXPAND_EXPR			'$'
+# define WILDCARD_EXPR			'*'
 # define QUOTE 					'\''
 # define DQUOTE 				'"'
 
@@ -111,7 +112,7 @@ typedef enum e_token_type_flags
 	TOKEN_DB_SEMICOL_AMP		= OP_DB_SEMICOL_AMP | ERR_MISSING_LEFT_OPERAND,
 	TOKEN_PIPE					= OP_PIPE | ERR_MISSING_LEFT_OPERAND | EXPECT_CONTINUATION,
 	TOKEN_PIPE_ERR				= OP_PIPE_ERR | ERR_MISSING_LEFT_OPERAND | EXPECT_CONTINUATION,
-	TOKEN_PARENTHESIS_OPEN		= OP_PARENTHESIS_OPEN | ERR_MISSING_LEFT_OPERAND,
+	TOKEN_PARENTHESIS_OPEN		= OP_PARENTHESIS_OPEN | EXPECT_CONTINUATION,
 	TOKEN_PARENTHESIS_CLOSE		= OP_PARENTHESIS_CLOSE | ERR_MISSING_LEFT_OPERAND,
 	TOKEN_REDIR_IN				= REDIR_IN | ERR_MISSING_LEFT_OPERAND,
 	TOKEN_REDIR_OUT				= REDIR_OUT | ERR_MISSING_LEFT_OPERAND,

@@ -23,7 +23,7 @@ t_ast_node *find_next_cmd_recursive(t_bool is_start, t_ast_node *node)
 	if (node->type == CMD)
 		return (node);
 	else
-		return (find_next_cmd_recursive(FALSE, (t_ast_node *)get_value(node->content, 0)));
+		return (find_next_cmd_recursive(FALSE, (t_ast_node *)get_dynarray_value(node->content, 0)));
 }
 
 t_ast_node *find_next_cmd(t_ast_node *master_node)

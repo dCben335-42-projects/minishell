@@ -40,7 +40,7 @@ int	add_child(t_ast_node *parent, t_ast_node *child)
 	}
 	if (!set_dynarray_value(parent->content, parent->child_count - 2, child))
 		return (0);
-	((t_ast_node *)get_value(parent->content, parent->child_count - 3))->next = child;
+	((t_ast_node *)get_dynarray_value(parent->content, parent->child_count - 3))->next = child;
 	parent->child_count++;
 	return (1);
 }
@@ -53,8 +53,8 @@ int	add_childs(t_ast_node *parent, t_dynarray *childs)
 	while (i < childs->count)
 	{
 		if (i > 0)
-			((t_ast_node *)get_value(childs, i - 1))->next = ((t_ast_node *)get_value(childs, i));
-		((t_ast_node *)get_value(childs, i))->parent = parent;
+			((t_ast_node *)get_dynarray_value(childs, i - 1))->next = ((t_ast_node *)get_dynarray_value(childs, i));
+		((t_ast_node *)get_dynarray_value(childs, i))->parent = parent;
 		i++;
 	}
 	parent->content = childs;

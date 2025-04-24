@@ -64,8 +64,8 @@ typedef struct s_print_ast_json_args
 
 typedef struct s_token_node_map
 {
-	t_token_type	token;
-	t_node_type		cmd;
+	t_token_type_flags	token;
+	t_node_type			cmd;
 }	t_token_node_map;
 
 t_ast_node	*init_node(t_node_type type, char *value);

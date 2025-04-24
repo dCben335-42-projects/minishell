@@ -29,9 +29,9 @@ static t_parse_status	get_error_message(t_token *token, char **error)
 static t_parse_status	token_parenthesis_parser(
 	t_lexer_args *args, t_token *token)
 {
-	if (token->type == TOKEN_OPEN_BRACKET)
+	if (token->type == TOKEN_PARENTHESIS_OPEN)
 		args->parenthesis.open++;
-	else if (token->type == TOKEN_CLOSE_BRACKET)
+	else if (token->type == TOKEN_PARENTHESIS_CLOSE)
 		args->parenthesis.close++;
 	if (args->parenthesis.close > args->parenthesis.open)
 		return (get_error_message(token, &args->error));

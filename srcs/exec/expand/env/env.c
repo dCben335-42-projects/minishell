@@ -86,7 +86,7 @@ char	*copy_env_value(
 	return (dest);
 }
 
-static char	*create_new_value(const char *str, char *dest, t_shell *shell)
+/* static char	*create_new_value(const char *str, char *dest, t_shell *shell)
 {
 	size_t	i;
 	size_t	key_len;
@@ -112,7 +112,7 @@ static char	*create_new_value(const char *str, char *dest, t_shell *shell)
 	}
 	dest[i] = '\0';
 	return (dest);
-}
+} */
 
 /**
  * @brief Expands the environment variables in the token.
@@ -124,7 +124,9 @@ static char	*create_new_value(const char *str, char *dest, t_shell *shell)
 */
 void	*expand_env_token(t_shell *shell, t_token *token)
 {
-	char	*new_value;
+	(void) shell;
+	(void) token;
+/* 	char	*new_value;
 
 	if (token->type == TOKEN_TEXT || token->type == TOKEN_VAR_TEXT)
 	{
@@ -137,5 +139,6 @@ void	*expand_env_token(t_shell *shell, t_token *token)
 		free(token->value);
 		token->value = new_value;
 	}
-	return (token);
+	return (token); */
+	return (NULL);
 }

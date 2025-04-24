@@ -22,9 +22,9 @@ static int	count_token_between_brackets(t_dynarray *tokens, t_uint i)
 	while (i < tokens->count - 1)
 	{
 		token = (t_token *)get_dynarray_value(tokens, i);
-		if (token->type == TOKEN_OPEN_BRACKET)
+		if (token->type == TOKEN_PARENTHESIS_OPEN)
 			count_parenthesis_open++;
-		else if (token->type == TOKEN_CLOSE_BRACKET)
+		else if (token->type == TOKEN_PARENTHESIS_CLOSE)
 			count_parenthesis_close++;
 		if (count_parenthesis_open == count_parenthesis_close)
 			return (count);

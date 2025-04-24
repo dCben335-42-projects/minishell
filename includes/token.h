@@ -26,9 +26,9 @@
 	TOKEN_SPACE,			// [18] def=WHITESPACE
 	TOKEN_UNKNOWN,			// [19] def=unknown
 	TOKEN_EOF,				// [20] def=EOF
-}	t_token_type;
+}	t_token_type; */
 
-typedef enum metachar
+typedef enum e_only_metachar
 {
 	SPACE						= 1 << 0,	// ' '
 	TAB							= 1 << 1,	// \t
@@ -52,58 +52,73 @@ typedef enum e_control_operator
 
 typedef enum e_redir_operator
 {
-	REDIR_IN					= 1 << 14,
-	REDIR_OUT					= 1 << 15,
-	REDIR_APPEND				= 1 << 16,
-	REDIR_HEREDOC				= 1 << 17,
+	REDIR_IN					= 1 << 14,	// <
+	REDIR_OUT					= 1 << 15,	// >
+	REDIR_APPEND				= 1 << 16,	// >>
+	REDIR_HEREDOC				= 1 << 17,	// <<
 }	t_redir_operator;
+
+typedef enum e_token_name
+{
+	TEXT						= 1 << 18,	// TEXT
+	EXPAND						= 1 << 19,	// $VAR
+	WILDCARD					= 1 << 20,	// WILDCARD
+}	t_token_name;
 
 typedef enum e_token_flag
 {
-	EXPECT_CONTINUATION			= 1 << 18,
-	ERR_MISSING_LEFT_OPERAND	= 1 << 19,
-	ERR_MISSING_RIGHT_OPERAND	= 1 << 20,
-	ERR_UNOPENED_PARENTHESIS	= 1 << 21,
+	EXPECT_CONTINUATION			= 1 << 21,
+	ERR_MISSING_LEFT_OPERAND	= 1 << 22,
+	ERR_MISSING_RIGHT_OPERAND	= 1 << 23,
+	ERR_UNOPENED_PARENTHESIS	= 1 << 24,
 }	t_token_flag;
 
 typedef enum e_token_type_flags
 {
-	OP_NEWLINE				= OP_NEWLINE,
-	OP_OR					= OP_OR | ERR_MISSING_LEFT_OPERAND | EXPECT_CONTINUATION,
-	OP_PIPE					= OP_PIPE | ERR_MISSING_LEFT_OPERAND | EXPECT_CONTINUATION,
-	OP_AND					= OP_AND | ERR_MISSING_LEFT_OPERAND | EXPECT_CONTINUATION,
-	OP_AMP					= OP_AMP | ERR_MISSING_LEFT_OPERAND | EXPECT_CONTINUATION,
-	OP_SEMICOL				= OP_SEMICOL | ERR_MISSING_LEFT_OPERAND,
-	OP_DB_SEMICOL			= OP_DB_SEMICOL | ERR_MISSING_LEFT_OPERAND,
-	OP_SEMICOL_AMP			= OP_SEMICOL_AMP | ERR_MISSING_LEFT_OPERAND,
-	OP_DB_SEMICOL_AMP		= OP_DB_SEMICOL_AMP | ERR_MISSING_LEFT_OPERAND,
-	OP_PIPE_ERR				= OP_PIPE_ERR | ERR_MISSING_LEFT_OPERAND | EXPECT_CONTINUATION,
-	OP_PARENTHESIS_OPEN		= OP_PARENTHESIS_OPEN | ERR_MISSING_LEFT_OPERAND,
-	OP_PARENTHESIS_CLOSE	= OP_PARENTHESIS_CLOSE | ERR_MISSING_LEFT_OPERAND,
-}
-
+	TOKEN_SPACE					= SPACE,
+	TOKEN_TAB					= TAB,
+	TOKEN_NEWLINE				= NEWLINE,
+	TOKEN_TEXT					= TEXT,
+	TOKEN_EXPAND				= EXPAND,
+	TOKEN_WILDCARD				= WILDCARD,
+	TOKEN_OR					= OP_OR | ERR_MISSING_LEFT_OPERAND | EXPECT_CONTINUATION,
+	TOKEN_BACKGROUND			= OP_AMP | ERR_MISSING_LEFT_OPERAND | EXPECT_CONTINUATION,
+	TOKEN_AND					= OP_AND | ERR_MISSING_LEFT_OPERAND | EXPECT_CONTINUATION,
+	TOKEN_SEMICOL				= OP_SEMICOL | ERR_MISSING_LEFT_OPERAND,
+	TOKEN_DB_SEMICOL			= OP_DB_SEMICOL | ERR_MISSING_LEFT_OPERAND,
+	TOKEN_SEMICOL_AMP			= OP_SEMICOL_AMP | ERR_MISSING_LEFT_OPERAND,
+	TOKEN_DB_SEMICOL_AMP		= OP_DB_SEMICOL_AMP | ERR_MISSING_LEFT_OPERAND,
+	TOKEN_PIPE					= OP_PIPE | ERR_MISSING_LEFT_OPERAND | EXPECT_CONTINUATION,
+	TOKEN_PIPE_ERR				= OP_PIPE_ERR | ERR_MISSING_LEFT_OPERAND | EXPECT_CONTINUATION,
+	TOKEN_PARENTHESIS_OPEN		= OP_PARENTHESIS_OPEN | ERR_MISSING_LEFT_OPERAND,
+	TOKEN_PARENTHESIS_CLOSE		= OP_PARENTHESIS_CLOSE | ERR_MISSING_LEFT_OPERAND,
+	TOKEN_REDIR_IN				= REDIR_IN | ERR_MISSING_LEFT_OPERAND,
+	TOKEN_REDIR_OUT				= REDIR_OUT | ERR_MISSING_LEFT_OPERAND,
+	TOKEN_APPEND				= REDIR_APPEND | ERR_MISSING_LEFT_OPERAND,
+	TOKEN_HEREDOC				= REDIR_HEREDOC | ERR_MISSING_LEFT_OPERAND,
+}	t_token_type_flags;
 
 typedef struct s_token_map
 {
-	char			*op;
-	t_token_type	token;
+	char				*op;
+	t_token_type_flags	token;
 }	t_token_map;
 
 typedef struct s_token
 {
-	t_token_type	type;
-	char			*value;
+	t_token_type_flags	type;
+	char				*value;
 }	t_token;
 
 void			*destroy_token(
 					t_token *token);
 
 const char		*get_token_type_name(
-					const t_token_type type);
+					const t_token_type_flags type);
 
-t_token_type	get_token_type(
-					const char *str,
-					int *offset);
+t_token_type_flags	get_token_type(
+						const char *str,
+						int *offset);
 
 t_token			*init_token(int token_type,
 					const char *value,

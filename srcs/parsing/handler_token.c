@@ -13,7 +13,7 @@
 #include "parsing.h"
 
 t_token	*handler_token_quote(size_t *i,
-	t_lexer_args *args, t_token_type type)
+	t_lexer_args *args, t_token_type_flags type)
 {
 	size_t	start_i;
 
@@ -50,7 +50,7 @@ t_token	*handler_token_text(size_t *i, t_lexer_args *args)
 }
 
 t_token	*handler_token_operator(t_lexer_args *args,
-	size_t *i, int offset, t_token_type type)
+	size_t *i, int offset, t_token_type_flags type)
 {
 	t_token	*token;
 

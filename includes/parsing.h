@@ -59,7 +59,7 @@ t_parse_status	token_parser(t_lexer_args *args, t_token *token);
  * @return the token
  */
 t_token			*handler_token_quote(size_t *i, t_lexer_args *args,
-					t_token_type type);
+					t_token_type_flags type);
 
 /**
  * @brief Function to manage text tokens
@@ -77,6 +77,6 @@ t_token			*handler_token_text(size_t *i, t_lexer_args *args);
  * @return the token
  */
 t_token			*handler_token_operator(t_lexer_args *args,
-					size_t *i, int offset, t_token_type type);
+					size_t *i, int offset, t_token_type_flags type);
 
 #endif

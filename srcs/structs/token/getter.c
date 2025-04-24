@@ -13,6 +13,28 @@
 #include "struct_token.h"
 #include "libft.h"
 
+/* static const t_token_map	*get_operator_table(void)
+{
+	static const t_token_map	op_table[] = {
+	{">>", TOKEN_APPEND},
+	{"<<", TOKEN_HEREDOC},
+	{"||", TOKEN_OR},
+	{"|&", TOKEN_PIPE_ERR},
+	{"&&", TOKEN_AND},
+	{"|", TOKEN_PIPE},
+	{"&", TOKEN_BACKGROUND},
+	{">", TOKEN_REDIR_OUT},
+	{"<", TOKEN_REDIR_IN},
+	{";", TOKEN_SEMICOL},
+	{"'", TOKEN_QUOTE},
+	{"\"", TOKEN_DQUOTE},
+	{"(", TOKEN_OPEN_BRACKET},
+	{")", TOKEN_CLOSE_BRACKET},
+	{NULL, TOKEN_EOF}};
+
+	return (op_table);
+}
+ */
 static const t_token_map	*get_operator_table(void)
 {
 	static const t_token_map	op_table[] = {
@@ -22,12 +44,10 @@ static const t_token_map	*get_operator_table(void)
 	{"|&", TOKEN_PIPE_ERR},
 	{"&&", TOKEN_AND},
 	{"|", TOKEN_PIPE},
-	{"&", TOKEN_AMP},
+	{"&", TOKEN_BACKGROUND},
 	{">", TOKEN_REDIR_OUT},
 	{"<", TOKEN_REDIR_IN},
 	{";", TOKEN_SEMICOL},
-	{"'", TOKEN_QUOTE},
-	{"\"", TOKEN_DQUOTE},
 	{"(", TOKEN_PARENTHESIS_OPEN},
 	{")", TOKEN_PARENTHESIS_CLOSE},
 	{NULL, TOKEN_EOF}};
@@ -47,7 +67,7 @@ static const t_token_map	*get_operator_table(void)
  * 
  * @return token type
  */
-t_token_type	get_token_type(const char *str, int *offset)
+t_token_type_flags	get_token_type(const char *str, int *offset)
 {
 	const t_token_map	*op_table = get_operator_table();
 	size_t				len;
@@ -74,7 +94,7 @@ t_token_type	get_token_type(const char *str, int *offset)
  * 
  * @return String corresponding to the token type
  */
-const char	*get_token_type_name(const t_token_type type)
+const char	*get_token_type_name(const t_token_type_flags type)
 {
 	static const char	*token_name[] = {
 		"TEXT",

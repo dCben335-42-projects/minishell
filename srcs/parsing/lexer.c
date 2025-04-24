@@ -14,7 +14,7 @@
 
 static t_bool	is_command_finished(const char *input, t_token *token)
 {
-	const t_token_type	type = token->type;
+	const t_token_type_flags	type = token->type;
 
 	if (type == TOKEN_AND || type == TOKEN_OR || type == TOKEN_PIPE
 		|| type == TOKEN_PIPE_ERR || type == TOKEN_UNKNOWN)
@@ -31,7 +31,7 @@ static t_token	*get_token(
 	t_lexer_args *args,
 	size_t *i,
 	int offset,
-	t_token_type type
+	t_token_type_flags type
 )
 {
 	if (type == TOKEN_QUOTE || type == TOKEN_DQUOTE)
@@ -72,7 +72,7 @@ t_parse_status	lexer(t_lexer_args *args)
 	int				offset;
 	t_parse_status	status;
 	t_token			*token;
-	t_token_type	type;
+	t_token_type_flags	type;
 
 	i = 0;
 	while (args->input[i])

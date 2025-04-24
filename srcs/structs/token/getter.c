@@ -22,14 +22,14 @@ static const t_token_map	*get_operator_table(void)
 	{"|&", TOKEN_PIPE_ERR},
 	{"&&", TOKEN_AND},
 	{"|", TOKEN_PIPE},
-	{"&", TOKEN_BACKGROUND},
+	{"&", TOKEN_AMP},
 	{">", TOKEN_REDIR_OUT},
 	{"<", TOKEN_REDIR_IN},
 	{";", TOKEN_SEMICOL},
 	{"'", TOKEN_QUOTE},
 	{"\"", TOKEN_DQUOTE},
-	{"(", TOKEN_OPEN_BRACKET},
-	{")", TOKEN_CLOSE_BRACKET},
+	{"(", TOKEN_PARENTHESIS_OPEN},
+	{")", TOKEN_PARENTHESIS_CLOSE},
 	{NULL, TOKEN_EOF}};
 
 	return (op_table);

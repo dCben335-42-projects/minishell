@@ -4,7 +4,7 @@
 # include <stddef.h>
 # include "types.h"
 
-typedef enum e_token_type
+/* typedef enum e_token_type
 {
 	TOKEN_TEXT,				// [1] def=TEXT
 	TOKEN_VAR_TEXT,			// [2] def="TEXT"
@@ -27,54 +27,44 @@ typedef enum e_token_type
 	TOKEN_UNKNOWN,			// [19] def=unknown
 	TOKEN_EOF,				// [20] def=EOF
 }	t_token_type;
-/* 
+
 typedef enum metachar
 {
-	SPACE				= 1 << 0,
-	TAB					= 1 << 1,
-	NEWLINE				= 1 << 2,
-	B_OR				= 1 << 3,
-	B_AND				= 1 << 4,
-	SEMICOLON			= 1 << 5,
-	PARENTHESIS_OPEN	= 1 << 6,
-	PARENTHESIS_CLOSE	= 1 << 7,
-	CHEVRON_IN			= 1 << 8,
-	CHEVRON_OUT			= 1 << 9,
-}	t_metachar;
+	SPACE						= 1 << 0,	// ' '
+	TAB							= 1 << 1,	// \t
+	NEWLINE						= 1 << 2,	// \n
+}	t_only_metachar;
 
-typedef enum control_operator
+typedef enum e_control_operator
 {
-	OP_NEWLINE				= 1 << 0,	// \n
-	OP_OR					= 1 << 1,	// ||
-	OP_PIPE					= 1 << 2,	// |
-	OP_AND					= 1 << 3,	// &&
-	OP_AMP					= 1 << 4,	// &
-	OP_SEMICOL				= 1 << 5,	// ;
-	OP_DB_SEMICOL			= 1 << 6,	// ;;
-	OP_SEMICOL_AMP			= 1 << 7,	// ;&
-	OP_DB_SEMICOL_AMP		= 1 << 8,	// ;;&
-	OP_PIPE_ERR				= 1 << 9,	// |&
-	OP_PARENTHESIS_OPEN		= 1 << 10,	// (
-	OP_PARENTHESIS_CLOSE	= 1 << 11,	// )
+	OP_OR						= 1 << 3,	// ||
+	OP_PIPE						= 1 << 4,	// |
+	OP_AND						= 1 << 5,	// &&
+	OP_AMP						= 1 << 6,	// &
+	OP_SEMICOL					= 1 << 7,	// ;
+	OP_DB_SEMICOL				= 1 << 8,	// ;;
+	OP_SEMICOL_AMP				= 1 << 9,	// ;&
+	OP_DB_SEMICOL_AMP			= 1 << 10,	// ;;&
+	OP_PIPE_ERR					= 1 << 11,	// |&
+	OP_PARENTHESIS_OPEN			= 1 << 12,	// (
+	OP_PARENTHESIS_CLOSE		= 1 << 13,	// )
 }	t_control_operator;
 
-typedef enum redir_operator
+typedef enum e_redir_operator
 {
-	REDIR_IN			= 1 << 12,
-	REDIR_OUT			= 1 << 13,
-	REDIR_APPEND		= 1 << 14,
-	REDIR_HEREDOC		= 1 << 15,
-}	t_redirector;
+	REDIR_IN					= 1 << 14,
+	REDIR_OUT					= 1 << 15,
+	REDIR_APPEND				= 1 << 16,
+	REDIR_HEREDOC				= 1 << 17,
+}	t_redir_operator;
 
-typedef enum operator_flag
+typedef enum e_token_flag
 {
-	EXPECT_CONTINUATION			= 1 << 16,
-	ERR_MISSING_LEFT_OPERAND	= 1 << 17,
-	ERR_MISSING_TOKEN			= 1 << 18,
-	ERR_UNCLOSED_PAREN			= 1 << 19,
-	ERR_INVALID_REDIR			= 1 << 20,
-	ERR_SYNTAX					= 1 << 21,
-}	t_operator_flag;
+	EXPECT_CONTINUATION			= 1 << 18,
+	ERR_MISSING_LEFT_OPERAND	= 1 << 19,
+	ERR_MISSING_RIGHT_OPERAND	= 1 << 20,
+	ERR_UNOPENED_PARENTHESIS	= 1 << 21,
+}	t_token_flag;
 
 typedef enum e_token_type_flags
 {
@@ -90,7 +80,7 @@ typedef enum e_token_type_flags
 	OP_PIPE_ERR				= OP_PIPE_ERR | ERR_MISSING_LEFT_OPERAND | EXPECT_CONTINUATION,
 	OP_PARENTHESIS_OPEN		= OP_PARENTHESIS_OPEN | ERR_MISSING_LEFT_OPERAND,
 	OP_PARENTHESIS_CLOSE	= OP_PARENTHESIS_CLOSE | ERR_MISSING_LEFT_OPERAND,
-} */
+}
 
 
 typedef struct s_token_map

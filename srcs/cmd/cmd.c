@@ -74,13 +74,13 @@ int command_handler(char *input)
 	t_lexer_args args;
 
 	command_handler_lexer(input, &args);
-	cmd_master = ast_builder(&args.tokens);
+/* 	cmd_master = ast_builder(&args.tokens);
 	if (cmd_master)
 	{
 		print_ast_json_wrapper(cmd_master);
 		orchestrator(cmd_master);
 		destroy_dynamic_array(cmd_master);
 	}
-	destroy_lexer_args(&args);
+	destroy_lexer_args(&args); */
 	return (0);
 }

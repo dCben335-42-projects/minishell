@@ -6,7 +6,7 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:15:57 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/04/28 19:24:49 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/04/28 20:58:06 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,10 @@ int	is_parenthesis_token(t_token token)
 	return ((type & E_PARENTHESIS_MASK) > 0);
 }
 
-/* t_bool	is_text_token(t_token token)
+int	is_text_token(t_token token)
 {
-	const t_token_type	type = token.type;
-
-	return (type == TOKEN_TEXT || type == TOKEN_VAR_TEXT
-		|| type == TOKEN_LITERAL_TEXT);
-} */
+	return (token.type & TOKEN_TEXT);
+}
 
 int	is_redir_token(t_token token)
 {

@@ -7,6 +7,10 @@
 		"parsing.h": "c",
 		"struct_pointer.h": "c",
 		"stdio.h": "c",
-		"cstdlib": "c"
+		"cstdlib": "c",
+		"orchestrator.h": "c",
+		"libft.h": "c",
+		"struct_dynarray.h": "c",
+		"ast_node.h": "c"
 	}
 }

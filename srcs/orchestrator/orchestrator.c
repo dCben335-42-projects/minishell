@@ -22,7 +22,7 @@ void	execute_cmd_pipe()
 	return ;
 }
 
-void	orchestrator(t_dynamic_array *master_node_childs)
+void	orchestrator(t_dynarray *master_node_childs)
 {
 	t_ast_node	*master_node;
 	t_ast_node	*cmd;

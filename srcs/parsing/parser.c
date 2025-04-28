@@ -1,18 +1,6 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   parser.c                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/18 19:20:55 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/04/18 20:07:09 by bcabocel         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "parsing.h"
 
-static t_parse_status	get_error_message(t_token *token, char **error)
+t_parse_status	get_error_message(t_token *token, char **error)
 {
 	const size_t	msg_len
 		= ft_strlen("erreur de syntaxe près du symbole inattendu « ")
@@ -26,46 +14,29 @@ static t_parse_status	get_error_message(t_token *token, char **error)
 	return (COMMAND_NOT_VALID);
 }
 
-static t_parse_status	token_parenthesis_parser(
-	t_lexer_args *args, t_token *token)
-{
-	if (token->type == TOKEN_PARENTHESIS_OPEN)
-		args->parenthesis.open++;
-	else if (token->type == TOKEN_PARENTHESIS_CLOSE)
-		args->parenthesis.close++;
-	if (args->parenthesis.close > args->parenthesis.open)
-		return (get_error_message(token, &args->error));
-	if (token->type == TOKEN_EOF
-		&& args->parenthesis.open != args->parenthesis.close)
-	{
-		destroy_token(token);
-		token = init_token(TOKEN_EOF, "(", 0, 1);
-		return (get_error_message(token, &args->error));
-	}
-	return (COMMAND_VALID);
-}
-
 t_parse_status	token_parser(t_lexer_args *args, t_token *token)
 {
-	t_token	*prev_token;
+	int				i;
+	t_parse_status	status;
+	const			t_map_key_callback	parsing_action[6] = {
+		{INCREMENT_PAREN_OPEN,		&increment_p_open},
+		{INCREMENT_PAREN_CLOSE, 	&increment_p_close},
+		{ERR_UNOPENED_PARENTHESIS,	&err_unopened_parenthesis},
+		{ERR_PAREN_NOT_CLOSED,		&err_unclosed_parenthesis},
+		{ERR_MISSING_LEFT_OPERAND,	&err_missing_left_operand},
+		{0,							NULL}
+	};
 
-	if (token_parenthesis_parser(args, token))
-		return (COMMAND_NOT_VALID);
-	if (args->tokens.count == 0)
+	i = 0;
+	status = COMMAND_VALID;
+	while (parsing_action[i].key)
 	{
-		if (is_operator_token(*token))
-			return (get_error_message(token, &args->error));
-	}
-	else
-	{
-		prev_token = ((t_token *)get_dynarray_value(&args->tokens,
-					args->tokens.count - 1));
-		if (is_operator_token(*token) && is_operator_token(*prev_token))
-			return (get_error_message(token, &args->error));
-		if (prev_token->type == TOKEN_OPEN_BRACKET
-			&& token->type == TOKEN_CLOSE_BRACKET)
-			return (get_error_message(token, &args->error));
+		if (token->type & parsing_action[i].key)
+			status = parsing_action[i].callback(args, token);
+		if (status != COMMAND_VALID)
+			return (status);
+		i++;
 	}
 	set_dynarray_value(&args->tokens, args->tokens.count, token);
-	return (COMMAND_VALID);
+	return (status);
 }

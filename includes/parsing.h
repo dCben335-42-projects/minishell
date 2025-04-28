@@ -6,7 +6,7 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 17:45:18 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/04/28 20:07:35 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/04/28 20:52:23 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ t_pointer		get_token(
 					int offset,
 					t_token_type_flags type);
 
-t_pointer	handler_wildcard(t_lexer_args *args, char **start_i, t_token_type_flags *current_type);
+t_pointer	handler_wildcard(t_lexer_args *args, t_token_type_flags *current_type);
 t_pointer	handler_expand(t_lexer_args *args, char **start_i, t_token_type_flags *current_type);
 
 t_bool	is_an_expand(t_lexer_args * args);

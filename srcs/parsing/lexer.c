@@ -1,23 +1,8 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   lexer.c                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/18 19:15:03 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/04/28 19:27:44 by abonneau         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "parsing.h"
 
 static t_bool	is_command_finished(const char *input, t_token *token)
 {
-	const t_token_type_flags	type = token->type;
-
-	if (type == TOKEN_AND || type == TOKEN_OR || type == TOKEN_PIPE
-		|| type == TOKEN_PIPE_ERR || type == TOKEN_UNKNOWN)
+	if (token->type & EXPECT_CONTINUATION)
 	{
 		while (ft_isspace(*input))
 			input++;
@@ -27,70 +12,56 @@ static t_bool	is_command_finished(const char *input, t_token *token)
 	return (TRUE);
 }
 
-static t_token	*get_token(
-	t_lexer_args *args,
-	size_t *i,
-	int offset,
-	t_token_type_flags type
-)
+static t_pointer	get_next_token(t_lexer_args *args)
 {
-	if (type == TOKEN_QUOTE || type == TOKEN_DQUOTE)
-		return (handler_token_quote(i, args, type));
-	if (type == TOKEN_TEXT)
-		return (handler_token_text(i, args));
-	return (handler_token_operator(args, i, offset, type));
+    t_pointer			pointer;
+    t_token_type_flags	type;
+    int					offset;
+
+    while (args->input - args->start < args->input_size)
+    {
+        if (ft_isspace(*args->input))
+            return (tokenize_whitespace(args));
+        offset = 0;
+        type = get_token_type(args->input, &offset);
+        pointer = get_token(args, offset, type);
+        return (pointer);
+    }
+	return (init_pointer(NULL, FALSE, FALSE));
 }
 
 static t_parse_status	get_parsing_error_status(
-	t_token *token,
-	t_lexer_args *args,
-	size_t *i
+    t_lexer_args *args,
+	t_pointer pointer
 )
 {
-	t_parse_status	status;
+    t_parse_status  status;
 
-	if (!token)
+	if (pointer.is_malloc && ((t_token *)pointer.pointer) == NULL)
 		return (COMMAND_NOT_VALID);
-	status = token_parser(args, token);
-	if (status != COMMAND_VALID)
+    status = token_parser(args, ((t_token *)pointer.pointer));
+    if (status != COMMAND_VALID)
 		return (status);
-	if (!is_command_finished(&args->input[*i], token))
+    if (!is_command_finished(args->input, ((t_token *)pointer.pointer)))
 		return (COMMAND_NOT_FINISHED);
-	return (status);
+    return (status);
 }
 
-static t_token	*get_isspace_token(t_lexer_args *args, size_t *i)
+t_parse_status    lexer(t_lexer_args *args)
 {
-	while (ft_isspace(args->input[*i]))
-		(*i)++;
-	return (init_token(TOKEN_SPACE, "", 0, 0));
+    t_pointer		pointer;
+    t_parse_status	status;
+
+    pointer = get_next_token(args);
+    while (pointer.pointer)
+    {
+		status = get_parsing_error_status(args, pointer);
+        if (status != COMMAND_VALID)
+            return (status);
+		pointer = get_next_token(args);
+    }
+    return (COMMAND_VALID);
 }
 
-t_parse_status	lexer(t_lexer_args *args)
-{
-	size_t			i;
-	int				offset;
-	t_parse_status	status;
-	t_token			*token;
-	t_token_type_flags	type;
 
-	i = 0;
-	while (args->input[i])
-	{
-		if (ft_isspace(args->input[i]))
-		{
-			token = get_isspace_token(args, &i);
-			status = get_parsing_error_status(token, args, &i);
-			if (status != COMMAND_VALID)
-				return (status);
-		}
-		offset = 0;
-		type = get_token_type(&args->input[i], &offset);
-		token = get_token(args, &i, offset, type);
-		status = get_parsing_error_status(token, args, &i);
-		if (status != COMMAND_VALID)
-			return (status);
-	}
-	token = init_token(TOKEN_EOF, "", 0, 0);
-	return (get_parsing_error_status(token, args, &i));
-}
+// ( ( ( echo jojo$PATH'$GOOD'"okksa   'fjeifj'          iji*ji$HELLO"jigo/*'ffe'./?out) )&& echo $'bonjour'"salut $" )

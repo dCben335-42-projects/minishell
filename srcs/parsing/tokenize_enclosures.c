@@ -51,5 +51,5 @@ t_pointer	tokenize_enclosures(t_lexer_args *args, char **start_i, t_token_type_f
 	pointer = handler_expand(args, start_i, current_type);
 	if (pointer.is_malloc)
 		return (pointer);
-	return (handler_wildcard(args, start_i, current_type));
+	return (handler_wildcard(args, current_type));
 }

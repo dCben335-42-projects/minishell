@@ -42,7 +42,7 @@ t_parse_status	err_missing_left_operand(t_lexer_args *args, t_token *token)
 		args->tokens.count - 1));
 	if (prev_token->type & E_CONTROL_OPERATOR_MASK)
 		return (get_error_message(token, &args->error));
-	if (token->type & OP_PARENTHESIS_CLOSE && prev_token->type == OP_PARENTHESIS_OPEN)
+	if (token->type & OP_PARENTHESIS_CLOSE && prev_token->type & OP_PARENTHESIS_OPEN)
 		return (get_error_message(token, &args->error));
 	return (COMMAND_VALID);
 }

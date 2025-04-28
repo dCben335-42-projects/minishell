@@ -6,7 +6,7 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:35:32 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/04/28 12:56:35 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/04/28 20:50:44 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ typedef struct s_lexer_args
 	char				*error;
 	char				quote;
 	const char			*start;
-	size_t				input_size;
+	long				input_size;
 	t_dynarray			tokens;
 	t_bracket			parenthesis;
 	t_bracket			bracket;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:57:59 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/04/18 21:00:45 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/04/28 21:03:42 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,7 @@ static void	print_tokens(t_dynarray *tokens)
 	while (i < count)
 	{
 		data = (t_token *)get_dynarray_value(tokens, i);
-		printf("Token: %-12s", data->value);
-		printf(" | ");
-		printf("Type: %s", get_token_type_name(data->type));
-		printf("\n==================================");
-		printf("==================================\n");
+		printf("%-40s %-40s\n", get_token_type_name(data->type), data->value);
 		i++;
 	}
 }
@@ -80,24 +76,25 @@ void	command_handler_lexer(char *input, t_lexer_args *args)
 int	command_handler(char *input, t_shell *shell)
 {
 	t_lexer_args	args;
-	t_dynarray		*cmds;
+	(void)shell;
+	//t_dynarray		*cmds;
 
 	command_handler_lexer(input, &args);
-	if (args.tokens.count == 0)
-	{
-		destroy_lexer_args(&args);
-		return (0);
-	}
-	cmds = ast_builder(&args.tokens);
-	if (!cmds)
-	{
-		destroy_lexer_args(&args);
-		return (0);
-	}
-	print_ast_json_wrapper(cmds);
-	expand(shell, &args.tokens);
-	print_tokens(&args.tokens);
-	destroy_lexer_args(&args);
-	destroy_dynarray(cmds);
+	//if (args.tokens.count == 0)
+	//{
+	//	destroy_lexer_args(&args);
+	//	return (0);
+	//}
+	//cmds = ast_builder(&args.tokens);
+	//if (!cmds)
+	//{
+	//	destroy_lexer_args(&args);
+	//	return (0);
+	//}
+	//print_ast_json_wrapper(cmds);
+	//expand(shell, &args.tokens);
+	//print_tokens(&args.tokens);
+	//destroy_lexer_args(&args);
+	//destroy_dynarray(cmds);
 	return (1);
 }

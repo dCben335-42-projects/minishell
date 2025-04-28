@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   struct_token.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:44:15 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/04/18 20:15:13 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/04/28 13:56:33 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,9 +144,14 @@ t_token_type_flags	get_token_type(
 						const char *str,
 						int *offset);
 
-t_token			*init_token(int token_type,
-					const char *value,
-					t_uint start,
+//t_token			*init_token(int token_type,
+//					const char *value,
+//					t_uint start,
+//					size_t len);
+
+t_token			*init_token_p(
+					int token_type,
+					const char *start,
 					size_t len);
 
 int				is_operator_token(

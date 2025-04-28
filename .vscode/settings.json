@@ -1,0 +1,12 @@
+{
+	"files.associations": {
+		"struct_token.h": "c",
+		"type_traits": "c",
+		"utility": "c",
+		"struct_lexer_args.h": "c",
+		"parsing.h": "c",
+		"struct_pointer.h": "c",
+		"stdio.h": "c",
+		"cstdlib": "c"
+	}
+}

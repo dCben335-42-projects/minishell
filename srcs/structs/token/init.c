@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:16:15 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/04/18 20:04:41 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/04/28 13:53:33 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,31 @@ t_token	*init_token(
 		return (NULL);
 	token->type = token_type;
 	token->value = ft_substr(value, start, len);
+	if (!token->value)
+	{
+		free(token);
+		return (NULL);
+	}
+	return (token);
+}
+
+
+t_token	*init_token_p(
+	int token_type,
+	const char *start,
+	size_t len
+)
+{
+	t_token	*token;
+
+	token = malloc(sizeof(t_token));
+	if (!token)
+		return (NULL);
+	token->type = token_type;
+	if (len != 0)
+		token->value = ft_substr(start, 0, len);
+	else
+		token->value = ft_strdup("");
 	if (!token->value)
 	{
 		free(token);

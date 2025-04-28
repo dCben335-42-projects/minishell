@@ -1,6 +1,18 @@
 #include "parsing.h"
 
-t_pointer	get_next_token(t_lexer_args *args)
+static t_bool	is_command_finished(const char *input, t_token *token)
+{
+	if (token->type & EXPECT_CONTINUATION)
+	{
+		while (ft_isspace(*input))
+			input++;
+		if (!*input)
+			return (FALSE);
+	}
+	return (TRUE);
+}
+
+static t_pointer	get_next_token(t_lexer_args *args)
 {
     t_pointer			pointer;
     t_token_type_flags	type;
@@ -19,14 +31,21 @@ t_pointer	get_next_token(t_lexer_args *args)
 }
 
 static t_parse_status	get_parsing_error_status(
+    t_lexer_args *args,
 	t_pointer pointer
 )
 {
+    t_parse_status  status;
+
 	if (pointer.is_malloc && ((t_token *)pointer.pointer) == NULL)
 		return (COMMAND_NOT_VALID);
+    status = token_parser(args, ((t_token *)pointer.pointer));
+    if (status != COMMAND_VALID)
+		return (status);
+    if (!is_command_finished(args->input, ((t_token *)pointer.pointer)))
+		return (COMMAND_NOT_FINISHED);
+    return (status);
 }
-
-
 
 t_parse_status    lexer(t_lexer_args *args)
 {
@@ -36,8 +55,9 @@ t_parse_status    lexer(t_lexer_args *args)
     pointer = get_next_token(args);
     while (pointer.pointer)
     {
-		if (!get_parsing_error_status(pointer))
-			return (status);
+		status = get_parsing_error_status(args, pointer);
+        if (status != COMMAND_VALID)
+            return (status);
         printf("%-40s %-40s\n", get_token_type_name(((t_token *)pointer.pointer)->type), ((t_token *)pointer.pointer)->value);
 		pointer = get_next_token(args);
     }
@@ -58,11 +78,14 @@ int main()
     t_parse_status		status;
     t_lexer_args		args;
 	// const char *command = "( ( ( echo 'salut' ) ) && echo 'bonjour' )";
-    const char *command = "( ( ( echo jojo$PATH'$GOOD'\"okksa   'fjeifj'          iji*ji$HELLO\"jigo/*'ffe') ) && echo $'bonjour'\"salut $\" )";
+    const char *command = "( ( ( echo jojo$PATH'$GOOD'\"okksa   'fjeifj'          iji*ji$HELLO\"jigo/*'ffe'./?out) )&& echo $'bonjour'\"salut $\" )";
 
     printf("input:%s\n", command);
 	args = init_lexer_args(command);
 	status = lexer(&args);
+
+    printf("status: %d\n", status);
+    printf("error: %s\n", args.error);
 }
 
 // cc srcs/parsing/lexer2.c srcs/parsing/tokenize_*.c srcs/parsing/get_token.c libs/libft/srcs/**/*.c  srcs/structs/token/*.c srcs/structs/lexer_args/*.c srcs/structs/dynarray/*.c srcs/structs/pointer/*.c -I includes -I libs/libft/includes

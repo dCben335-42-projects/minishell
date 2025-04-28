@@ -6,7 +6,7 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 17:45:18 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/04/28 16:22:21 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/04/28 20:07:35 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,12 @@ typedef enum e_parse_status
 	COMMAND_NOT_FINISHED,
 	MALLOC_ERROR,
 }	t_parse_status;
+
+typedef struct e_map_key_callback
+{
+	size_t				key;
+	t_parse_status		(*callback)(t_lexer_args *args, t_token *token);
+}	t_map_key_callback;
 
 /**
  * @brief Analyzes the input to determine if it follows a valid command format.
@@ -103,7 +109,17 @@ t_pointer		get_token(
 					int offset,
 					t_token_type_flags type);
 
+t_pointer	handler_wildcard(t_lexer_args *args, char **start_i, t_token_type_flags *current_type);
+t_pointer	handler_expand(t_lexer_args *args, char **start_i, t_token_type_flags *current_type);
+
 t_bool	is_an_expand(t_lexer_args * args);
 t_bool	is_a_wildcard(t_lexer_args * args, t_token_type_flags *current_type);
 
+t_parse_status	increment_p_open(t_lexer_args *args, t_token *token);
+t_parse_status	increment_p_close(t_lexer_args *args, t_token *token);
+t_parse_status	err_unopened_parenthesis(t_lexer_args *args, t_token *token);
+t_parse_status	err_unclosed_parenthesis(t_lexer_args *args, t_token *token);
+t_parse_status	err_missing_left_operand(t_lexer_args *args, t_token *token);
+
+t_parse_status	get_error_message(t_token *token, char **error);
 #endif

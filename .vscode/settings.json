@@ -12,6 +12,9 @@
 		"libft.h": "c",
 		"struct_dynarray.h": "c",
 		"ast_node.h": "c",
-		"stdlib.h": "c"
+		"stdlib.h": "c",
+		"initializer_list": "c",
+		"compare": "c",
+		"minishell.h": "c"
 	}
 }

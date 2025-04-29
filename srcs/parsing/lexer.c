@@ -51,6 +51,7 @@ t_parse_status    lexer(t_lexer_args *args)
 {
     t_pointer		pointer;
     t_parse_status	status;
+    t_pointer       pointer2;
 
     pointer = get_next_token(args);
     while (pointer.pointer)
@@ -60,6 +61,10 @@ t_parse_status    lexer(t_lexer_args *args)
             return (status);
 		pointer = get_next_token(args);
     }
+    pointer2 = init_pointer(init_token_p(TOKEN_EOF, 0, 0), TRUE, FALSE);
+    if (pointer2.is_malloc && ((t_token *)pointer2.pointer) == NULL)
+        return (MALLOC_ERROR);
+    push(&args->tokens, ((t_token *)pointer2.pointer));
     return (COMMAND_VALID);
 }
 

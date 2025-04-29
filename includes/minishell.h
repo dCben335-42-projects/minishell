@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 13:48:13 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/04/18 20:26:31 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/04/29 19:05:48 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # include <readline/history.h>
 # include <signal.h>
 # include <sys/wait.h>
+# include "ft_printf.h"
 
 t_bool	is_builtin(char **args, t_shell *shell);
 void	init_signals(void);

@@ -4,6 +4,9 @@
 t_ast_print_mapping	*get_mappings(void)
 {
 	static t_ast_print_mapping	mappings[] = {
+	{CMD_SEQ,					"CMD_SEQ",				0},
+	{CMD_JOIN,					"CMD_JOIN",				0},
+	{CMD_PARENTHESIS,			"CMD_PARENTHESIS",		0},
 	{CMD_SPACE,					"SPACE", 				1},
 	{CMD_TAB,					"TAB",					1},
 	{CMD_NEWLINE,				"NEWLINE",				1},
@@ -46,6 +49,7 @@ void	print_ast_json(t_print_ast_json_args args)
 		j = 0;
 		while (TRUE)
 		{
+			//printf("type=[%d]\n ", node->type);
 			if ((int)node->type == args.mappings[j].type)
 			{
 				if (args.mappings[j].use_cmd_join)

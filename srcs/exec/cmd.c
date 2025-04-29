@@ -6,7 +6,7 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:57:59 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/04/29 15:57:56 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/04/29 19:15:23 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,21 @@
 
 void	command_handler_lexer(char *input, t_lexer_args *args);
 
-static void	print_tokens(t_dynarray *tokens)
-{
-	t_uint	i;
-	t_uint	count;
-	t_token	*data;
+//static void	print_tokens(t_dynarray *tokens)
+//{
+//	t_uint	i;
+//	t_uint	count;
+//	t_token	*data;
 
-	i = 0;
-	count = tokens->count;
-	while (i < count)
-	{
-		data = (t_token *)get_dynarray_value(tokens, i);
-		printf("%-40s %-40s\n", get_token_type_name(data->type), data->value);
-		i++;
-	}
-}
+//	i = 0;
+//	count = tokens->count;
+//	while (i < count)
+//	{
+//		data = (t_token *)get_dynarray_value(tokens, i);
+//		printf("%-40s %-40s\n", get_token_type_name(data->type), data->value);
+//		i++;
+//	}
+//}
 
 static void	command_not_finished(t_lexer_args *args, char *input)
 {
@@ -90,7 +90,6 @@ void	command_handler_lexer(char *input, t_lexer_args *args)
 		printf("Error: %s\n", args->error);
 		return ;
 	}
-	print_tokens(&args->tokens);
 	if (*input)
 		add_history(input);
 }
@@ -113,7 +112,13 @@ int	command_handler(char *input, t_shell *shell)
 		destroy_lexer_args(&args);
 		return (0);
 	}
-	print_ast_json_wrapper(cmds);
+	if (DEBUG_MODE)
+	{
+		ft_printf("<--DEBUG_MODE-->\n");
+		ft_printf("COMMAND: %s\n", input);
+		ft_printf("ABSTRACT SYNTAX TREE:\n");
+		print_ast_json_wrapper(cmds);
+	}
 	//expand(shell, &args.tokens);
 	//print_tokens(&args.tokens);
 	//destroy_lexer_args(&args);

@@ -6,7 +6,7 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:44:15 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/04/29 16:01:01 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/04/29 19:27:47 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 # define STRUCT_TOKEN_H
 
 # include "types.h"
+
+# define DEBUG_MODE 					TRUE
 
 // FLAGS
 # define FLAG_BRACE_EXPANSION			FALSE	// {a,b,c}
@@ -79,9 +81,9 @@ typedef enum e_redir_operator
 	REDIR_OUT					= 1 << 18,	// >
 	REDIR_APPEND				= 1 << 19,	// >>
 	REDIR_HEREDOC				= 1 << 20,	// <<
-}	t_redir_operator;
+}	t_redir_operator; 
 
-# define E_REDIR_OPERATOR_MASK 245760
+# define E_REDIR_OPERATOR_MASK 1966080
 
 typedef enum e_token_flag
 {
@@ -142,11 +144,6 @@ t_token_type_flags	get_token_type(
 						const char *str,
 						int *offset);
 
-//t_token			*init_token(int token_type,
-//					const char *value,
-//					t_uint start,
-//					size_t len);
-
 t_token			*init_token_p(
 					int token_type,
 					const char *start,
@@ -161,30 +158,4 @@ int				is_redir_token(
 int				is_parenthesis_token(
 					t_token token);
 
-/* typedef struct s_token_map
-{
-	char			*op;
-	t_token_type	token;
-}	t_token_map;
-
-typedef struct s_token
-{
-	t_token_type	type;
-	char			*value;
-}	t_token;
-
-t_token			*init_token(int token_type,
-					const char *value,
-					t_uint start,
-					size_t len);
-
-void			*destroy_token(t_token *token);
-const char		*get_token_type_name(const t_token_type type);
-t_token_type	get_token_type(const char *str, int *offset);
-
-t_bool			is_operator_token(t_token token);
-t_bool			is_text_token(t_token token);
-t_bool			is_redir_token(t_token token);
-t_bool			is_parenthesis_token(t_token token);
- */
 #endif

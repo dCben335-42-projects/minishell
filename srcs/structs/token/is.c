@@ -6,7 +6,7 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:15:57 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/04/28 20:58:06 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/04/29 17:39:42 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,20 @@
 
 int is_operator_token(t_token token)
 {
-	const t_token_type_flags	type = token.type;
-
-	return ((type & E_CONTROL_OPERATOR_MASK) > 0);
+	return (token.type & E_CONTROL_OPERATOR_MASK);
 }
 
 int	is_parenthesis_token(t_token token)
 {
-	const t_token_type_flags	type = token.type;
-
-	return ((type & E_PARENTHESIS_MASK) > 0);
+	return (token.type & E_PARENTHESIS_MASK);
 }
 
 int	is_text_token(t_token token)
 {
-	return (token.type & TOKEN_TEXT);
+	return (token.type & E_TOKEN_NAME_MASK);
 }
 
 int	is_redir_token(t_token token)
 {
-	const t_token_type_flags	type = token.type;
-
-	return ((type & E_REDIR_OPERATOR_MASK) > 0);
+	return (token.type & E_REDIR_OPERATOR_MASK);
 }

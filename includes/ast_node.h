@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_node.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 20:33:47 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/04/18 20:54:23 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/04/29 16:26:08 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,21 +21,29 @@
 typedef enum e_node_type
 {
 	CMD_SEQ,
+	CMD_JOIN,
 	CMD_PARENTHESIS,
-	CMD,
+	CMD_SPACE,
+	CMD_TAB,
+	CMD_NEWLINE,
 	CMD_TEXT,
-	CMD_VAR_TEXT,
-	CMD_LITERAL_TEXT,
-	CMD_AND,
+	CMD_EXPAND,
+	CMD_WILDCARD,
 	CMD_OR,
+	CMD_AMP,
+	CMD_AND,
+	CMD_SEMICOL,
+	CMD_DB_SEMICOL,
+	CMD_SEMICOL_AMP,
+	CMD_DB_SEMICOL_AMP,
 	CMD_PIPE,
+	CMD_PIPE_ERR,
 	CMD_PARENTHESIS_OPEN,
 	CMD_PARENTHESIS_CLOSE,
-	CMD_APPEND,
 	CMD_REDIR_IN,
 	CMD_REDIR_OUT,
+	CMD_APPEND,
 	CMD_HEREDOC,
-	CMD_SPACE,
 	CMD_EOF,
 }	t_node_type;
 

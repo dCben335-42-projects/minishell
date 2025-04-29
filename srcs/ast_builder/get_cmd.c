@@ -50,7 +50,7 @@ t_ast_node	*add_cmd_child(t_get_cmd_master *args,
 	is_finished_by_space = FALSE;
 	count = count_new_cmd_child(args, &is_finished_by_space);
 	if (count > 0)
-		new_cmd = init_node_secure(CMD, NULL, args);
+		new_cmd = init_node_secure(CMD_JOIN, NULL, args);
 	else
 	{
 		*is_empty = TRUE;

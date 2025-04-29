@@ -6,7 +6,7 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:44:15 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/04/28 19:39:40 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/04/29 16:01:01 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ typedef enum e_token_name
 	EXPAND						= 1 << 4,	// $VAR
 	WILDCARD					= 1 << 5,	// WILDCARD
 }	t_token_name;
+
+# define E_TOKEN_NAME_MASK					56		// TEXT | EXPAND | WILDCARD
 
 typedef enum e_control_operator
 {
@@ -115,8 +117,7 @@ typedef enum e_token_type_flags
 	TOKEN_REDIR_OUT				= REDIR_OUT | ERR_MISSING_LEFT_OPERAND,
 	TOKEN_APPEND				= REDIR_APPEND | ERR_MISSING_LEFT_OPERAND,
 	TOKEN_HEREDOC				= REDIR_HEREDOC | ERR_MISSING_LEFT_OPERAND,
-	TOKEN_UNKNOWN				= 1 << 21,	// unknown
-	TOKEN_EOF					= 1 << 22 | ERR_PAREN_NOT_CLOSED,	// EOF
+	TOKEN_EOF					= 1 << 21 | ERR_PAREN_NOT_CLOSED,	// EOF
 }	t_token_type_flags;
 
 typedef struct s_token_map

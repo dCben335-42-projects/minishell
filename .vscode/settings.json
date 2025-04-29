@@ -11,6 +11,7 @@
 		"orchestrator.h": "c",
 		"libft.h": "c",
 		"struct_dynarray.h": "c",
-		"ast_node.h": "c"
+		"ast_node.h": "c",
+		"stdlib.h": "c"
 	}
 }

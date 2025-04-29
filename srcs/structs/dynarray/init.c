@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 17:46:46 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/04/18 21:01:16 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/04/29 15:14:23 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ t_dynarray	init_dynarray(t_uint size, void *(*destroyer)(void *))
 	arr.data = ft_calloc(size + 1, sizeof(void *));
 	arr.size = size;
 	arr.count = 0;
+	arr.last_index = 0;
 	arr.destroyer = destroyer;
 	arr.is_malloc = FALSE;
 	return (arr);
@@ -40,6 +41,7 @@ t_dynarray	*init_dynarray_malloc(t_uint size, void *(*destroyer)(void *))
 	}
 	arr->size = size;
 	arr->count = 0;
+	arr->last_index = 0;
 	arr->destroyer = destroyer;
 	arr->is_malloc = TRUE;
 	return (arr);

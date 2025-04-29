@@ -8,7 +8,7 @@ t_pointer	tokenize_word(t_lexer_args *args)
 
 	start_i = (char *)args->input;
 	current_type = TOKEN_TEXT;
-	while (args->input && (args->quote || !ft_isspace(*args->input))
+	while (*args->input && (args->quote || !ft_isspace(*args->input))
 		&& get_token_type(args->input, 0) == TOKEN_TEXT)
     {
 		pointer = tokenize_enclosures(args, &start_i, &current_type);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   getter.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:15:48 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/04/18 18:48:48 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/04/29 16:01:24 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,6 @@ const char	*get_token_type_name(const t_token_type_flags type)
 		"REDIR_OUT",
 		"APPEND",
 		"HEREDOC",
-		"UNKNOWN",
 		"EOF",
 	};
 	t_uint	i;

@@ -1,8 +1,8 @@
 #include "parsing.h"
 
-static t_bool	is_command_finished(const char *input, t_token *token)
+static t_bool	is_command_finished(const char *input, t_token *token, t_lexer_args *args)
 {
-	if (token->type & EXPECT_CONTINUATION)
+	if (token->type & EXPECT_CONTINUATION || args->parenthesis.open > args->parenthesis.close)
 	{
 		while (ft_isspace(*input))
 			input++;
@@ -18,7 +18,7 @@ static t_pointer	get_next_token(t_lexer_args *args)
     t_token_type_flags	type;
     int					offset;
 
-    while (args->input - args->start < args->input_size)
+    while (*args->input)
     {
         if (ft_isspace(*args->input))
             return (tokenize_whitespace(args));
@@ -38,11 +38,11 @@ static t_parse_status	get_parsing_error_status(
     t_parse_status  status;
 
 	if (pointer.is_malloc && ((t_token *)pointer.pointer) == NULL)
-		return (COMMAND_NOT_VALID);
+		return (MALLOC_ERROR);
     status = token_parser(args, ((t_token *)pointer.pointer));
     if (status != COMMAND_VALID)
 		return (status);
-    if (!is_command_finished(args->input, ((t_token *)pointer.pointer)))
+    if (!is_command_finished(args->input, ((t_token *)pointer.pointer), args))
 		return (COMMAND_NOT_FINISHED);
     return (status);
 }
@@ -65,3 +65,4 @@ t_parse_status    lexer(t_lexer_args *args)
 
 
 // ( ( ( echo jojo$PATH'$GOOD'"okksa   'fjeifj'          iji*ji$HELLO"jigo/*'ffe'./?out) )&& echo $'bonjour'"salut $" )
+// bash: erreur de syntaxe : fin de fichier prématurée

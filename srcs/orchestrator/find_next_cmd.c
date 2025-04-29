@@ -20,7 +20,7 @@ t_ast_node *find_next_cmd_recursive(t_bool is_start, t_ast_node *node)
 		return (NULL);
 	if (is_start)
 		return (find_next_cmd_recursive(FALSE, get_next_cmd(node)));
-	if (node->type == CMD)
+	if (node->type == CMD_JOIN)
 		return (node);
 	else
 		return (find_next_cmd_recursive(FALSE, (t_ast_node *)get_dynarray_value(node->content, 0)));

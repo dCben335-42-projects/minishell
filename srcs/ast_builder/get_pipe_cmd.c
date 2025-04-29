@@ -41,7 +41,7 @@ void	get_pipe_cmd(t_ast_node *cmd_master,
 			get_pipe_cmd_next_pipe(cmd_prev, cmd, cmd_master, args);
 		else if (cmd->type == CMD_PARENTHESIS_OPEN)
 			get_pipe_cmd_next_parenthesis(cmd, cmd_master, args);
-		else if (cmd->type != CMD)
+		else if (cmd->type != CMD_JOIN)
 			return ((void)add_previous_cmd(cmd_master, cmd_prev, cmd, args));
 		else
 			*cmd_prev = cmd;

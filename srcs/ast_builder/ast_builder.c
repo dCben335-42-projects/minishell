@@ -21,39 +21,3 @@ t_dynarray	*ast_builder(t_dynarray *tokens)
 	}
 	return (cmd_master);
 }
-
-//int	main(void)
-//{
-//	t_dynarray		*cmd_master;
-//	t_dynarray		*tokens;
-//	t_parse_status		status;
-//	t_lexer_args		args;
-
-//	const char *command = "( ( ( echo 'salut' ) ) && echo 'bonjour' )";
-
-//	args = init_lexer_args(command);
-//	status = lexer(&args);
-//	if (status != COMMAND_VALID)
-//	{
-//		printf("Error: %s\n", (&args)->error);
-//		return (0);
-//	}
-//	print_tokens(&(&args)->tokens);
-//	printf("command=%s\n", command);
-//	tokens = &args.tokens;
-//	cmd_master = ast_builder(tokens);
-//	if (!cmd_master)
-//	{
-//		destroy_dynarray(tokens);
-//	}
-//	else
-//	{
-//		print_ast_json_wrapper(cmd_master);
-//		destroy_dynarray(cmd_master);
-//		destroy_dynarray(tokens);
-//	}
-//    return (0);
-//}
-
-//cc srcs/ast_builder/*.c libs/libft/srcs/**/*.c 
-//srcs/structs/**/*.c srcs/lexer/*.c -I includes -I libs/libft/includes

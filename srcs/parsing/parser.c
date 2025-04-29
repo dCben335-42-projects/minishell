@@ -16,15 +16,15 @@ t_parse_status	get_error_message(t_token *token, char **error)
 
 t_parse_status	token_parser(t_lexer_args *args, t_token *token)
 {
-	int				i;
-	t_parse_status	status;
-	const			t_map_key_callback	parsing_action[6] = {
-		{INCREMENT_PAREN_OPEN,		&increment_p_open},
-		{INCREMENT_PAREN_CLOSE, 	&increment_p_close},
-		{ERR_UNOPENED_PARENTHESIS,	&err_unopened_parenthesis},
-		{ERR_PAREN_NOT_CLOSED,		&err_unclosed_parenthesis},
-		{ERR_MISSING_LEFT_OPERAND,	&err_missing_left_operand},
-		{0,							NULL}
+	int							i;
+	t_parse_status				status;
+	const t_map_key_callback	parsing_action[6] = {
+	{INCREMENT_PAREN_OPEN,		&increment_p_open},
+	{INCREMENT_PAREN_CLOSE,		&increment_p_close},
+	{ERR_UNOPENED_PARENTHESIS,	&err_unopened_parenthesis},
+	{ERR_PAREN_NOT_CLOSED,		&err_unclosed_parenthesis},
+	{ERR_MISSING_LEFT_OPERAND,	&err_missing_left_operand},
+	{0,							NULL}
 	};
 
 	i = 0;
@@ -37,6 +37,6 @@ t_parse_status	token_parser(t_lexer_args *args, t_token *token)
 			return (status);
 		i++;
 	}
-	set_dynarray_value(&args->tokens, args->tokens.count, token);
+	push(&args->tokens, token);
 	return (status);
 }

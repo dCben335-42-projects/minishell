@@ -8,6 +8,8 @@ t_ast_node	*init_node(t_node_type type, char *value)
 	if (!node)
 		return (NULL);
 	node->type = type;
+	node->parent = NULL;
+	node->next = NULL;
 	if (value)
 	{
 		node->content = ft_strdup(value);
@@ -16,10 +18,28 @@ t_ast_node	*init_node(t_node_type type, char *value)
 	}
 	node->content = NULL;
 	node->child_count = 0;
-	node->parent = NULL;
-	node->next = NULL;
 	return (node);
 }
+
+void	init_node_on_stack(t_ast_node **node, t_node_type type, char *value)
+{
+	printf("node = %p\n", *node);
+	(*node)->type = type;
+	(*node)->parent = NULL;
+	(*node)->next = NULL;
+	if (value)
+	{
+		(*node)->content = ft_strdup(value);
+		(*node)->child_count = 1;
+	}
+	(*node)->content = NULL;
+	(*node)->child_count = 0;
+}
+
+//void init_node_on_heap(t_ast_node **str)
+//{
+//	*str = init_node(CMD_HEREDOC, NULL);
+//}
 
 int	add_child(t_ast_node *parent, t_ast_node *child)
 {

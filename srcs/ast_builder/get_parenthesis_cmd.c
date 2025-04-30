@@ -1,12 +1,10 @@
 #include "ast.h"
 
-void	get_parenthesis_cmd_master_wrapper(t_ast_node *cmd,
-	t_dynarray *cmd_master, t_ast_node **cmd_prev, t_get_cmd_master *args)
+void	get_parenthesis_cmd_master_wrapper(t_dynarray *cmd_master, t_ast_node **cmd_prev, t_get_cmd_master *args)
 {
-	free(cmd);
 	set_cmd_in_cmd_master(cmd_master, cmd_prev, args);
-	get_parenthesis_cmd_master(args, cmd_master, args->local_node_info.pos);
-	args->local_node_info.pos++;
+	get_parenthesis_cmd_master(args, cmd_master, args->local.pos);
+	args->local.pos++;
 }
 
 static int	count_token_between_brackets(t_dynarray *tokens, t_uint i)
@@ -42,8 +40,6 @@ int	get_parenthesis_cmd(t_get_cmd_master *args, t_ast_node *cmd_master)
 	int					count;
 
 	count = count_token_between_brackets(args->tokens, args->i);
-	//cmd_master_params = init_t_get_cmd_master(args->tokens,
-	//		args->i, args->i + count - 1, args->has_malloc_error);
 	cmd_master_params = init_t_get_cmd_master(args->tokens,
 			args->i, args->i + count, args->has_malloc_error);
 	if (!cmd_master_params)
@@ -72,6 +68,9 @@ t_ast_node	*get_next_cmd_not_space(t_get_cmd_master *args, int count)
 
 	index = args->i + count;
 	token = (t_token *)get_dynarray_value(args->tokens, index + 1);
+
+
+
 	cmd_not_space = convert_token_to_cmd_secure(token, args);
 	if (cmd_not_space && cmd_not_space->type == CMD_SPACE)
 	{

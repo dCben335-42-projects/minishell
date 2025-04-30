@@ -6,7 +6,7 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:57:59 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/04/29 19:15:23 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/04/30 14:26:30 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,9 +119,10 @@ int	command_handler(char *input, t_shell *shell)
 		ft_printf("ABSTRACT SYNTAX TREE:\n");
 		print_ast_json_wrapper(cmds);
 	}
+	destroy_lexer_args(&args);
+	destroy_dynarray(cmds);
 	//expand(shell, &args.tokens);
 	//print_tokens(&args.tokens);
 	//destroy_lexer_args(&args);
-	//destroy_dynarray(cmds);
 	return (1);
 }

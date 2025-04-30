@@ -15,6 +15,7 @@
 		"stdlib.h": "c",
 		"initializer_list": "c",
 		"compare": "c",
-		"minishell.h": "c"
+		"minishell.h": "c",
+		"ast.h": "c"
 	}
 }

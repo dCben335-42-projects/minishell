@@ -25,25 +25,25 @@ static void	get_pipe_cmd_next_parenthesis(
 void	get_pipe_cmd(t_ast_node *cmd_master,
 	t_get_cmd_master *args, t_ast_node **cmd_prev)
 {
-	t_ast_node	*cmd;
 	t_bool		is_empty;
 
 	while (args->i < args->end)
 	{
-		cmd = get_cmd(args, &is_empty);
+		args->local.cmd = &args->local.lcmd;
+		get_cmd_primitive(args, &is_empty, &args->local.cmd);
 		if (is_true_then_false(&is_empty))
 			continue ;
-		if (cmd == NULL)
+		if (args->local.cmd == NULL)
 			return ;
 		if (args->i == args->end)
-			return ((void)add_child_secure(cmd_master, &cmd, args));
-		else if (cmd->type == CMD_PIPE)
-			get_pipe_cmd_next_pipe(cmd_prev, cmd, cmd_master, args);
-		else if (cmd->type == CMD_PARENTHESIS_OPEN)
-			get_pipe_cmd_next_parenthesis(cmd, cmd_master, args);
-		else if (cmd->type != CMD_JOIN)
-			return ((void)add_previous_cmd(cmd_master, cmd_prev, cmd, args));
+			return ((void)add_child_secure(cmd_master, &args->local.cmd, args));
+		else if (args->local.cmd->type == CMD_PIPE)
+			get_pipe_cmd_next_pipe(cmd_prev, args->local.cmd, cmd_master, args);
+		else if (args->local.cmd->type == CMD_PARENTHESIS_OPEN)
+			get_pipe_cmd_next_parenthesis(args->local.cmd, cmd_master, args);
+		else if (args->local.cmd->type != CMD_JOIN)
+			return ((void)add_previous_cmd(cmd_master, cmd_prev, args->local.cmd, args));
 		else
-			*cmd_prev = cmd;
+			*cmd_prev = args->local.cmd;
 	}
 }

@@ -6,11 +6,11 @@ void	get_or_and_cmd_wrapper(t_ast_node *cmd,
 	set_cmd_in_cmd_master(cmd_master, cmd_prev, args);
 	get_or_and_cmd(cmd, args, cmd_prev);
 	set_dynarray_value(
-		args->local_node_info.cmd_master,
-		args->local_node_info.pos,
+		args->local.cmd_master,
+		args->local.pos,
 		cmd
 		);
-	args->local_node_info.pos++;
+	args->local.pos++;
 }
 
 static void	get_or_and_cmd_next_pipe(t_ast_node **cmd_prev,
@@ -21,10 +21,8 @@ static void	get_or_and_cmd_next_pipe(t_ast_node **cmd_prev,
 	add_child_secure(cmd_master, &cmd, args);
 }
 
-static void	get_or_and_cmd_next_parenthesis(t_ast_node **cmd_prev,
-	t_ast_node *cmd, t_ast_node *cmd_master, t_get_cmd_master *args)
+static void	get_or_and_cmd_next_parenthesis(t_ast_node **cmd_prev, t_ast_node *cmd_master, t_get_cmd_master *args)
 {
-	free(cmd);
 	add_previous_cmd(cmd_master, cmd_prev, NULL, args);
 	get_parenthesis_cmd(args, cmd_master);
 }
@@ -32,25 +30,26 @@ static void	get_or_and_cmd_next_parenthesis(t_ast_node **cmd_prev,
 void	get_or_and_cmd(t_ast_node *cmd_master,
 	t_get_cmd_master *args, t_ast_node **cmd_prev)
 {
-	t_ast_node	*cmd;
 	t_bool		is_empty;
 
 	while (args->i < args->end)
 	{
-		cmd = get_cmd(args, &is_empty);
+		args->local.cmd = &args->local.lcmd;
+		if (!get_cmd(args, &is_empty))
+		get_cmd_primitive(args, &is_empty, &args->local.cmd);
 		if (is_true_then_false(&is_empty))
 			continue ;
-		if (cmd == NULL)
+		if (args->local.cmd == NULL)
 			return ;
 		if (args->i == args->end)
-			return ((void)add_child_secure(cmd_master, &cmd, args));
-		if (cmd->type == CMD_PIPE)
-			get_or_and_cmd_next_pipe(cmd_prev, cmd, cmd_master, args);
-		else if (cmd->type == CMD_PARENTHESIS_OPEN)
-			get_or_and_cmd_next_parenthesis(cmd_prev, cmd, cmd_master, args);
-		else if (cmd->type == CMD_AND || cmd->type == CMD_OR)
-			return ((void)add_previous_cmd(cmd_master, cmd_prev, cmd, args));
+			return ((void)add_child_secure(cmd_master, &args->local.cmd, args));
+		if (args->local.cmd->type == CMD_PIPE)
+			get_or_and_cmd_next_pipe(cmd_prev, args->local.cmd, cmd_master, args);
+		else if (args->local.cmd->type == CMD_PARENTHESIS_OPEN)
+			get_or_and_cmd_next_parenthesis(cmd_prev, cmd_master, args);
+		else if (args->local.cmd->type == CMD_AND || args->local.cmd->type == CMD_OR)
+			return ((void)add_previous_cmd(cmd_master, cmd_prev, args->local.cmd, args));
 		else
-			*cmd_prev = cmd;
+			*cmd_prev = args->local.cmd;
 	}
 }

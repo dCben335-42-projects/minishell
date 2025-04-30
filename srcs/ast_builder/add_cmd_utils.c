@@ -51,8 +51,8 @@ void	set_cmd_in_cmd_master(t_dynarray *cmd_master,
 	if (*cmd_prev)
 	{
 		set_dynarray_value_secure(cmd_master,
-			args->local_node_info.pos, *cmd_prev, args);
+			args->local.pos, *cmd_prev, args);
 		*cmd_prev = NULL;
-		args->local_node_info.pos++;
+		args->local.pos++;
 	}
 }

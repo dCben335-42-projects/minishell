@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 20:20:38 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/04/18 20:58:05 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/04/30 15:48:34 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "ast_node.h"
 # include "struct_dynarray.h"
 # include "struct_token.h"
+# include "struct_pointer.h"
 
 t_dynarray			*ast_builder(t_dynarray *tokens);
 
@@ -23,6 +24,8 @@ typedef struct s_local_node_info
 {
 	t_dynarray	*cmd_master;
 	int			pos;
+	t_ast_node	lcmd;
+	t_ast_node	*cmd;
 }	t_local_node_info;
 
 typedef struct s_get_cmd_master
@@ -32,11 +35,13 @@ typedef struct s_get_cmd_master
 	t_uint				i;
 	t_uint				end;
 	t_bool				*has_malloc_error;
-	t_local_node_info	local_node_info;
+	t_local_node_info	local;
+	
 }	t_get_cmd_master;
 
 t_dynarray			*get_cmd_master(t_get_cmd_master *args);
-t_ast_node			*get_cmd(t_get_cmd_master *args, t_bool *is_empty);
+void				get_cmd_primitive(t_get_cmd_master *args, t_bool *is_empty, t_ast_node **cmd);
+int					get_cmd(t_get_cmd_master *args, t_bool *is_empty);
 
 void				get_pipe_cmd(
 						t_ast_node *cmd_master,
@@ -112,7 +117,6 @@ void				get_pipe_cmd_wrapper(
 						t_dynarray *cmd_master);
 
 void				get_parenthesis_cmd_master_wrapper(
-						t_ast_node *cmd,
 						t_dynarray *cmd_master,
 						t_ast_node **cmd_prev,
 						t_get_cmd_master *args);

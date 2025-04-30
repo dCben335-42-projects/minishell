@@ -6,7 +6,7 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 19:31:21 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/04/28 20:55:53 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/04/30 14:25:34 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ static void	handle_loop(t_shell *shell)
 			break ;
 		args = ft_split(input, ' ');
 		command_handler(input, shell);
+		free(input);
 		if (args[0])
 			is_builtin(args, shell);
 		ft_free_split(args);

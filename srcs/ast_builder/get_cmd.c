@@ -68,20 +68,28 @@ t_ast_node	*add_cmd_child(t_get_cmd_master *args,
 	return (new_cmd);
 }
 
-t_ast_node	*get_cmd(t_get_cmd_master *args, t_bool *is_empty)
+void	get_cmd_primitive(t_get_cmd_master *args, t_bool *is_empty, t_ast_node **cmd)
 {
 	t_token		*token;
 
+	printf("cmd3 = %p\n", *cmd);
 	*is_empty = FALSE;
 	if (args->i >= args->end)
-		return (NULL);
+		*cmd = NULL;
 	token = (t_token *)get_dynarray_value(args->tokens, args->i);
 	if (is_text_token(*token) || is_redir_token(*token)
 		|| token->type == TOKEN_SPACE)
-		return (add_cmd_child(args, is_empty, token));
+		*cmd = add_cmd_child(args, is_empty, token);
 	else
 	{
 		args->i++;
-		return (convert_token_to_cmd_secure(token, args));
+		printf("cmd2 = %p\n", *cmd);
+		if (token->type & OP_PARENTHESIS_OPEN)
+		{
+			printf("token->type = %s\n", get_token_type_name(token->type));
+			init_node_on_stack(cmd, CMD_PARENTHESIS_OPEN, NULL);
+		}
+		else
+			*cmd = convert_token_to_cmd_secure(token, args);
 	}
 }

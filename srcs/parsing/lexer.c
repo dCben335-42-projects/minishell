@@ -14,8 +14,6 @@ static t_bool	is_command_finished(const char *input, t_token *token, t_lexer_arg
 
 static t_pointer	get_next_token(t_lexer_args *args)
 {
-    t_pointer			pointer;
-    t_token_type_flags	type;
     int					offset;
 
     while (*args->input)
@@ -23,9 +21,7 @@ static t_pointer	get_next_token(t_lexer_args *args)
         if (ft_isspace(*args->input))
             return (tokenize_whitespace(args));
         offset = 0;
-        type = get_token_type(args->input, &offset);
-        pointer = get_token(args, offset, type);
-        return (pointer);
+        return (get_token(args, offset, get_token_type(args->input, &offset)));
     }
 	return (init_pointer(NULL, FALSE, FALSE));
 }

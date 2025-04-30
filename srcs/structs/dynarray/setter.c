@@ -6,7 +6,7 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 17:46:29 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/04/29 15:20:47 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/04/30 16:40:08 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,5 +59,6 @@ void	*set_dynarray_value(t_dynarray *arr, t_uint index, void *value)
 void	*push(t_dynarray *arr, void *value)
 {
 	set_dynarray_value(arr, arr->last_index, value);
+	// FIXME CHECK if realoc is valid
 	return (arr->data[arr->last_index - 1]);
 }

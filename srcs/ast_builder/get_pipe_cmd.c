@@ -30,8 +30,7 @@ void	get_pipe_cmd(t_ast_node *cmd_master,
 	while (args->i < args->end)
 	{
 		args->local.cmd = &args->local.lcmd;
-		get_cmd_primitive(args, &is_empty, &args->local.cmd);
-		if (is_true_then_false(&is_empty))
+		if (!get_cmd(args, &is_empty))
 			continue ;
 		if (args->local.cmd == NULL)
 			return ;

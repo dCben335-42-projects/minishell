@@ -5,6 +5,7 @@ SRC_FILES += ast_builder/get_cmd_master.c
 SRC_FILES += ast_builder/get_or_and_cmd.c
 SRC_FILES += ast_builder/get_parenthesis_cmd.c
 SRC_FILES += ast_builder/get_pipe_cmd.c
+SRC_FILES += ast_builder/other_utils.c
 SRC_FILES += ast_builder/utils.c
 SRC_FILES += cmd/cmd.c
 SRC_FILES += errors.c

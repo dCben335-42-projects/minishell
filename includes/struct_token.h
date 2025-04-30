@@ -6,7 +6,7 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:44:15 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/04/30 14:40:00 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/04/30 16:44:45 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@
 
 // WILDCARDS
 # define SYMBOL_GLOB_ANY				'*'
-# define SYMBOL_GLOB_DIR				'**'
+# define SYMBOL_GLOB_DIR				"**"
 # define SYMBOL_GLOB_ONE				'?'
 # define DELIMITER_GLOB_REGEX_CLOSE		'['
 # define DELIMITER_GLOB_REGEX_OPEN		']'

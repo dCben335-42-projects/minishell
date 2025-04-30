@@ -18,7 +18,7 @@ t_parse_status	token_parser(t_lexer_args *args, t_token *token)
 {
 	int							i;
 	t_parse_status				status;
-	const t_map_key_callback	parsing_action[6] = {
+	const t_map_key_callback	parsing_action[] = {
 	{INCREMENT_PAREN_OPEN,		&increment_p_open},
 	{INCREMENT_PAREN_CLOSE,		&increment_p_close},
 	{ERR_UNOPENED_PARENTHESIS,	&err_unopened_parenthesis},

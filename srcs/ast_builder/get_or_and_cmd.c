@@ -36,8 +36,6 @@ void	get_or_and_cmd(t_ast_node *cmd_master,
 	{
 		args->local.cmd = &args->local.lcmd;
 		if (!get_cmd(args, &is_empty))
-		get_cmd_primitive(args, &is_empty, &args->local.cmd);
-		if (is_true_then_false(&is_empty))
 			continue ;
 		if (args->local.cmd == NULL)
 			return ;

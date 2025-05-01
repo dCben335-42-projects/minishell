@@ -5,7 +5,7 @@ t_pointer	tokenize_operator(t_lexer_args *args,
 {
 	t_pointer	pointer;
 
-	pointer = init_pointer(init_token_p(type, args->input, offset), TRUE, FALSE);
+	pointer = init_pointer(init_token(type, args->input, offset), TRUE, FALSE);
 	args->input += offset;
 	return (pointer);
 }

@@ -26,7 +26,7 @@ t_parse_status	err_unclosed_parenthesis(t_lexer_args *args, t_token *token)
 	if (args->parenthesis.open != args->parenthesis.close)
 	{
 		destroy_token(token);
-		token = init_token_p(TOKEN_EOF, NULL, 0);
+		token = init_token(TOKEN_EOF, NULL, 0);
 		return (get_error_message(token, &args->error));
 	}
 	return (COMMAND_VALID);

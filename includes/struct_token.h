@@ -6,7 +6,7 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:44:15 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/01 17:54:09 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/05/01 23:06:12 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,7 +144,7 @@ t_token_type_flags	get_token_type(
 						const char *str,
 						int *offset);
 
-t_token			*init_token_p(
+t_token			*init_token(
 					int token_type,
 					const char *start,
 					size_t len);

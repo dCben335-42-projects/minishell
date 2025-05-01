@@ -6,7 +6,7 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:44:15 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/04/30 16:44:45 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/05/01 17:54:09 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,6 +156,10 @@ int				is_text_token(
 int				is_redir_token(
 					t_token token);
 int				is_parenthesis_token(
+					t_token token);
+int				is_operator_ext_token(
+					t_token token);
+int				is_cmd_token(
 					t_token token);
 
 #endif

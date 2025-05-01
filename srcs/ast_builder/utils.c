@@ -33,9 +33,6 @@ t_get_cmd_master	init_t_get_cmd_master(t_dynarray *tokens,
 {
 	t_get_cmd_master	args;
 
-	//args = malloc(sizeof(t_get_cmd_master));
-	//if (!args)
-	//	return (NULL);
 	args.tokens = tokens;
 	args.start = start;
 	args.i = start;

@@ -1,103 +1,93 @@
 #include "ast.h"
 
-static inline void	remove_last_cmd_if_space(t_token *last_token,
-	t_bool *is_finished_by_space, t_uint *count)
+static inline void	remove_last_cmd_if_space(t_token *last_token, t_count_cmd_child *counter)
 {
 	if (last_token && last_token->type == TOKEN_SPACE)
 	{
-		*is_finished_by_space = TRUE;
-		(*count)--;
+		counter->space_at_end = TRUE;
+		counter->count--;
 	}
 }
 
-int	count_new_cmd_child(t_get_cmd_master *args, t_bool *is_finished_by_space)
+static void	count_new_cmd_child(t_get_cmd_master *args, t_count_cmd_child *counter)
 {
 	t_token		*token;
 	t_token		*last_token;
-	t_uint		count;
 	t_uint		start;
 
 	last_token = NULL;
 	start = args->i;
-	count = 0;
+	counter->count = 0;
 	token = (t_token *)get_dynarray_value(args->tokens, start);
-	while (start < args->end && !is_operator_token(*token)
-		&& !is_parenthesis_token(*token))
+	while (start < args->end && !is_operator_ext_token(*token))
 	{
-		if (token->type == TOKEN_SPACE && count == 0)
+		if (token->type == TOKEN_SPACE && !counter->count)
 			args->i++;
 		else
 		{
 			last_token = token;
-			count++;
+			counter->count++;
 		}
 		start++;
 		if (start < args->end)
 			token = (t_token *)get_dynarray_value(args->tokens, start);
 	}
-	remove_last_cmd_if_space(last_token, is_finished_by_space, &count);
-	return (count);
+	remove_last_cmd_if_space(last_token, counter);
 }
 
-t_ast_node	*add_cmd_child(t_get_cmd_master *args,
-	t_bool *is_empty, t_token *token)
+static t_ast_node	*add_cmd_child(t_get_cmd_master *args, t_get_cmd_primitive *d)
 {
-	int			count;
-	t_bool		is_finished_by_space;
-	t_ast_node	*new_cmd;
-	t_ast_node	*temp_cmd;
-
-	is_finished_by_space = FALSE;
-	count = count_new_cmd_child(args, &is_finished_by_space);
-	if (count > 0)
-		new_cmd = init_node_secure(CMD_JOIN, NULL, args);
-	else
+	d->counter = (t_count_cmd_child){0, FALSE};
+	count_new_cmd_child(args, &d->counter);
+	if (!d->counter.count)
 	{
-		*is_empty = TRUE;
+		*d->is_empty = TRUE;
 		return (NULL);
 	}
-	while (count--)
+	d->cmd_new = init_node_secure(CMD_JOIN, NULL, args);
+	if (args->has_malloc_error)
+		return (NULL);
+	while (d->counter.count--)
 	{
-		token = (t_token *)get_dynarray_value(args->tokens, args->i);
-		temp_cmd = convert_token_to_cmd_secure(token, args);
-		add_child_secure(new_cmd, &temp_cmd, args);
+		d->cmd_temp = convert_token_to_cmd_secure(
+			(t_token *)get_dynarray_value(args->tokens, args->i), args);
+		if (args->has_malloc_error)
+			return (NULL);
+		add_child_secure(d->cmd_new, &d->cmd_temp, args);
 		args->i++;
 	}
-	if (is_finished_by_space)
+	if (d->counter.space_at_end)
 		args->i++;
-	return (new_cmd);
+	return (d->cmd_new);
+}
+
+static void	get_node(t_get_cmd_master *args, t_token *token, t_ast_node **cmd)
+{
+	if (args->local.ctx == CTX_AND_OR && token->type & (OP_AND | OP_OR))
+		return (init_node_on_stack(cmd, CMD_AND, NULL));
+	else if (args->local.ctx == CTX_PIPE && token->type & OP_PIPE)
+		init_node_on_stack(cmd, CMD_PIPE, NULL);
+	else if (token->type & OP_PARENTHESIS_OPEN)
+		init_node_on_stack(cmd, CMD_PARENTHESIS_OPEN, NULL);
+	else if (args->local.ctx == CTX_PIPE && !(token->type & TEXT))
+		return (init_node_on_stack(cmd, CMD_EOF, NULL));
+	else
+		*cmd = convert_token_to_cmd_secure(token, args);
+	args->i++;
 }
 
 void	get_cmd_primitive(t_get_cmd_master *args, t_bool *is_empty, t_ast_node **cmd)
 {
-	t_token		*token;
+	t_token				*token;
+	t_get_cmd_primitive	d;
 
-	printf("cmd3 = %p\n", *cmd);
 	*is_empty = FALSE;
+	d.is_empty = is_empty;
 	if (args->i >= args->end)
 		*cmd = NULL;
 	token = (t_token *)get_dynarray_value(args->tokens, args->i);
-	if (is_text_token(*token) || is_redir_token(*token)
-		|| token->type == TOKEN_SPACE)
-		*cmd = add_cmd_child(args, is_empty, token);
+	if (is_cmd_token(*token))
+		*cmd = add_cmd_child(args, &d);
 	else
-	{
-		args->i++;
-		if (args->local.ctx == CTX_AND_OR && token->type & (OP_AND | OP_OR))
-		{
-			args->i--;
-			init_node_on_stack(cmd, CMD_AND, NULL);
-		}
-		if (args->local.ctx == CTX_PIPE && token->type & OP_PIPE)
-			init_node_on_stack(cmd, CMD_PIPE, NULL);
-		else if (token->type & OP_PARENTHESIS_OPEN)
-			init_node_on_stack(cmd, CMD_PARENTHESIS_OPEN, NULL);
-		else if (args->local.ctx == CTX_PIPE && !(token->type & TEXT))
-		{
-			args->i--;
-			init_node_on_stack(cmd, CMD_EOF, NULL);
-		}
-		else
-			*cmd = convert_token_to_cmd_secure(token, args);
-	}
+		get_node(args, token, cmd);
 }

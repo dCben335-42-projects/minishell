@@ -34,9 +34,7 @@ t_dynarray	*get_cmd_master(t_get_cmd_master *args)
 		if (args->has_malloc_error)
 			return (cmd_master);
 		args->local.ctx = CTX_MASTER;
-		args->local.cmd = &args->local.lcmd;
-		get_cmd_primitive(args, &is_empty, &args->local.cmd);
-		if (is_true_then_false(&is_empty))
+		if (!get_cmd(args, &is_empty))
 			continue ;
 		if (!args->local.cmd)
 			return (cmd_master);

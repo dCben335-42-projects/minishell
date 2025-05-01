@@ -8,7 +8,7 @@ t_ast_node	*convert_token_to_cmd_secure(t_token *token, t_get_cmd_master *args)
 	if (!cmd)
 	{
 		printf("convert_token_to_cmd_secure\n");
-		*(args->has_malloc_error) = TRUE;
+		args->has_malloc_error = TRUE;
 		return (NULL);
 	}
 	return (cmd);
@@ -22,25 +22,25 @@ void	*init_node_secure(t_node_type type, char *value, t_get_cmd_master *args)
 	if (!node)
 	{
 		printf("init_node_secure\n");
-		*(args->has_malloc_error) = TRUE;
+		args->has_malloc_error = TRUE;
 		return (NULL);
 	}
 	return (node);
 }
 
-t_get_cmd_master	*init_t_get_cmd_master(t_dynarray *tokens,
-	int start, int end, t_bool *has_malloc_error)
+t_get_cmd_master	init_t_get_cmd_master(t_dynarray *tokens,
+	int start, int end)
 {
-	t_get_cmd_master	*args;
+	t_get_cmd_master	args;
 
-	args = malloc(sizeof(t_get_cmd_master));
-	if (!args)
-		return (NULL);
-	args->tokens = tokens;
-	args->start = start;
-	args->i = start;
-	args->end = end;
-	args->has_malloc_error = has_malloc_error;
+	//args = malloc(sizeof(t_get_cmd_master));
+	//if (!args)
+	//	return (NULL);
+	args.tokens = tokens;
+	args.start = start;
+	args.i = start;
+	args.end = end;
+	args.has_malloc_error = FALSE;
 	return (args);
 }
 

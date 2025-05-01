@@ -9,22 +9,20 @@ void	get_parenthesis_cmd_master_wrapper(t_dynarray *cmd_master, t_ast_node **cmd
 
 static int	count_token_between_brackets(t_dynarray *tokens, t_uint i)
 {
-	int		count;
-	int		count_parenthesis_open;
-	int		count_parenthesis_close;
-	t_token	*token;
+	int			count;
+	t_bracket	parenthesis;
+	t_token		*token;
 
 	count = 0;
-	count_parenthesis_open = 1;
-	count_parenthesis_close = 0;
+	parenthesis = (t_bracket){1, 0};
 	while (i < tokens->count - 1)
 	{
 		token = (t_token *)get_dynarray_value(tokens, i);
 		if (token->type == TOKEN_PARENTHESIS_OPEN)
-			count_parenthesis_open++;
+			parenthesis.open++;
 		else if (token->type == TOKEN_PARENTHESIS_CLOSE)
-			count_parenthesis_close++;
-		if (count_parenthesis_open == count_parenthesis_close)
+			parenthesis.close++;
+		if (parenthesis.open == parenthesis.close)
 			return (count);
 		count++;
 		i++;
@@ -32,79 +30,65 @@ static int	count_token_between_brackets(t_dynarray *tokens, t_uint i)
 	return (count);
 }
 
-int	get_parenthesis_cmd(t_get_cmd_master *args, t_ast_node *cmd_master)
+void	get_parenthesis_cmd(t_get_cmd_master *args, t_ast_node *cmd_master)
 {
-	t_get_cmd_master	*cmd_master_params;
+	t_get_cmd_master	cmd_master_params;
 	t_dynarray			*sub_cmd;
 	t_ast_node			*cmd_parenthesis;
 	int					count;
 
-	args->local.ctx = CTX_PARENTHESIS; // useless
 	count = count_token_between_brackets(args->tokens, args->i);
-	cmd_master_params = init_t_get_cmd_master(args->tokens,
-			args->i, args->i + count, args->has_malloc_error);
-	if (!cmd_master_params)
+	cmd_master_params = init_t_get_cmd_master(args->tokens, args->i, args->i + count);
+	sub_cmd = get_cmd_master(&cmd_master_params);
+	if (cmd_master_params.has_malloc_error)
 	{
-		*(args->has_malloc_error) = TRUE;
-		return (0);
+		args->has_malloc_error = TRUE;
+		return ;
 	}
-	sub_cmd = get_cmd_master(cmd_master_params);
-	free(cmd_master_params);
 	if (cmd_master->type == CMD_PARENTHESIS)
-		return (add_childs_and_increment(cmd_master,
+		return ((void)add_childs_and_increment(cmd_master,
 				sub_cmd, &(args->i), count));
 	cmd_parenthesis = init_node_secure(CMD_PARENTHESIS, NULL, args);
-	if (!cmd_parenthesis)
-		return (0);
+	if (args->has_malloc_error)
+		return ;
 	add_childs_and_increment(cmd_parenthesis, sub_cmd, &(args->i), count);
 	add_child_secure(cmd_master, &cmd_parenthesis, args);
-	return (1);
 }
 
-t_ast_node	*get_next_cmd_not_space(t_get_cmd_master *args, int count)
+t_ast_node	*get_adjacent_cmd(t_get_cmd_master *args, int count)
 {
-	t_ast_node	*cmd_not_space;
 	t_token		*token;
-	t_uint		index;
 
-	index = args->i + count;
-	token = (t_token *)get_dynarray_value(args->tokens, index + 1);
-
-
-
-	cmd_not_space = convert_token_to_cmd_secure(token, args);
-	if (cmd_not_space && cmd_not_space->type == CMD_SPACE)
-	{
-		free(cmd_not_space);
-		token = (t_token *)get_dynarray_value(args->tokens, index + 2);
-		cmd_not_space = convert_token_to_cmd_secure(token, args);
-	}
-	return (cmd_not_space);
+	token = (t_token *)get_dynarray_value(args->tokens, args->i + count + 1);
+	if (token && token->type & SPACE)
+		token = (t_token *)get_dynarray_value(args->tokens, args->i + count + 2);
+	if (token && token->type & OP_PIPE)
+		return (init_node_secure(CMD_PIPE, NULL, args));
+	return (NULL);
 }
 
 void	get_parenthesis_cmd_master(t_get_cmd_master *args,
 	t_dynarray *array, int pos)
 {
 	t_ast_node	*cmd_master;
-	t_ast_node	*next_operator;
-	int			count;
+	t_ast_node	*cmd_pipe;
 
-	count = count_token_between_brackets(args->tokens, args->i);
-	next_operator = get_next_cmd_not_space(args, count);
+	cmd_pipe = get_adjacent_cmd(args, count_token_between_brackets(args->tokens, args->i));
+	if (args->has_malloc_error)
+		return ;
 	cmd_master = init_node_secure(CMD_PARENTHESIS, NULL, args);
-	if (!cmd_master)
+	if (args->has_malloc_error)
 		return ;
 	get_parenthesis_cmd(args, cmd_master);
-	if (next_operator && next_operator->type == CMD_PIPE)
+	if (args->has_malloc_error)
+		return ;
+	if (cmd_pipe)
 	{
-		add_child_secure(next_operator, &cmd_master, args);
+		add_child_secure(cmd_pipe, &cmd_master, args);
 		args->i++;
-		get_pipe_cmd(next_operator, args, &cmd_master);
-		set_dynarray_value_secure(array, pos, next_operator, args);
+		get_pipe_cmd(cmd_pipe, args, &cmd_master);
+		set_dynarray_value_secure(array, pos, cmd_pipe, args);
 	}
 	else
-	{
-		free(next_operator);
 		set_dynarray_value_secure(array, pos, cmd_master, args);
-	}
 }

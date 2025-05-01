@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   destroy.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 17:48:55 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/04/18 20:31:04 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/01 14:49:29 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,9 @@ void	*destroy_dynarray(t_dynarray *arr)
 	}
 	free(arr->data);
 	if (arr->is_malloc)
+	{
 		free(arr);
+		arr = NULL;
+	}
 	return (NULL);
 }

@@ -35,7 +35,7 @@ void	orchestrator(t_dynarray *master_node_childs)
 	{
 		print_ast_json_wrapper(cmd->content);
 		if (cmd->parent == NULL)
-			execute_cmd_base();
+			execute_cmd_base(cmd->content);
 		if (cmd->parent->type == CMD_AND)
 			execute_cmd_and();
 		if (cmd->parent->type == CMD_OR)

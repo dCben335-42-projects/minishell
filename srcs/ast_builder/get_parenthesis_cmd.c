@@ -46,7 +46,7 @@ void	get_parenthesis_cmd(t_get_cmd_master *args, t_ast_node *cmd_master)
 		return ;
 	}
 	if (cmd_master->type == CMD_PARENTHESIS)
-		return ((void)add_childs_and_increment(cmd_master,
+		return (add_childs_and_increment(cmd_master,
 				sub_cmd, &(args->i), count));
 	cmd_parenthesis = init_node_secure(CMD_PARENTHESIS, NULL, args);
 	if (args->has_malloc_error)

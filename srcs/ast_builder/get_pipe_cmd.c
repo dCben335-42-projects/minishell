@@ -21,13 +21,13 @@ void	get_pipe_cmd(t_ast_node *cmd_master,
 		if (args->local.cmd == NULL)
 			return ;
 		if (args->i == args->end)
-			return ((void)add_child_secure(cmd_master, &args->local.cmd, args));
+			return (add_child_secure(cmd_master, &args->local.cmd, args));
 		else if (args->local.cmd->type == CMD_PIPE)
 			add_child_secure(cmd_master, cmd_prev, args);
 		else if (args->local.cmd->type == CMD_PARENTHESIS_OPEN)
 			get_parenthesis_cmd(args, cmd_master);
 		else if (args->local.cmd->type != CMD_JOIN)
-			return ((void)add_child_secure(cmd_master, cmd_prev, args));
+			return (add_child_secure(cmd_master, cmd_prev, args));
 		else
 			*cmd_prev = args->local.cmd;
 	}

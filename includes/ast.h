@@ -6,7 +6,7 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 20:20:38 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/01 16:08:07 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/05/01 18:12:57 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,20 @@ typedef struct s_get_cmd_master
 	
 }	t_get_cmd_master;
 
+typedef struct s_count_cmd_child
+{
+	t_uint		count;
+	t_bool		space_at_end;
+}	t_count_cmd_child;
+
+typedef struct s_get_cmd_primitive
+{
+	t_count_cmd_child	counter;
+	t_ast_node			*cmd_new;
+	t_ast_node			*cmd_temp;
+	t_bool				*is_empty;
+}	t_get_cmd_primitive;
+
 t_dynarray			*get_cmd_master(t_get_cmd_master *args);
 void				get_cmd_primitive(t_get_cmd_master *args, t_bool *is_empty, t_ast_node **cmd);
 int					get_cmd(t_get_cmd_master *args, t_bool *is_empty);
@@ -79,12 +93,12 @@ void				get_parenthesis_cmd(
 						t_get_cmd_master *args,
 						t_ast_node *cmd_master);
 
-int					add_childs_and_increment(
+void				add_childs_and_increment(
 						t_ast_node *cmd_master,
 						t_dynarray *sub_cmd,
 						t_uint *i, int count);
 
-int					add_child_secure(
+void				add_child_secure(
 						t_ast_node *cmd_master,
 						t_ast_node **cmd_child,
 						t_get_cmd_master *args);

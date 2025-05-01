@@ -64,6 +64,7 @@ SRC_FILES += structs/token/destroy.c
 SRC_FILES += structs/token/getter.c
 SRC_FILES += structs/token/init.c
 SRC_FILES += structs/token/is.c
+SRC_FILES += structs/token/is_cmd.c
 SRC_FILES += structs/wildcard/destroy.c
 SRC_FILES += structs/wildcard/init.c
 SRC_FILES += structs/wildcard/is_valid.c

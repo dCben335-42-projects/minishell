@@ -13,12 +13,11 @@ void	get_or_and_cmd_wrapper(t_ast_node *cmd,
 	args->local.pos++;
 }
 
-static void	get_or_and_cmd_next_pipe(t_ast_node **cmd_prev,
-	t_ast_node *cmd, t_ast_node *cmd_master, t_get_cmd_master *args)
+static void	get_or_and_cmd_next_pipe(t_ast_node **cmd_prev, t_ast_node *cmd_master, t_get_cmd_master *args)
 {
-	add_child_secure(cmd, cmd_prev, args);
-	get_pipe_cmd(cmd, args, cmd_prev);
-	add_child_secure(cmd_master, &cmd, args);
+	add_child_secure(args->local.cmd, cmd_prev, args);
+	get_pipe_cmd(args->local.cmd, args, cmd_prev);
+	add_child_secure(cmd_master, &args->local.cmd, args);
 }
 
 static void	get_or_and_cmd_next_parenthesis(t_ast_node **cmd_prev, t_ast_node *cmd_master, t_get_cmd_master *args)
@@ -40,13 +39,13 @@ void	get_or_and_cmd(t_ast_node *cmd_master,
 		if (args->local.cmd == NULL)
 			return ;
 		if (args->i == args->end)
-			return ((void)add_child_secure(cmd_master, &args->local.cmd, args));
+			return (add_child_secure(cmd_master, &args->local.cmd, args));
 		if (args->local.cmd->type == CMD_PIPE)
-			get_or_and_cmd_next_pipe(cmd_prev, args->local.cmd, cmd_master, args);
+			get_or_and_cmd_next_pipe(cmd_prev, cmd_master, args);
 		else if (args->local.cmd->type == CMD_PARENTHESIS_OPEN)
 			get_or_and_cmd_next_parenthesis(cmd_prev, cmd_master, args);
 		else if (args->local.cmd->type == CMD_AND || args->local.cmd->type == CMD_OR)
-			return ((void)add_child_secure(cmd_master, cmd_prev, args));
+			return (add_child_secure(cmd_master, cmd_prev, args));
 		else
 			*cmd_prev = args->local.cmd;
 	}

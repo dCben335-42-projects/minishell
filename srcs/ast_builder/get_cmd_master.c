@@ -25,16 +25,16 @@ t_dynarray	*get_cmd_master(t_get_cmd_master *args)
 	cmd_master = init_dynarray_malloc(1,
 			(void *(*)(void *))recursive_destroy_node);
 	if (!cmd_master)
-		*(args->has_malloc_error) = TRUE;
+		args->has_malloc_error = TRUE;
 	args->local.cmd_master = cmd_master;
 	args->local.pos = 0;
 	cmd_prev = NULL;
 	while (args->i < args->end)
 	{
+		if (args->has_malloc_error)
+			return (cmd_master);
 		args->local.ctx = CTX_MASTER;
 		args->local.cmd = &args->local.lcmd;
-		if (*(args->has_malloc_error))
-			return (cmd_master);
 		get_cmd_primitive(args, &is_empty, &args->local.cmd);
 		if (is_true_then_false(&is_empty))
 			continue ;

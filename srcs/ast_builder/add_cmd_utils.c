@@ -8,7 +8,7 @@ int	add_child_secure(t_ast_node *cmd_master,
 		if (!add_child(cmd_master, *cmd_child))
 		{
 			printf("add_child_secure\n");
-			*(args->has_malloc_error) = TRUE;
+			args->has_malloc_error = TRUE;
 			return (0);
 		}
 		*cmd_child = NULL;
@@ -30,7 +30,7 @@ void	set_dynarray_value_secure(t_dynarray *arr,
 	if (!set_dynarray_value(arr, index, value))
 	{
 		printf("set_dynarray_value\n");
-		*(args->has_malloc_error) = TRUE;
+		args->has_malloc_error = TRUE;
 	}
 }
 

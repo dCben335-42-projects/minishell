@@ -15,9 +15,13 @@ void	get_or_and_cmd_wrapper(t_ast_node *cmd,
 
 static void	get_or_and_cmd_next_pipe(t_ast_node **cmd_prev, t_ast_node *cmd_master, t_get_cmd_master *args)
 {
-	add_child_secure(args->local.cmd, cmd_prev, args);
-	get_pipe_cmd(args->local.cmd, args, cmd_prev);
-	add_child_secure(cmd_master, &args->local.cmd, args);
+	t_ast_node	*cmd;
+
+	cmd = args->local.cmd;
+	args->local.cmd = &args->local.lcmd;
+	add_child_secure(cmd, cmd_prev, args);
+	get_pipe_cmd(cmd, args, cmd_prev);
+	add_child_secure(cmd_master, &cmd, args);
 }
 
 static void	get_or_and_cmd_next_parenthesis(t_ast_node **cmd_prev, t_ast_node *cmd_master, t_get_cmd_master *args)

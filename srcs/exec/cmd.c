@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   cmd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:57:59 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/04/30 14:26:30 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/05/01 18:49:09 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
 
 void	command_handler_lexer(char *input, t_lexer_args *args);
 
@@ -107,11 +108,10 @@ int	command_handler(char *input, t_shell *shell)
 		return (0);
 	}
 	cmds = ast_builder(&args.tokens);
+	destroy_lexer_args(&args);
+	shell->ast = cmds;
 	if (!cmds)
-	{
-		destroy_lexer_args(&args);
 		return (0);
-	}
 	if (DEBUG_MODE)
 	{
 		ft_printf("<--DEBUG_MODE-->\n");
@@ -119,7 +119,7 @@ int	command_handler(char *input, t_shell *shell)
 		ft_printf("ABSTRACT SYNTAX TREE:\n");
 		print_ast_json_wrapper(cmds);
 	}
-	destroy_lexer_args(&args);
+	orchestrator(shell);
 	destroy_dynarray(cmds);
 	//expand(shell, &args.tokens);
 	//print_tokens(&args.tokens);

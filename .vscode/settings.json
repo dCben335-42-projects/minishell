@@ -1,21 +1,22 @@
 {
 	"files.associations": {
-		"struct_token.h": "c",
+		"cstdlib": "c",
+		"optional": "c",
+		"system_error": "c",
+		"array": "c",
+		"functional": "c",
+		"tuple": "c",
 		"type_traits": "c",
 		"utility": "c",
-		"struct_lexer_args.h": "c",
-		"parsing.h": "c",
-		"struct_pointer.h": "c",
-		"stdio.h": "c",
-		"cstdlib": "c",
-		"orchestrator.h": "c",
-		"libft.h": "c",
-		"struct_dynarray.h": "c",
-		"ast_node.h": "c",
-		"stdlib.h": "c",
-		"initializer_list": "c",
-		"compare": "c",
 		"minishell.h": "c",
-		"ast.h": "c"
+		"cmd.h": "c",
+		"orchestrator.h": "c",
+		"ast.h": "c",
+		"cmd_expand.h": "c",
+		"parsing.h": "c",
+		"struct_token.h": "c",
+		"struct_shell.h": "c",
+		"struct_env.h": "c",
+		"ast_node.h": "c"
 	}
 }

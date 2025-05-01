@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 19:05:04 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/04/18 18:29:31 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/01 18:50:38 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,14 @@
 # define STRUCT_SHELL_H
 
 # include "struct_env.h"
+# include "struct_dynarray.h"
 
 typedef struct s_shell
 {
-	t_env	*env;
-	char	*current_path;
-	int		exit_code;
+	t_env		*env;
+	char		*current_path;
+	int			exit_code;
+	t_dynarray	*ast;
 }	t_shell;
 
 t_shell	init_shell(char **envp);

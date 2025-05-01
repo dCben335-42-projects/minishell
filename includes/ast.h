@@ -6,7 +6,7 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 20:20:38 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/01 18:12:57 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/05/01 22:21:49 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,8 +99,8 @@ void				add_childs_and_increment(
 						t_uint *i, int count);
 
 void				add_child_secure(
-						t_ast_node *cmd_master,
-						t_ast_node **cmd_child,
+						t_ast_node *parent,
+						t_ast_node **child,
 						t_get_cmd_master *args);
 
 void				set_dynarray_value_secure(

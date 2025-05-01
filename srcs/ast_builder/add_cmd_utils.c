@@ -1,16 +1,20 @@
 #include "ast.h"
 
-void	add_child_secure(t_ast_node *cmd_master,
-	t_ast_node **cmd_child, t_get_cmd_master *args)
+/**
+ * @brief Add a child node to parent node.
+ * 
+ */
+void	add_child_secure(t_ast_node *parent,
+	t_ast_node **child, t_get_cmd_master *args)
 {
-	if (*cmd_child)
+	if (*child)
 	{
-		if (!add_child(cmd_master, *cmd_child))
+		if (!add_child(parent, *child))
 		{
 			args->has_malloc_error = TRUE;
 			return ;
 		}
-		*cmd_child = NULL;
+		*child = NULL;
 	}
 }
 

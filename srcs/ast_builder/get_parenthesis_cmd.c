@@ -39,6 +39,7 @@ int	get_parenthesis_cmd(t_get_cmd_master *args, t_ast_node *cmd_master)
 	t_ast_node			*cmd_parenthesis;
 	int					count;
 
+	args->local.ctx = CTX_PARENTHESIS; // useless
 	count = count_token_between_brackets(args->tokens, args->i);
 	cmd_master_params = init_t_get_cmd_master(args->tokens,
 			args->i, args->i + count, args->has_malloc_error);

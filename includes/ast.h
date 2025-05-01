@@ -6,7 +6,7 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 20:20:38 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/04/30 15:48:34 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/05/01 13:06:31 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,22 @@
 
 t_dynarray			*ast_builder(t_dynarray *tokens);
 
+typedef enum e_ast_ctx 
+{
+	CTX_MASTER,
+	CTX_PIPE,
+	CTX_AND_OR,
+	CTX_PARENTHESIS,
+}	t_ast_ctx;
+
+//NOTE - cmd is a pointer (t_ast_node **cmd) because we need to
 typedef struct s_local_node_info
 {
 	t_dynarray	*cmd_master;
 	int			pos;
 	t_ast_node	lcmd;
 	t_ast_node	*cmd;
+	t_ast_ctx	ctx;
 }	t_local_node_info;
 
 typedef struct s_get_cmd_master
@@ -67,12 +77,6 @@ void				get_parenthesis_cmd_master(
 int					get_parenthesis_cmd(
 						t_get_cmd_master *args,
 						t_ast_node *cmd_master);
-
-int					add_previous_cmd(
-						t_ast_node *cmd_master,
-						t_ast_node **cmd_prev,
-						t_ast_node *cmd,
-						t_get_cmd_master *args);
 
 int					add_childs_and_increment(
 						t_ast_node *cmd_master,

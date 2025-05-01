@@ -83,11 +83,19 @@ void	get_cmd_primitive(t_get_cmd_master *args, t_bool *is_empty, t_ast_node **cm
 	else
 	{
 		args->i++;
-		printf("cmd2 = %p\n", *cmd);
-		if (token->type & OP_PARENTHESIS_OPEN)
+		if (args->local.ctx == CTX_AND_OR && token->type & (OP_AND | OP_OR))
 		{
-			printf("token->type = %s\n", get_token_type_name(token->type));
+			args->i--;
+			init_node_on_stack(cmd, CMD_AND, NULL);
+		}
+		if (args->local.ctx == CTX_PIPE && token->type & OP_PIPE)
+			init_node_on_stack(cmd, CMD_PIPE, NULL);
+		else if (token->type & OP_PARENTHESIS_OPEN)
 			init_node_on_stack(cmd, CMD_PARENTHESIS_OPEN, NULL);
+		else if (args->local.ctx == CTX_PIPE && !(token->type & TEXT))
+		{
+			args->i--;
+			init_node_on_stack(cmd, CMD_EOF, NULL);
 		}
 		else
 			*cmd = convert_token_to_cmd_secure(token, args);

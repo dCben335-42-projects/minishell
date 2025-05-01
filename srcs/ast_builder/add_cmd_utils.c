@@ -24,17 +24,6 @@ int	add_childs_and_increment(t_ast_node *cmd_master,
 	return (1);
 }
 
-int	add_previous_cmd(t_ast_node *cmd_master,
-	t_ast_node **cmd_prev, t_ast_node *cmd, t_get_cmd_master *args)
-{
-	if (cmd)
-	{
-		args->i--;
-		free(cmd);
-	}
-	return (add_child_secure(cmd_master, cmd_prev, args));
-}
-
 void	set_dynarray_value_secure(t_dynarray *arr,
 	t_uint index, void *value, t_get_cmd_master *args)
 {

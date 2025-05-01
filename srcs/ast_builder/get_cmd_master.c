@@ -31,6 +31,7 @@ t_dynarray	*get_cmd_master(t_get_cmd_master *args)
 	cmd_prev = NULL;
 	while (args->i < args->end)
 	{
+		args->local.ctx = CTX_MASTER;
 		args->local.cmd = &args->local.lcmd;
 		if (*(args->has_malloc_error))
 			return (cmd_master);

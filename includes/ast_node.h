@@ -6,7 +6,7 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 20:33:47 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/04/30 14:09:20 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/05/01 22:53:36 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ typedef struct s_token_node_map
 }	t_token_node_map;
 
 t_ast_node	*init_node(t_node_type type, char *value);
-void		init_node_on_stack(t_ast_node **node, t_node_type type, char *value);
+void		init_node_on_stack(t_ast_node *node, t_node_type type);
 t_ast_node	*convert_token_to_cmd(t_token *token);
 
 /**

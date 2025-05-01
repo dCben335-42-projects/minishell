@@ -64,13 +64,13 @@ static t_ast_node	*add_cmd_child(t_get_cmd_master *args, t_get_cmd_primitive *d)
 static void	get_node(t_get_cmd_master *args, t_token *token, t_ast_node **cmd)
 {
 	if (args->local.ctx == CTX_AND_OR && token->type & (OP_AND | OP_OR))
-		return (init_node_on_stack(cmd, CMD_AND, NULL));
+		return (init_node_on_stack(*cmd, CMD_AND));
 	else if (args->local.ctx == CTX_PIPE && token->type & OP_PIPE)
-		init_node_on_stack(cmd, CMD_PIPE, NULL);
+		init_node_on_stack(*cmd, CMD_PIPE);
 	else if (token->type & OP_PARENTHESIS_OPEN)
-		init_node_on_stack(cmd, CMD_PARENTHESIS_OPEN, NULL);
+		init_node_on_stack(*cmd, CMD_PARENTHESIS_OPEN);
 	else if (args->local.ctx == CTX_PIPE && !(token->type & TEXT))
-		return (init_node_on_stack(cmd, CMD_EOF, NULL));
+		return (init_node_on_stack(*cmd, CMD_EOF));
 	else
 		*cmd = convert_token_to_cmd_secure(token, args);
 	args->i++;

@@ -1,5 +1,6 @@
 #include "ast.h"
 #include "orchestrator.h"
+<<<<<<< HEAD
 #include "cmd.h"
 #include "cmd_expand.h"
 #include "cmd_builtin.h"
@@ -30,6 +31,31 @@ void	cleanup_args(t_dynarray *arr)
 	arr->count = j;
 	while (j < count)
 		arr->data[j++] = NULL;
+=======
+# include "cmd.h"
+
+void	execute_cmd_base(t_shell *shell, t_dynarray *cmd)
+{
+	t_dynarray	*argv;
+	char ***av;
+
+	argv = dynarray_to_argv(cmd);
+	av = (char ***)&argv->data;
+	argv->data[0] = get_full_cmd_path(*av, get_env_node(shell->env, "PATH"));
+	if (fork() == 0)
+	{
+		if (!is_valid_cmd_path(*av[0], &shell->exit_code))
+		{
+			destroy_dynarray(argv);
+			destroy_shell(shell);
+			exit(EXIT_FAILURE);
+		}
+		exec_cmd(*av, shell);
+	}
+	shell->exit_code = wait_childrens();
+	destroy_dynarray(argv);
+	return ;
+>>>>>>> d3e98e8 (Create dynarray_to_argv and execute basic cmds)
 }
 
 

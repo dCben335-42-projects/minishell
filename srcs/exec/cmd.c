@@ -6,11 +6,12 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:57:59 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/07 15:22:37 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/07 15:24:39 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
 
 void	command_handler_lexer(char *input, t_lexer_args *args);
 
@@ -122,7 +123,7 @@ int	command_handler(char *input, t_shell *shell)
 		print_tokens(&args.tokens);
 		print_ast_json_wrapper(cmds->content);
 	}
-	destroy_lexer_args(&args);
+	orchestrator(shell);
 	destroy_dynarray(cmds->content);
 	free(cmds);
 	//expand(shell, &args.tokens);

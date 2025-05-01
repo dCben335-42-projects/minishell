@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:01:05 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/06 19:20:56 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/07 15:25:22 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,6 @@ int	wait_childrens(void)
 	exit_code = 0;
 	while (waitpid(-1, &status, 0) > 0)
 	{
-		signal(SIGINT, signal_handler);
-		signal(SIGQUIT, signal_handler);
 		if (WIFEXITED(status))
 			exit_code = WEXITSTATUS(status);
 		else if (WIFSIGNALED(status))

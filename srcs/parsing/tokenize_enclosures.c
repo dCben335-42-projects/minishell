@@ -4,7 +4,7 @@ static t_pointer	return_token(t_lexer_args *args, char **start_i, t_token_type_f
 {
 	args->input++;
 	return (init_pointer(
-			init_token_p(*current_type, *start_i, args->input - *start_i - 1),
+			init_token(*current_type, *start_i, args->input - *start_i - 1),
 			TRUE, FALSE));
 }
 

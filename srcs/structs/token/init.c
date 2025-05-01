@@ -6,7 +6,7 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:16:15 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/04/28 13:53:33 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/05/01 23:06:50 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,29 +14,6 @@
 #include "libft.h"
 
 t_token	*init_token(
-	int token_type,
-	const char *value,
-	unsigned int start,
-	size_t len
-)
-{
-	t_token	*token;
-
-	token = malloc(sizeof(t_token));
-	if (!token)
-		return (NULL);
-	token->type = token_type;
-	token->value = ft_substr(value, start, len);
-	if (!token->value)
-	{
-		free(token);
-		return (NULL);
-	}
-	return (token);
-}
-
-
-t_token	*init_token_p(
 	int token_type,
 	const char *start,
 	size_t len

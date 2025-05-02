@@ -6,7 +6,7 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 20:33:47 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/02 17:26:18 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/05/02 17:56:40 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ t_ast_node	*convert_token_to_cmd(t_token *token);
  * if child_count == n, it means that the parent 
  * node has dynamic array with n - 2 child as content.
  */
-int			add_child(t_ast_node *parent, t_ast_node *child);
+int			add_child_primitive(t_ast_node *parent, t_ast_node *child);
 void		print_ast_json_wrapper(t_dynarray *cmd);
 void		print_ast_json(t_print_ast_json_args args);
 void		*destroy_node(t_ast_node *node);

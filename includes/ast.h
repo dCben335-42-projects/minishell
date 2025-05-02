@@ -6,7 +6,7 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 20:20:38 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/02 17:38:54 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/05/02 17:56:58 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void				get_parenthesis_cmd(
 						t_get_cmd_master *args,
 						t_ast_node *cmd_master);
 
-void				add_child_secure(
+void				add_child(
 						t_ast_node *parent,
 						t_ast_node **child,
 						t_get_cmd_master *args);

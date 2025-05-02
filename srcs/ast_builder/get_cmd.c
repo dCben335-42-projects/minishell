@@ -53,7 +53,7 @@ static t_ast_node	*add_cmd_child(t_get_cmd_master *args, t_get_cmd_primitive *d)
 			(t_token *)get_dynarray_value(args->tokens, args->i), args);
 		if (args->has_malloc_error)
 			return (NULL);
-		add_child_secure(d->cmd_new, &d->cmd_temp, args);
+		add_child(d->cmd_new, &d->cmd_temp, args);
 		args->i++;
 	}
 	if (d->counter.space_at_end)

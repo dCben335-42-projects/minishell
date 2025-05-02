@@ -35,7 +35,7 @@ void	init_node_on_stack(t_ast_node *node, t_node_type type)
 	node->child_count = 0;
 }
 
-int	add_child(t_ast_node *parent, t_ast_node *child)
+int	add_child_primitive(t_ast_node *parent, t_ast_node *child)
 {
 	t_dynarray	*sub_cmd;
 

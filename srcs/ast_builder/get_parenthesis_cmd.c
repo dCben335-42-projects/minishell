@@ -48,7 +48,7 @@ void	get_parenthesis_cmd(t_get_cmd_master *args, t_ast_node *cmd_master)
 	args->i += count + 1;
 	if (cmd_master->type == CMD_PARENTHESIS)
 		return (add_childs(cmd_master, cmd_p->content));
-	add_child_secure(cmd_master, &cmd_p, args);
+	add_child(cmd_master, &cmd_p, args);
 }
 
 static t_ast_node	*get_adjacent_cmd(t_get_cmd_master *args, int count)
@@ -79,10 +79,10 @@ void	get_parenthesis_cmd_master(t_ast_node *cmd_master, t_get_cmd_master *args)
 		return ;
 	if (cmd_pipe)
 	{
-		add_child_secure(cmd_pipe, &cmd, args);
+		add_child(cmd_pipe, &cmd, args);
 		args->i++;
 		get_pipe_cmd(&cmd, cmd_pipe, args);
-		return (add_child_secure(cmd_master, &cmd_pipe, args));
+		return (add_child(cmd_master, &cmd_pipe, args));
 	}
-	add_child_secure(cmd_master, &cmd, args);
+	add_child(cmd_master, &cmd, args);
 }

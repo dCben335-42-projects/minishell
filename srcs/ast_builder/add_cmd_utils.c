@@ -9,12 +9,12 @@
  * @param args The arguments structure containing the malloc error flag.
  * @return void
  */
-void	add_child_secure(t_ast_node *parent,
+void	add_child(t_ast_node *parent,
 	t_ast_node **child, t_get_cmd_master *args)
 {
 	if (*child)
 	{
-		if (!add_child(parent, *child))
+		if (!add_child_primitive(parent, *child))
 		{
 			args->has_malloc_error = TRUE;
 			return ;

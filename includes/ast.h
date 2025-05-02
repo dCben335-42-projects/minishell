@@ -6,7 +6,7 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 20:20:38 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/01 22:21:49 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/05/02 14:52:50 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,9 @@ void				get_cmd_primitive(t_get_cmd_master *args, t_bool *is_empty, t_ast_node *
 int					get_cmd(t_get_cmd_master *args, t_bool *is_empty);
 
 void				get_pipe_cmd(
+						t_ast_node **cmd_prev,
 						t_ast_node *cmd_master,
-						t_get_cmd_master *args,
-						t_ast_node **cmd_prev);
+						t_get_cmd_master *args);
 
 void				get_or_and_cmd(
 						t_ast_node *cmd_master,
@@ -129,10 +129,9 @@ void				set_cmd_in_cmd_master(
 						t_get_cmd_master *args);
 
 void				get_pipe_cmd_wrapper(
-						t_ast_node *cmd,
 						t_ast_node **cmd_prev,
-						t_get_cmd_master *args,
-						t_dynarray *cmd_master);
+						void *cmd_master,
+						t_get_cmd_master *args);
 
 void				get_parenthesis_cmd_master_wrapper(
 						t_dynarray *cmd_master,
@@ -140,5 +139,6 @@ void				get_parenthesis_cmd_master_wrapper(
 						t_get_cmd_master *args);
 
 t_bool				is_true_then_false(t_bool *val);
+int					is_cmd(t_get_cmd_master *args, size_t mask);
 
 #endif

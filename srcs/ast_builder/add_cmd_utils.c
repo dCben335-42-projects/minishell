@@ -1,8 +1,13 @@
 #include "ast.h"
 
 /**
- * @brief Add a child node to parent node.
+ * @brief Adds the child node to the contents of the parent node.
  * 
+ * @attention If the allocation fails, it sets the "has_malloc_error" boolean to true.
+ * @param parent The parent node to which the child node will be added.
+ * @param child The child node to be added.
+ * @param args The arguments structure containing the malloc error flag.
+ * @return void
  */
 void	add_child_secure(t_ast_node *parent,
 	t_ast_node **child, t_get_cmd_master *args)
@@ -18,6 +23,14 @@ void	add_child_secure(t_ast_node *parent,
 	}
 }
 
+/**
+ * @brief Adds child node array to parent content and increments the index of "count + 1".
+ * @param cmd_master The parent node to which the child nodes will be added.
+ * @param sub_cmd The child node array to be added.
+ * @param i The index to be incremented.
+ * @param count The number of child nodes to be added.
+ * @return void
+ */
 void	add_childs_and_increment(t_ast_node *cmd_master,
 	t_dynarray *sub_cmd, t_uint *i, int count)
 {
@@ -25,6 +38,16 @@ void	add_childs_and_increment(t_ast_node *cmd_master,
 	*i += count + 1;
 }
 
+/**
+ * @brief Sets the value of the dynamic array at the specified index.
+ * 
+ * @attention If the allocation fails, it sets the "has_malloc_error" boolean to true.
+ * @param arr The dynamic array to set the value in.
+ * @param index The index to set the value at.
+ * @param value The value to set.
+ * @param args The arguments structure containing the malloc error flag.
+ * @return void
+ */
 void	set_dynarray_value_secure(t_dynarray *arr,
 	t_uint index, void *value, t_get_cmd_master *args)
 {
@@ -32,6 +55,15 @@ void	set_dynarray_value_secure(t_dynarray *arr,
 		args->has_malloc_error = TRUE;
 }
 
+/**
+ * @brief Sets the command in the command master.
+ * 
+ * @attention If the allocation fails, it sets the "has_malloc_error" boolean to true.
+ * @param cmd_master The command master to set the command in.
+ * @param cmd_prev A pointer to the previous command.
+ * @param args The arguments structure containing the malloc error flag.
+ * @return void
+ */
 void	set_cmd_in_cmd_master(t_dynarray *cmd_master,
 	t_ast_node **cmd_prev, t_get_cmd_master *args)
 {

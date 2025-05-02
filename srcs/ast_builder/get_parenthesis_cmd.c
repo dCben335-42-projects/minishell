@@ -86,7 +86,7 @@ void	get_parenthesis_cmd_master(t_get_cmd_master *args,
 	{
 		add_child_secure(cmd_pipe, &cmd_master, args);
 		args->i++;
-		get_pipe_cmd(cmd_pipe, args, &cmd_master);
+		get_pipe_cmd(&cmd_master, cmd_pipe, args);
 		set_dynarray_value_secure(array, pos, cmd_pipe, args);
 	}
 	else

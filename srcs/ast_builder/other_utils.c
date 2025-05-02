@@ -8,3 +8,9 @@ int get_cmd(t_get_cmd_master *args, t_bool *is_empty)
 		return (0);
 	return (1);
 }
+
+int	is_cmd(t_get_cmd_master *args, size_t mask)
+{
+	return (is_node(args->local.cmd, mask));
+}
+

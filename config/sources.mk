@@ -43,6 +43,7 @@ SRC_FILES += signals.c
 SRC_FILES += structs/ast_node/convert.c
 SRC_FILES += structs/ast_node/destroy.c
 SRC_FILES += structs/ast_node/init.c
+SRC_FILES += structs/ast_node/is.c
 SRC_FILES += structs/ast_node/print.c
 SRC_FILES += structs/ast_node/print_utils.c
 SRC_FILES += structs/dynarray/destroy.c

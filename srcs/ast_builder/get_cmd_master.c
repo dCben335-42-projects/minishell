@@ -1,13 +1,13 @@
 #include "ast.h"
 
 void	add_cmd_master(t_get_cmd_master *args, t_ast_node *cmd,
-	t_ast_node **cmd_prev, t_dynarray *cmd_master)
+t_ast_node **cmd_prev, t_dynarray *cmd_master)
 {
 	if (args->i == args->end)
 		set_dynarray_value_secure(cmd_master,
 			args->local.pos, cmd, args);
 	else if (cmd->type == CMD_PIPE)
-		get_pipe_cmd_wrapper(cmd, cmd_prev, args, cmd_master);
+		get_pipe_cmd_wrapper(cmd_prev, cmd_master, args);
 	else if (cmd->type == CMD_AND || cmd->type == CMD_OR)
 		get_or_and_cmd_wrapper(cmd, args, cmd_prev, cmd_master);
 	else if (cmd->type == CMD_PARENTHESIS_OPEN)

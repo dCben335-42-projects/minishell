@@ -6,7 +6,7 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 20:33:47 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/01 22:53:36 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/05/02 14:01:22 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,31 +20,31 @@
 
 typedef enum e_node_type
 {
-	CMD_SEQ,
-	CMD_JOIN,
-	CMD_PARENTHESIS,
-	CMD_SPACE,
-	CMD_TAB,
-	CMD_NEWLINE,
-	CMD_TEXT,
-	CMD_EXPAND,
-	CMD_WILDCARD,
-	CMD_OR,
-	CMD_AMP,
-	CMD_AND,
-	CMD_SEMICOL,
-	CMD_DB_SEMICOL,
-	CMD_SEMICOL_AMP,
-	CMD_DB_SEMICOL_AMP,
-	CMD_PIPE,
-	CMD_PIPE_ERR,
-	CMD_PARENTHESIS_OPEN,
-	CMD_PARENTHESIS_CLOSE,
-	CMD_REDIR_IN,
-	CMD_REDIR_OUT,
-	CMD_APPEND,
-	CMD_HEREDOC,
-	CMD_EOF,
+	CMD_SEQ					= 1 << 0,
+	CMD_JOIN				= 1 << 1,
+	CMD_PARENTHESIS			= 1 << 2,
+	CMD_SPACE				= 1 << 3,
+	CMD_TAB					= 1 << 4,
+	CMD_NEWLINE				= 1 << 5,
+	CMD_TEXT				= 1 << 6,
+	CMD_EXPAND				= 1 << 7,
+	CMD_WILDCARD			= 1 << 8,
+	CMD_OR					= 1 << 9,
+	CMD_AMP					= 1 << 10,
+	CMD_AND					= 1 << 11,
+	CMD_SEMICOL				= 1 << 12,
+	CMD_DB_SEMICOL			= 1 << 13,
+	CMD_SEMICOL_AMP			= 1 << 14,
+	CMD_DB_SEMICOL_AMP		= 1 << 15,
+	CMD_PIPE				= 1 << 16,
+	CMD_PIPE_ERR			= 1 << 17,
+	CMD_PARENTHESIS_OPEN	= 1 << 18,
+	CMD_PARENTHESIS_CLOSE	= 1 << 19,
+	CMD_REDIR_IN			= 1 << 20,
+	CMD_REDIR_OUT			= 1 << 21,
+	CMD_APPEND				= 1 << 22,
+	CMD_HEREDOC				= 1 << 23,
+	CMD_EOF					= 1 << 24,
 }	t_node_type;
 
 typedef struct s_ast_node
@@ -98,5 +98,6 @@ void		cmd_join(t_ast_node *node, t_uint index,
 				const char *name, t_print_ast_json_args args);
 void		print_ast_node_json(t_ast_node *node, t_uint i,
 				const char *node_type, t_print_ast_json_args args);
+int			is_node(t_ast_node *node, size_t mask);
 
 #endif

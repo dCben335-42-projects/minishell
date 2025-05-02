@@ -23,28 +23,30 @@ static int	count_token_between_brackets(t_dynarray *tokens, t_uint i)
 	return (count);
 }
 
+// CMD_PARENTHESIS ne peut imbriqué directement le tout?
+
 void	get_parenthesis_cmd(t_get_cmd_master *args, t_ast_node *cmd_master)
 {
 	t_get_cmd_master	cmd_master_params;
-	t_dynarray			*sub_cmd;
 	t_ast_node			*cmd_parenthesis;
+	t_ast_node			master_node;
 	int					count;
 
 	count = count_token_between_brackets(args->tokens, args->i);
-	cmd_master_params = init_t_get_cmd_master(args->tokens, args->i, args->i + count);
-	sub_cmd = get_cmd_master(&cmd_master_params);
+	init_node_on_stack(&master_node, CMD_SEQ);
+	cmd_master_params = init_t_get_cmd_master(args->tokens, args->i, args->i + count, &master_node);
+	get_cmd_master(&cmd_master_params);
 	if (cmd_master_params.has_malloc_error)
 	{
 		args->has_malloc_error = TRUE;
 		return ;
 	}
 	if (cmd_master->type == CMD_PARENTHESIS)
-		return (add_childs_and_increment(cmd_master,
-				sub_cmd, &(args->i), count));
+		return (add_childs_and_increment(cmd_master, master_node.content, &(args->i), count));
 	cmd_parenthesis = init_node_secure(CMD_PARENTHESIS, NULL, args);
 	if (args->has_malloc_error)
 		return ;
-	add_childs_and_increment(cmd_parenthesis, sub_cmd, &(args->i), count);
+	add_childs_and_increment(cmd_parenthesis, master_node.content, &(args->i), count);
 	add_child_secure(cmd_master, &cmd_parenthesis, args);
 }
 
@@ -60,28 +62,27 @@ static t_ast_node	*get_adjacent_cmd(t_get_cmd_master *args, int count)
 	return (NULL);
 }
 
-void	get_parenthesis_cmd_master(t_get_cmd_master *args,
-	t_dynarray *array, int pos)
+void	get_parenthesis_cmd_master(t_ast_node *cmd_master, t_get_cmd_master *args)
 {
-	t_ast_node	*cmd_master;
+	t_ast_node	*cmd;
 	t_ast_node	*cmd_pipe;
 
 	cmd_pipe = get_adjacent_cmd(args, count_token_between_brackets(args->tokens, args->i));
 	if (args->has_malloc_error)
 		return ;
-	cmd_master = init_node_secure(CMD_PARENTHESIS, NULL, args);
+	cmd = init_node_secure(CMD_PARENTHESIS, NULL, args);
 	if (args->has_malloc_error)
 		return ;
-	get_parenthesis_cmd(args, cmd_master);
+	get_parenthesis_cmd(args, cmd);
 	if (args->has_malloc_error)
 		return ;
 	if (cmd_pipe)
 	{
-		add_child_secure(cmd_pipe, &cmd_master, args);
+		add_child_secure(cmd_pipe, &cmd, args);
 		args->i++;
-		get_pipe_cmd(&cmd_master, cmd_pipe, args);
-		set_dynarray_value_secure(array, pos, cmd_pipe, args);
+		get_pipe_cmd(&cmd, cmd_pipe, args);
+		add_child_secure(cmd_master, &cmd_pipe, args);
 	}
 	else
-		set_dynarray_value_secure(array, pos, cmd_master, args);
+		add_child_secure(cmd_master, &cmd, args);
 }

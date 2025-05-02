@@ -6,7 +6,7 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 20:20:38 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/02 15:28:26 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/05/02 17:13:21 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # include "struct_pointer.h"
 # include "struct_lexer_args.h"
 
-t_dynarray			*ast_builder(t_dynarray *tokens);
+t_ast_node			*ast_builder(t_dynarray *tokens);
 
 typedef enum e_ast_ctx 
 {
@@ -32,7 +32,7 @@ typedef enum e_ast_ctx
 //NOTE - cmd is a pointer (t_ast_node **cmd) because we need to
 typedef struct s_local_node_info
 {
-	t_dynarray	*cmd_master;
+	t_ast_node	*cmd_master;
 	int			pos;
 	t_ast_node	lcmd;
 	t_ast_node	*cmd;
@@ -64,7 +64,7 @@ typedef struct s_get_cmd_primitive
 	t_bool				*is_empty;
 }	t_get_cmd_primitive;
 
-t_dynarray			*get_cmd_master(t_get_cmd_master *args);
+void				get_cmd_master(t_get_cmd_master *args);
 void				get_cmd_primitive(t_get_cmd_master *args, t_bool *is_empty, t_ast_node **cmd);
 int					get_cmd(t_get_cmd_master *args, t_bool *is_empty);
 
@@ -75,13 +75,12 @@ void				get_pipe_cmd(
 
 void				get_or_and_cmd_wrapper(
 						t_ast_node **cmd_prev,
-						t_dynarray *cmd_master,
+						t_ast_node *cmd_master,
 						t_get_cmd_master *args);
 
 void				get_parenthesis_cmd_master(
-						t_get_cmd_master *args,
-						t_dynarray *array,
-						int pos);
+						t_ast_node *cmd_master,
+						t_get_cmd_master *args);
 
 void				get_parenthesis_cmd(
 						t_get_cmd_master *args,
@@ -97,12 +96,6 @@ void				add_child_secure(
 						t_ast_node **child,
 						t_get_cmd_master *args);
 
-void				set_dynarray_value_secure(
-						t_dynarray *arr,
-						t_uint index,
-						void *value,
-						t_get_cmd_master *args);
-
 t_ast_node			*convert_token_to_cmd_secure(
 						t_token *token,
 						t_get_cmd_master *args);
@@ -115,16 +108,12 @@ void				*init_node_secure(
 t_get_cmd_master	init_t_get_cmd_master(
 						t_dynarray *tokens,
 						int start,
-						int end);
-
-void				set_cmd_in_cmd_master(
-						t_dynarray *cmd_master,
-						t_ast_node **cmd_prev,
-						t_get_cmd_master *args);
+						int end,
+						t_ast_node *cmd_master);
 
 void				get_pipe_cmd_wrapper(
 						t_ast_node **cmd_prev,
-						void *cmd_master,
+						t_ast_node *cmd_master,
 						t_get_cmd_master *args);
 
 t_bool				is_true_then_false(t_bool *val);

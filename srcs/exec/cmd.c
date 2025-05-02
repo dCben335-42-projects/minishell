@@ -6,7 +6,7 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:57:59 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/04/30 14:26:30 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/05/02 16:13:59 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ int	command_handler(char *input, t_shell *shell)
 {
 	t_lexer_args	args;
 	(void)shell;
-	t_dynarray		*cmds;
+	t_ast_node		*cmds;
 
 	command_handler_lexer(input, &args);
 	if (args.tokens.count == 0)
@@ -117,10 +117,11 @@ int	command_handler(char *input, t_shell *shell)
 		ft_printf("<--DEBUG_MODE-->\n");
 		ft_printf("COMMAND: %s\n", input);
 		ft_printf("ABSTRACT SYNTAX TREE:\n");
-		print_ast_json_wrapper(cmds);
+		print_ast_json_wrapper(cmds->content);
 	}
 	destroy_lexer_args(&args);
-	destroy_dynarray(cmds);
+	destroy_dynarray(cmds->content);
+	free(cmds);
 	//expand(shell, &args.tokens);
 	//print_tokens(&args.tokens);
 	//destroy_lexer_args(&args);

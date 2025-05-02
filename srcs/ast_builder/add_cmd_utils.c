@@ -3,7 +3,7 @@
 /**
  * @brief Adds the child node to the contents of the parent node.
  * 
- * @attention If the allocation fails, it sets the "has_malloc_error" boolean to true.
+ * @note If the allocation fails, it sets the "has_malloc_error" boolean to true.
  * @param parent The parent node to which the child node will be added.
  * @param child The child node to be added.
  * @param args The arguments structure containing the malloc error flag.
@@ -36,42 +36,4 @@ void	add_childs_and_increment(t_ast_node *cmd_master,
 {
 	add_childs(cmd_master, sub_cmd);
 	*i += count + 1;
-}
-
-/**
- * @brief Sets the value of the dynamic array at the specified index.
- * 
- * @attention If the allocation fails, it sets the "has_malloc_error" boolean to true.
- * @param arr The dynamic array to set the value in.
- * @param index The index to set the value at.
- * @param value The value to set.
- * @param args The arguments structure containing the malloc error flag.
- * @return void
- */
-void	set_dynarray_value_secure(t_dynarray *arr,
-	t_uint index, void *value, t_get_cmd_master *args)
-{
-	if (!set_dynarray_value(arr, index, value))
-		args->has_malloc_error = TRUE;
-}
-
-/**
- * @brief Sets the command in the command master.
- * 
- * @attention If the allocation fails, it sets the "has_malloc_error" boolean to true.
- * @param cmd_master The command master to set the command in.
- * @param cmd_prev A pointer to the previous command.
- * @param args The arguments structure containing the malloc error flag.
- * @return void
- */
-void	set_cmd_in_cmd_master(t_dynarray *cmd_master,
-	t_ast_node **cmd_prev, t_get_cmd_master *args)
-{
-	if (*cmd_prev)
-	{
-		set_dynarray_value_secure(cmd_master,
-			args->local.pos, *cmd_prev, args);
-		*cmd_prev = NULL;
-		args->local.pos++;
-	}
 }

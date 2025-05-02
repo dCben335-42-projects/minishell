@@ -29,7 +29,7 @@ void	*init_node_secure(t_node_type type, char *value, t_get_cmd_master *args)
 }
 
 t_get_cmd_master	init_t_get_cmd_master(t_dynarray *tokens,
-	int start, int end)
+	int start, int end, t_ast_node *cmd_master)
 {
 	t_get_cmd_master	args;
 
@@ -37,6 +37,7 @@ t_get_cmd_master	init_t_get_cmd_master(t_dynarray *tokens,
 	args.start = start;
 	args.i = start;
 	args.end = end;
+	args.local.cmd_master = cmd_master;
 	args.has_malloc_error = FALSE;
 	return (args);
 }

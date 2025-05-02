@@ -1,26 +1,12 @@
 #include "ast.h"
 
-void	get_or_and_cmd_wrapper(t_ast_node *cmd,
-	t_get_cmd_master *args, t_ast_node **cmd_prev, t_dynarray *cmd_master)
-{
-	set_cmd_in_cmd_master(cmd_master, cmd_prev, args);
-	get_or_and_cmd(cmd, args, cmd_prev);
-	set_dynarray_value(
-		args->local.cmd_master,
-		args->local.pos,
-		cmd
-		);
-	args->local.pos++;
-}
-
 static void	get_or_and_cmd_next_parenthesis(t_ast_node **cmd_prev, t_ast_node *cmd_master, t_get_cmd_master *args)
 {
 	add_child_secure(cmd_master, cmd_prev, args);	// ajoute le texte (cmd_prev) au cmd_master (&& ||)
 	get_parenthesis_cmd(args, cmd_master);
 }
 
-void	get_or_and_cmd(t_ast_node *cmd_master,
-	t_get_cmd_master *args, t_ast_node **cmd_prev)
+static void	get_or_and_cmd(t_ast_node **cmd_prev, t_ast_node *cmd_master, t_get_cmd_master *args)
 {
 	t_bool		is_empty;
 
@@ -42,4 +28,25 @@ void	get_or_and_cmd(t_ast_node *cmd_master,
 		else
 			*cmd_prev = args->local.cmd;
 	}
+}
+
+void	get_or_and_cmd_wrapper(t_ast_node **cmd_prev, t_dynarray *cmd_master, t_get_cmd_master *args)
+{
+	t_ast_node	*cmd;
+
+	cmd = args->local.cmd;
+	args->local.cmd = &args->local.lcmd;
+	set_cmd_in_cmd_master(cmd_master, cmd_prev, args);
+	if (is_node(cmd, CMD_PARENTHESIS_OPEN))
+		get_parenthesis_cmd_master(args, cmd_master, args->local.pos);
+	else
+	{
+		get_or_and_cmd(cmd_prev, cmd, args);
+		set_dynarray_value(
+			args->local.cmd_master,
+			args->local.pos,
+			cmd
+			);
+	}
+	args->local.pos++;
 }

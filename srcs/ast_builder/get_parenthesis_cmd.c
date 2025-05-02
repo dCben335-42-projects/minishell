@@ -23,31 +23,32 @@ static int	count_token_between_brackets(t_dynarray *tokens, t_uint i)
 	return (count);
 }
 
-// CMD_PARENTHESIS ne peut imbriqué directement le tout?
-
 void	get_parenthesis_cmd(t_get_cmd_master *args, t_ast_node *cmd_master)
 {
 	t_get_cmd_master	cmd_master_params;
-	t_ast_node			*cmd_parenthesis;
-	t_ast_node			master_node;
+	t_ast_node			cmd;
+	t_ast_node			*cmd_p;
 	int					count;
 
+	cmd_p = &cmd;
+	if (cmd_master->type == CMD_PARENTHESIS)
+		init_node_on_stack(&cmd, CMD_SEQ);
+	else
+		cmd_p = init_node_secure(CMD_PARENTHESIS, NULL, args);
+	if (args->has_malloc_error)
+		return ;
 	count = count_token_between_brackets(args->tokens, args->i);
-	init_node_on_stack(&master_node, CMD_SEQ);
-	cmd_master_params = init_t_get_cmd_master(args->tokens, args->i, args->i + count, &master_node);
+	cmd_master_params = init_t_get_cmd_master(args->tokens, args->i, args->i + count, cmd_p);
 	get_cmd_master(&cmd_master_params);
 	if (cmd_master_params.has_malloc_error)
 	{
 		args->has_malloc_error = TRUE;
 		return ;
 	}
+	args->i += count + 1;
 	if (cmd_master->type == CMD_PARENTHESIS)
-		return (add_childs_and_increment(cmd_master, master_node.content, &(args->i), count));
-	cmd_parenthesis = init_node_secure(CMD_PARENTHESIS, NULL, args);
-	if (args->has_malloc_error)
-		return ;
-	add_childs_and_increment(cmd_parenthesis, master_node.content, &(args->i), count);
-	add_child_secure(cmd_master, &cmd_parenthesis, args);
+		return (add_childs(cmd_master, cmd_p->content));
+	add_child_secure(cmd_master, &cmd_p, args);
 }
 
 static t_ast_node	*get_adjacent_cmd(t_get_cmd_master *args, int count)
@@ -81,8 +82,7 @@ void	get_parenthesis_cmd_master(t_ast_node *cmd_master, t_get_cmd_master *args)
 		add_child_secure(cmd_pipe, &cmd, args);
 		args->i++;
 		get_pipe_cmd(&cmd, cmd_pipe, args);
-		add_child_secure(cmd_master, &cmd_pipe, args);
+		return (add_child_secure(cmd_master, &cmd_pipe, args));
 	}
-	else
-		add_child_secure(cmd_master, &cmd, args);
+	add_child_secure(cmd_master, &cmd, args);
 }

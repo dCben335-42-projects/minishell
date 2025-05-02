@@ -6,7 +6,7 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 20:33:47 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/02 14:01:22 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/05/02 17:26:18 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ void		print_ast_json_wrapper(t_dynarray *cmd);
 void		print_ast_json(t_print_ast_json_args args);
 void		*destroy_node(t_ast_node *node);
 void		*recursive_destroy_node(t_ast_node *node);
-int			add_childs(t_ast_node *parent, t_dynarray *childs);
+void		add_childs(t_ast_node *parent, t_dynarray *childs);
 void		cmd_join(t_ast_node *node, t_uint index,
 				const char *name, t_print_ast_json_args args);
 void		print_ast_node_json(t_ast_node *node, t_uint i,

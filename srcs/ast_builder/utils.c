@@ -7,7 +7,6 @@ t_ast_node	*convert_token_to_cmd_secure(t_token *token, t_get_cmd_master *args)
 	cmd = convert_token_to_cmd(token);
 	if (!cmd)
 	{
-		printf("convert_token_to_cmd_secure\n");
 		args->has_malloc_error = TRUE;
 		return (NULL);
 	}
@@ -21,7 +20,6 @@ void	*init_node_secure(t_node_type type, char *value, t_get_cmd_master *args)
 	node = init_node(type, value);
 	if (!node)
 	{
-		printf("init_node_secure\n");
 		args->has_malloc_error = TRUE;
 		return (NULL);
 	}

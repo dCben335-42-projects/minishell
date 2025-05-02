@@ -22,18 +22,3 @@ void	add_child_secure(t_ast_node *parent,
 		*child = NULL;
 	}
 }
-
-/**
- * @brief Adds child node array to parent content and increments the index of "count + 1".
- * @param cmd_master The parent node to which the child nodes will be added.
- * @param sub_cmd The child node array to be added.
- * @param i The index to be incremented.
- * @param count The number of child nodes to be added.
- * @return void
- */
-void	add_childs_and_increment(t_ast_node *cmd_master,
-	t_dynarray *sub_cmd, t_uint *i, int count)
-{
-	add_childs(cmd_master, sub_cmd);
-	*i += count + 1;
-}

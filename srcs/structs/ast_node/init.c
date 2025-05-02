@@ -35,11 +35,6 @@ void	init_node_on_stack(t_ast_node *node, t_node_type type)
 	node->child_count = 0;
 }
 
-//void init_node_on_heap(t_ast_node **str)
-//{
-//	*str = init_node(CMD_HEREDOC, NULL);
-//}
-
 int	add_child(t_ast_node *parent, t_ast_node *child)
 {
 	t_dynarray	*sub_cmd;
@@ -64,7 +59,7 @@ int	add_child(t_ast_node *parent, t_ast_node *child)
 	return (1);
 }
 
-int	add_childs(t_ast_node *parent, t_dynarray *childs)
+void	add_childs(t_ast_node *parent, t_dynarray *childs)
 {
 	t_uint	i;
 
@@ -78,5 +73,4 @@ int	add_childs(t_ast_node *parent, t_dynarray *childs)
 	}
 	parent->content = childs;
 	parent->child_count = childs->count + 2;
-	return (1);
 }

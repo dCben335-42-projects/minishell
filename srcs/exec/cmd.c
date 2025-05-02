@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:57:59 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/07 15:24:39 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/07 15:27:47 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,6 @@ void	command_handler_lexer(char *input, t_lexer_args *args)
 int	command_handler(char *input, t_shell *shell)
 {
 	t_lexer_args	args;
-	(void)shell;
 	t_ast_node		*cmds;
 
 	command_handler_lexer(input, &args);
@@ -126,6 +125,7 @@ int	command_handler(char *input, t_shell *shell)
 	orchestrator(shell);
 	destroy_dynarray(cmds->content);
 	free(cmds);
+	shell->ast = NULL;
 	//expand(shell, &args.tokens);
 	//destroy_lexer_args(&args);
 	return (1);

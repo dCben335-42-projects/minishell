@@ -1,11 +1,29 @@
 #include "ast.h"
 #include "orchestrator.h"
-<<<<<<< HEAD
 #include "cmd.h"
 #include "cmd_expand.h"
 #include "cmd_builtin.h"
 #include <fcntl.h>
 #include <unistd.h>
+
+# include "cmd.h"
+
+void	execute_cmd_base(t_shell *shell, t_dynarray *cmd)
+{
+	t_dynarray	*args;
+	char ***argv;
+
+	args = dynarray_to_argv(cmd);
+	argv = (char ***)&args->data;
+	expand(shell, args);
+	if (!is_builtin(*argv, shell))
+	{
+		args->data[0] = get_full_cmd_path(*argv, get_env_node(shell->env, "PATH"));
+		fork_and_exec(shell, args, *argv);
+	}
+	destroy_dynarray(args);
+	return ;
+}
 
 void	cleanup_args(t_dynarray *arr)
 {
@@ -31,33 +49,7 @@ void	cleanup_args(t_dynarray *arr)
 	arr->count = j;
 	while (j < count)
 		arr->data[j++] = NULL;
-=======
-# include "cmd.h"
-
-void	execute_cmd_base(t_shell *shell, t_dynarray *cmd)
-{
-	t_dynarray	*argv;
-	char ***av;
-
-	argv = dynarray_to_argv(cmd);
-	av = (char ***)&argv->data;
-	argv->data[0] = get_full_cmd_path(*av, get_env_node(shell->env, "PATH"));
-	if (fork() == 0)
-	{
-		if (!is_valid_cmd_path(*av[0], &shell->exit_code))
-		{
-			destroy_dynarray(argv);
-			destroy_shell(shell);
-			exit(EXIT_FAILURE);
-		}
-		exec_cmd(*av, shell);
-	}
-	shell->exit_code = wait_childrens();
-	destroy_dynarray(argv);
-	return ;
->>>>>>> d3e98e8 (Create dynarray_to_argv and execute basic cmds)
 }
-
 
 void	execute_cmd_base(t_shell *shell, t_dynarray *cmd)
 {
@@ -117,8 +109,6 @@ void	orchestrator(t_shell *shell)
 			execute_cmd_and(shell, cmd->content);
 		if (cmd->parent->type == CMD_OR)
 			execute_cmd_or(shell, cmd->content);
-		// if (cmd->parent->type == CMD_PIPE)
-		// 	execute_cmd_pipe();
 		cmd = find_next_cmd(&master_node);
 	}
 }

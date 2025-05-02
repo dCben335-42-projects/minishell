@@ -1,12 +1,5 @@
 #include "ast.h"
 
-void	get_parenthesis_cmd_master_wrapper(t_dynarray *cmd_master, t_ast_node **cmd_prev, t_get_cmd_master *args)
-{
-	set_cmd_in_cmd_master(cmd_master, cmd_prev, args);
-	get_parenthesis_cmd_master(args, cmd_master, args->local.pos);
-	args->local.pos++;
-}
-
 static int	count_token_between_brackets(t_dynarray *tokens, t_uint i)
 {
 	int			count;
@@ -55,7 +48,7 @@ void	get_parenthesis_cmd(t_get_cmd_master *args, t_ast_node *cmd_master)
 	add_child_secure(cmd_master, &cmd_parenthesis, args);
 }
 
-t_ast_node	*get_adjacent_cmd(t_get_cmd_master *args, int count)
+static t_ast_node	*get_adjacent_cmd(t_get_cmd_master *args, int count)
 {
 	t_token		*token;
 

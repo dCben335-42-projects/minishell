@@ -6,7 +6,7 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 20:20:38 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/02 14:52:50 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/05/02 15:28:26 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,16 +73,10 @@ void				get_pipe_cmd(
 						t_ast_node *cmd_master,
 						t_get_cmd_master *args);
 
-void				get_or_and_cmd(
-						t_ast_node *cmd_master,
-						t_get_cmd_master *args,
-						t_ast_node **cmd_prev);
-
 void				get_or_and_cmd_wrapper(
-						t_ast_node *cmd,
-						t_get_cmd_master *args,
 						t_ast_node **cmd_prev,
-						t_dynarray *cmd_master);
+						t_dynarray *cmd_master,
+						t_get_cmd_master *args);
 
 void				get_parenthesis_cmd_master(
 						t_get_cmd_master *args,
@@ -131,11 +125,6 @@ void				set_cmd_in_cmd_master(
 void				get_pipe_cmd_wrapper(
 						t_ast_node **cmd_prev,
 						void *cmd_master,
-						t_get_cmd_master *args);
-
-void				get_parenthesis_cmd_master_wrapper(
-						t_dynarray *cmd_master,
-						t_ast_node **cmd_prev,
 						t_get_cmd_master *args);
 
 t_bool				is_true_then_false(t_bool *val);

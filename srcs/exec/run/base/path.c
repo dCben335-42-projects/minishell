@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:12:13 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/01 19:11:21 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/02 15:55:18 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,14 +65,12 @@ t_bool	is_valid_cmd_path(char *path, int *exit_code)
 	{
 		perror(path);
 		*exit_code = 127;
-		printf("command not found\n");
 		return (FALSE);
 	}
 	if (access(path, X_OK) == -1)
 	{
 		perror(path);
 		*exit_code = 126;
-		printf("permission denied\n");
 		return (FALSE);
 	}
    	return (TRUE);

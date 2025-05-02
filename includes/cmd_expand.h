@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 17:19:31 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/04/18 18:39:12 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/02 15:02:24 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@
 # include "libft.h"
 # include <dirent.h>
 
-void	*expand(t_shell *shell, t_dynarray *tokens);
-void	*expand_env_token(t_shell *shell, t_token *token);
-void	*expand_wildcard_token(t_shell *shell, t_token *token);
+void	*expand(t_shell *shell, t_dynarray *args);
+void	*expand_wildcard_token(t_shell *shell, char **arg);
+void	*expand_env_token(t_shell *shell, char **arg);
 
 typedef struct t_wcard_match
 {

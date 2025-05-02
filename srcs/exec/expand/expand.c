@@ -6,16 +6,16 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 19:10:10 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/04/18 18:50:48 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/02 15:03:36 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cmd_expand.h"
 
-static void	*loop_tokens(
+static void	*loop_args(
 	t_dynarray *arr,
 	t_shell *shell,
-	void *(*f)(t_shell *, t_token *)
+	void *(*f)(t_shell *, char **)
 )
 {
 	t_uint	i;
@@ -23,21 +23,21 @@ static void	*loop_tokens(
 	i = 0;
 	while (i < arr->count)
 	{
-		if (!f(shell, arr->data[i]))
+		if (!f(shell, (char **)&arr->data[i]))
 			return (NULL);
 		i++;
 	}
 	return (arr);
 }
 
-static void	*expand_env(t_shell *shell, t_dynarray *tokens)
+static void	*expand_env(t_shell *shell, t_dynarray *args)
 {
-	return (loop_tokens(tokens, shell, &expand_env_token));
+	return (loop_args(args, shell, &expand_env_token));
 }
 
-static void	*expand_wildcard(t_shell *shell, t_dynarray *tokens)
+static void	*expand_wildcard(t_shell *shell, t_dynarray *args)
 {
-	return (loop_tokens(tokens, shell, &expand_wildcard_token));
+	return (loop_args(args, shell, &expand_wildcard_token));
 }
 
 /**
@@ -48,11 +48,11 @@ static void	*expand_wildcard(t_shell *shell, t_dynarray *tokens)
  * 
  * @return The expanded tokens or NULL if an error occurred.
  */
-void	*expand(t_shell *shell, t_dynarray *tokens)
+void	*expand(t_shell *shell, t_dynarray *args)
 {
-	if (!expand_env(shell, tokens))
+	if (!expand_env(shell, args))
 		return (NULL);
-	if (!expand_wildcard(shell, tokens))
+	if (!expand_wildcard(shell, args))
 		return (NULL);
-	return (tokens);
+	return (args);
 }

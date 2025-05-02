@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:36:28 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/01 18:54:54 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/02 14:30:52 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ int		wait_childrens(void);
 t_bool	is_valid_cmd_path(char *path, int *exit_code);
 char	*get_full_cmd_path(char **cmd, t_env *path);
 void	exec_cmd(char **argv, t_shell *shell);
+void	fork_and_exec(t_shell *shell, t_dynarray *args, char **argv);
 
 t_dynarray	*dynarray_to_argv(t_dynarray *arr);
 

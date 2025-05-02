@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 21:37:52 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/04/18 18:53:49 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/02 15:03:01 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,21 +45,21 @@ static char	*get_wildcard(t_shell *shell, const char *value)
  * @brief Expands TOKEN_TEXT tokens containing wildcards.
  *
  * @param shell The shell instance.
- * @param token The token to expand. 
+ * @param arg The pointer to the string to expand.
  * 
  * @return The expanded token or NULL if an error occurred.
  */
-void	*expand_wildcard_token(t_shell *shell, t_token *token)
+void	*expand_wildcard_token(t_shell *shell, char **arg)
 {
 	char	*new_value;
 
-	if (token->type == TOKEN_TEXT && ft_strchr(token->value, '*'))
+	if (ft_strchr(*arg, '*'))
 	{
-		new_value = get_wildcard(shell, token->value);
+		new_value = get_wildcard(shell, *arg);
 		if (!new_value)
 			return (NULL);
-		free(token->value);
-		token->value = new_value;
+		free(*arg);
+		*arg = new_value;
 	}
-	return (token);
+	return (arg);
 }

@@ -6,13 +6,13 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 21:34:50 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/04/18 18:10:04 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/02 15:02:03 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cmd_expand.h"
 
-size_t	get_env_len(const char *str, size_t	key_len, t_shell *shell)
+static size_t	get_env_len(const char *str, size_t	key_len, t_shell *shell)
 {
 	t_env	*env;
 	char	*substr;
@@ -30,7 +30,7 @@ size_t	get_env_len(const char *str, size_t	key_len, t_shell *shell)
 	return (0);
 }
 
-size_t	get_total_len(const char *str, t_shell *shell)
+static size_t	get_total_len(const char *str, t_shell *shell)
 {
 	size_t	env_len;
 	size_t	total_len;
@@ -53,7 +53,7 @@ size_t	get_total_len(const char *str, t_shell *shell)
 	return (total_len);
 }
 
-char	*copy_env_value(
+static char	*copy_env_value(
 	const char *str,
 	size_t key_len,
 	t_shell *shell,
@@ -86,7 +86,7 @@ char	*copy_env_value(
 	return (dest);
 }
 
-/* static char	*create_new_value(const char *str, char *dest, t_shell *shell)
+static char	*create_new_value(const char *str, char *dest, t_shell *shell)
 {
 	size_t	i;
 	size_t	key_len;
@@ -112,33 +112,30 @@ char	*copy_env_value(
 	}
 	dest[i] = '\0';
 	return (dest);
-} */
+}
 
 /**
  * @brief Expands the environment variables in the token.
  *
  * @param shell The shell instance.
- * @param token The token to expand.
+ * @param arg The pointer to the string to expand.
  *
  * @return The expanded token or NULL if an error occurred.
 */
-void	*expand_env_token(t_shell *shell, t_token *token)
+void	*expand_env_token(t_shell *shell, char **arg)
 {
-	(void) shell;
-	(void) token;
-/* 	char	*new_value;
+	char	*new_value;
 
-	if (token->type == TOKEN_TEXT || token->type == TOKEN_VAR_TEXT)
+	if (ft_strchr(*arg, '$'))
 	{
-		new_value = malloc((get_total_len(token->value, shell) + 1));
+		new_value = malloc((get_total_len(*arg, shell) + 1));
 		if (!new_value)
 			return (NULL);
-		new_value = create_new_value(token->value, new_value, shell);
+		new_value = create_new_value(*arg, new_value, shell);
 		if (!new_value)
 			return (NULL);
-		free(token->value);
-		token->value = new_value;
+		free(*arg);
+		*arg = new_value;
 	}
-	return (token); */
-	return (NULL);
+	return (arg);
 }

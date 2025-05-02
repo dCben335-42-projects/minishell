@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 15:10:38 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/04/18 18:10:52 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/02 15:33:20 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 # define CMD_BUILTIN_H
 
 # include "struct_shell.h"
+
+t_bool	is_builtin(char **args, t_shell *shell);
 
 typedef struct s_builtin
 {

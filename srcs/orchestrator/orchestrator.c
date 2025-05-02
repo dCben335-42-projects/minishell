@@ -1,27 +1,23 @@
 #include "ast.h"
 #include "orchestrator.h"
-# include "cmd.h"
+#include "cmd.h"
+#include "cmd_expand.h"
+#include "cmd_builtin.h"
 
 void	execute_cmd_base(t_shell *shell, t_dynarray *cmd)
 {
-	t_dynarray	*argv;
-	char ***av;
+	t_dynarray	*args;
+	char ***argv;
 
-	argv = dynarray_to_argv(cmd);
-	av = (char ***)&argv->data;
-	argv->data[0] = get_full_cmd_path(*av, get_env_node(shell->env, "PATH"));
-	if (fork() == 0)
+	args = dynarray_to_argv(cmd);
+	argv = (char ***)&args->data;
+	expand(shell, args);
+	if (!is_builtin(*argv, shell))
 	{
-		if (!is_valid_cmd_path(*av[0], &shell->exit_code))
-		{
-			destroy_dynarray(argv);
-			destroy_shell(shell);
-			exit(EXIT_FAILURE);
-		}
-		exec_cmd(*av, shell);
+		args->data[0] = get_full_cmd_path(*argv, get_env_node(shell->env, "PATH"));
+		fork_and_exec(shell, args, *argv);
 	}
-	shell->exit_code = wait_childrens();
-	destroy_dynarray(argv);
+	destroy_dynarray(args);
 	return ;
 }
 
@@ -42,12 +38,16 @@ void	execute_cmd_pipe()
 
 void	orchestrator(t_shell *shell)
 {
-	t_ast_node	*master_node;
 	t_ast_node	*cmd;
+	t_ast_node	master_node;
 
-	master_node = init_node(CMD_SEQ, NULL);
-	add_childs(master_node, shell->ast);
-	cmd = find_next_cmd(master_node);
+	master_node.type = CMD_SEQ;
+	master_node.content = NULL;
+	master_node.child_count = 0;
+	master_node.parent = NULL;
+	master_node.next = NULL;
+	add_childs(&master_node, shell->ast);
+	cmd = find_next_cmd(&master_node);
 	printf("--------------------\n");
 	while (cmd)
 	{
@@ -60,7 +60,7 @@ void	orchestrator(t_shell *shell)
 			execute_cmd_or();
 		if (cmd->parent->type == CMD_PIPE)
 			execute_cmd_pipe();
-		cmd = find_next_cmd(master_node);
+		cmd = find_next_cmd(&master_node);
 	}
 }
 

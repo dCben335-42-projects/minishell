@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 19:31:21 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/04/30 14:25:34 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/05/02 14:32:56 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,13 @@
 static void	handle_loop(t_shell *shell)
 {
 	char	*input;
-	char	**args;
 
 	while (TRUE)
 	{
 		input = readline(SHELL_NAME);
 		if (!input)
 			break ;
-		args = ft_split(input, ' ');
 		command_handler(input, shell);
-		free(input);
-		if (args[0])
-			is_builtin(args, shell);
-		ft_free_split(args);
 		printf("exit code: %d\n", shell->exit_code);
 	}
 }

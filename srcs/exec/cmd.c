@@ -6,7 +6,7 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:57:59 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/02 16:13:59 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/05/05 16:39:30 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,21 @@
 
 void	command_handler_lexer(char *input, t_lexer_args *args);
 
-//static void	print_tokens(t_dynarray *tokens)
-//{
-//	t_uint	i;
-//	t_uint	count;
-//	t_token	*data;
+static void	print_tokens(t_dynarray *tokens)
+{
+	t_uint	i;
+	t_uint	count;
+	t_token	*data;
 
-//	i = 0;
-//	count = tokens->count;
-//	while (i < count)
-//	{
-//		data = (t_token *)get_dynarray_value(tokens, i);
-//		printf("%-40s %-40s\n", get_token_type_name(data->type), data->value);
-//		i++;
-//	}
-//}
+	i = 0;
+	count = tokens->count;
+	while (i < count)
+	{
+		data = (t_token *)get_dynarray_value(tokens, i);
+		printf("%-40s %-40s\n", get_token_type_name(data->type), data->value);
+		i++;
+	}
+}
 
 static void	command_not_finished(t_lexer_args *args, char *input)
 {
@@ -86,10 +86,7 @@ void	command_handler_lexer(char *input, t_lexer_args *args)
 	if (status == COMMAND_NOT_FINISHED)
 		return (command_not_finished_handler(args, input));
 	if (status != COMMAND_VALID)
-	{
-		printf("Error: %s\n", args->error);
 		return ;
-	}
 	if (*input)
 		add_history(input);
 }
@@ -101,6 +98,12 @@ int	command_handler(char *input, t_shell *shell)
 	t_ast_node		*cmds;
 
 	command_handler_lexer(input, &args);
+	if (args.error)
+	{
+		printf("Error: %s\n", args.error);
+		destroy_lexer_args(&args);
+		return (0);
+	}
 	if (args.tokens.count == 0)
 	{
 		destroy_lexer_args(&args);
@@ -117,13 +120,13 @@ int	command_handler(char *input, t_shell *shell)
 		ft_printf("<--DEBUG_MODE-->\n");
 		ft_printf("COMMAND: %s\n", input);
 		ft_printf("ABSTRACT SYNTAX TREE:\n");
+		print_tokens(&args.tokens);
 		print_ast_json_wrapper(cmds->content);
 	}
 	destroy_lexer_args(&args);
 	destroy_dynarray(cmds->content);
 	free(cmds);
 	//expand(shell, &args.tokens);
-	//print_tokens(&args.tokens);
 	//destroy_lexer_args(&args);
 	return (1);
 }

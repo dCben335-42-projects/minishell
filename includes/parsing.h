@@ -6,7 +6,7 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 17:45:18 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/04/28 20:52:23 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/05/05 16:05:38 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,37 +59,6 @@ t_parse_status	lexer(t_lexer_args *args);
  */
 t_parse_status	token_parser(t_lexer_args *args, t_token *token);
 
-/**
- * @brief Function to manage tokens between quotation marks
- * @param i: index of the input string
- * @param args: lexer arguments
- * @param type: token type
- * @return the token
- */
-t_pointer		handler_token_quote(t_lexer_args *args,
-					char *start_i,
-					t_token_type_flags *current_type,
-					const char quote);
-
-
-/**
- * @brief Function to manage text tokens
- * @param i: index of the input string
- * @param args: lexer arguments
- */
-t_pointer		handler_token_text(t_lexer_args *args);
-
-/**
- * @brief Function to manage operator tokens
- * @param args: lexer arguments
- * @param i: index of the input string
- * @param offset: offset of the token
- * @param type: token type
- * @return the token
- */
-t_pointer		handler_token_operator(t_lexer_args *args,
-					int offset, t_token_type_flags type);
-
 t_pointer		tokenize_enclosures(
 					t_lexer_args *args, 
 					char **start_i, 
@@ -120,6 +89,8 @@ t_parse_status	increment_p_close(t_lexer_args *args, t_token *token);
 t_parse_status	err_unopened_parenthesis(t_lexer_args *args, t_token *token);
 t_parse_status	err_unclosed_parenthesis(t_lexer_args *args, t_token *token);
 t_parse_status	err_missing_left_operand(t_lexer_args *args, t_token *token);
+t_parse_status	err_empty_parenthesis(t_lexer_args *args, t_token *token);
+t_parse_status	err_empty_semicol(t_lexer_args *args, t_token *token);
 
 t_parse_status	get_error_message(t_token *token, char **error);
 #endif

@@ -24,6 +24,8 @@ t_parse_status	token_parser(t_lexer_args *args, t_token *token)
 	{ERR_UNOPENED_PARENTHESIS,	&err_unopened_parenthesis},
 	{ERR_PAREN_NOT_CLOSED,		&err_unclosed_parenthesis},
 	{ERR_MISSING_LEFT_OPERAND,	&err_missing_left_operand},
+	{ERR_PAREN_EMPTY,			&err_empty_parenthesis},
+	{ERR_SEMICOL_EMPTY,			&err_empty_semicol},
 	{0,							NULL}
 	};
 

@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 15:26:39 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/04/18 18:12:11 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/05 16:02:08 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 static t_bool	get_n_option(char *arg)
 {
-	if (!*arg || !*(arg + 1) || *arg != '-')
+	if (!arg || !*arg || !*(arg + 1) || *arg != '-')
 		return (FALSE);
 	while (*(++arg) && *arg == 'n')
 		;

@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:34:41 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/01 19:04:24 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/05 15:49:19 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ char *get_current_string(t_ast_node *node, char *str)
 	char		*to_add;
 	char 		*tmp;
 
-	if (node->content)
+	if (node->content )
 		to_add = node->content;
 	else
 		to_add = "";
@@ -54,6 +54,7 @@ t_dynarray	*dynarray_to_argv(t_dynarray *arr)
 	char		*current;
 	t_ast_node	*node;
 
+
 	current = NULL;
 	argv = init_dynarray_malloc(1, free_value);
 	if (!argv)
@@ -62,6 +63,8 @@ t_dynarray	*dynarray_to_argv(t_dynarray *arr)
 	while (i < arr->count)
 	{
 		node = (t_ast_node *)get_dynarray_value(arr, i);
+		if (node->type != CMD_TEXT && node->type != CMD_SPACE)
+			break ;
 		if (node->type == CMD_SPACE)
 		{
 			if (!save_string(argv, &current))

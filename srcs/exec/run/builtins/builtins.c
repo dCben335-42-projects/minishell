@@ -6,12 +6,18 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 15:14:14 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/04/18 18:12:37 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/05 18:43:09 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cmd_builtin.h"
 #include "libft.h"
+
+#include "ast_node.h"
+#include <stdio.h>
+
+t_bool	handle_redirections(t_dynarray *cmd);
+t_bool	is_redirection(t_node_type type);
 
 static const t_builtin	*get_builtin(void)
 {
@@ -28,7 +34,48 @@ static const t_builtin	*get_builtin(void)
 	return (map);
 }
 
-t_bool	is_builtin(char **args, t_shell *shell)
+
+t_bool	is_cmd_redirection(t_dynarray *cmd)
+{
+	t_ast_node	*node;
+	t_uint		i;
+
+	i = 0;
+	while (i < cmd->count)
+	{
+		node = (t_ast_node *)cmd->data[i];
+		if (is_redirection(node->type))
+			return (TRUE);
+		i++;
+	}
+	return (FALSE);
+}
+
+
+
+static void run_builtin(t_shell *shell, char **args, const t_builtin *builtin, t_dynarray *cmd)
+{
+	const int	saved_stdin = dup(STDIN_FILENO);
+	const int	saved_stdout = dup(STDOUT_FILENO);
+
+	if (!handle_redirections(cmd))
+	{
+		dup2(saved_stdout, STDOUT_FILENO);
+		dup2(saved_stdin, STDIN_FILENO);
+		close(saved_stdout);
+		close(saved_stdin);
+		shell->exit_code = 1;
+		return;
+	}
+	builtin->f(shell, args);
+	dup2(saved_stdout, STDOUT_FILENO);
+	dup2(saved_stdin, STDIN_FILENO);
+	close(saved_stdout);
+	close(saved_stdin);
+}
+
+
+t_bool	is_builtin(char **args, t_shell *shell, t_dynarray *cmd)
 {
 	const t_builtin	*builtin_map = get_builtin();
 
@@ -36,7 +83,10 @@ t_bool	is_builtin(char **args, t_shell *shell)
 	{
 		if (ft_strcmp(builtin_map->name, args[0]) == 0)
 		{
-			builtin_map->f(shell, args);
+			if (is_cmd_redirection(cmd))
+				run_builtin(shell, args, builtin_map, cmd);
+			else
+				builtin_map->f(shell, args);
 			return (TRUE);
 		}
 		builtin_map++;

@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 13:48:13 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/01 17:20:08 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/05 15:30:51 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@
 # include "ft_printf.h"
 # include "orchestrator.h"
 
-t_bool	is_builtin(char **args, t_shell *shell);
 void	init_signals(void);
 
 #endif

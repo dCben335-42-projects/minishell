@@ -75,3 +75,34 @@ t_parse_status	err_empty_semicol(t_lexer_args *args, t_token *token)
 		return (get_error_message(token, &args->error));
 	return (COMMAND_VALID);
 }
+
+t_parse_status	need_right_operand(t_lexer_args *args, t_token *token)
+{
+	(void)token;
+	args->need_right_operand = TRUE;
+	return (COMMAND_VALID);
+}
+
+t_parse_status	check_all_rules(t_lexer_args *args, t_token *token)
+{
+	static t_bool must_be_operand = FALSE;
+
+	if (must_be_operand)
+	{
+		if (token->type & SPACE)
+			return (COMMAND_VALID);
+		if (is_text_token(*token))
+		{
+			must_be_operand = FALSE;
+			return (COMMAND_VALID);
+		}
+		must_be_operand = FALSE;
+		return (get_error_message(token, &args->error));
+	}
+	if (args->need_right_operand)
+	{
+		args->need_right_operand = FALSE;
+		must_be_operand = TRUE;
+	}
+	return (COMMAND_VALID);
+}

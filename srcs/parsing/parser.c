@@ -26,11 +26,13 @@ t_parse_status	token_parser(t_lexer_args *args, t_token *token)
 	{ERR_MISSING_LEFT_OPERAND,	&err_missing_left_operand},
 	{ERR_PAREN_EMPTY,			&err_empty_parenthesis},
 	{ERR_SEMICOL_EMPTY,			&err_empty_semicol},
+	{ERR_MISSING_RIGHT_OPERAND,	&need_right_operand},
 	{0,							NULL}
 	};
 
 	i = 0;
 	status = COMMAND_VALID;
+	args->need_right_operand = FALSE;
 	while (parsing_action[i].key)
 	{
 		if (token->type & parsing_action[i].key)
@@ -39,6 +41,9 @@ t_parse_status	token_parser(t_lexer_args *args, t_token *token)
 			return (status);
 		i++;
 	}
+	status = check_all_rules(args, token);
+	if (status != COMMAND_VALID)
+		return (status);
 	push(&args->tokens, token);
 	return (status);
 }

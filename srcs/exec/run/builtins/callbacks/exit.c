@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 15:26:52 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/04/18 18:12:01 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/06 18:48:46 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 #include "libft.h"
 #include "messages.h"
 #include "math_utils.h"
+
+void	close_fds(void);
 
 void	ft_exit(t_shell *shell, char **args)
 {
@@ -39,5 +41,6 @@ void	ft_exit(t_shell *shell, char **args)
 			status = ft_atol_base(args[1], BASE_10);
 	}
 	destroy_shell(shell);
+	close_fds();
 	exit(ft_abs(status % 256));
 }

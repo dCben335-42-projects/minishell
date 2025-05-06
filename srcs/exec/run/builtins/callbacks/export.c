@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 15:30:22 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/04/18 18:11:54 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/06 18:45:37 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,10 +69,7 @@ void	ft_export(t_shell *shell, char **args)
 {
 	if (!args[1])
 		read_env(shell->env, EXPORT_PREFIX);
-	else if (!is_valid_export(shell, args))
-	{
-		shell->exit_code = 1;
-		return ;
-	}
-	shell->exit_code = 0;
+	shell->exit_code = !is_valid_export(shell, args);
+	destroy_dynarray(&shell->env_array);
+	shell->env_array = env_to_array(shell->env);
 }

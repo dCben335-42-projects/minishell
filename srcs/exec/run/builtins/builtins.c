@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 15:14:14 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/05 18:43:09 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/06 18:02:46 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "ast_node.h"
 #include <stdio.h>
 
+void	restore_std_in_out(int saved_stdin, int saved_stdout);
 t_bool	handle_redirections(t_dynarray *cmd);
 t_bool	is_redirection(t_node_type type);
 
@@ -30,10 +31,9 @@ static const t_builtin	*get_builtin(void)
 	{EXIT, &ft_exit},
 	{ECHO, &ft_echo},
 	{NULL, NULL}};
-
+	
 	return (map);
 }
-
 
 t_bool	is_cmd_redirection(t_dynarray *cmd)
 {
@@ -51,27 +51,25 @@ t_bool	is_cmd_redirection(t_dynarray *cmd)
 	return (FALSE);
 }
 
-
-
 static void run_builtin(t_shell *shell, char **args, const t_builtin *builtin, t_dynarray *cmd)
 {
 	const int	saved_stdin = dup(STDIN_FILENO);
 	const int	saved_stdout = dup(STDOUT_FILENO);
 
+	if (saved_stdin == -1 || saved_stdout == -1)
+	{
+		perror("dup");
+		shell->exit_code = 1;
+		return ;
+	}
 	if (!handle_redirections(cmd))
 	{
-		dup2(saved_stdout, STDOUT_FILENO);
-		dup2(saved_stdin, STDIN_FILENO);
-		close(saved_stdout);
-		close(saved_stdin);
+		restore_std_in_out(saved_stdin, saved_stdout);
 		shell->exit_code = 1;
-		return;
+		return ;
 	}
 	builtin->f(shell, args);
-	dup2(saved_stdout, STDOUT_FILENO);
-	dup2(saved_stdin, STDIN_FILENO);
-	close(saved_stdout);
-	close(saved_stdin);
+	restore_std_in_out(saved_stdin, saved_stdout);
 }
 
 

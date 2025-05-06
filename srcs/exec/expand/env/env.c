@@ -6,11 +6,12 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 21:34:50 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/02 15:02:03 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/06 17:38:13 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cmd_expand.h"
+#include "unistd.h"
 
 static size_t	get_env_len(const char *str, size_t	key_len, t_shell *shell)
 {
@@ -114,6 +115,8 @@ static char	*create_new_value(const char *str, char *dest, t_shell *shell)
 	return (dest);
 }
 
+#include "stdio.h"
+
 /**
  * @brief Expands the environment variables in the token.
  *
@@ -125,7 +128,7 @@ static char	*create_new_value(const char *str, char *dest, t_shell *shell)
 void	*expand_env_token(t_shell *shell, char **arg)
 {
 	char	*new_value;
-
+	
 	if (ft_strchr(*arg, '$'))
 	{
 		new_value = malloc((get_total_len(*arg, shell) + 1));

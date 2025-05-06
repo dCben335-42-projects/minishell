@@ -6,13 +6,16 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:01:05 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/01 18:40:21 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/06 19:20:56 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "libft.h"
 #include <sys/types.h>
+
+void	signal_handler(int signum);
+
 
 /**
  * @brief Wait for all child processes to finish and return their exit codes.
@@ -31,6 +34,8 @@ int	wait_childrens(void)
 	exit_code = 0;
 	while (waitpid(-1, &status, 0) > 0)
 	{
+		signal(SIGINT, signal_handler);
+		signal(SIGQUIT, signal_handler);
 		if (WIFEXITED(status))
 			exit_code = WEXITSTATUS(status);
 		else if (WIFSIGNALED(status))

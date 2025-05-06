@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:12:13 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/02 15:55:18 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/06 18:59:34 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ static char	*find_path(char *cmd_path, char **paths)
 	ft_free_split(paths);
 	return (cmd_path);
 }
-
 
 /**
  * @brief Check if the command path is valid.

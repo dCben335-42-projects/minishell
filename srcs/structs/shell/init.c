@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 13:49:50 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/02 14:33:45 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/06 18:44:11 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ t_shell	init_shell(char **envp)
 
 	shell.exit_code = 0;
 	shell.env = init_env(envp);
+	shell.env_array = env_to_array(shell.env);
 	shell.current_path = getcwd(NULL, 0);
 	shell.ast = NULL;
 	if (!shell.current_path)

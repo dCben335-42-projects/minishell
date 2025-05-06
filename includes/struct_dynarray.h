@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   struct_dynarray.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:36:04 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/04/29 15:20:43 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/05/06 17:47:31 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ typedef struct s_dynarray
 	t_uint	last_index;
 	void	*(*destroyer)(void *);
 	t_bool	is_malloc;
-	
 }	t_dynarray;
 
 t_dynarray		init_dynarray(t_uint size, void *(*destroyer)(void *));

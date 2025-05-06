@@ -6,14 +6,14 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:34:41 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/05 15:49:19 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/06 17:37:38 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "libft.h"
 
-char *save_string(t_dynarray *new, char **str)
+static char *save_string(t_dynarray *new, char **str)
 {
 	if (!set_dynarray_value(new, new->count, *str))
 	{
@@ -25,7 +25,7 @@ char *save_string(t_dynarray *new, char **str)
 	return (new->data[new->count - 1]);
 }
 
-char *get_current_string(t_ast_node *node, char *str)
+static char *get_current_string(t_ast_node *node, char *str)
 {
 	char		*to_add;
 	char 		*tmp;
@@ -47,13 +47,15 @@ char *get_current_string(t_ast_node *node, char *str)
 	return (str);
 }
 
+t_bool	is_redirection(t_node_type type);
+
+
 t_dynarray	*dynarray_to_argv(t_dynarray *arr)
 {
 	t_dynarray	*argv;
 	t_uint		i;
 	char		*current;
 	t_ast_node	*node;
-
 
 	current = NULL;
 	argv = init_dynarray_malloc(1, free_value);
@@ -63,7 +65,7 @@ t_dynarray	*dynarray_to_argv(t_dynarray *arr)
 	while (i < arr->count)
 	{
 		node = (t_ast_node *)get_dynarray_value(arr, i);
-		if (node->type != CMD_TEXT && node->type != CMD_SPACE)
+		if (is_redirection(node->type))
 			break ;
 		if (node->type == CMD_SPACE)
 		{

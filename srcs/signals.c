@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 18:07:59 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/04/18 19:29:10 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/06 19:59:06 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 #include <termios.h>
 #include <stdio.h>
 #include "libft.h"
+
+extern volatile sig_atomic_t g_signal;
 
 static void	disable_ctrl_backslash(void)
 {
@@ -35,8 +37,9 @@ static void	disable_ctrl_backslash(void)
 	}
 }
 
-static void	signal_handler(int signum)
+void	signal_handler(int signum)
 {
+	g_signal = signum;
 	if (signum == SIGQUIT)
 		return ;
 	if (signum == SIGINT)

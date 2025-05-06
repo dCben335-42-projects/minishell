@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 15:14:14 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/07 15:33:32 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/07 15:34:42 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,6 @@ t_bool	is_cmd_redirection(t_dynarray *cmd)
 	}
 	return (FALSE);
 }
-
-
 
 static void run_builtin(t_shell *shell, char **args, const t_builtin *builtin, t_dynarray *cmd)
 {

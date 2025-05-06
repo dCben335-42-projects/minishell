@@ -23,6 +23,7 @@ SRC_FILES += exec/run/base/redirections.c
 SRC_FILES += exec/run/base/cmd_join.c
 SRC_FILES += exec/run/base/execute.c
 SRC_FILES += exec/run/base/path.c
+SRC_FILES += exec/run/base/redirections.c
 SRC_FILES += exec/run/base/wait.c
 SRC_FILES += exec/run/builtins/builtins.c
 SRC_FILES += exec/run/builtins/callbacks/cd.c

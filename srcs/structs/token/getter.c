@@ -6,7 +6,7 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:15:48 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/05 15:58:52 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/05/06 14:34:31 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,6 @@ const char	*get_token_type_name(const t_token_type_flags type)
 	i = 0;
 	while ((type & (1 << i)) == 0)
 		i++;
-	printf("vad=%s\n", token_name[i]);
 	return (token_name[i]);
 }
 

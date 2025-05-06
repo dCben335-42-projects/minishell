@@ -6,7 +6,7 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:35:32 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/04/28 20:50:44 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/05/06 14:41:38 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ typedef struct s_lexer_args
 	t_dynarray			tokens;
 	t_bracket			parenthesis;
 	t_bracket			bracket;
+	t_bool				need_right_operand;
 }	t_lexer_args;
 
 t_lexer_args	init_lexer_args(const char *input);

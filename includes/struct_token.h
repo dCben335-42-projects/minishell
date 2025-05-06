@@ -6,7 +6,7 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:44:15 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/05 16:01:27 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/05/06 15:36:02 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,13 +98,6 @@ typedef enum e_token_flag
 	ERR_SEMICOL_EMPTY			= 1 << 31,
 }	t_token_flag;
 
-/*FIXME: add rules for
-	";"
-	
-
-
-*/
-
 typedef enum e_token_type_flags
 {
 	TOKEN_SPACE					= SPACE,
@@ -124,10 +117,10 @@ typedef enum e_token_type_flags
 	TOKEN_PIPE_ERR				= OP_PIPE_ERR | ERR_MISSING_LEFT_OPERAND | EXPECT_CONTINUATION,
 	TOKEN_PARENTHESIS_OPEN		= OP_PARENTHESIS_OPEN | EXPECT_CONTINUATION | INCREMENT_PAREN_OPEN,
 	TOKEN_PARENTHESIS_CLOSE		= OP_PARENTHESIS_CLOSE | ERR_UNOPENED_PARENTHESIS | INCREMENT_PAREN_CLOSE | ERR_PAREN_EMPTY,
-	TOKEN_REDIR_IN				= REDIR_IN | ERR_MISSING_LEFT_OPERAND,
-	TOKEN_REDIR_OUT				= REDIR_OUT | ERR_MISSING_LEFT_OPERAND,
-	TOKEN_APPEND				= REDIR_APPEND | ERR_MISSING_LEFT_OPERAND,
-	TOKEN_HEREDOC				= REDIR_HEREDOC | ERR_MISSING_LEFT_OPERAND,
+	TOKEN_REDIR_IN				= REDIR_IN | ERR_MISSING_RIGHT_OPERAND,
+	TOKEN_REDIR_OUT				= REDIR_OUT | ERR_MISSING_RIGHT_OPERAND,
+	TOKEN_APPEND				= REDIR_APPEND | ERR_MISSING_RIGHT_OPERAND,
+	TOKEN_HEREDOC				= REDIR_HEREDOC | ERR_MISSING_RIGHT_OPERAND,
 	TOKEN_EOF					= 1 << 21 | ERR_PAREN_NOT_CLOSED,	// EOF
 }	t_token_type_flags;
 

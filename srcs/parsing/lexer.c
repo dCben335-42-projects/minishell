@@ -57,11 +57,10 @@ t_parse_status    lexer(t_lexer_args *args)
             return (status);
 		pointer = get_next_token(args);
     }
-    pointer2 = init_pointer(init_token(TOKEN_EOF, 0, 0), TRUE, FALSE);
+    pointer2 = init_pointer(init_token(TOKEN_EOF, "newline", 7), TRUE, FALSE);
     if (((t_token *)pointer2.pointer) == NULL)
         return (MALLOC_ERROR);
-    push(&args->tokens, ((t_token *)pointer2.pointer));
-    return (COMMAND_VALID);
+    return (token_parser(args, ((t_token *)pointer2.pointer)));
 }
 
 

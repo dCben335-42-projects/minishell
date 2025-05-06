@@ -17,6 +17,8 @@ static void	get_or_and_cmd(t_ast_node **cmd_prev, t_ast_node *cmd_master, t_get_
 			continue ;
 		if (args->local.cmd == NULL)
 			return ;
+		if (is_cmd(args, CMD_SEMICOL))
+			return (add_child(cmd_master, cmd_prev, args));
 		if (args->i == args->end)
 			return (add_child(cmd_master, &args->local.cmd, args));
 		if (is_cmd(args, CMD_PIPE))

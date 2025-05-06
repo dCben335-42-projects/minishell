@@ -6,7 +6,7 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:18:18 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/04/28 12:54:31 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/05/06 14:42:16 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,5 +25,6 @@ t_lexer_args	init_lexer_args(const char *input)
 	args.parenthesis = (t_bracket){0, 0};
 	args.bracket = (t_bracket){0, 0};
 	args.tokens = init_dynarray(2, (void *(*)(void *))destroy_token);
+	args.need_right_operand = FALSE;
 	return (args);
 }

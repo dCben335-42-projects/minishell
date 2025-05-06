@@ -5,8 +5,9 @@ t_ast_print_mapping	*get_mappings(void)
 {
 	static t_ast_print_mapping	mappings[] = {
 	{CMD_SEQ,					"CMD_SEQ",				0},
-	{CMD_JOIN,					"CMD_JOIN",				0},
+	{CMD_JOIN,					"CMD_BASE",				0},
 	{CMD_PARENTHESIS,			"CMD_PARENTHESIS",		0},
+	{CMD_WORD,					"CMD_WORD",				0},
 	{CMD_SPACE,					"SPACE", 				1},
 	{CMD_TAB,					"TAB",					1},
 	{CMD_NEWLINE,				"NEWLINE",				1},
@@ -24,10 +25,10 @@ t_ast_print_mapping	*get_mappings(void)
 	{CMD_PIPE_ERR,				"CMD_PIPE_ERR",			0},
 	{CMD_PARENTHESIS_OPEN,		"CMD_PARENTHESIS_OPEN",	0},
 	{CMD_PARENTHESIS_CLOSE,		"CMD_PARENTHESIS_CLOSE",0},
-	{CMD_REDIR_IN,				"CMD_REDIR_IN",			1},
-	{CMD_REDIR_OUT,				"CMD_REDIR_OUT",		1},
-	{CMD_APPEND,				"CMD_APPEND",			1},
-	{CMD_HEREDOC,				"CMD_HEREDOC",			1},
+	{CMD_REDIR_IN,				"CMD_REDIR_IN",			0},
+	{CMD_REDIR_OUT,				"CMD_REDIR_OUT",		0},
+	{CMD_APPEND,				"CMD_APPEND",			0},
+	{CMD_HEREDOC,				"CMD_HEREDOC",			0},
 	{CMD_EOF,					"CMD_EOF",				0},
 	};
 

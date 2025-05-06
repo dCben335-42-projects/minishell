@@ -6,7 +6,7 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 20:33:47 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/02 17:56:40 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/05/06 19:32:22 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ typedef enum e_node_type
 	CMD_APPEND				= 1 << 22,
 	CMD_HEREDOC				= 1 << 23,
 	CMD_EOF					= 1 << 24,
+	CMD_WORD				= 1 << 25,
 }	t_node_type;
 
 typedef struct s_ast_node

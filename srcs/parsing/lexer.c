@@ -14,7 +14,7 @@ static t_bool	is_command_finished(const char *input, t_token *token, t_lexer_arg
 
 static t_pointer	get_next_token(t_lexer_args *args)
 {
-    int	                                                                        offset;
+    int offset;
 
     while (*args->input)
     {

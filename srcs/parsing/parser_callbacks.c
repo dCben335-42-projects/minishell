@@ -66,7 +66,7 @@ t_parse_status	err_empty_semicol(t_lexer_args *args, t_token *token)
 	prev_token = ((t_token *)get_dynarray_value(&args->tokens, args->tokens.count - 1));
 	if (prev_token->type & SPACE)
 	{
-		if (args->tokens.count == 2)
+		if (args->tokens.count >= 2)
 			prev_token = ((t_token *)get_dynarray_value(&args->tokens, args->tokens.count - 2));
 		else
 			return (get_error_message(token, &args->error));

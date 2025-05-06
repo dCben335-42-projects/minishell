@@ -8,7 +8,6 @@ t_ast_node	*init_node(t_node_type type, char *value)
 	if (!node)
 		return (NULL);
 	node->type = type;
-	printf("init_node type: %d\n", type);
 	node->parent = NULL;
 	node->next = NULL;
 	if (value)

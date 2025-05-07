@@ -43,29 +43,10 @@ t_ast_node	*convert_token_to_cmd(t_token *token)
 	{
 		if (map[i].token == token->type)
 		{
-			if (is_text_token(*token) || is_redir_token(*token))
+			if (is_text_token(*token))
 				return (init_node(map[i].cmd, token->value));
 			return (init_node(map[i].cmd, NULL));
 		}
 		i++;
 	}
 }
-
-//t_ast_node	*convert_token_to_cmd(t_token *token)
-//{
-//	const t_token_node_map	*map;
-//	int						i;
-
-//	if (!token)
-//		return (NULL);
-//	map = get_token_cmd_map();
-//	i = 0;
-//	while (TRUE)
-//	{
-//		if (map[i].token == token->type)
-//		{
-//			return ()
-//		}
-//		i++;
-//	}
-//}

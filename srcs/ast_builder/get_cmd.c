@@ -80,15 +80,13 @@ static t_ast_node	*add_cmd_child(t_get_cmd_master *args, t_get_cmd_primitive *d)
 				return (NULL);
 			if (cmd_word)
 				add_child(cmd_word, &d->cmd_temp, args);
-			else
+			else if (cmd_redir)
 				add_child(cmd_redir, &d->cmd_temp, args);
 		}
 		else if (token->type == TOKEN_SPACE)
 		{
 			if (cmd_word)
 				add_child(d->cmd_new, &cmd_word, args);
-			if (cmd_redir)
-				printf("cmd_word = %i\n", cmd_redir->child_count);
 			if (cmd_redir && cmd_redir->child_count >= 3)
 				add_child(d->cmd_new, &cmd_redir, args);
 			args->i++;

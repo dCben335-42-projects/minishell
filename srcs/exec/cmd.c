@@ -6,7 +6,7 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:57:59 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/05 16:39:30 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/05/07 16:23:15 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,10 @@ void	command_handler_lexer(char *input, t_lexer_args *args)
 	if (status == COMMAND_NOT_FINISHED)
 		return (command_not_finished_handler(args, input));
 	if (status != COMMAND_VALID)
+	{
+		add_history(input);
 		return ;
+	}
 	if (*input)
 		add_history(input);
 }
@@ -96,6 +99,7 @@ int	command_handler(char *input, t_shell *shell)
 	t_lexer_args	args;
 	(void)shell;
 	t_ast_node		*cmds;
+	(void)cmds;
 
 	command_handler_lexer(input, &args);
 	if (args.error)
@@ -109,6 +113,8 @@ int	command_handler(char *input, t_shell *shell)
 		destroy_lexer_args(&args);
 		return (0);
 	}
+	//print_tokens(&args.tokens);
+	print_tokens(&args.tokens);
 	cmds = ast_builder(&args.tokens);
 	if (!cmds)
 	{
@@ -120,7 +126,6 @@ int	command_handler(char *input, t_shell *shell)
 		ft_printf("<--DEBUG_MODE-->\n");
 		ft_printf("COMMAND: %s\n", input);
 		ft_printf("ABSTRACT SYNTAX TREE:\n");
-		print_tokens(&args.tokens);
 		print_ast_json_wrapper(cmds->content);
 	}
 	destroy_lexer_args(&args);

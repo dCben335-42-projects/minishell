@@ -6,29 +6,30 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:57:59 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/07 15:35:23 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/07 15:56:06 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "ast_node.h"
 
 void	command_handler_lexer(char *input, t_lexer_args *args);
 
-static void	print_tokens(t_dynarray *tokens)
-{
-	t_uint	i;
-	t_uint	count;
-	t_token	*data;
+// static void	print_tokens(t_dynarray *tokens)
+// {
+// 	t_uint	i;
+// 	t_uint	count;
+// 	t_token	*data;
 
-	i = 0;
-	count = tokens->count;
-	while (i < count)
-	{
-		data = (t_token *)get_dynarray_value(tokens, i);
-		printf("%-40s %-40s\n", get_token_type_name(data->type), data->value);
-		i++;
-	}
-}
+// 	i = 0;
+// 	count = tokens->count;
+// 	while (i < count)
+// 	{
+// 		data = (t_token *)get_dynarray_value(tokens, i);
+// 		printf("%-40s %-40s\n", get_token_type_name(data->type), data->value);
+// 		i++;
+// 	}
+// }
 
 static void	command_not_finished(t_lexer_args *args, char *input)
 {
@@ -94,7 +95,6 @@ void	command_handler_lexer(char *input, t_lexer_args *args)
 int	command_handler(char *input, t_shell *shell)
 {
 	t_lexer_args	args;
-	t_ast_node		*cmds;
 
 	command_handler_lexer(input, &args);
 	if (args.error)
@@ -108,22 +108,20 @@ int	command_handler(char *input, t_shell *shell)
 		destroy_lexer_args(&args);
 		return (0);
 	}
-	cmds = ast_builder(&args.tokens);
+	shell->ast = ast_builder(&args.tokens);
 	destroy_lexer_args(&args);
-	shell->ast = cmds;
-	if (!cmds)
+	if (!shell->ast)
 		return (0);
 	if (DEBUG_MODE)
 	{
 		ft_printf("<--DEBUG_MODE-->\n");
 		ft_printf("COMMAND: %s\n", input);
 		ft_printf("ABSTRACT SYNTAX TREE:\n");
-		print_tokens(&args.tokens);
-		print_ast_json_wrapper(cmds->content);
+		print_ast_json_wrapper(shell->ast->content);
 	}
 	orchestrator(shell);
-	destroy_dynarray(cmds->content);
-	free(cmds);
+	destroy_dynarray(shell->ast->content);
+	free(shell->ast);
 	shell->ast = NULL;
 	//expand(shell, &args.tokens);
 	//destroy_lexer_args(&args);

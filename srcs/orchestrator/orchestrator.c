@@ -3,6 +3,10 @@
 #include "cmd.h"
 #include "cmd_expand.h"
 #include "cmd_builtin.h"
+#include <fcntl.h>
+#include <unistd.h>
+
+# include "cmd.h"
 
 
 #include <fcntl.h>
@@ -54,14 +58,16 @@ void	execute_cmd_base(t_shell *shell, t_dynarray *cmd)
 	destroy_dynarray(args);
 }
 
-void	execute_cmd_and()
+void	execute_cmd_and(t_shell *shell, t_dynarray *cmd)
 {
-	return ;
+	if (!shell->exit_code)
+		execute_cmd_base(shell, cmd);
 }
 
-void	execute_cmd_or()
+void	execute_cmd_or(t_shell *shell, t_dynarray *cmd)
 {
-	return ;
+	if (shell->exit_code)
+		execute_cmd_base(shell, cmd);
 }
 
 void	execute_cmd_pipe()
@@ -72,28 +78,21 @@ void	execute_cmd_pipe()
 void	orchestrator(t_shell *shell)
 {
 	t_ast_node	*cmd;
-	t_ast_node	master_node;
+	t_ast_node	*master_node;
 
-	master_node.type = CMD_SEQ;
-	master_node.content = NULL;
-	master_node.child_count = 0;
-	master_node.parent = NULL;
-	master_node.next = NULL;
-	add_childs(&master_node, shell->ast);
-	cmd = find_next_cmd(&master_node);
+	master_node = shell->ast;
+	cmd = find_next_cmd(master_node);
 	printf("--------------------\n");
 	while (cmd)
 	{
-		print_ast_json_wrapper(cmd->content);
-		if (cmd->parent->type == CMD_SEQ)
-			execute_cmd_base(shell, cmd->content);
-		if (cmd->parent->type == CMD_AND)
-			execute_cmd_and(shell, cmd->content);
-		if (cmd->parent->type == CMD_OR)
-			execute_cmd_or();
-		if (cmd->parent->type == CMD_PIPE)
-			execute_cmd_pipe();
-		cmd = find_next_cmd(&master_node);
+		// print_ast_json_wrapper(cmd->content);
+		// if (cmd->parent->type == CMD_SEQ)
+		// 	execute_cmd_base(shell, cmd->content);
+		// if (cmd->parent->type == CMD_AND)
+		// 	execute_cmd_and(shell, cmd->content);
+		// if (cmd->parent->type == CMD_OR)
+		// 	execute_cmd_or(shell, cmd->content);
+		cmd = find_next_cmd(master_node);
 	}
 }
 

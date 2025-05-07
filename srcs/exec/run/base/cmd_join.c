@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:34:41 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/07 16:47:27 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/07 17:44:52 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 #include "libft.h"
 
 t_bool	is_redirection(t_node_type type);
-
 
 static char *contentsjoin(t_dynarray *word)
 {
@@ -82,16 +81,12 @@ t_dynarray	*dynarray_to_argv(t_dynarray *arr)
 	if (!argv)
 		return (NULL);
 	i = 0;
-	skip_redirection(&i, arr->count, arr);
 	while (i < arr->count)
 	{
-		node = (t_ast_node *)get_dynarray_value(arr, i);
-		if (!is_redirection(node->type))
-		{
-			if (!save_word(argv, node->content))
-				return (destroy_dynarray(argv));
-		}
 		skip_redirection(&i, arr->count, arr);
+		node = (t_ast_node *)get_dynarray_value(arr, i);
+		if (node && !save_word(argv, node->content))
+			return (destroy_dynarray(argv));
 		i++;
 	}
 	return (argv);

@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:57:59 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/07 17:02:12 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/07 17:28:39 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,7 @@ void	command_handler_lexer(char *input, t_lexer_args *args)
 		return (command_not_finished_handler(args, input));
 	if (status != COMMAND_VALID)
 		return ;
-	if (*input)
-		add_history(input);
+
 }
 
 int	command_handler(char *input, t_shell *shell)
@@ -97,6 +96,8 @@ int	command_handler(char *input, t_shell *shell)
 	t_lexer_args	args;
 
 	command_handler_lexer(input, &args);
+	if (*input)
+		add_history(input);
 	if (args.error)
 	{
 		printf("Error: %s\n", args.error);

@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 15:14:14 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/07 15:34:42 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/07 19:35:30 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include <stdio.h>
 
 void	restore_std_in_out(int saved_stdin, int saved_stdout);
-t_bool	handle_redirections(t_dynarray *cmd);
+t_bool	handle_redirections(t_shell *shell, t_dynarray *cmd);
 t_bool	is_redirection(t_node_type type);
 
 static const t_builtin	*get_builtin(void)
@@ -62,7 +62,7 @@ static void run_builtin(t_shell *shell, char **args, const t_builtin *builtin, t
 		shell->exit_code = 1;
 		return ;
 	}
-	if (!handle_redirections(cmd))
+	if (!handle_redirections(shell, cmd))
 	{
 		restore_std_in_out(saved_stdin, saved_stdout);
 		shell->exit_code = 1;

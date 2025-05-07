@@ -80,7 +80,7 @@ static t_ast_node	*add_cmd_child(t_get_cmd_master *args, t_get_cmd_primitive *d)
 				return (NULL);
 			if (cmd_word)
 				add_child(cmd_word, &d->cmd_temp, args);
-			else
+			else if (cmd_redir)
 				add_child(cmd_redir, &d->cmd_temp, args);
 		}
 		else if (token->type == TOKEN_SPACE)

@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 19:31:21 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/07 15:35:28 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/07 16:07:37 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ static void	handle_loop(t_shell *shell)
 		if (!input)
 			break ;
 		command_handler(input, shell);
+		free(input);
 		printf("exit code: %d\n", shell->exit_code);
 	}
 }

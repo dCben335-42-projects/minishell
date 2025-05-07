@@ -38,11 +38,14 @@ void	cleanup_args(t_dynarray *arr)
 		arr->data[j++] = NULL;
 }
 
-
 void	execute_cmd_base(t_shell *shell, t_dynarray *cmd)
 {
 	t_dynarray	*args;
 	char		***argv;
+
+	(void)shell;
+	(void)cmd;
+	(void)argv;
 
 	args = dynarray_to_argv(cmd);
 	if (!args)
@@ -85,13 +88,13 @@ void	orchestrator(t_shell *shell)
 	printf("--------------------\n");
 	while (cmd)
 	{
-		// print_ast_json_wrapper(cmd->content);
-		// if (cmd->parent->type == CMD_SEQ)
-		// 	execute_cmd_base(shell, cmd->content);
-		// if (cmd->parent->type == CMD_AND)
-		// 	execute_cmd_and(shell, cmd->content);
-		// if (cmd->parent->type == CMD_OR)
-		// 	execute_cmd_or(shell, cmd->content);
+		print_ast_json_wrapper(cmd->content);
+		if (cmd->parent->type == CMD_SEQ)
+			execute_cmd_base(shell, cmd->content);
+		if (cmd->parent->type == CMD_AND)
+			execute_cmd_and(shell, cmd->content);
+		if (cmd->parent->type == CMD_OR)
+			execute_cmd_or(shell, cmd->content);
 		cmd = find_next_cmd(master_node);
 	}
 }

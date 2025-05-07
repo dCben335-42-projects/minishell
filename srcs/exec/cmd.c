@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:57:59 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/07 15:56:06 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/07 16:11:25 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,10 +120,7 @@ int	command_handler(char *input, t_shell *shell)
 		print_ast_json_wrapper(shell->ast->content);
 	}
 	orchestrator(shell);
-	destroy_dynarray(shell->ast->content);
-	free(shell->ast);
+	recursive_destroy_node(shell->ast);
 	shell->ast = NULL;
-	//expand(shell, &args.tokens);
-	//destroy_lexer_args(&args);
 	return (1);
 }

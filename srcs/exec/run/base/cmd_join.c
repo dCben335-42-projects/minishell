@@ -6,82 +6,94 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:34:41 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/07 15:35:14 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/07 16:47:27 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "libft.h"
 
-static char *save_string(t_dynarray *new, char **str)
-{
-	if (!set_dynarray_value(new, new->count, *str))
-	{
-		free(*str);
-		*str = NULL;
-		return (NULL);
-	}
-	*str = NULL;
-	return (new->data[new->count - 1]);
-}
-
-static char *get_current_string(t_ast_node *node, char *str)
-{
-	char		*to_add;
-	char 		*tmp;
-
-	if (node->content )
-		to_add = node->content;
-	else
-		to_add = "";
-	if (!str)
-		str = ft_strdup(to_add);
-	else
-	{
-		tmp = ft_strjoin(str, to_add);
-		free(str);
-		if (!tmp)
-			return (NULL);
-		str = tmp;
-	}
-	return (str);
-}
-
 t_bool	is_redirection(t_node_type type);
 
+
+static char *contentsjoin(t_dynarray *word)
+{
+	t_ast_node	*node;
+	char	*join;
+	char	*tmp;
+	t_uint	i;
+
+	join = ft_strdup("");
+	if (!join)
+		return (NULL);
+	i = 0;
+	while (i < word->count)
+	{
+		node = (t_ast_node *)get_dynarray_value(word, i);
+		tmp = ft_strjoin(join, (char *)node->content);
+		if (!tmp)
+		{
+			free(join);
+			return (NULL);
+		}
+		free(join);
+		join = tmp;
+		i++;
+	}
+	return (join);
+}
+
+static char *save_word(t_dynarray *argv, t_dynarray *word)
+{
+	char	*joined;
+	
+	joined = contentsjoin(word);
+	if (!joined)
+		return (NULL);
+	set_dynarray_value(argv, argv->count, joined);
+	if (!argv->data)
+	{
+		free((char *)joined);
+		return (NULL);
+	}
+	return (argv->data[argv->count - 1]);
+}
+
+static void	skip_redirection(t_uint *i, t_uint count, t_dynarray *arr)
+{
+	t_ast_node	*node;
+
+	while (*i < count)
+	{
+		node = (t_ast_node *)get_dynarray_value(arr, *i);
+		if (!is_redirection(node->type))
+			break ;
+		(*i)++;
+	}
+}
 
 t_dynarray	*dynarray_to_argv(t_dynarray *arr)
 {
 	t_dynarray	*argv;
-	t_uint		i;
-	char		*current;
 	t_ast_node	*node;
+	t_uint		i;
 
-	current = NULL;
 	argv = init_dynarray_malloc(1, free_value);
 	if (!argv)
 		return (NULL);
 	i = 0;
+	skip_redirection(&i, arr->count, arr);
 	while (i < arr->count)
 	{
 		node = (t_ast_node *)get_dynarray_value(arr, i);
-		if (is_redirection(node->type))
-			break ;
-		if (node->type == CMD_SPACE)
+		if (!is_redirection(node->type))
 		{
-			if (!save_string(argv, &current))
+			if (!save_word(argv, node->content))
 				return (destroy_dynarray(argv));
 		}
-		else
-		{
-			current = get_current_string(node, current);
-			if (!current)
-				return (destroy_dynarray(argv));
-		}
+		skip_redirection(&i, arr->count, arr);
 		i++;
 	}
-	if (current)
-		set_dynarray_value(argv, argv->count, current);
 	return (argv);
 }
 

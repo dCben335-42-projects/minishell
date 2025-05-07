@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_node.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 20:33:47 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/06 19:32:22 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/05/07 16:02:11 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,6 @@ t_ast_node	*convert_token_to_cmd(t_token *token);
 int			add_child_primitive(t_ast_node *parent, t_ast_node *child);
 void		print_ast_json_wrapper(t_dynarray *cmd);
 void		print_ast_json(t_print_ast_json_args args);
-void		*destroy_node(t_ast_node *node);
 void		*recursive_destroy_node(t_ast_node *node);
 void		add_childs(t_ast_node *parent, t_dynarray *childs);
 void		cmd_join(t_ast_node *node, t_uint index,

@@ -6,7 +6,7 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:57:59 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/07 16:23:15 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/05/07 19:24:22 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,13 @@ static void	command_not_finished(t_lexer_args *args, char *input)
 {
 	char	*new_input;
 	char	*tmp;
+	char 	*strs[2];
 
 	tmp = readline(SHELL_NEXT_NAME);
-	new_input = ft_strjoin(input, tmp);
+	strs[0] = input;
+	strs[1] = tmp;
+	
+	new_input = ft_strsjoin((const char **)strs, 2, " ");
 	free(tmp);
 	free(input);
 	if (!new_input)
@@ -56,17 +60,17 @@ void	command_not_finished_handler(t_lexer_args *args, char *input)
 	token_type = ((t_token *)get_dynarray_value_last(&args->tokens))->type;
 	if (args->parenthesis.open > args->parenthesis.close && (token_type & (E_TOKEN_NAME_MASK | OP_SEMICOL)))
 	{
-		if (token_type & OP_SEMICOL)
-			tmp = ft_strjoin(input, " ");
-		else
-			tmp = ft_strjoin(input, "; ");
-		if (!tmp)
+		if (token_type & E_TOKEN_NAME_MASK)
 		{
-			printf("Error: %s\n", args->error);
-			return ;
+			tmp = ft_strjoin(input, ";");
+			if (!tmp)
+			{
+				printf("Error: %s\n", args->error);
+				return ;
+			}
+			free(input);
+			input = tmp;			
 		}
-		free(input);
-		input = tmp;
 	}
 	command_not_finished(args, input);
 	return ;

@@ -17,19 +17,15 @@ static void	add_cmd_master(t_ast_node **cmd_prev, t_get_cmd_master *args)
 void	get_cmd_master(t_get_cmd_master *args)
 {
 	t_ast_node		*cmd_prev;
-	t_bool			is_empty;
-
-	args->local.pos = 0;
+	
 	cmd_prev = NULL;
 	while (args->i < args->end)
 	{
 		if (args->has_malloc_error)
 			return ;
 		args->local.ctx = CTX_MASTER;
-		if (!get_cmd(args, &is_empty))
+		if (!get_cmd(args))
 			continue ;
-		if (!args->local.cmd)
-			return ;
 		add_cmd_master(&cmd_prev, args);
 	}
 	return ;

@@ -1,12 +1,13 @@
 #include "ast.h"
 
-int get_cmd(t_get_cmd_master *args, t_bool *is_empty)
+int get_cmd(t_get_cmd_master *args)
 {
 	args->local.cmd = &args->local.lcmd;
-	get_cmd_primitive(args, is_empty, &args->local.cmd);
-	if (is_true_then_false(is_empty))
-		return (0);
-	return (1);
+	get_cmd_primitive(args, &args->local.cmd);
+	if (args->local.cmd)
+		return (1);
+	args->i++;
+	return (0);
 }
 
 int	is_cmd(t_get_cmd_master *args, size_t mask)

@@ -9,5 +9,6 @@
 
 t_ast_node	*find_next_cmd(t_ast_node *master_node);
 void		orchestrator(t_dynarray *master_node_childs);
+void		get_all_heredoc(t_ast_node *cmds);
 
 #endif

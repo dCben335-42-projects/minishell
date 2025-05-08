@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:34:41 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/07 17:44:52 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/08 15:53:17 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static char *save_word(t_dynarray *argv, t_dynarray *word)
 	set_dynarray_value(argv, argv->count, joined);
 	if (!argv->data)
 	{
-		free((char *)joined);
+		free(joined);
 		return (NULL);
 	}
 	return (argv->data[argv->count - 1]);
@@ -71,14 +71,12 @@ static void	skip_redirection(t_uint *i, t_uint count, t_dynarray *arr)
 	}
 }
 
-t_dynarray	*dynarray_to_argv(t_dynarray *arr)
+t_dynarray	*cmd_to_argv(t_dynarray *arr, t_dynarray *argv)
 {
-	t_dynarray	*argv;
 	t_ast_node	*node;
 	t_uint		i;
 
-	argv = init_dynarray_malloc(1, free_value);
-	if (!argv)
+	if (!argv->data)
 		return (NULL);
 	i = 0;
 	while (i < arr->count)

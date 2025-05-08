@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 15:26:52 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/06 18:48:46 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/08 17:49:04 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ void	ft_exit(t_shell *shell, char **args)
 			status = ft_atol_base(args[1], BASE_10);
 	}
 	destroy_shell(shell);
+	ft_free_split(args);
 	close_fds();
 	exit(ft_abs(status % 256));
 }

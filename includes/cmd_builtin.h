@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 15:10:38 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/07 15:32:37 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/08 16:58:04 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,12 @@
 
 # include "struct_shell.h"
 
-t_bool	is_builtin(char **args, t_shell *shell, t_dynarray *cmd);
+t_bool	is_builtin(
+	t_shell *shell,
+	t_dynarray *cmd,
+	char **args,
+	t_bool is_forked
+);
 
 typedef struct s_builtin
 {

@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:36:28 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/07 15:35:38 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/08 15:43:53 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	exec_cmd(char **argv, t_shell *shell);
 void	fork_and_exec(t_shell *shell, t_dynarray *args, char **argv, t_dynarray *cmd);
 
 
-t_dynarray	*dynarray_to_argv(t_dynarray *arr);
+t_dynarray	*cmd_to_argv(t_dynarray *arr, t_dynarray *argv);
 
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 15:01:55 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/07 18:34:00 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/08 17:32:56 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,7 +145,6 @@ t_bool	handle_redirections(t_shell *shell, t_dynarray *cmd)
 	int			fd;
 	t_uint		i = 0;
 
-
 	while (i < cmd->count)
 	{
 		skip_words(cmd, &i);
@@ -170,9 +169,9 @@ t_bool	handle_redirections(t_shell *shell, t_dynarray *cmd)
 				return (FALSE);
 			}
 			fd = open_redirection(node->type, *expanded_filename);
-			if (!p_int(fd, -1, filename))
+			free(filename);
+			if (!p_int(fd, -1, *expanded_filename))
 			{
-				free(filename);
 				ft_free_split(expanded_filename);
 				return (FALSE);
 			}
@@ -181,7 +180,6 @@ t_bool	handle_redirections(t_shell *shell, t_dynarray *cmd)
 			else
 				dup2(fd, STDOUT_FILENO);
 			close(fd);
-			free(filename);
 			ft_free_split(expanded_filename);
 		}
 		i++;

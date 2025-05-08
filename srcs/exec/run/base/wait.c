@@ -6,15 +6,13 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:01:05 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/07 15:34:48 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/08 17:45:35 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "libft.h"
 #include <sys/types.h>
-
-void	signal_handler(int signum);
 
 
 /**
@@ -34,8 +32,6 @@ int	wait_childrens(void)
 	exit_code = 0;
 	while (waitpid(-1, &status, 0) > 0)
 	{
-		signal(SIGINT, signal_handler);
-		signal(SIGQUIT, signal_handler);
 		if (WIFEXITED(status))
 			exit_code = WEXITSTATUS(status);
 		else if (WIFSIGNALED(status))

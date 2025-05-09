@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:07:25 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/09 17:03:42 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/09 18:44:31 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,11 @@ t_bool	handle_redirections(t_shell *shell, t_dynarray *cmd);
 
 void	*destroy_child(t_shell *shell, char **argv, int exit_code)
 {
-	ft_free_split(argv);
+	if (argv)
+		ft_free_split(argv);
 	destroy_shell(shell);
-	exit(exit_code);
 	close_fds();
+	exit(exit_code);
 	return (NULL);
 }
 

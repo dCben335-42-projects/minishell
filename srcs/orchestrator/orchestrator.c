@@ -35,61 +35,27 @@ void	cleanup_args(t_dynarray *arr)
 	while (j < count)
 		arr->data[j++] = NULL;
 }
-t_bool	is_cmd_redirection(t_dynarray *cmd);
-t_bool	handle_redirections(t_shell *shell, t_dynarray *cmd);
-void restore_std_in_out(int saved_stdin, int saved_stdout);
-void f_savestd(
-	t_shell *shell,
-	t_dynarray *cmd,
-	char **args,
-	void (*f)(t_shell *, char **)
-);
 
 #include "errors.h"
 
 void exec2(t_shell *shell, t_dynarray *cmd, char **argv)
 {
-	if (!is_builtin(shell, cmd, argv, FALSE))
+	if (!is_builtin(shell, cmd, argv))
 	{
 		argv[0] = get_full_cmd_path(argv, get_env_node(shell->env, "PATH"));
+		if (!argv[0])
+			destroy_child(shell, argv, EXIT_FAILURE);
 		fork_and_exec(shell, argv, cmd);
 	}
 }
 
-void exec3(t_shell *shell, t_dynarray *cmd, char **argv)
-{
-	pid_t	pid;
 
-	pid = fork();
-	if (pid < 0)
-	{
-		perror("fork");
-		shell->exit_code = EXIT_FAILURE;
-		return ;
-	}
-	else if (pid == 0)
-	{
-		if (!handle_redirections(shell, cmd))
-			destroy_child(shell, argv, EXIT_FAILURE);
-		if (!is_builtin(shell, cmd, argv, TRUE))
-		{
-			argv[0] = get_full_cmd_path(argv, get_env_node(shell->env, "PATH"));
-			exec_cmd(argv, shell);
-		}
-		destroy_child(shell, argv, shell->exit_code);
-	}
-	shell->exit_code = wait_childrens();
-}
-
-void exec(t_shell *shell, t_dynarray *cmd, char **argv, t_bool is_subshell)
+void exec(t_shell *shell, t_dynarray *cmd, char **argv)
 {
-	if (!is_subshell)
-		exec2(shell, cmd, argv);
-	else
-		exec3(shell, cmd, argv);
+	exec2(shell, cmd, argv);
 }		
 	
-void	execute_cmd_base(t_shell *shell, t_dynarray *cmd, t_bool is_subshell)
+void	execute_cmd_base(t_shell *shell, t_dynarray *cmd)
 {
 	t_dynarray	args;
 
@@ -97,20 +63,20 @@ void	execute_cmd_base(t_shell *shell, t_dynarray *cmd, t_bool is_subshell)
 	if (!cmd_to_argv(cmd, &args) || !expand(shell, &args))
 		return ;
 	cleanup_args(&args);
-	exec(shell, cmd, (char **)args.data, is_subshell);
+	exec(shell, cmd, (char **)args.data);
 	destroy_dynarray(&args);
 }
 
 
-void	execute_cmd_and(t_shell *shell, t_dynarray *cmd, t_bool is_subshell)
+void	execute_cmd_and(t_shell *shell, t_dynarray *cmd)
 {
 	if (!shell->exit_code)
-		execute_cmd_base(shell, cmd, is_subshell);
+		execute_cmd_base(shell, cmd);
 }
-void	execute_cmd_or(t_shell *shell, t_dynarray *cmd, t_bool is_subshell)
+void	execute_cmd_or(t_shell *shell, t_dynarray *cmd)
 {
 	if (shell->exit_code)
-		execute_cmd_base(shell, cmd, is_subshell);
+		execute_cmd_base(shell, cmd);
 }
 
 void	execute_cmd_pipe()
@@ -121,7 +87,7 @@ void	execute_cmd_pipe()
 typedef struct s_exec_map
 {
 	t_node_type	type;
-	void		(*f)(t_shell *shell, t_dynarray *cmd, t_bool is_subshell);
+	void		(*f)(t_shell *shell, t_dynarray *cmd);
 }	t_exec_map;
 
 const t_exec_map	*get_exec_map(void)
@@ -137,37 +103,27 @@ const t_exec_map	*get_exec_map(void)
 	return (map);
 }
 
-void handle_cmd(
-	t_shell *shell, 
-	t_ast_node *cmd, 
-	const t_node_type type,
-	t_bool is_subshell
-)
+void handle_cmd(t_shell *shell, t_ast_node *cmd, const t_node_type type)
 {
 	const t_exec_map	*exec_map = get_exec_map();
 
-	printf("is subshell: %d\n", is_subshell);
 	while (exec_map->type)
 	{
 		if (exec_map->type == type)
 		{
-			exec_map->f(shell, cmd->content, is_subshell);
+			exec_map->f(shell, cmd->content);
 			break ;
 		}
 		exec_map++;
 	}
 }
 
-void handle_subshell(
-	t_shell *shell, 
-	t_ast_node *cmd, 
-	const t_node_type type
-)
+void	handle_subshell(t_shell *shell, t_ast_node *cmd)
 {
 	pid_t	pid;
 
 	pid = fork();
-	if (pid < 0)
+	if (pid == -1)
 	{
 		perror("fork");
 		shell->exit_code = EXIT_FAILURE;
@@ -175,31 +131,36 @@ void handle_subshell(
 	}
 	else if (pid == 0)
 	{
-		if (!handle_redirections(shell, cmd))
-			destroy_child(shell, cmd->content, EXIT_FAILURE);
-		handle_cmd(shell, cmd, type, TRUE);
-		destroy_child(shell, cmd->content, shell->exit_code);
+		handle_cmd(shell, cmd, cmd->type);
+		cmd = find_next_cmd(cmd);
+		while (cmd && cmd->parent && cmd->parent->parent && cmd->parent->parent->type == CMD_PARENTHESIS)
+		{
+			handle_cmd(shell, cmd, cmd->parent->type);
+			cmd = find_next_cmd(cmd);
+		}
+		destroy_child(shell, NULL, shell->exit_code);
 	}
+	wait_childrens();
 }
-
 
 void	orchestrator(t_shell *shell)
 {
 	t_ast_node	*cmd;
-	t_ast_node	*master_node;
 
-	master_node = shell->ast;
-	cmd = find_next_cmd(master_node);
-	printf("=================================================\n");
+	cmd = find_next_cmd(shell->ast);
 	while (cmd)
 	{
 		if (cmd->parent->type == CMD_PARENTHESIS)
-			handle_cmd(shell, cmd, cmd->type, TRUE);
-		else 
-			handle_cmd(shell, cmd, cmd->parent->type, FALSE);
-		cmd = find_next_cmd(master_node);
+		{
+			handle_subshell(shell, cmd);
+			cmd = find_next_cmd(cmd);
+			while (cmd && cmd->parent && cmd->parent->parent && cmd->parent->parent->type == CMD_PARENTHESIS)
+				cmd = find_next_cmd(cmd);
+			continue;
+		}
+		handle_cmd(shell, cmd, cmd->parent->type);
+		cmd = find_next_cmd(cmd);
 	}
-	printf("=================================================\n");
 }
 
 // ( ( ( echo 'salut' ) ) && echo 'bonjour' ) | echo bar | echo "sa va"

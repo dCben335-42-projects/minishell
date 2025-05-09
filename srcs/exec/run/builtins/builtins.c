@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 15:14:14 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/09 17:02:24 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/09 18:41:21 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,15 +82,14 @@ void	close_fds(void);
 t_bool	is_builtin(
 	t_shell *shell,
 	t_dynarray *cmd,
-	char **args,
-	t_bool is_forked
+	char **args
 )
 {
 	const t_builtin	*builtin_map = get_builtin();
 
 	if (!*args)
 	{
-		if (!is_forked && is_cmd_redirection(cmd))
+		if (is_cmd_redirection(cmd))
 			f_savestd(shell, cmd, args, NULL);
 		return (TRUE);
 	}
@@ -98,7 +97,7 @@ t_bool	is_builtin(
 	{
 		if (!ft_strcmp(builtin_map->name, args[0]))
 		{
-			if (!is_forked && is_cmd_redirection(cmd))
+			if (is_cmd_redirection(cmd))
 				f_savestd(shell, cmd, args, builtin_map->f);
 			else
 				builtin_map->f(shell, args);

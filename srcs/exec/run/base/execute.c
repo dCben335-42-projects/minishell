@@ -6,12 +6,23 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:07:25 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/08 18:13:51 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/09 17:03:42 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "cmd.h"
+
+t_bool	handle_redirections(t_shell *shell, t_dynarray *cmd);
+
+void	*destroy_child(t_shell *shell, char **argv, int exit_code)
+{
+	ft_free_split(argv);
+	destroy_shell(shell);
+	exit(exit_code);
+	close_fds();
+	return (NULL);
+}
 
 /**
  * @brief Execute a command using execve.
@@ -33,13 +44,19 @@ void	exec_cmd(char **argv, t_shell *shell)
 {
 	execve(argv[0], argv, (char **)shell->env_array.data);
 	perror("execve");
-	ft_free_split(argv);
-	destroy_shell(shell);
-	exit(EXIT_FAILURE);
+	destroy_child(shell, argv, EXIT_FAILURE);
 }
 
-t_bool	handle_redirections(t_shell *shell, t_dynarray *cmd);
+void	child_exec(t_shell *shell, char **argv, t_dynarray *cmd) 
+{
+    int exit_code;
 
+	exit_code = EXIT_FAILURE;
+	if (!handle_redirections(shell, cmd) 
+		|| !is_valid_cmd_path(argv[0], &exit_code))
+		destroy_child(shell, argv, exit_code);
+	exec_cmd(argv, shell); 
+}
 
 /**
  * @brief Fork a new process and execute a command.
@@ -55,23 +72,22 @@ t_bool	handle_redirections(t_shell *shell, t_dynarray *cmd);
  * to finish and return its exit code.
  * 
  */
-void fork_and_exec(t_shell *shell, t_dynarray *args, char **argv, t_dynarray *cmd) {
+void	fork_and_exec(t_shell *shell, char **argv, t_dynarray *cmd) 
+{
     pid_t pid;
-    int exit_code;
 
     pid = fork();
-    if (pid == 0) {
-        if (!handle_redirections(shell, cmd)) {
-            destroy_dynarray(args);
-            destroy_shell(shell);
-            exit(EXIT_FAILURE);
-        }
-        if (!is_valid_cmd_path(argv[0], &exit_code)) {
-            destroy_dynarray(args);
-            destroy_shell(shell);
-            exit(exit_code);
-        }
-        exec_cmd(argv, shell); 
-    }
+	if (pid < 0)
+	{
+		perror("fork");
+		shell->exit_code = EXIT_FAILURE;
+		return ;
+	}
+    if (pid == 0) 
+	{
+		if (!handle_redirections(shell, cmd))
+			destroy_child(shell, argv, EXIT_FAILURE);
+		child_exec(shell, argv, cmd);
+	}
 	shell->exit_code = wait_childrens();
 }

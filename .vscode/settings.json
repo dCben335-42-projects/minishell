@@ -1,22 +1,5 @@
 {
 	"files.associations": {
-		"struct_token.h": "c",
-		"type_traits": "c",
-		"utility": "c",
-		"struct_lexer_args.h": "c",
-		"parsing.h": "c",
-		"struct_pointer.h": "c",
-		"stdio.h": "c",
-		"cstdlib": "c",
-		"orchestrator.h": "c",
-		"libft.h": "c",
-		"struct_dynarray.h": "c",
-		"ast_node.h": "c",
-		"stdlib.h": "c",
-		"initializer_list": "c",
-		"compare": "c",
-		"minishell.h": "c",
-		"ast.h": "c",
-		"cmd.h": "c"
+		"libft.h": "c"
 	}
 }

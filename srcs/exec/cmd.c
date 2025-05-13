@@ -6,7 +6,7 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:57:59 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/08 19:03:27 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/05/13 16:33:06 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,13 +132,14 @@ int	command_handler(char *input, t_shell *shell)
 	//	print_ast_json_wrapper(cmds->content);
 	//}
 	//get_all_heredoc(cmds);
-	//if (DEBUG_MODE)
-	//{
-	//	ft_printf("<--DEBUG_MODE-->\n");
-	//	ft_printf("COMMAND: %s\n", input);
-	//	ft_printf("ABSTRACT SYNTAX TREE:\n");
-	//	print_ast_json_wrapper(cmds->content);
-	
+	if (DEBUG_MODE)
+	{
+		ft_printf("<--DEBUG_MODE-->\n");
+		ft_printf("COMMAND: %s\n", input);
+		ft_printf("ABSTRACT SYNTAX TREE:\n");
+		//print_ast_json_wrapper(cmds->content);
+	}
+	orchestrator(cmds->content);
 	destroy_lexer_args(&args);
 	destroy_dynarray(cmds->content);
 	free(cmds);

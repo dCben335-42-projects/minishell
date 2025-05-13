@@ -1,6 +1,7 @@
 #include "ast.h"
+#include "struct_shell.h"
 
-t_ast_node *get_next_cmd(t_ast_node *node)
+t_ast_node *skip_node(t_ast_node *node)
 {
 	t_ast_node *next_node;
 
@@ -14,30 +15,46 @@ t_ast_node *get_next_cmd(t_ast_node *node)
 	return (next_node->next);
 }
 
-t_ast_node *find_next_cmd_recursive(t_bool is_start, t_ast_node *node)
+typedef struct s_exec_map
 {
-	if (node == NULL)
-		return (NULL);
-	if (is_start)
-		return (find_next_cmd_recursive(FALSE, get_next_cmd(node)));
-	if (node->type == CMD_JOIN)
-		return (node);
-	else
-		return (find_next_cmd_recursive(FALSE, (t_ast_node *)get_dynarray_value(node->content, 0)));
+	t_node_type	type;
+	void		(*f)(t_shell *shell, t_dynarray *cmd);
+}	t_exec_map;
+
+const t_exec_map	*get_exec_map(void)
+{
+	static const t_exec_map	map[] = {
+	{CMD_SEQ, NULL},
+	{CMD_JOIN, NULL},
+	{CMD_AND, NULL},
+	{CMD_OR, NULL},
+	{CMD_PIPE, NULL},
+	{0, NULL}};
+
+	return (map);
 }
 
-t_ast_node *find_next_cmd(t_ast_node *master_node)
+t_bool is_mp(const t_node_type type)
 {
-	static t_ast_node	*last_node = NULL;
+	const t_exec_map	*map = get_exec_map();
 
-	if (last_node)
-		last_node = find_next_cmd_recursive(TRUE, last_node);
-	else
+	while (map->type)
 	{
-		last_node = master_node;
-		last_node = find_next_cmd_recursive(FALSE, last_node);
+		if (map->type == type)
+			return (TRUE);
+		map++;
 	}
-	return (last_node);
+	return (FALSE);
+}
+
+t_ast_node *find_next_cmd(t_ast_node *prev_node)
+{
+	if (prev_node == NULL)
+		return (NULL);
+	t_ast_node *child = (t_ast_node *)get_dynarray_value(prev_node->content, 0);
+	if (child && is_mp(child->type))
+		return (child);
+	return (skip_node(prev_node));
 }
 
 

@@ -33,7 +33,10 @@ void	orchestrator(t_dynarray *master_node_childs)
 	printf("--------------------\n");
 	while (cmd)
 	{
+		printf("--------------------\n");
+		printf("cmd type: %d\n", cmd->type);
 		print_ast_json_wrapper(cmd->content);
+		printf("--------------------\n");
 		if (cmd->parent == NULL)
 			execute_cmd_base(cmd->content);
 		if (cmd->parent->type == CMD_AND)
@@ -42,7 +45,7 @@ void	orchestrator(t_dynarray *master_node_childs)
 			execute_cmd_or();
 		if (cmd->parent->type == CMD_PIPE)
 			execute_cmd_pipe();
-		cmd = find_next_cmd(master_node);
+		cmd = find_next_cmd(cmd);
 	}
 
 

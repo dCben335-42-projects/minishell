@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:57:59 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/09 16:59:55 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/13 18:36:25 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,13 +113,13 @@ int	command_handler(char *input, t_shell *shell)
 	destroy_lexer_args(&args);
 	if (!shell->ast)
 		return (0);
-	// if (DEBUG_MODE)
-	// {
-	// 	ft_printf("<--DEBUG_MODE-->\n");
-	// 	ft_printf("COMMAND: %s\n", input);
-	// 	ft_printf("ABSTRACT SYNTAX TREE:\n");
-	// 	print_ast_json_wrapper(shell->ast->content);
-	// }
+	if (DEBUG_MODE)
+	{
+		ft_printf("<--DEBUG_MODE-->\n");
+		ft_printf("COMMAND: %s\n", input);
+		ft_printf("ABSTRACT SYNTAX TREE:\n");
+		print_ast_json_wrapper(shell->ast->content);
+	}
 	orchestrator(shell);
 	recursive_destroy_node(shell->ast);
 	shell->ast = NULL;

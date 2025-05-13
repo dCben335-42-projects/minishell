@@ -8,7 +8,8 @@
 # include "ast_node.h"
 # include <stdio.h>
 
-t_ast_node	*find_next_cmd(t_ast_node *master_node);
+t_ast_node *find_next_cmd(t_ast_node *prev_node);
+t_ast_node *skip_cmd(t_ast_node *node);
 void		orchestrator(t_shell *shell);
 
 #endif

@@ -9,6 +9,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 
+t_ast_node	*handle_cmd(t_shell *shell, t_ast_node *cmd);
 
 void	cleanup_args(t_dynarray *arr)
 {
@@ -55,39 +56,78 @@ void exec(t_shell *shell, t_dynarray *cmd, char **argv)
 	exec2(shell, cmd, argv);
 }		
 	
-void	execute_cmd_base(t_shell *shell, t_dynarray *cmd)
+t_ast_node	*execute_cmd_base(t_shell *shell, t_ast_node *cmd)
 {
 	t_dynarray	args;
 
 	args = init_dynarray(1, free_value);
-	if (!cmd_to_argv(cmd, &args) || !expand(shell, &args))
-		return ;
+	if (!cmd_to_argv(cmd->content, &args) || !expand(shell, &args))
+		return (NULL);
 	cleanup_args(&args);
-	exec(shell, cmd, (char **)args.data);
+	t_uint	i = 0;
+	while (i < args.count)
+	{
+		printf("args[%d] = %s\n", i, (char *)args.data[i]);
+		i++;
+	}
+	
+	exec(shell, cmd->content, (char **)args.data);
 	destroy_dynarray(&args);
+	return (find_next_cmd(cmd));
 }
 
 
-void	execute_cmd_and(t_shell *shell, t_dynarray *cmd)
+t_ast_node	*execute_cmd_and(t_shell *shell, t_ast_node *cmd)
 {
 	if (!shell->exit_code)
-		execute_cmd_base(shell, cmd);
+		return (handle_cmd(shell, find_next_cmd(cmd)));
+	return (skip_cmd(cmd));
 }
-void	execute_cmd_or(t_shell *shell, t_dynarray *cmd)
+t_ast_node	*execute_cmd_or(t_shell *shell, t_ast_node *cmd)
 {
 	if (shell->exit_code)
-		execute_cmd_base(shell, cmd);
+		return (handle_cmd(shell, find_next_cmd(cmd)));
+	return (skip_cmd(cmd));
 }
 
-void	execute_cmd_pipe()
+t_ast_node	*execute_cmd_pipe(t_shell *shell, t_ast_node *cmd)
 {
-	return ;
+	(void)cmd;
+	(void)shell;
+	return (skip_cmd(cmd));
 }
+
+
+
+t_ast_node	*handle_subshell(t_shell *shell, t_ast_node *cmd)
+{
+	t_ast_node  *skiped_cmd;
+	pid_t		pid;
+
+	skiped_cmd = skip_cmd(cmd);
+	pid = fork();
+	if (pid == -1)
+	{
+		perror("fork");
+		shell->exit_code = EXIT_FAILURE;
+		return (NULL);
+	}
+	else if (pid == 0)
+	{
+		while (cmd != skiped_cmd)
+			cmd = handle_cmd(shell, find_next_cmd(cmd));
+		destroy_child(shell, NULL, shell->exit_code);
+	}
+	shell->exit_code = wait_childrens();
+	return (skiped_cmd);
+}
+
+
 
 typedef struct s_exec_map
 {
 	t_node_type	type;
-	void		(*f)(t_shell *shell, t_dynarray *cmd);
+	t_ast_node	*(*f)(t_shell *shell, t_ast_node *cmd);
 }	t_exec_map;
 
 const t_exec_map	*get_exec_map(void)
@@ -98,69 +138,34 @@ const t_exec_map	*get_exec_map(void)
 	{CMD_AND, &execute_cmd_and},
 	{CMD_OR, &execute_cmd_or},
 	{CMD_PIPE, &execute_cmd_pipe},
+	{CMD_PARENTHESIS, &handle_subshell},
 	{0, NULL}};
 
 	return (map);
 }
 
-void handle_cmd(t_shell *shell, t_ast_node *cmd, const t_node_type type)
+t_ast_node	*handle_cmd(t_shell *shell, t_ast_node *cmd)
 {
 	const t_exec_map	*exec_map = get_exec_map();
 
 	while (exec_map->type)
 	{
-		if (exec_map->type == type)
-		{
-			exec_map->f(shell, cmd->content);
-			break ;
-		}
+		if (exec_map->type == cmd->type)
+			return (exec_map->f(shell, cmd));
 		exec_map++;
 	}
-}
-
-void	handle_subshell(t_shell *shell, t_ast_node *cmd)
-{
-	pid_t	pid;
-
-	pid = fork();
-	if (pid == -1)
-	{
-		perror("fork");
-		shell->exit_code = EXIT_FAILURE;
-		return ;
-	}
-	else if (pid == 0)
-	{
-		handle_cmd(shell, cmd, cmd->type);
-		cmd = find_next_cmd(cmd);
-		while (cmd && cmd->parent && cmd->parent->parent && cmd->parent->parent->type == CMD_PARENTHESIS)
-		{
-			handle_cmd(shell, cmd, cmd->parent->type);
-			cmd = find_next_cmd(cmd);
-		}
-		destroy_child(shell, NULL, shell->exit_code);
-	}
-	wait_childrens();
+	perror("Unknown command type");
+	return (NULL);
 }
 
 void	orchestrator(t_shell *shell)
 {
 	t_ast_node	*cmd;
 
+	shell->exit_code = 0;
 	cmd = find_next_cmd(shell->ast);
 	while (cmd)
-	{
-		if (cmd->parent->type == CMD_PARENTHESIS)
-		{
-			handle_subshell(shell, cmd);
-			cmd = find_next_cmd(cmd);
-			while (cmd && cmd->parent && cmd->parent->parent && cmd->parent->parent->type == CMD_PARENTHESIS)
-				cmd = find_next_cmd(cmd);
-			continue;
-		}
-		handle_cmd(shell, cmd, cmd->parent->type);
-		cmd = find_next_cmd(cmd);
-	}
+		cmd = handle_cmd(shell, cmd);
 }
 
 // ( ( ( echo 'salut' ) ) && echo 'bonjour' ) | echo bar | echo "sa va"

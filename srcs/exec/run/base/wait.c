@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:01:05 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/08 17:45:35 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/13 17:38:25 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	wait_childrens(void)
 		else if (WIFSTOPPED(status))
 			exit_code = 128 + WSTOPSIG(status);
 		else
-			exit_code = -1;
+			exit_code = 1;
 	}
 	return (exit_code);
 }

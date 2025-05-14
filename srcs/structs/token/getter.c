@@ -6,7 +6,7 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:15:48 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/06 14:34:31 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/05/14 19:39:18 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,8 +93,8 @@ const char	*get_token_type_name(const t_token_type_flags type)
 		"PIPE_ERR",
 		"PARENTHESIS_OPEN",
 		"PARENTHESIS_CLOSE",
-		"REDIR_IN",
-		"REDIR_OUT",
+		"R_IN",
+		"R_OUT",
 		"APPEND",
 		"HEREDOC",
 		"EOF",
@@ -106,27 +106,3 @@ const char	*get_token_type_name(const t_token_type_flags type)
 		i++;
 	return (token_name[i]);
 }
-
-
-	//TOKEN_SPACE					= SPACE,
-	//TOKEN_TAB					= TAB,
-	//TOKEN_NEWLINE				= NEWLINE,
-	//TOKEN_TEXT					= TEXT,
-	//TOKEN_EXPAND				= EXPAND,
-	//TOKEN_WILDCARD				= WILDCARD,
-	//TOKEN_OR					= OP_OR | ERR_MISSING_LEFT_OPERAND | EXPECT_CONTINUATION,
-	//TOKEN_PIPE					= OP_PIPE | ERR_MISSING_LEFT_OPERAND | EXPECT_CONTINUATION,
-	//TOKEN_AND					= OP_AND | ERR_MISSING_LEFT_OPERAND | EXPECT_CONTINUATION,
-	//TOKEN_BACKGROUND			= OP_AMP | ERR_MISSING_LEFT_OPERAND | EXPECT_CONTINUATION,
-	//TOKEN_SEMICOL				= OP_SEMICOL | ERR_MISSING_LEFT_OPERAND,
-	//TOKEN_DB_SEMICOL			= OP_DB_SEMICOL | ERR_MISSING_LEFT_OPERAND,
-	//TOKEN_SEMICOL_AMP			= OP_SEMICOL_AMP | ERR_MISSING_LEFT_OPERAND,
-	//TOKEN_DB_SEMICOL_AMP		= OP_DB_SEMICOL_AMP | ERR_MISSING_LEFT_OPERAND,
-	//TOKEN_PIPE_ERR				= OP_PIPE_ERR | ERR_MISSING_LEFT_OPERAND | EXPECT_CONTINUATION,
-	//TOKEN_PARENTHESIS_OPEN		= OP_PARENTHESIS_OPEN | EXPECT_CONTINUATION | INCREMENT_PAREN_OPEN,
-	//TOKEN_PARENTHESIS_CLOSE		= OP_PARENTHESIS_CLOSE | ERR_UNOPENED_PARENTHESIS | INCREMENT_PAREN_CLOSE | ERR_PAREN_EMPTY,
-	//TOKEN_REDIR_IN				= REDIR_IN | ERR_MISSING_LEFT_OPERAND,
-	//TOKEN_REDIR_OUT				= REDIR_OUT | ERR_MISSING_LEFT_OPERAND,
-	//TOKEN_APPEND				= REDIR_APPEND | ERR_MISSING_LEFT_OPERAND,
-	//TOKEN_HEREDOC				= REDIR_HEREDOC | ERR_MISSING_LEFT_OPERAND,
-	//TOKEN_EOF					= 1 << 21 | ERR_PAREN_NOT_CLOSED,	// EOF

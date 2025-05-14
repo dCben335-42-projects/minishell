@@ -2,7 +2,7 @@
 
 static t_bool	is_command_finished(const char *input, t_token *token, t_lexer_args *args)
 {
-	if (token->type & EXPECT_CONTINUATION || args->parenthesis.open > args->parenthesis.close)
+	if (token->type & EXPECT_CONT || args->parenthesis.open > args->parenthesis.close)
 	{
 		while (ft_isspace(*input))
 			input++;

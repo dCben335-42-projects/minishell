@@ -1,5 +1,10 @@
 {
 	"files.associations": {
-		"libft.h": "c"
+		"libft.h": "c",
+		"cmd.h": "c",
+		"struct_dynarray.h": "c",
+		"utility": "c",
+		"minishell.h": "c",
+		"struct_token.h": "c"
 	}
 }

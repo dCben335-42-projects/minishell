@@ -56,7 +56,7 @@ static t_ast_node	*get_adjacent_cmd(t_get_cmd_master *args, int count)
 	t_token		*token;
 
 	token = (t_token *)get_dynarray_value(args->tokens, args->i + count + 1);
-	if (token && token->type & SPACE)
+	if (token && token->type & M_SPACE)
 		token = (t_token *)get_dynarray_value(args->tokens, args->i + count + 2);
 	if (token && token->type & OP_PIPE)
 		return (init_node_secure(CMD_PIPE, NULL, args));

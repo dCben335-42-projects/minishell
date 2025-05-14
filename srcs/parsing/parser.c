@@ -19,14 +19,14 @@ t_parse_status	token_parser(t_lexer_args *args, t_token *token)
 	int							i;
 	t_parse_status				status;
 	const t_map_key_callback	parsing_action[] = {
-	{INCREMENT_PAREN_OPEN,		&increment_p_open},
-	{INCREMENT_PAREN_CLOSE,		&increment_p_close},
-	{ERR_UNOPENED_PARENTHESIS,	&err_unopened_parenthesis},
-	{ERR_PAREN_NOT_CLOSED,		&err_unclosed_parenthesis},
-	{ERR_MISSING_LEFT_OPERAND,	&err_missing_left_operand},
-	{ERR_PAREN_EMPTY,			&err_empty_parenthesis},
-	{ERR_SEMICOL_EMPTY,			&err_empty_semicol},
-	{ERR_MISSING_RIGHT_OPERAND,	&need_right_operand},
+	{INC_PAREN_OPEN,		&increment_p_open},
+	{INC_PAREN_CLOSE,		&increment_p_close},
+	{ERR_NO_OPEN_PAREN,	&err_unopened_parenthesis},
+	{ERR_NO_CLOSE_PAREN,		&err_unclosed_parenthesis},
+	{ERR_LEFT_OPERAND,	&err_missing_left_operand},
+	{ERR_EMPTY_PAREN,			&err_empty_parenthesis},
+	{ERR_EMPTY_SEMI,			&err_empty_semicol},
+	{ERR_RIGHT_OPERAND,	&need_right_operand},
 	{0,							NULL}
 	};
 

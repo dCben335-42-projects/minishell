@@ -37,7 +37,7 @@ t_bool	get_prev_token(t_lexer_args *args, t_token **prev_token)
 	if (args->tokens.count == 0)
 		return (FALSE);
 	*prev_token = ((t_token *)get_dynarray_value(&args->tokens, args->tokens.count - 1));
-	if ((*prev_token)->type & SPACE)
+	if ((*prev_token)->type & M_SPACE)
 	{
 		if (args->tokens.count < 2)
 			return (FALSE);
@@ -86,7 +86,7 @@ t_parse_status	check_all_rules(t_lexer_args *args, t_token *token)
 
 	if (must_be_operand)
 	{
-		if (token->type & SPACE)
+		if (token->type & M_SPACE)
 			return (COMMAND_VALID);
 		if (is_text_token(*token))
 		{

@@ -62,6 +62,7 @@ SRC_FILES += structs/pointer/init.c
 SRC_FILES += structs/shell/destroy.c
 SRC_FILES += structs/shell/init.c
 SRC_FILES += structs/token/destroy.c
+SRC_FILES += structs/token/get_lexer_token_def.c
 SRC_FILES += structs/token/getter.c
 SRC_FILES += structs/token/init.c
 SRC_FILES += structs/token/is.c

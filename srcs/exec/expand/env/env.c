@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 21:34:50 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/07 15:35:10 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/14 18:00:46 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,41 @@ static char	*create_new_value(const char *str, char *dest, t_shell *shell)
 
 #include "stdio.h"
 
+void *loop_word(t_shell *shell, t_dynarray *word, void *(*f)(t_shell *, t_ast_node *))
+{
+	t_ast_node	*node;
+	t_uint		i;
+
+	i = 0;
+	while (i < word->count)
+	{
+		node = (t_ast_node *)get_dynarray_value(word, i);
+		if (!f(shell, node))
+			return (NULL);
+		i++;
+	}
+	return (word);
+}
+
+void *expand_env_node(t_shell *shell, t_ast_node *node)
+{
+	char	*new_value;
+	const char *value = (const char *)node->content;
+
+	if (node->type == CMD_EXPAND)
+	{
+		new_value = malloc((get_total_len(value, shell) + 1));
+		if (!new_value)
+			return (NULL);
+		new_value = create_new_value(value, new_value, shell);
+		if (!new_value)
+			return (NULL);
+		free(node->content);
+		node->content = new_value;
+	}
+	return (node);
+}
+
 /**
  * @brief Expands the environment variables in the token.
  *
@@ -125,20 +160,7 @@ static char	*create_new_value(const char *str, char *dest, t_shell *shell)
  *
  * @return The expanded token or NULL if an error occurred.
 */
-void	*expand_env_token(t_shell *shell, char **arg)
+void	*expand_env_word(t_shell *shell, t_dynarray *word)
 {
-	char	*new_value;
-	
-	if (ft_strchr(*arg, '$'))
-	{
-		new_value = malloc((get_total_len(*arg, shell) + 1));
-		if (!new_value)
-			return (NULL);
-		new_value = create_new_value(*arg, new_value, shell);
-		if (!new_value)
-			return (NULL);
-		free(*arg);
-		*arg = new_value;
-	}
-	return (arg);
+	return (loop_word(shell, word, expand_env_node));
 }

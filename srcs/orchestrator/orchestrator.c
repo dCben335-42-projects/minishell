@@ -61,7 +61,7 @@ t_ast_node	*execute_cmd_base(t_shell *shell, t_ast_node *cmd)
 	t_dynarray	args;
 
 	args = init_dynarray(1, free_value);
-	if (!cmd_to_argv(cmd->content, &args) || !expand(shell, &args))
+	if (!cmd_to_argv(cmd->content, &args))
 		return (NULL);
 	cleanup_args(&args);
 	t_uint	i = 0;

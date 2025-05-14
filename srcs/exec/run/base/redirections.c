@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 15:01:55 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/08 17:32:56 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/14 18:06:34 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,23 +109,26 @@ static char *contentsjoin(t_dynarray *word)
 
 char **expand_filename(t_shell *shell, char *filename)
 {
-	char *expanded_filename;
-	char **splited_filename;
+	(void)shell;
+	(void)filename;
+	// char *expanded_filename;
+	// char **splited_filename;
 
-	if (!filename)
-		return (NULL);
-	expanded_filename = ft_strdup(filename);
-	if (!expanded_filename)
-		return (NULL);
-	expand_env_token(shell, &expanded_filename);
-	if (!expanded_filename)
-		return (NULL);
-	expand_wildcard_token(shell, &expanded_filename);
-	if (!expanded_filename)
-		return (NULL);
-	splited_filename = ft_split(expanded_filename, ' ');
-	free(expanded_filename);
-	return (splited_filename);
+	// if (!filename)
+	// 	return (NULL);
+	// expanded_filename = ft_strdup(filename);
+	// if (!expanded_filename)
+	// 	return (NULL);
+	// expand_env_word(shell, &expanded_filename);
+	// if (!expanded_filename)
+	// 	return (NULL);
+	// expand_wildcard_word(shell, &expanded_filename);
+	// if (!expanded_filename)
+	// 	return (NULL);
+	// splited_filename = ft_split(expanded_filename, ' ');
+	// free(expanded_filename);
+	// return (splited_filename);
+	return (NULL);
 }
 
 t_bool	is_valid_filename(char **expanded_filename)
@@ -139,50 +142,58 @@ t_bool	is_valid_filename(char **expanded_filename)
 
 t_bool	handle_redirections(t_shell *shell, t_dynarray *cmd)
 {
-	t_ast_node	*node;
-	char		*filename;
-	char 		**expanded_filename;
-	int			fd;
-	t_uint		i = 0;
+	// t_ast_node	*node;
+	// char		*filename;
+	// char 		**expanded_filename;
+	// int			fd;
+	// t_uint		i = 0;
 
-	while (i < cmd->count)
-	{
-		skip_words(cmd, &i);
-		node = (t_ast_node *)cmd->data[i];
-		if (node)
-		{
-			filename = contentsjoin(node->content);
-			if (!filename)
-				return (FALSE);
-			expanded_filename = expand_filename(shell, filename);
-			if (!expanded_filename)
-			{
-				free(filename);
-				return (FALSE);
-			}
-			if (!is_valid_filename(expanded_filename))
-			{
-				ft_putstr_fd(filename, 2);
-				ft_putstr_fd(": ambiguous redirect\n", 2);
-				free(filename);
-				ft_free_split(expanded_filename);
-				return (FALSE);
-			}
-			fd = open_redirection(node->type, *expanded_filename);
-			free(filename);
-			if (!p_int(fd, -1, *expanded_filename))
-			{
-				ft_free_split(expanded_filename);
-				return (FALSE);
-			}
-			if (node->type == CMD_REDIR_IN)
-				dup2(fd, STDIN_FILENO);
-			else
-				dup2(fd, STDOUT_FILENO);
-			close(fd);
-			ft_free_split(expanded_filename);
-		}
-		i++;
-	}
+	// while (i < cmd->count)
+	// {
+	// 	skip_words(cmd, &i);
+	// 	node = (t_ast_node *)cmd->data[i];
+	// 	if (node)
+	// 	{
+	// 		filename = contentsjoin(node->content);
+	// 		if (!filename)
+	// 			return (FALSE);
+	// 		expanded_filename = expand_filename(shell, filename);
+	// 		if (!expanded_filename)
+	// 		{
+	// 			free(filename);
+	// 			return (FALSE);
+	// 		}
+	// 		if (!is_valid_filename(expanded_filename))
+	// 		{
+	// 			ft_putstr_fd(filename, 2);
+	// 			ft_putstr_fd(": ambiguous redirect\n", 2);
+	// 			free(filename);
+	// 			ft_free_split(expanded_filename);
+	// 			return (FALSE);
+	// 		}
+	// 		fd = open_redirection(node->type, *expanded_filename);
+	// 		free(filename);
+	// 		if (!p_int(fd, -1, *expanded_filename))
+	// 		{
+	// 			ft_free_split(expanded_filename);
+	// 			return (FALSE);
+	// 		}
+	// 		if (node->type == CMD_REDIR_IN)
+	// 			dup2(fd, STDIN_FILENO);
+	// 		else
+	// 			dup2(fd, STDOUT_FILENO);
+	// 		close(fd);
+	// 		ft_free_split(expanded_filename);
+	// 	}
+	// 	i++;
+	// }
+	(void)cmd;
+	(void)shell;
+	(void)contentsjoin;
+	(void)open_redirection;
+	(void)expand_filename;
+	(void)is_valid_filename;
+	(void)skip_words;
+	(void)close;
 	return (TRUE);
 }

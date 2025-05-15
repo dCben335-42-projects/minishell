@@ -52,7 +52,6 @@ t_pointer	tokenize_enclosures(t_lexer_args *args, char **start_i, t_uint *curren
 	t_pointer	pointer;
 
 	pointer = handler_enclosures(args, start_i, current_type);
-	printf("args->input: %s\n", args->input);
 	if (pointer.is_malloc)
 		return (pointer);
 	pointer = handler_expand(args, start_i, current_type);

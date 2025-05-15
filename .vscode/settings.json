@@ -6,6 +6,7 @@
 		"utility": "c",
 		"minishell.h": "c",
 		"struct_token.h": "c",
-		"ast.h": "c"
+		"ast.h": "c",
+		"parsing.h": "c"
 	}
 }

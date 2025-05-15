@@ -6,7 +6,7 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 17:45:18 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/15 17:56:37 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/05/15 20:36:37 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,5 +94,9 @@ t_parse_status	err_empty_parenthesis(t_lexer_args *args, t_token *token);
 t_parse_status	err_empty_semicol(t_lexer_args *args, t_token *token);
 t_parse_status	need_right_operand(t_lexer_args *args, t_token *token);
 t_parse_status	check_all_rules(t_lexer_args *args, t_token *token);
-t_parse_status	get_error_message(t_token *token, char **error);
+t_parse_status	get_error_message(t_token *token, char **error, char *msg);
+t_parse_status	err_no_right_operand(t_lexer_args *args, t_token *token);
+t_parse_status	err_missing_left_operand(t_lexer_args *args, t_token *token);
+t_parse_status	err_no_left_operand(t_lexer_args *args, t_token *token);
+
 #endif

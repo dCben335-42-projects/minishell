@@ -15,7 +15,6 @@ t_pointer	tokenize_word(t_lexer_args *args)
 		if (pointer.is_malloc)
 			return (pointer);
 		args->input++;
-		printf("args->input: %s\n", args->input);
     }
 	return (init_pointer(init_token(quoted_wrapper(args, &current_type), start_i, args->input - start_i), TRUE, FALSE));
 }

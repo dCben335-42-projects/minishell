@@ -6,7 +6,7 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:15:57 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/15 17:09:23 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/05/15 20:21:05 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,4 +35,9 @@ int	is_text_token(t_token token)
 int	is_redir_token(t_token token)
 {
 	return (token.type & get_lexer_token_def()->masks.redir);
+}
+
+int	is_meta_token(t_token token)
+{
+	return (token.type & get_lexer_token_def()->masks.metachar);
 }

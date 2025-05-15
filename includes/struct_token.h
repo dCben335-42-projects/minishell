@@ -6,7 +6,7 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:44:15 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/15 17:03:38 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/05/15 20:34:00 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,8 @@ typedef enum e_token_flag
 	ERR_NO_CLOSE_PAREN	= 1 << 6,  // ERR_PAREN_NOT_CLOSED
 	ERR_EMPTY_PAREN		= 1 << 7,  // ERR_PAREN_EMPTY
 	ERR_EMPTY_SEMI		= 1 << 8,  // ERR_SEMICOL_EMPTY
+	ERR_NO_RIGHT_OPERAND	= 1 << 9,  // ERR_NO_RIGHT_OPERAND
+	ERR_NO_LEFT_OPERAND	= 1 << 10, // ERR_NO_LEFT_OPERAND
 }	t_token_flag;
 
 //typedef enum e_token_type_flags
@@ -199,5 +201,7 @@ int				is_operator_ext_token(
 					t_token token);
 int				is_cmd_token(
 					t_token token);
+
+int				is_meta_token(t_token token);
 
 #endif

@@ -1,12 +1,13 @@
 #include "parsing.h"
 
-t_parse_status	get_error_message(t_token *token, char **error)
+t_parse_status	get_error_message(t_token *token, char **error, char *msg)
 {
 	const size_t	msg_len
 		= ft_strlen("erreur de syntaxe près du symbole inattendu « ")
 		+ ft_strlen(token->value) + ft_strlen(" »\n") + 1;
 
 	*error = ft_calloc(msg_len, sizeof(char));
+	printf("error: %s\n", msg);
 	ft_strcat(*error, "erreur de syntaxe près du symbole inattendu «\u00A0");
 	ft_strcat(*error, token->value);
 	ft_strcat(*error, "\u00A0»\n");
@@ -27,12 +28,14 @@ t_parse_status	token_parser(t_lexer_args *args, t_token *token)
 	{ERR_EMPTY_PAREN,			&err_empty_parenthesis},
 	{ERR_EMPTY_SEMI,			&err_empty_semicol},
 	{ERR_RIGHT_OPERAND,			&need_right_operand},
+	{ERR_NO_RIGHT_OPERAND,		&err_no_right_operand},
+	{ERR_NO_LEFT_OPERAND,		&err_no_left_operand},
 	{0,							NULL}
 	};
 
 	i = 0;
 	status = COMMAND_VALID;
-	args->need_right_operand = FALSE;
+	args->right_operand = UNDEFINED;
 	while (parsing_action[i].key)
 	{
 		if (token->rules & parsing_action[i].key)

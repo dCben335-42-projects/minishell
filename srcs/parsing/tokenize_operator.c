@@ -1,7 +1,7 @@
 #include "parsing.h"
 
 t_pointer	tokenize_operator(t_lexer_args *args,
-	int offset, t_token_type_flags type)
+	int offset, t_uint type)
 {
 	t_pointer	pointer;
 

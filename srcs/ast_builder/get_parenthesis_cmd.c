@@ -11,9 +11,9 @@ static int	count_token_between_brackets(t_dynarray *tokens, t_uint i)
 	while (i < tokens->count - 1)
 	{
 		token = (t_token *)get_dynarray_value(tokens, i);
-		if (token->type == TOKEN_PARENTHESIS_OPEN)
+		if (token->type == OP_PARENTHESIS_OPEN)
 			parenthesis.open++;
-		else if (token->type == TOKEN_PARENTHESIS_CLOSE)
+		else if (token->type == OP_PARENTHESIS_CLOSE)
 			parenthesis.close++;
 		if (parenthesis.open == parenthesis.close)
 			return (count);

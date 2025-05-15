@@ -6,7 +6,7 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:15:48 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/14 19:39:18 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/05/15 17:01:52 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,20 @@
 static const t_token_map	*get_operator_table(void)
 {
 	static const t_token_map	op_table[] = {
-	{">>", TOKEN_APPEND},
-	{"<<", TOKEN_HEREDOC},
-	{"||", TOKEN_OR},
-	{"|&", TOKEN_PIPE_ERR},
-	{"&&", TOKEN_AND},
-	{"|", TOKEN_PIPE},
-	{"&", TOKEN_BACKGROUND},
-	{">", TOKEN_REDIR_OUT},
-	{"<", TOKEN_REDIR_IN},
-	{";", TOKEN_SEMICOL},
-	{"(", TOKEN_PARENTHESIS_OPEN},
-	{")", TOKEN_PARENTHESIS_CLOSE},
-	{NULL, TOKEN_EOF}};
+	{"<<-", R_HEREDOC_TRIM},
+	{">>", R_APPEND},
+	{"<<", R_HEREDOC},
+	{"||", OP_OR},
+	{"|&", OP_PIPE_ERR},
+	{"&&", OP_AND},
+	{"|", OP_PIPE},
+	{"&", OP_AMP},
+	{">", R_OUT},
+	{"<", R_IN},
+	{";", OP_SEMICOL},
+	{"(", OP_PARENTHESIS_OPEN},
+	{")", OP_PARENTHESIS_CLOSE},
+	{NULL, M_EOF}};
 
 	return (op_table);
 }
@@ -46,7 +47,7 @@ static const t_token_map	*get_operator_table(void)
  * 
  * @return token type
  */
-t_token_type_flags	get_token_type(const char *str, int *offset)
+t_uint	get_token_type(const char *str, int *offset)
 {
 	const t_token_map	*op_table = get_operator_table();
 	size_t				len;
@@ -58,11 +59,11 @@ t_token_type_flags	get_token_type(const char *str, int *offset)
 		{
 			if (offset)
 				*offset += len;
-			return (op_table->token);
+			return (op_table->type);
 		}
 		op_table++;
 	}
-	return (TOKEN_TEXT);
+	return (TEXT);
 }
 
 /**
@@ -73,14 +74,17 @@ t_token_type_flags	get_token_type(const char *str, int *offset)
  * 
  * @return String corresponding to the token type
  */
-const char	*get_token_type_name(const t_token_type_flags type)
+const char	*get_token_type_name(const t_uint type)
 {
 	static const char	*token_name[] = {
 		"SPACE",
 		"TAB",
 		"NEWLINE",
+		"EOF",
 		"TEXT",
+		"QUOTED_TEXT",
 		"EXPAND",
+		"QUOTED_EXPAND",
 		"WILDCARD",
 		"OR",
 		"PIPE",
@@ -97,7 +101,7 @@ const char	*get_token_type_name(const t_token_type_flags type)
 		"R_OUT",
 		"APPEND",
 		"HEREDOC",
-		"EOF",
+		"HEREDOC_TRIM",
 	};
 	t_uint	i;
 

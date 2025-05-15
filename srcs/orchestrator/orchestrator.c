@@ -30,13 +30,13 @@ void	orchestrator(t_dynarray *master_node_childs)
 	master_node = init_node(CMD_SEQ, NULL);
 	add_childs(master_node, master_node_childs);
 	cmd = find_next_cmd(master_node);
-	printf("--------------------\n");
+	//printf("--------------------\n");
 	while (cmd)
 	{
-		printf("--------------------\n");
-		printf("cmd type: %d\n", cmd->type);
-		print_ast_json_wrapper(cmd->content);
-		printf("--------------------\n");
+		//printf("--------------------\n");
+		//printf("cmd type: %d\n", cmd->type);
+		//print_ast_json_wrapper(cmd->content);
+		//printf("--------------------\n");
 		if (cmd->parent == NULL)
 			execute_cmd_base(cmd->content);
 		if (cmd->parent->type == CMD_AND)

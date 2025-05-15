@@ -1,6 +1,6 @@
 #include "parsing.h"
 
-static t_pointer	return_token(t_lexer_args *args, char **start_i, t_token_type_flags *current_type)
+static t_pointer	return_token(t_lexer_args *args, char **start_i, t_uint *current_type)
 {
 	args->input++;
 	return (init_pointer(
@@ -9,7 +9,7 @@ static t_pointer	return_token(t_lexer_args *args, char **start_i, t_token_type_f
 }
 
 
-static t_pointer	handler_enclosure(t_lexer_args *args, char **start_i, t_token_type_flags *current_type, const char quote)
+static t_pointer	handler_enclosure(t_lexer_args *args, char **start_i, t_uint *current_type, const char quote)
 {
 	if (*args->input == quote)
 	{
@@ -31,7 +31,7 @@ static t_pointer	handler_enclosure(t_lexer_args *args, char **start_i, t_token_t
 	return (init_pointer(NULL, FALSE, FALSE));
 }
 
-static t_pointer	handler_enclosures(t_lexer_args *args, char **start_i, t_token_type_flags *current_type)
+static t_pointer	handler_enclosures(t_lexer_args *args, char **start_i, t_uint *current_type)
 {
 	t_pointer	pointer;
 
@@ -41,7 +41,7 @@ static t_pointer	handler_enclosures(t_lexer_args *args, char **start_i, t_token_
 	return (handler_enclosure(args, start_i, current_type, DELIMITER_LITERAL_TEXT));
 }
 
-t_pointer	tokenize_enclosures(t_lexer_args *args, char **start_i, t_token_type_flags *current_type)
+t_pointer	tokenize_enclosures(t_lexer_args *args, char **start_i, t_uint *current_type)
 {
 	t_pointer	pointer;
 

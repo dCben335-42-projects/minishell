@@ -6,7 +6,7 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 19:31:21 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/14 19:57:03 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/05/15 16:37:47 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,13 @@ static void	handle_loop(t_shell *shell)
 		input = readline(SHELL_NAME);
 		if (!input)
 			break ;
-		//args = ft_split(input, ' ');
-		//command_handler(input, shell);
-		//free(input);
-		//if (args[0])
-		//	is_builtin(args, shell);
-		//ft_free_split(args);
-		//printf("exit code: %d\n", shell->exit_code);
+		args = ft_split(input, ' ');
+		command_handler(input, shell);
+		free(input);
+		if (args[0])
+			is_builtin(args, shell);
+		ft_free_split(args);
+		printf("exit code: %d\n", shell->exit_code);
 	}
 }
 

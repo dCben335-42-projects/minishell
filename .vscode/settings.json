@@ -5,6 +5,7 @@
 		"struct_dynarray.h": "c",
 		"utility": "c",
 		"minishell.h": "c",
-		"struct_token.h": "c"
+		"struct_token.h": "c",
+		"ast.h": "c"
 	}
 }

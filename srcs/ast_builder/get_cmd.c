@@ -5,7 +5,7 @@ t_bool	is_empty(t_get_cmd_master *args)
 	t_token	*token;
 
 	token = (t_token *)get_dynarray_value(args->tokens, args->i);
-	if (token->type == TOKEN_SPACE)
+	if (token->type == M_SPACE)
 		token = (t_token *)get_dynarray_value(args->tokens, args->i + 1);
 	if (is_operator_ext_token(*token))
 		return (TRUE);
@@ -58,7 +58,7 @@ static t_ast_node	*add_cmd_child(t_get_cmd_master *args, t_get_cmd_primitive *d)
 			else
 				add_child(cmd_redir, &d->cmd_temp, args);
 		}
-		else if (token->type == TOKEN_SPACE)
+		else if (token->type == M_SPACE)
 			add_cmd_join_child(args, d, &cmd_word, &cmd_redir);
 		else
 		{

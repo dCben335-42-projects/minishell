@@ -6,7 +6,7 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:57:59 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/13 16:33:06 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/05/15 16:52:32 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,12 @@ static void	command_not_finished(t_lexer_args *args, char *input)
 void	command_not_finished_handler(t_lexer_args *args, char *input)
 {
 	char				*tmp;
-	t_token_type_flags	token_type;
+	t_token				*token;
 
-	token_type = ((t_token *)get_dynarray_value_last(&args->tokens))->type;
-	if (args->parenthesis.open > args->parenthesis.close && (token_type & (E_TOKEN_NAME_MASK | OP_SEMICOL)))
+	token = ((t_token *)get_dynarray_value_last(&args->tokens));
+	if (args->parenthesis.open > args->parenthesis.close && (is_text_token(*token) || token->type & OP_SEMICOL))
 	{
-		if (token_type & E_TOKEN_NAME_MASK)
+		if (is_text_token(*token))
 		{
 			tmp = ft_strjoin(input, ";");
 			if (!tmp)
@@ -137,7 +137,7 @@ int	command_handler(char *input, t_shell *shell)
 		ft_printf("<--DEBUG_MODE-->\n");
 		ft_printf("COMMAND: %s\n", input);
 		ft_printf("ABSTRACT SYNTAX TREE:\n");
-		//print_ast_json_wrapper(cmds->content);
+		print_ast_json_wrapper(cmds->content);
 	}
 	orchestrator(cmds->content);
 	destroy_lexer_args(&args);

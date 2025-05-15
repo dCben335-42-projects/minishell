@@ -26,7 +26,7 @@ t_parse_status	err_unclosed_parenthesis(t_lexer_args *args, t_token *token)
 	if (args->parenthesis.open != args->parenthesis.close)
 	{
 		destroy_token(token);
-		token = init_token(TOKEN_EOF, NULL, 0);
+		token = init_token(M_EOF, NULL, 0);
 		return (get_error_message(token, &args->error));
 	}
 	return (COMMAND_VALID);
@@ -50,7 +50,7 @@ t_parse_status	err_missing_left_operand(t_lexer_args *args, t_token *token)
 {
 	t_token	*prev_token;
 
-	if (!get_prev_token(args, &prev_token) || prev_token->type & E_CONTROL_OPERATOR_MASK)
+	if (!get_prev_token(args, &prev_token) || is_operator_token(*prev_token))
 		return (get_error_message(token, &args->error));
 	return (COMMAND_VALID);
 }
@@ -83,7 +83,6 @@ t_parse_status	need_right_operand(t_lexer_args *args, t_token *token)
 t_parse_status	check_all_rules(t_lexer_args *args, t_token *token)
 {
 	static t_bool must_be_operand = FALSE;
-
 	if (must_be_operand)
 	{
 		if (token->type & M_SPACE)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 13:59:51 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/04/18 17:43:30 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/15 22:27:25 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ size_t	parse_env_key_len(const char *str)
 	size_t	len;
 
 	len = 1;
-	if (!str || !*str || (!ft_isalpha(*str) && *str != '_'))
+	if (!str || !*str || (!ft_isalpha(*str) && *str != '_' && *str != '?'))
 		return (0);
 	if (*str == '?')
 		return (1);

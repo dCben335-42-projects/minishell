@@ -8,6 +8,7 @@
 		"struct_token.h": "c",
 		"ast.h": "c",
 		"parsing.h": "c",
-		"types.h": "c"
+		"types.h": "c",
+		"struct_env.h": "c"
 	}
 }

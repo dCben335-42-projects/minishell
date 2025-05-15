@@ -1,11 +1,18 @@
 #include "parsing.h"
 
-static t_pointer	return_token(t_lexer_args *args, char **start_i, t_uint *current_type)
+static t_pointer	return_token(t_lexer_args *args, char **start_i, t_uint *current_type, const char quote)
 {
+	t_pointer	pointer;
+
 	args->input++;
-	return (init_pointer(
+	pointer = init_pointer(
 			init_token(quoted_wrapper(args, current_type), *start_i, args->input - *start_i - 1),
-			TRUE, FALSE));
+			TRUE, FALSE);
+	if (args->quote == quote)
+		args->quote = 0;
+	else
+		args->quote = quote;
+	return (pointer);
 }
 
 
@@ -15,17 +22,17 @@ static t_pointer	handler_enclosure(t_lexer_args *args, char **start_i, t_uint *c
 	{
 		if (args->quote == 0)
 		{
-			args->quote = quote;
 			if (args->input - *start_i > 0)
-				return (return_token(args, start_i, current_type));
+				return (return_token(args, start_i, current_type, quote));
+			args->quote = quote;
 			if (args->input - *start_i == 0)
 				(*start_i)++;
 		}
 		else if (args->quote == quote)
 		{
-			args->quote = 0;
 			if (args->input - *start_i > 0)
-				return (return_token(args, start_i, current_type));
+				return (return_token(args, start_i, current_type, quote));
+			args->quote = 0;
 		}
 	}
 	return (init_pointer(NULL, FALSE, FALSE));

@@ -7,6 +7,7 @@
 		"minishell.h": "c",
 		"struct_token.h": "c",
 		"ast.h": "c",
-		"parsing.h": "c"
+		"parsing.h": "c",
+		"types.h": "c"
 	}
 }

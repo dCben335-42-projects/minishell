@@ -6,7 +6,7 @@ t_pointer	get_token(
 	t_uint type
 )
 {
-	if (type == TEXT)
+	if (type == TEXT || args->quote)
 		return (tokenize_word(args));
     return (tokenize_operator(args, offset, type));
 }

@@ -33,6 +33,7 @@ SRC_FILES += parsing/is_a_wildcard.c
 SRC_FILES += parsing/lexer.c
 SRC_FILES += parsing/parser.c
 SRC_FILES += parsing/parser_callbacks.c
+SRC_FILES += parsing/quoted_wrapper.c
 SRC_FILES += parsing/tokenize_enclosures.c
 SRC_FILES += parsing/tokenize_expand.c
 SRC_FILES += parsing/tokenize_operator.c

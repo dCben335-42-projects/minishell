@@ -6,7 +6,7 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 17:45:18 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/15 17:02:29 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/05/15 17:56:37 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ t_pointer	handler_expand(t_lexer_args *args, char **start_i, t_uint *current_typ
 
 t_bool	is_an_expand(t_lexer_args * args);
 t_bool	is_a_wildcard(t_lexer_args * args, t_uint *current_type);
+t_uint	quoted_wrapper(t_lexer_args *args, t_uint *current_type);
 
 t_parse_status	increment_p_open(t_lexer_args *args, t_token *token);
 t_parse_status	increment_p_close(t_lexer_args *args, t_token *token);

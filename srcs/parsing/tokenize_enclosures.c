@@ -4,7 +4,7 @@ static t_pointer	return_token(t_lexer_args *args, char **start_i, t_uint *curren
 {
 	args->input++;
 	return (init_pointer(
-			init_token(*current_type, *start_i, args->input - *start_i - 1),
+			init_token(quoted_wrapper(args, current_type), *start_i, args->input - *start_i - 1),
 			TRUE, FALSE));
 }
 
@@ -35,6 +35,12 @@ static t_pointer	handler_enclosures(t_lexer_args *args, char **start_i, t_uint *
 {
 	t_pointer	pointer;
 
+	if ((*(args->input) == DELIMITER_EXPANDABLE_TEXT && *(args->input + 1) == DELIMITER_EXPANDABLE_TEXT) || 
+		(*(args->input) == DELIMITER_LITERAL_TEXT && *(args->input + 1) == DELIMITER_LITERAL_TEXT))
+		{
+			args->input += 2;
+			return (init_pointer(init_token(QUOTED_TEXT, NULL, 0), TRUE, FALSE));
+		}
 	pointer = handler_enclosure(args, start_i, current_type, DELIMITER_EXPANDABLE_TEXT);
 	if (pointer.is_malloc)
 		return (pointer);
@@ -46,6 +52,7 @@ t_pointer	tokenize_enclosures(t_lexer_args *args, char **start_i, t_uint *curren
 	t_pointer	pointer;
 
 	pointer = handler_enclosures(args, start_i, current_type);
+	printf("args->input: %s\n", args->input);
 	if (pointer.is_malloc)
 		return (pointer);
 	pointer = handler_expand(args, start_i, current_type);

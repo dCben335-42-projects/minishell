@@ -15,3 +15,4 @@ INCLUDES_FILES += struct_pointer.h
 INCLUDES_FILES += struct_shell.h
 INCLUDES_FILES += struct_token.h
 INCLUDES_FILES += struct_wildcard.h
+INCLUDES_FILES += utils.h

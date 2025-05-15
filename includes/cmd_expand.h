@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 17:19:31 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/14 18:02:17 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/15 16:19:14 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@
 # include "libft.h"
 # include <dirent.h>
 
-void	*expand_word(t_shell *shell, t_dynarray *word);
-void	*expand_wildcard_word(t_shell *shell, t_dynarray *word);
+char	*expand_word(t_shell *shell, t_dynarray *word);
+char	*expand_wildcard_word(t_shell *shell, char *word);
 void	*expand_env_word(t_shell *shell, t_dynarray *word);
 
 typedef struct t_wcard_match

@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 15:26:52 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/08 17:49:04 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/15 20:44:23 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,7 @@
 #include "libft.h"
 #include "messages.h"
 #include "math_utils.h"
-
-void	close_fds(void);
+#include "utils.h"
 
 void	ft_exit(t_shell *shell, char **args)
 {
@@ -24,7 +23,7 @@ void	ft_exit(t_shell *shell, char **args)
 
 	status = shell->exit_code;
 	ft_putendl_fd(EXIT_MSG, 1);
-	if (args[1])
+	if (args && args[1])
 	{
 		is_number = ft_isnumber(args[1], FALSE);
 		if (is_number && args[2])
@@ -40,8 +39,5 @@ void	ft_exit(t_shell *shell, char **args)
 		else
 			status = ft_atol_base(args[1], BASE_10);
 	}
-	destroy_shell(shell);
-	ft_free_split(args);
-	close_fds();
-	exit(ft_abs(status % 256));
+	destroy_self(shell, args, ft_abs(status % 256));
 }

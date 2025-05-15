@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   close_fds.c                                        :+:      :+:    :+:   */
+/*   fd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/06 14:56:48 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/06 16:12:03 by bcabocel         ###   ########.fr       */
+/*   Created: 2025/05/15 20:14:00 by bcabocel          #+#    #+#             */
+/*   Updated: 2025/05/15 20:40:55 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,11 @@ void restore_std_in_out(int saved_stdin, int saved_stdout)
 		close_and_restore(STDOUT_FILENO, saved_stdout);
 }
 
-void	close_fds(void)
+void	close_fds(unsigned int start)
 {
 	int	i;
 
-	i = 0;
+	i = start;
 	while (i < 1024)
 	{
 		close(i);

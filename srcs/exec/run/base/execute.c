@@ -6,24 +6,13 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:07:25 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/09 18:44:31 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/15 20:44:42 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "cmd.h"
 
-t_bool	handle_redirections(t_shell *shell, t_dynarray *cmd);
-
-void	*destroy_child(t_shell *shell, char **argv, int exit_code)
-{
-	if (argv)
-		ft_free_split(argv);
-	destroy_shell(shell);
-	close_fds();
-	exit(exit_code);
-	return (NULL);
-}
 
 /**
  * @brief Execute a command using execve.
@@ -45,7 +34,7 @@ void	exec_cmd(char **argv, t_shell *shell)
 {
 	execve(argv[0], argv, (char **)shell->env_array.data);
 	perror("execve");
-	destroy_child(shell, argv, EXIT_FAILURE);
+	destroy_self(shell, argv, EXIT_FAILURE);
 }
 
 void	child_exec(t_shell *shell, char **argv, t_dynarray *cmd) 
@@ -55,7 +44,7 @@ void	child_exec(t_shell *shell, char **argv, t_dynarray *cmd)
 	exit_code = EXIT_FAILURE;
 	if (!handle_redirections(shell, cmd) 
 		|| !is_valid_cmd_path(argv[0], &exit_code))
-		destroy_child(shell, argv, exit_code);
+		destroy_self(shell, argv, exit_code);
 	exec_cmd(argv, shell); 
 }
 
@@ -85,10 +74,6 @@ void	fork_and_exec(t_shell *shell, char **argv, t_dynarray *cmd)
 		return ;
 	}
     if (pid == 0) 
-	{
-		if (!handle_redirections(shell, cmd))
-			destroy_child(shell, argv, EXIT_FAILURE);
 		child_exec(shell, argv, cmd);
-	}
 	shell->exit_code = wait_childrens();
 }

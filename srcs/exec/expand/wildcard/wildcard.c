@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 21:37:52 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/02 15:03:01 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/15 18:12:27 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,17 +49,15 @@ static char	*get_wildcard(t_shell *shell, const char *value)
  * 
  * @return The expanded token or NULL if an error occurred.
  */
-void	*expand_wildcard_token(t_shell *shell, char **arg)
+char	*expand_wildcard_word(t_shell *shell, char *word)
 {
-	char	*new_value;
+	char *wildcard;
 
-	if (ft_strchr(*arg, '*'))
-	{
-		new_value = get_wildcard(shell, *arg);
-		if (!new_value)
-			return (NULL);
-		free(*arg);
-		*arg = new_value;
-	}
-	return (arg);
+	if (!word)
+		return (NULL);
+	wildcard = get_wildcard(shell, word);
+	if (!wildcard)
+		return (word);
+	free(word);
+	return (wildcard);
 }

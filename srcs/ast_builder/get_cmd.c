@@ -7,7 +7,9 @@ t_bool	is_empty(t_get_cmd_master *args)
 	token = (t_token *)get_dynarray_value(args->tokens, args->i);
 	if (token->type == M_SPACE)
 		token = (t_token *)get_dynarray_value(args->tokens, args->i + 1);
-	if (is_operator_ext_token(*token))
+	if (token->type == M_EOF)
+		return (TRUE);
+	if (is_control_extended_token(*token))
 		return (TRUE);
 	return (FALSE);
 }
@@ -28,8 +30,6 @@ t_bool	merr(t_ast_node *node, t_ast_node **out)
 	return (FALSE);
 }
 
-
-
 static t_ast_node	*add_cmd_child(t_get_cmd_master *args, t_get_cmd_primitive *d)
 {
 	t_token		*token;
@@ -45,7 +45,7 @@ static t_ast_node	*add_cmd_child(t_get_cmd_master *args, t_get_cmd_primitive *d)
 	while (args->i < args->end)
 	{
 		token = (t_token *)get_dynarray_value(args->tokens, args->i);
-		if (is_operator_ext_token(*token))
+		if (is_control_extended_token(*token))
 			break;
 		if (is_text_token(*token))
 		{

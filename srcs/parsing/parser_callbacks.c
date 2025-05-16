@@ -77,7 +77,7 @@ t_parse_status	err_empty_semicol(t_lexer_args *args, t_token *token)
 {
 	t_token	*prev_token;
 
-	if (!get_prev_token(args, &prev_token) || (is_operator_ext_token(*prev_token) && token->type & OP_SEMICOL))
+	if (!get_prev_token(args, &prev_token) || (is_control_token(*prev_token) && token->type & OP_SEMICOL))
 		return (get_error_message(token, &args->error, "err_empty_semicol"));
 	return (COMMAND_VALID);
 }
@@ -96,38 +96,55 @@ t_parse_status	err_no_right_operand(t_lexer_args *args, t_token *token)
 	return (COMMAND_VALID);
 }
 
+t_parse_status	err_right_operand_np(t_lexer_args *args, t_token *token)
+{
+	(void)token;
+	args->right_operand = REQUIRED_WITHOUT_PAREN;
+	return (COMMAND_VALID);
+}
+
 t_parse_status	check_all_rules(t_lexer_args *args, t_token *token)
 {
-	static t_tribool	must_be_operand = UNDEFINED;
-	t_token				*prev_token;
+	static t_right_operand_status	must_be_operand = UNDEFINED;
+	t_token							*prev_token;
 
-	if (must_be_operand == REQUIRED)
+	if (must_be_operand == REQUIRED_WITHOUT_PAREN)
 	{
 		if (token->type & M_SPACE)
 			return (COMMAND_VALID);
-		if (is_text_token(*token) || token->type == OP_PARENTHESIS_OPEN)
-		{
-			must_be_operand = UNDEFINED;
+		must_be_operand = UNDEFINED;
+		if (is_text_token(*token))
 			return (COMMAND_VALID);
-		}
 		else if (token->type & M_EOF && get_prev_token(args, &prev_token) && prev_token->rules & EXPECT_CONT)
 			return (COMMAND_NOT_FINISHED);
-		must_be_operand = UNDEFINED;
-		return (get_error_message(token, &args->error, "err_missing_right_operand"));
+		return (get_error_message(token, &args->error, "err_missing_right_operand_np"));
 	}
-	if (must_be_operand == DISALLOWED)
+	else if (must_be_operand == REQUIRED)
 	{
 		if (token->type & M_SPACE)
 			return (COMMAND_VALID);
-		if (!(is_text_token(*token) || token->type == OP_PARENTHESIS_OPEN))
-		{
-			must_be_operand = UNDEFINED;
-			return (COMMAND_VALID);
-		}
 		must_be_operand = UNDEFINED;
+		if (is_text_token(*token) || token->type == OP_PARENTHESIS_OPEN)
+			return (COMMAND_VALID);
+		else if (token->type & M_EOF && get_prev_token(args, &prev_token) && prev_token->rules & EXPECT_CONT)
+			return (COMMAND_NOT_FINISHED);
+		return (get_error_message(token, &args->error, "err_missing_right_operand"));
+	}
+	else if (must_be_operand == DISALLOWED)
+	{
+		if (token->type & M_SPACE)
+			return (COMMAND_VALID);
+		must_be_operand = UNDEFINED;
+		if (!(is_text_token(*token) || token->type == OP_PARENTHESIS_OPEN))
+			return (COMMAND_VALID);
 		return (get_error_message(token, &args->error, "err_no_right_operand"));
 	}
-	if (args->right_operand == REQUIRED)
+	if (args->right_operand == REQUIRED_WITHOUT_PAREN)
+	{
+		args->right_operand = UNDEFINED;
+		must_be_operand = REQUIRED_WITHOUT_PAREN;
+	}
+	else if (args->right_operand == REQUIRED)
 	{
 		args->right_operand = UNDEFINED;
 		must_be_operand = REQUIRED;

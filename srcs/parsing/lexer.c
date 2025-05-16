@@ -18,6 +18,12 @@ static t_pointer	get_next_token(t_lexer_args *args)
 
     while (*args->input)
     {
+        if (args->quote == DELIMITER_EXPANDABLE_TEXT && *args->input == DELIMITER_EXPANDABLE_TEXT)
+        {
+            args->input++;
+            args->quote = 0;
+            continue ;
+        }
         if (ft_isspace(*args->input) && args->quote == 0)
             return (tokenize_whitespace(args));
         offset = 0;

@@ -42,8 +42,8 @@ static t_pointer	handler_enclosures(t_lexer_args *args, char **start_i, t_uint *
 {
 	t_pointer	pointer;
 
-	if ((*(args->input) == DELIMITER_EXPANDABLE_TEXT && *(args->input + 1) == DELIMITER_EXPANDABLE_TEXT) || 
-		(*(args->input) == DELIMITER_LITERAL_TEXT && *(args->input + 1) == DELIMITER_LITERAL_TEXT))
+	if ((!args->quote && *(args->input) == DELIMITER_EXPANDABLE_TEXT && *(args->input + 1) == DELIMITER_EXPANDABLE_TEXT) || 
+		(!args->quote && *(args->input) == DELIMITER_LITERAL_TEXT && *(args->input + 1) == DELIMITER_LITERAL_TEXT))
 		{
 			args->input += 2;
 			return (init_pointer(init_token(QUOTED_TEXT, NULL, 0), TRUE, FALSE));

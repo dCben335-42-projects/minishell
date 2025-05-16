@@ -6,7 +6,7 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:44:15 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/15 20:34:00 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/05/16 19:08:41 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ typedef enum e_token_flag
 	ERR_EMPTY_SEMI		= 1 << 8,  // ERR_SEMICOL_EMPTY
 	ERR_NO_RIGHT_OPERAND	= 1 << 9,  // ERR_NO_RIGHT_OPERAND
 	ERR_NO_LEFT_OPERAND	= 1 << 10, // ERR_NO_LEFT_OPERAND
+	ERR_RIGHT_OPERAND_NP	= 1 << 11, // ERR_RIGHT_OPERAND_NP
 }	t_token_flag;
 
 //typedef enum e_token_type_flags
@@ -138,11 +139,11 @@ typedef struct s_token
 typedef struct s_masks
 {
 	t_uint	metachar;
-	t_uint	name;
+	t_uint	text;
 	t_uint	control;
 	t_uint	redir;
 	t_uint	paren;
-	t_uint	extended;
+	t_uint	control_extended;
 }	t_masks;
 
 typedef enum e_token_category
@@ -189,7 +190,7 @@ t_uint	get_token_type(
 
 t_token			*init_token(t_uint token_type, const char *start, size_t len);
 
-int				is_operator_token(
+int				is_control_token(
 					t_token token);
 int				is_text_token(
 					t_token token);
@@ -197,7 +198,7 @@ int				is_redir_token(
 					t_token token);
 int				is_parenthesis_token(
 					t_token token);
-int				is_operator_ext_token(
+int				is_control_extended_token(
 					t_token token);
 int				is_cmd_token(
 					t_token token);

@@ -25,11 +25,11 @@ static const t_token_map_rules	*get_token_map_rules(void)
 	{OP_PIPE_ERR, ERR_LEFT_OPERAND | EXPECT_CONT, C_OPERATOR},
 	{OP_PARENTHESIS_OPEN, INC_PAREN_OPEN | EXPECT_CONT | ERR_NO_LEFT_OPERAND, C_PAREN},
 	{OP_PARENTHESIS_CLOSE, ERR_NO_OPEN_PAREN | INC_PAREN_CLOSE | ERR_EMPTY_PAREN | ERR_NO_RIGHT_OPERAND, C_PAREN}, 
-	{R_IN, ERR_RIGHT_OPERAND, C_REDIR}, {R_OUT,	ERR_RIGHT_OPERAND, C_REDIR},
-	{R_APPEND, ERR_RIGHT_OPERAND, C_REDIR},
-	{R_HEREDOC, ERR_RIGHT_OPERAND, C_REDIR},
+	{R_IN, ERR_RIGHT_OPERAND_NP, C_REDIR}, {R_OUT,	ERR_RIGHT_OPERAND_NP, C_REDIR},
+	{R_APPEND, ERR_RIGHT_OPERAND_NP, C_REDIR},
+	{R_HEREDOC, ERR_RIGHT_OPERAND_NP, C_REDIR},
 	{M_EOF, ERR_NO_CLOSE_PAREN, C_METACHAR},
-	{R_HEREDOC_TRIM, ERR_RIGHT_OPERAND, C_REDIR},
+	{R_HEREDOC_TRIM, ERR_RIGHT_OPERAND_NP, C_REDIR},
 	{0, 0, 0}
 	};
 
@@ -45,7 +45,7 @@ static void	get_masks(t_lexer_token_def *def)
 		if (map->category == C_METACHAR)
 			def->masks.metachar |= map->type;
 		else if (map->category == C_TEXT)
-			def->masks.name |= map->type;
+			def->masks.text |= map->type;
 		else if (map->category == C_OPERATOR)
 			def->masks.control |= map->type;
 		else if (map->category == C_REDIR)
@@ -54,7 +54,7 @@ static void	get_masks(t_lexer_token_def *def)
 			def->masks.paren |= map->type;
 		map++;
 	}
-	def->masks.extended = def->masks.control | def->masks.paren;
+	def->masks.control_extended = def->masks.control | def->masks.paren;
 }
 
 t_lexer_token_def	*get_lexer_token_def(void)

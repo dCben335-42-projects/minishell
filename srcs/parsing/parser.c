@@ -30,6 +30,7 @@ t_parse_status	token_parser(t_lexer_args *args, t_token *token)
 	{ERR_RIGHT_OPERAND,			&need_right_operand},
 	{ERR_NO_RIGHT_OPERAND,		&err_no_right_operand},
 	{ERR_NO_LEFT_OPERAND,		&err_no_left_operand},
+	{ERR_RIGHT_OPERAND_NP,		&err_right_operand_np},
 	{0,							NULL}
 	};
 
@@ -47,6 +48,9 @@ t_parse_status	token_parser(t_lexer_args *args, t_token *token)
 	status = check_all_rules(args, token);
 	if (status != COMMAND_VALID)
 		return (status);
+	if (token->type == M_EOF)
+		if (args->quote != 0)
+			return (COMMAND_NOT_FINISHED);
 	push(&args->tokens, token);
 	return (status);
 }

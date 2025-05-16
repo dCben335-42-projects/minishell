@@ -17,7 +17,7 @@ t_pointer	handler_expand(t_lexer_args *args, char **start_i, t_uint *current_typ
 			key_len = parse_env_key_len(++args->input);
 			args->input += key_len;
 			return (init_pointer(
-						init_token(quoted_wrapper(args, current_type), *start_i + 1, key_len),
+						init_token(quoted_wrapper(args, current_type), *start_i, key_len + 1),
 						TRUE, FALSE));
 		}
 	}

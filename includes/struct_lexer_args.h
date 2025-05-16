@@ -6,7 +6,7 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:35:32 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/15 19:46:18 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/05/16 19:14:23 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,13 @@ typedef struct s_bracket
 	size_t		close;
 }	t_bracket;
 
-typedef enum e_tribool
+typedef enum e_right_operand_status
 {
 	DISALLOWED,
 	UNDEFINED,
 	REQUIRED,
-}	t_tribool;
+	REQUIRED_WITHOUT_PAREN,
+}	t_right_operand_status;
 
 typedef struct s_lexer_args
 {
@@ -40,7 +41,8 @@ typedef struct s_lexer_args
 	t_dynarray			tokens;
 	t_bracket			parenthesis;
 	t_bracket			bracket;
-	t_tribool			right_operand;
+	t_right_operand_status	right_operand;
+	
 }	t_lexer_args;
 
 t_lexer_args	init_lexer_args(const char *input);

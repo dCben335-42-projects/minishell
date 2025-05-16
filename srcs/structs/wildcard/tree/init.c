@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:25:02 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/04/18 19:12:22 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/16 19:45:58 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,21 @@ static void	*free_value(void *data)
 	return (NULL);
 }
 
+static void *free_params(char *key, char *value)
+{
+	free(key);
+	free(value);
+	return (NULL);
+}
+
 t_tree	*init_wildcard_tree(char *key, char *value)
 {
+	t_tree	*node;
+	
 	if (!key || !value)
-		return (NULL);
-	return (init_tree_node(key, value, &ft_strcasecmp, &free_value));
+		return (free_params(key, value));
+	node = init_tree_node(key, value, &ft_strcasecmp, &free_value);
+	if (!node)
+		return (free_params(key, value));
+	return (node);
 }

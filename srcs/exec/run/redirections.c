@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 15:01:55 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/15 20:43:49 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/16 19:48:40 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,28 +85,18 @@ static void skip_words(t_dynarray *cmd, t_uint *i)
 	}
 }
 
-static t_bool	is_valid_filename(char *filename, char *joined_word)
+static t_bool	is_valid_filename(t_tree *tree, char *joined_word)
 {
-	char **splited;
-
-	splited = ft_split(filename, ' ');
-	if (!splited)
-	{
-		free(joined_word);
-		return (FALSE);
-	}
-	if (!*splited || !**splited || splited[1])
+	if (get_size_tree(tree) != 1)
 	{
 		if (!joined_word)
 			return (FALSE);
 		ft_putstr_fd(joined_word, 2);
 		ft_putstr_fd(": ambiguous redirect\n", 2);
 		free(joined_word);
-		ft_free_split(splited);
 		return (FALSE);
 	}
 	free(joined_word);
-	ft_free_split(splited);
 	return (TRUE);
 }
 
@@ -124,7 +114,7 @@ static t_bool	is_valid_filename(char *filename, char *joined_word)
 t_bool	handle_redirections(t_shell *shell, t_dynarray *cmd)
 {
 	t_ast_node	*node;
-	char		*filename;
+	t_tree		*tree;
 	char		*joined_word;
 	t_uint		i;
 
@@ -136,13 +126,13 @@ t_bool	handle_redirections(t_shell *shell, t_dynarray *cmd)
 		if (node)
 		{
 			joined_word = word_join(node->content);
-			filename = expand_word(shell, node->content);
-			if (!filename)
+			tree = expand_word(shell, node->content);
+			if (!tree)
 				return ((t_bool) ft_free((void **)&joined_word));
-			if (!is_valid_filename(filename, joined_word)
-				|| !open_redirection(node->type, filename))
-				return ((t_bool) ((void **)&filename));
-			free(filename);
+			if (!is_valid_filename(tree, joined_word)
+				|| !open_redirection(node->type, tree->value))
+				return ((t_bool) destroy_tree(tree));
+			destroy_tree(tree);
 		}
 		i++;
 	}

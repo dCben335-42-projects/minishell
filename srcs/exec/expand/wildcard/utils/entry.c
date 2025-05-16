@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 21:50:38 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/04/18 18:57:43 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/16 19:46:13 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,20 +52,12 @@ static char	*get_value(char *key, t_wildcard *wildcard)
  */
 t_tree	*save_entry(t_wcard_match *ctx, struct dirent *e)
 {
-	t_tree	*node;
 	char	*key;
 	char	*value;
-
+	
 	key = build_entry_path(ctx->rel_path, e->d_name, ctx->segs);
 	value = get_value(key, ctx->wildcard);
-	node = init_wildcard_tree(key, value);
-	if (!node)
-	{
-		free(key);
-		free(value);
-		return (NULL);
-	}
-	return (add_wildcard_tree(ctx->wildcard, node));
+	return (add_wildcard_tree(ctx->wildcard, init_wildcard_tree(key, value)));
 }
 
 /**

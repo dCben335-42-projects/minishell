@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 20:38:38 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/16 15:41:28 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/16 20:06:10 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,5 +20,6 @@ void	*destroy_self(t_shell *shell, char **argv, int exit_code);
 char	*word_join(t_dynarray *word);
 void	*loop_word(t_shell *shell, t_dynarray *word, t_bool (*f)(t_shell *, t_ast_node *));
 
+t_dynarray	*cmd_to_argv(t_shell *shell, t_dynarray *arr, t_dynarray *argv);
 
 #endif

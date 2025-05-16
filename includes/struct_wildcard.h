@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 18:52:25 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/04/18 18:18:46 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/16 19:21:08 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ typedef struct s_wildcard
 }	t_wildcard;
 
 t_wildcard	init_wildcard(const char *str, char *current_path);
-void		*destroy_wildcard(t_wildcard *wildcard);
+void		*destroy_wildcard(t_wildcard *wildcard, t_bool tree_destroy);
 
 t_bool		is_valid_wildcard(t_wildcard *wildcard);
 

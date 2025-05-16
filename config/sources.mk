@@ -84,6 +84,7 @@ SRC_FILES += structs/wildcard/prefix.c
 SRC_FILES += structs/wildcard/suffix.c
 SRC_FILES += structs/wildcard/tree/add.c
 SRC_FILES += structs/wildcard/tree/init.c
+SRC_FILES += utils/cmd_to_argv.c
 SRC_FILES += utils/destroy.c
 SRC_FILES += utils/fd.c
 SRC_FILES += utils/word.c

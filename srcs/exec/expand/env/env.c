@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 21:34:50 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/16 18:19:05 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/16 19:32:49 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "unistd.h"
 #include "utils.h"
 
-char *expand_env_str(t_shell *shell, char **str)
+char	*expand_env_str(t_shell *shell, char **str)
 {
 	char	*new_value;
 	size_t	total_len;

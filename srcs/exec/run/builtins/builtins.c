@@ -6,21 +6,15 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 15:14:14 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/16 16:19:22 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/16 20:41:13 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cmd_builtin.h"
-#include "libft.h"
+#include "cmd.h"
 #include "errors.h"
-#include "ast_node.h"
-#include <stdio.h>
+#include "utils.h"
 
-void	restore_std_in_out(int saved_stdin, int saved_stdout);
-t_bool	handle_redirections(t_shell *shell, t_dynarray *cmd);
-t_bool	is_redirection(t_node_type type);
-
-static const t_builtin	*get_builtin(void)
+static const t_builtin	*get_builtin_map(void)
 {
 	static const t_builtin	map[] = {
 	{ENV, &ft_env},
@@ -35,24 +29,7 @@ static const t_builtin	*get_builtin(void)
 	return (map);
 }
 
-static t_bool	is_cmd_redirection(t_dynarray *cmd)
-{
-	t_ast_node	*node;
-	t_uint		i;
-
-	i = 0;
-	while (i < cmd->count)
-	{
-		node = (t_ast_node *)cmd->data[i];
-		if (is_redirection(node->type))
-			return (TRUE);
-		i++;
-	}
-	return (FALSE);
-}
-
-
-static void f_savestd(
+static t_bool f_savestd(
 	t_shell *shell,
 	t_dynarray *cmd,
 	char **args,
@@ -68,41 +45,24 @@ static void f_savestd(
 	{
 		restore_std_in_out(saved_stdin, saved_stdout);
 		shell->exit_code = 1;
-		return ;
+		return (TRUE);
 	}
 	if (f)
 		f(shell, args);
 	restore_std_in_out(saved_stdin, saved_stdout);
+	return (TRUE);
 }
 
-void	close_fds(void);
-#include "unistd.h"
-#include "fcntl.h"
-
-t_bool	is_builtin(
-	t_shell *shell,
-	t_dynarray *cmd,
-	char **args
-)
+t_bool	is_builtin(t_shell *shell, t_dynarray *cmd, char **args)
 {
-	const t_builtin	*builtin_map = get_builtin();
+	const t_builtin	*builtin_map = get_builtin_map();
 
 	if (!*args)
-	{
-		if (is_cmd_redirection(cmd))
-			f_savestd(shell, cmd, args, NULL);
-		return (TRUE);
-	}
+		return (f_savestd(shell, cmd, args, NULL));
 	while (builtin_map->name)
 	{
 		if (!ft_strcmp(builtin_map->name, args[0]))
-		{
-			if (is_cmd_redirection(cmd))
-				f_savestd(shell, cmd, args, builtin_map->f);
-			else
-				builtin_map->f(shell, args);
-			return (TRUE);
-		}
+			return (f_savestd(shell, cmd, args, builtin_map->f));
 		builtin_map++;
 	}
 	return (FALSE);

@@ -51,13 +51,10 @@ static char *save_word(t_shell *shell, t_dynarray *argv, t_dynarray *word)
 	t_tree	*tree;
 
 	tree = expand_word(shell, word);
-	if (!tree)
+	if (!tree)	
 		return (NULL);
 	if (!push_tree_values(tree, argv))
-	{
-		destroy_tree(tree);
-		return (NULL);
-	}
+		return (destroy_tree(tree));
 	destroy_tree(tree);
 	return (argv->data[argv->count - 1]);
 }

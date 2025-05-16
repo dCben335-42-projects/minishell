@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:36:28 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/15 20:46:10 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/16 20:37:28 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void	fork_and_exec(t_shell *shell, char **argv, t_dynarray *cmd);
 
 void	*destroy_self(t_shell *shell, char **argv, int exit_code);
 
+t_bool	is_redirection(t_node_type type);
 t_bool	is_cmd_redirection(t_dynarray *cmd);
 t_bool	handle_redirections(t_shell *shell, t_dynarray *cmd);
 

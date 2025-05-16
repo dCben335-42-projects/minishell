@@ -15,7 +15,7 @@ t_ast_node	*exec_basic(t_shell *shell, t_ast_node *cmd)
 	t_dynarray	args;
 	char		***argv;
 
-	args = init_dynarray(1, free_value);
+	args = init_dynarray(10, free_value);
 	if (!cmd_to_argv(shell, cmd->content, &args))
 		return (NULL);
 	argv = (char ***)&args.data;

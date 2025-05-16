@@ -30,14 +30,13 @@ static void	cleanup_args(t_dynarray *arr)
 static char *save_word(t_shell *shell, t_dynarray *argv, t_dynarray *word)
 {
 	char	*expanded_word;
+	char 	**splited;
+	size_t	i;
 
 	expanded_word = expand_word(shell, word);
-	if (!expanded_word || !set_dynarray_value(argv, argv->count, expanded_word))
-	{
-		free(expanded_word);
-		return (NULL);	
-	}
-	return (expanded_word);
+	if (!expanded_word)
+		return (NULL);
+	return (argv->data[argv->count - 1]);
 }
 
 static void	skip_redirection(t_uint *i, t_uint count, t_dynarray *arr)

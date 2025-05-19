@@ -39,7 +39,19 @@ void	get_or_and_cmd_wrapper(t_ast_node **cmd_prev, t_ast_node *cmd_master, t_get
 	args->local.cmd = &args->local.lcmd;
 	add_child(cmd_master, cmd_prev, args);
 	if (is_node(cmd, CMD_PARENTHESIS_OPEN))
+	{
 		get_parenthesis_cmd_master(cmd_master, args);
+		if (((t_token *)get_dynarray_value(args->tokens, args->i))->type == M_SPACE)
+			args->i++;
+		if (((t_token *)get_dynarray_value(args->tokens, args->i))->type == OP_SEMICOL)
+		{
+			cmd = init_node_secure(CMD_SEMICOL, NULL, args);
+			if (args->has_malloc_error)
+				return ;
+			add_child(cmd_master, &cmd, args);
+			args->i++;
+		}
+	}
 	else
 	{
 		get_or_and_cmd(cmd_prev, cmd, args);

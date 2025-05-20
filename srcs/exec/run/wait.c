@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:01:05 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/20 06:30:29 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/20 10:13:49 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static int handle_status(int status)
  * terminated child process is returned.
  * 
 */
-int	wait_childrens(int last_pid)
+int	wait_childrens(pid_t last_pid)
 {
 	pid_t	pid;
 	int		status;

@@ -16,13 +16,33 @@ static const t_exec_map	*get_exec_map(void)
 	{CMD_JOIN, &exec_basic},
 	{CMD_AND, &exec_and},
 	{CMD_OR, &exec_or},
-	{CMD_PIPE, &exec_pipe},
+	{CMD_PIPE, &exec_pipeline},
 	{CMD_PARENTHESIS, &exec_subshell},
 	{0, NULL}};
 
 	return (map);
 }
 
+
+t_bool  is_only_redir(t_ast_node *cmd)
+{
+	t_uint	i;
+	t_ast_node	*node;
+	t_dynarray	*arr;
+
+	if (cmd->type != CMD_JOIN)
+		return (FALSE);
+	i = 0;
+	arr = cmd->content;
+	while (i < arr->count)
+	{
+		node = get_dynarray_value(cmd->content, i);
+		if (!is_redirection(node->type))
+			return (FALSE);
+		i++;
+	}
+	return (TRUE);
+}
 
 /**
  * @brief Checks if the given node type is a valid execution type.

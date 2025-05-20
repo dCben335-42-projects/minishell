@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 19:05:04 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/20 04:52:48 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/20 10:01:04 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ typedef struct s_shell
 	t_dynarray  env_array;
 	char		*current_path;
 	int			exit_code;
-	int 		last_pid;
+	pid_t		last_pid;
 	t_ast_node	*ast;
 }	t_shell;
 

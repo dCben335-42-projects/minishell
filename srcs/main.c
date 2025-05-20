@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 19:31:21 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/19 18:17:47 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/20 09:59:58 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,6 @@ static void	handle_loop(t_shell *shell)
 		printf("exit code: %d\n", shell->exit_code);
 	}
 }
-
-char *stringify_envs(t_env *env);
 
 int	main(int argc, char **argv, char **envp)
 {

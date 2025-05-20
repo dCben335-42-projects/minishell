@@ -6,7 +6,7 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 19:31:21 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/15 19:16:14 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/05/20 11:31:29 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,8 @@ static void	handle_loop(t_shell *shell)
 	char	**args;
 	(void)args;
 	(void)shell;
-	t_lexer_token_def	*lexer_token_def;
 	
-	lexer_token_def = get_lexer_token_def();
-	printf("masks: %u\n", lexer_token_def->masks.metachar);
-
+	get_lexer_token_def();
 	while (TRUE)
 	{
 		input = readline(SHELL_NAME);

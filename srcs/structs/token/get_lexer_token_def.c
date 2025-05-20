@@ -66,7 +66,6 @@ t_lexer_token_def	*get_lexer_token_def(void)
 
 	if (!lexer_token_def.map)
 	{
-		printf("init lexer_token_def\n");
 		lexer_token_def.map = get_token_map_rules();
 		get_masks(&lexer_token_def);
 	}

@@ -5,8 +5,10 @@ t_pointer	tokenize_operator(t_lexer_args *args,
 {
 	t_pointer	pointer;
 
-	if (type == R_HEREDOC || type == R_HEREDOC_TRIM)
-		args->is_heredoc = type;
+	if (type == R_HEREDOC)
+		args->is_heredoc = HEREDOC;
+	else if (type == R_HEREDOC_TRIM)
+		args->is_heredoc = HEREDOC_TRIM;
 	pointer = init_pointer(init_token(type, args->input, offset), TRUE, FALSE);
 
 	args->input += offset;

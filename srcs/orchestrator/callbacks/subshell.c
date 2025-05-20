@@ -13,23 +13,22 @@
 t_ast_node	*exec_subshell(t_shell *shell, t_ast_node *cmd)
 {
 	t_ast_node  *skiped_cmd;
-	pid_t		pid;
 
 	skiped_cmd = skip_cmd(cmd);
-	pid = fork();
-	if (pid == -1)
+	shell->last_pid = fork();
+	if (shell->last_pid == -1)
 	{
 		perror("fork");
 		shell->exit_code = EXIT_FAILURE;
 		return (NULL);
 	}
-	else if (pid == 0)
+	else if (shell->last_pid == 0)
 	{
 		cmd = find_next_cmd(cmd);
 		while (cmd || cmd != skiped_cmd)
 			cmd = handle_cmd(shell, cmd);
 		destroy_self(shell, NULL, shell->exit_code);
 	}
-	shell->exit_code = wait_childrens();
+	shell->exit_code = wait_childrens(shell->last_pid);
 	return (skiped_cmd);
 }

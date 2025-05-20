@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:36:28 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/16 20:37:28 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/20 04:52:12 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 
 int		command_handler(char *input, t_shell *shell);
 
-int		wait_childrens(void);
+int		wait_childrens(int last_pid);
 t_bool	is_valid_cmd_path(char *path, int *exit_code);
 char	*get_full_cmd_path(char **cmd, t_env *path);
 void	exec_cmd(char **argv, t_shell *shell);

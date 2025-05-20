@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:07:25 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/15 20:44:42 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/20 04:53:26 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,5 +75,5 @@ void	fork_and_exec(t_shell *shell, char **argv, t_dynarray *cmd)
 	}
     if (pid == 0) 
 		child_exec(shell, argv, cmd);
-	shell->exit_code = wait_childrens();
+	shell->exit_code = wait_childrens(pid);
 }

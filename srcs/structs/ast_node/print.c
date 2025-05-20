@@ -31,6 +31,7 @@ t_ast_print_mapping	*get_mappings(void)
 	{CMD_REDIR_OUT,				"CMD_REDIR_OUT",		0},
 	{CMD_APPEND,				"CMD_APPEND",			0},
 	{CMD_HEREDOC,				"CMD_HEREDOC",			0},
+	{CMD_HEREDOC_TRIM,			"CMD_HEREDOC_TRIM",		0},
 	{CMD_EOF,					"CMD_EOF",				0},
 	};
 

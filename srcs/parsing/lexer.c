@@ -63,7 +63,7 @@ t_parse_status heredoc_question(t_lexer_args *args, t_uint type)
         pointer = init_pointer(init_token(TEXT, HEREDOC_EXPANDABLE_TRUE, ft_strlen(HEREDOC_EXPANDABLE_TRUE)), TRUE, FALSE);
     status = get_parsing_error_status(args, pointer);
     return (status);
-}
+}	
 
 char *heredoc_join(char **str, char *line, t_bool is_first)
 {
@@ -75,11 +75,20 @@ char *heredoc_join(char **str, char *line, t_bool is_first)
     else
         tmp = ft_strsjoin(joined, 2, "\n");
     free(*str);
-    free(line);
     *str = tmp;
     if (!tmp)
         return (NULL);
     return (tmp);
+}
+
+char *remove_indent_tab_heredoc(char **str, char *line, t_bool is_first, t_bool is_trimmed)
+{
+	char *start;
+
+	start = line;
+	while (is_trimmed && *start && *start == '\t')
+		start++;
+	return (heredoc_join(str, start, is_first));
 }
 
 t_parse_status  heredoc_sample(t_lexer_args *args, t_token *token)
@@ -93,23 +102,21 @@ t_parse_status  heredoc_sample(t_lexer_args *args, t_token *token)
     if (!str)
         return (MALLOC_ERROR);
     is_first = TRUE;
-    while (1) {
+    while (TRUE) 
+{
         line = readline(SHELL_NEXT_NAME);
-        if (!line)
-            break;
-        if (ft_strcmp(line, token->value) == 0)
-        {
-            free(line);
-            break;
-        }
-        if (!heredoc_join(&str, line, is_first))
+        if (!line || (!ft_strcmp(line, token->value) && !ft_free((void *)&line)))
+            break ;
+        if (!remove_indent_tab_heredoc(&str, line, is_first, args->is_heredoc == HEREDOC_TRIM) && !ft_free((void *)&line))
             return (MALLOC_ERROR);
         is_first = FALSE;
+		free(line);
     }
     free(token->value);
     token->value = str;
+	args->is_heredoc = NOT_HEREDOC;
     return (COMMAND_VALID);
-}
+}   	
 
 t_parse_status    lexer(t_lexer_args *args)
 {

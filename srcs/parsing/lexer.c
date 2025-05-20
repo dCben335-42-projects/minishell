@@ -1,4 +1,7 @@
 #include "parsing.h"
+#include "ast.h"
+#include "minishell.h"
+#include "fcntl.h"
 
 static t_bool	is_command_finished(const char *input, t_token *token, t_lexer_args *args)
 {
@@ -49,6 +52,65 @@ static t_parse_status	get_parsing_error_status(
     return (status);
 }
 
+t_parse_status heredoc_question(t_lexer_args *args, t_uint type)
+{
+    t_pointer       pointer;
+    t_parse_status  status;
+
+    if (type == QUOTED_TEXT || type == QUOTED_EXPAND)
+        pointer = init_pointer(init_token(TEXT, HEREDOC_EXPANDABLE_FALSE, ft_strlen(HEREDOC_EXPANDABLE_FALSE)), TRUE, FALSE);
+    else
+        pointer = init_pointer(init_token(TEXT, HEREDOC_EXPANDABLE_TRUE, ft_strlen(HEREDOC_EXPANDABLE_TRUE)), TRUE, FALSE);
+    status = get_parsing_error_status(args, pointer);
+    return (status);
+}
+
+char *heredoc_join(char **str, char *line, t_bool is_first)
+{
+    const char *joined[2] = {*str, line};
+    char *tmp;
+
+    if (is_first)
+        tmp = ft_strdup(line);
+    else
+        tmp = ft_strsjoin(joined, 2, "\n");
+    free(*str);
+    free(line);
+    *str = tmp;
+    if (!tmp)
+        return (NULL);
+    return (tmp);
+}
+
+t_parse_status  heredoc_sample(t_lexer_args *args, t_token *token)
+{
+    t_bool  is_first;
+    char    *str;
+    char    *line;
+    
+    heredoc_question(args, token->type);
+    str = ft_strdup("");
+    if (!str)
+        return (MALLOC_ERROR);
+    is_first = TRUE;
+    while (1) {
+        line = readline(SHELL_NEXT_NAME);
+        if (!line)
+            break;
+        if (ft_strcmp(line, token->value) == 0)
+        {
+            free(line);
+            break;
+        }
+        if (!heredoc_join(&str, line, is_first))
+            return (MALLOC_ERROR);
+        is_first = FALSE;
+    }
+    free(token->value);
+    token->value = str;
+    return (COMMAND_VALID);
+}
+
 t_parse_status    lexer(t_lexer_args *args)
 {
     t_pointer		pointer;
@@ -61,6 +123,8 @@ t_parse_status    lexer(t_lexer_args *args)
 		status = get_parsing_error_status(args, pointer);
         if (status != COMMAND_VALID)
             return (status);
+        if (args->is_heredoc && is_text_token(*((t_token *)pointer.pointer)))
+            heredoc_sample(args, pointer.pointer);
 		pointer = get_next_token(args);
     }
     pointer2 = init_pointer(init_token(M_EOF, "newline", 7), TRUE, FALSE);
@@ -68,6 +132,8 @@ t_parse_status    lexer(t_lexer_args *args)
         return (MALLOC_ERROR);
     return (token_parser(args, ((t_token *)pointer2.pointer)));
 }
+
+
 
 
 // ( ( ( echo jojo$PATH'$GOOD'"okksa   'fjeifj'          iji*ji$HELLO"jigo/*'ffe'./?out) )&& echo $'bonjour'"salut $" )

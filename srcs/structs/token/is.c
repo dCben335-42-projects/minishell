@@ -6,33 +6,38 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:15:57 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/06 14:48:24 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/05/16 19:02:05 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "struct_token.h"
 
-int is_operator_token(t_token token)
+int is_control_token(t_token token)
 {
-	return (token.type & E_CONTROL_OPERATOR_MASK);
+	return (token.type & get_lexer_token_def()->masks.control);
 }
 
 int	is_parenthesis_token(t_token token)
 {
-	return (token.type & E_PARENTHESIS_MASK);
+	return (token.type & get_lexer_token_def()->masks.paren);
 }
 
-int is_operator_ext_token(t_token token)
+int is_control_extended_token(t_token token)
 {
-	return (token.type & E_CONTROL_OPERATOR_EXTENDED_MASK);
+	return (token.type & get_lexer_token_def()->masks.control_extended);
 }
 
 int	is_text_token(t_token token)
 {
-	return (token.type & E_TOKEN_NAME_MASK);
+	return (token.type & get_lexer_token_def()->masks.text);
 }
 
 int	is_redir_token(t_token token)
 {
-	return (token.type & E_REDIR_OPERATOR_MASK);
+	return (token.type & get_lexer_token_def()->masks.redir);
+}
+
+int	is_meta_token(t_token token)
+{
+	return (token.type & get_lexer_token_def()->masks.metachar);
 }

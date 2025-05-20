@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:57:59 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/20 05:59:24 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/20 12:39:25 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,13 @@ static void	command_not_finished(t_lexer_args *args, char *input)
 {
 	char	*new_input;
 	char	*tmp;
+	char 	*strs[2];
 
 	tmp = readline(SHELL_NEXT_NAME);
-	new_input = ft_strjoin(input, tmp);
+	strs[0] = input;
+	strs[1] = tmp;
+	
+	new_input = ft_strsjoin((const char **)strs, 2, " ");
 	free(tmp);
 	free(input);
 	if (!new_input)
@@ -52,22 +56,22 @@ static void	command_not_finished(t_lexer_args *args, char *input)
 void	command_not_finished_handler(t_lexer_args *args, char *input)
 {
 	char				*tmp;
-	t_token_type_flags	token_type;
+	t_token				*token;
 
-	token_type = ((t_token *)get_dynarray_value_last(&args->tokens))->type;
-	if (args->parenthesis.open > args->parenthesis.close && (token_type & (E_TOKEN_NAME_MASK | OP_SEMICOL)))
+	token = ((t_token *)get_dynarray_value_last(&args->tokens));
+	if (args->parenthesis.open > args->parenthesis.close && (is_text_token(*token) || token->type & OP_SEMICOL))
 	{
-		if (token_type & OP_SEMICOL)
-			tmp = ft_strjoin(input, " ");
-		else
-			tmp = ft_strjoin(input, "; ");
-		if (!tmp)
+		if (is_text_token(*token))
 		{
-			printf("Error: %s\n", args->error);
-			return ;
+			tmp = ft_strjoin(input, ";");
+			if (!tmp)
+			{
+				printf("Error: %s\n", args->error);
+				return ;
+			}
+			free(input);
+			input = tmp;			
 		}
-		free(input);
-		input = tmp;
 	}
 	command_not_finished(args, input);
 	return ;

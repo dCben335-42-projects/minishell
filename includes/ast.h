@@ -6,7 +6,7 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 20:20:38 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/02 17:56:58 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/05/07 18:17:10 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,8 @@ typedef struct s_get_cmd_primitive
 }	t_get_cmd_primitive;
 
 void				get_cmd_master(t_get_cmd_master *args);
-void				get_cmd_primitive(t_get_cmd_master *args, t_bool *is_empty, t_ast_node **cmd);
-int					get_cmd(t_get_cmd_master *args, t_bool *is_empty);
+void				get_cmd_primitive(t_get_cmd_master *args, t_ast_node **cmd);
+int					get_cmd(t_get_cmd_master *args);
 
 void				get_pipe_cmd(
 						t_ast_node **cmd_prev,
@@ -95,7 +95,7 @@ t_ast_node			*convert_token_to_cmd_secure(
 						t_token *token,
 						t_get_cmd_master *args);
 
-void				*init_node_secure(
+t_ast_node			*init_node_secure(
 						t_node_type type,
 						char *value,
 						t_get_cmd_master *args);
@@ -111,7 +111,6 @@ void				get_pipe_cmd_wrapper(
 						t_ast_node *cmd_master,
 						t_get_cmd_master *args);
 
-t_bool				is_true_then_false(t_bool *val);
 int					is_cmd(t_get_cmd_master *args, size_t mask);
 
 #endif

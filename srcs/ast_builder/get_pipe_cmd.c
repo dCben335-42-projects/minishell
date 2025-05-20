@@ -13,15 +13,13 @@ void	get_pipe_cmd_wrapper(t_ast_node **cmd_prev, t_ast_node *cmd_master, t_get_c
 
 void	get_pipe_cmd(t_ast_node **cmd_prev, t_ast_node *cmd_master, t_get_cmd_master *args)
 {
-	t_bool		is_empty;
-
 	while (args->i < args->end)
 	{
-		args->local.ctx = CTX_PIPE;
-		if (!get_cmd(args, &is_empty))
-			continue ;
-		if (args->local.cmd == NULL)
+		if (args->has_malloc_error)
 			return ;
+		args->local.ctx = CTX_PIPE;
+		if (!get_cmd(args))
+			continue ;
 		if (is_cmd(args, CMD_SEMICOL))
 			return (add_child(cmd_master, cmd_prev, args));
 		if (args->i == args->end)

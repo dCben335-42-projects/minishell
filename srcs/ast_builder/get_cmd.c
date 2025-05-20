@@ -1,60 +1,34 @@
 #include "ast.h"
 
-//static inline void	remove_last_cmd_if_space(t_token *last_token, t_count_cmd_child *counter)
-//{
-//	if (last_token && last_token->type == TOKEN_SPACE)
-//	{
-//		counter->space_at_end = TRUE;
-//		counter->count--;
-//	}
-//}
+t_bool	is_empty(t_get_cmd_master *args)
+{
+	t_token	*token;
 
-//static void	count_new_cmd_child(t_get_cmd_master *args, t_count_cmd_child *counter)
-//{
-//	t_token		*token;
-//	//t_token		*next_token;
-//	t_token		*last_token;
-//	t_uint		start;
+	token = (t_token *)get_dynarray_value(args->tokens, args->i);
+	if (token->type == M_SPACE)
+		token = (t_token *)get_dynarray_value(args->tokens, args->i + 1);
+	if (token->type == M_EOF)
+		return (TRUE);
+	if (is_control_extended_token(*token))
+		return (TRUE);
+	return (FALSE);
+}
 
-//	last_token = NULL;
-//	start = args->i;
-//	counter->count = 0;
-//	token = (t_token *)get_dynarray_value(args->tokens, start);
-//	while (start < args->end && !is_operator_ext_token(*token))
-//	{
-//		if (token->type == TOKEN_SPACE && !counter->count)
-//			args->i++;
-//		else
-//		{
-//			last_token = token;
-//			counter->count++;
-//		}
-//		start++;
-//		if (start < args->end)
-//			token = (t_token *)get_dynarray_value(args->tokens, start);
-//	}
-//	remove_last_cmd_if_space(last_token, counter);
-//}
+static void	add_cmd_join_child(t_get_cmd_master *args, t_get_cmd_primitive *d, t_ast_node **cmd_word, t_ast_node **cmd_redir)
+{
+	if (*cmd_word)
+		add_child(d->cmd_new, cmd_word, args);
+	if (*cmd_redir && (*cmd_redir)->child_count >= 3)
+		add_child(d->cmd_new, cmd_redir, args);
+}
 
-//t_bool	keep_only_space_between_text(t_get_cmd_master *args)
-//{
-//	t_token	*prev_token;
-//	t_token	*token;
-//	t_token *next_token;
-
-//	token = (t_token *)get_dynarray_value(args->tokens, args->i);
-//	if (token->type == TOKEN_SPACE)
-//	{
-//		if (args->i > 0)
-//			prev_token = (t_token *)get_dynarray_value(args->tokens, args->i - 1);
-//		next_token = (t_token *)get_dynarray_value(args->tokens, args->i + 1);
-//		if (prev_token && !is_text_token(*prev_token))
-//			return (FALSE);
-//		if (next_token && !is_text_token(*next_token))
-//			return (FALSE);
-//	}
-//	return (TRUE);
-//}
+t_bool	merr(t_ast_node *node, t_ast_node **out)
+{
+	if (!node)
+		return (TRUE);
+	*out = node;
+	return (FALSE);
+}
 
 static t_ast_node	*add_cmd_child(t_get_cmd_master *args, t_get_cmd_primitive *d)
 {
@@ -62,74 +36,39 @@ static t_ast_node	*add_cmd_child(t_get_cmd_master *args, t_get_cmd_primitive *d)
 	t_ast_node	*cmd_word;
 	t_ast_node	*cmd_redir;
 
+	if (is_empty(args))
+		return (NULL);
+	if (merr(init_node_secure(CMD_JOIN, NULL, args), &d->cmd_new))
+		return (NULL);
 	cmd_word = NULL;
 	cmd_redir = NULL;
-	d->cmd_new = init_node_secure(CMD_JOIN, NULL, args);
-	if (args->has_malloc_error)
-		return (NULL);
-	token = (t_token *)get_dynarray_value(args->tokens, args->i);
-
-	while (args->i < args->end && !is_operator_ext_token(*token))
+	while (args->i < args->end)
 	{
+		token = (t_token *)get_dynarray_value(args->tokens, args->i);
+		if (is_control_extended_token(*token))
+			break;
 		if (is_text_token(*token))
 		{
-			if (!cmd_word && !cmd_redir)
-				cmd_word = init_node_secure(CMD_WORD, NULL, args);
-			d->cmd_temp = convert_token_to_cmd_secure(token, args);
-			if (args->has_malloc_error)
+			if (!cmd_word && !cmd_redir && merr(init_node_secure(CMD_WORD, NULL, args), &cmd_word))
+				return (NULL);
+			if (merr(convert_token_to_cmd_secure(token, args), &d->cmd_temp))
 				return (NULL);
 			if (cmd_word)
 				add_child(cmd_word, &d->cmd_temp, args);
-			else if (cmd_redir)
+			else
 				add_child(cmd_redir, &d->cmd_temp, args);
 		}
-		else if (token->type == TOKEN_SPACE)
-		{
-			if (cmd_word)
-				add_child(d->cmd_new, &cmd_word, args);
-			if (cmd_redir)
-				printf("cmd_word = %i\n", cmd_redir->child_count);
-			if (cmd_redir && cmd_redir->child_count >= 3)
-				add_child(d->cmd_new, &cmd_redir, args);
-			args->i++;
-			if (args->i < args->end)
-				token = (t_token *)get_dynarray_value(args->tokens, args->i);
-			continue;
-		}
+		else if (token->type == M_SPACE)
+			add_cmd_join_child(args, d, &cmd_word, &cmd_redir);
 		else
 		{
-			if (cmd_word)
-				add_child(d->cmd_new, &cmd_word, args);
-			if (cmd_redir)
-				add_child(d->cmd_new, &cmd_redir, args);
-			if (is_redir_token(*token))
-			{
-				cmd_redir = convert_token_to_cmd_secure(token, args);
-				if (args->has_malloc_error)
-					return (NULL);
-				args->i++;
-				if (args->i < args->end)
-					token = (t_token *)get_dynarray_value(args->tokens, args->i);
-				continue;
-			}
-			d->cmd_temp = convert_token_to_cmd_secure(token, args);
-			if (args->has_malloc_error)
+			add_cmd_join_child(args, d, &cmd_word, &cmd_redir);
+			if (merr(convert_token_to_cmd_secure(token, args), &cmd_redir))
 				return (NULL);
-			add_child(d->cmd_new, &d->cmd_temp, args);
 		}
 		args->i++;
-		if (args->i < args->end)
-			token = (t_token *)get_dynarray_value(args->tokens, args->i);
 	}
-	if (cmd_word)
-		add_child(d->cmd_new, &cmd_word, args);
-	if (cmd_redir)
-		add_child(d->cmd_new, &cmd_redir, args);
-	if (!d->cmd_new->child_count)
-	{
-		*d->is_empty = TRUE;
-		free(d->cmd_new);
-	}
+	add_cmd_join_child(args, d, &cmd_word, &cmd_redir);
 	return (d->cmd_new);
 }
 
@@ -151,13 +90,11 @@ static void	get_node(t_get_cmd_master *args, t_token *token, t_ast_node **cmd)
 	args->i++;
 }
 
-void	get_cmd_primitive(t_get_cmd_master *args, t_bool *is_empty, t_ast_node **cmd)
+void	get_cmd_primitive(t_get_cmd_master *args, t_ast_node **cmd)
 {
 	t_token				*token;
 	t_get_cmd_primitive	d;
 
-	*is_empty = FALSE;
-	d.is_empty = is_empty;
 	if (args->i >= args->end)
 		*cmd = NULL;
 	token = (t_token *)get_dynarray_value(args->tokens, args->i);

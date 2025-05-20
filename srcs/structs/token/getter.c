@@ -6,7 +6,7 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:15:48 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/06 14:34:31 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/05/15 17:01:52 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,20 @@
 static const t_token_map	*get_operator_table(void)
 {
 	static const t_token_map	op_table[] = {
-	{">>", TOKEN_APPEND},
-	{"<<", TOKEN_HEREDOC},
-	{"||", TOKEN_OR},
-	{"|&", TOKEN_PIPE_ERR},
-	{"&&", TOKEN_AND},
-	{"|", TOKEN_PIPE},
-	{"&", TOKEN_BACKGROUND},
-	{">", TOKEN_REDIR_OUT},
-	{"<", TOKEN_REDIR_IN},
-	{";", TOKEN_SEMICOL},
-	{"(", TOKEN_PARENTHESIS_OPEN},
-	{")", TOKEN_PARENTHESIS_CLOSE},
-	{NULL, TOKEN_EOF}};
+	{"<<-", R_HEREDOC_TRIM},
+	{">>", R_APPEND},
+	{"<<", R_HEREDOC},
+	{"||", OP_OR},
+	{"|&", OP_PIPE_ERR},
+	{"&&", OP_AND},
+	{"|", OP_PIPE},
+	{"&", OP_AMP},
+	{">", R_OUT},
+	{"<", R_IN},
+	{";", OP_SEMICOL},
+	{"(", OP_PARENTHESIS_OPEN},
+	{")", OP_PARENTHESIS_CLOSE},
+	{NULL, M_EOF}};
 
 	return (op_table);
 }
@@ -46,7 +47,7 @@ static const t_token_map	*get_operator_table(void)
  * 
  * @return token type
  */
-t_token_type_flags	get_token_type(const char *str, int *offset)
+t_uint	get_token_type(const char *str, int *offset)
 {
 	const t_token_map	*op_table = get_operator_table();
 	size_t				len;
@@ -58,11 +59,11 @@ t_token_type_flags	get_token_type(const char *str, int *offset)
 		{
 			if (offset)
 				*offset += len;
-			return (op_table->token);
+			return (op_table->type);
 		}
 		op_table++;
 	}
-	return (TOKEN_TEXT);
+	return (TEXT);
 }
 
 /**
@@ -73,14 +74,17 @@ t_token_type_flags	get_token_type(const char *str, int *offset)
  * 
  * @return String corresponding to the token type
  */
-const char	*get_token_type_name(const t_token_type_flags type)
+const char	*get_token_type_name(const t_uint type)
 {
 	static const char	*token_name[] = {
 		"SPACE",
 		"TAB",
 		"NEWLINE",
+		"EOF",
 		"TEXT",
+		"QUOTED_TEXT",
 		"EXPAND",
+		"QUOTED_EXPAND",
 		"WILDCARD",
 		"OR",
 		"PIPE",
@@ -93,11 +97,11 @@ const char	*get_token_type_name(const t_token_type_flags type)
 		"PIPE_ERR",
 		"PARENTHESIS_OPEN",
 		"PARENTHESIS_CLOSE",
-		"REDIR_IN",
-		"REDIR_OUT",
+		"R_IN",
+		"R_OUT",
 		"APPEND",
 		"HEREDOC",
-		"EOF",
+		"HEREDOC_TRIM",
 	};
 	t_uint	i;
 
@@ -106,27 +110,3 @@ const char	*get_token_type_name(const t_token_type_flags type)
 		i++;
 	return (token_name[i]);
 }
-
-
-	//TOKEN_SPACE					= SPACE,
-	//TOKEN_TAB					= TAB,
-	//TOKEN_NEWLINE				= NEWLINE,
-	//TOKEN_TEXT					= TEXT,
-	//TOKEN_EXPAND				= EXPAND,
-	//TOKEN_WILDCARD				= WILDCARD,
-	//TOKEN_OR					= OP_OR | ERR_MISSING_LEFT_OPERAND | EXPECT_CONTINUATION,
-	//TOKEN_PIPE					= OP_PIPE | ERR_MISSING_LEFT_OPERAND | EXPECT_CONTINUATION,
-	//TOKEN_AND					= OP_AND | ERR_MISSING_LEFT_OPERAND | EXPECT_CONTINUATION,
-	//TOKEN_BACKGROUND			= OP_AMP | ERR_MISSING_LEFT_OPERAND | EXPECT_CONTINUATION,
-	//TOKEN_SEMICOL				= OP_SEMICOL | ERR_MISSING_LEFT_OPERAND,
-	//TOKEN_DB_SEMICOL			= OP_DB_SEMICOL | ERR_MISSING_LEFT_OPERAND,
-	//TOKEN_SEMICOL_AMP			= OP_SEMICOL_AMP | ERR_MISSING_LEFT_OPERAND,
-	//TOKEN_DB_SEMICOL_AMP		= OP_DB_SEMICOL_AMP | ERR_MISSING_LEFT_OPERAND,
-	//TOKEN_PIPE_ERR				= OP_PIPE_ERR | ERR_MISSING_LEFT_OPERAND | EXPECT_CONTINUATION,
-	//TOKEN_PARENTHESIS_OPEN		= OP_PARENTHESIS_OPEN | EXPECT_CONTINUATION | INCREMENT_PAREN_OPEN,
-	//TOKEN_PARENTHESIS_CLOSE		= OP_PARENTHESIS_CLOSE | ERR_UNOPENED_PARENTHESIS | INCREMENT_PAREN_CLOSE | ERR_PAREN_EMPTY,
-	//TOKEN_REDIR_IN				= REDIR_IN | ERR_MISSING_LEFT_OPERAND,
-	//TOKEN_REDIR_OUT				= REDIR_OUT | ERR_MISSING_LEFT_OPERAND,
-	//TOKEN_APPEND				= REDIR_APPEND | ERR_MISSING_LEFT_OPERAND,
-	//TOKEN_HEREDOC				= REDIR_HEREDOC | ERR_MISSING_LEFT_OPERAND,
-	//TOKEN_EOF					= 1 << 21 | ERR_PAREN_NOT_CLOSED,	// EOF

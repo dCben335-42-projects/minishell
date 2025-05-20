@@ -13,7 +13,7 @@ t_ast_node	*convert_token_to_cmd_secure(t_token *token, t_get_cmd_master *args)
 	return (cmd);
 }
 
-void	*init_node_secure(t_node_type type, char *value, t_get_cmd_master *args)
+t_ast_node	*init_node_secure(t_node_type type, char *value, t_get_cmd_master *args)
 {
 	t_ast_node	*node;
 
@@ -40,12 +40,3 @@ t_get_cmd_master	init_t_get_cmd_master(t_dynarray *tokens,
 	return (args);
 }
 
-t_bool	is_true_then_false(t_bool *val)
-{
-	if (*val)
-	{
-		*val = FALSE;
-		return (TRUE);
-	}
-	return (FALSE);
-}

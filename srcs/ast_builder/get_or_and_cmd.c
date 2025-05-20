@@ -8,15 +8,13 @@ static void	get_or_and_cmd_next_parenthesis(t_ast_node **cmd_prev, t_ast_node *c
 
 static void	get_or_and_cmd(t_ast_node **cmd_prev, t_ast_node *cmd_master, t_get_cmd_master *args)
 {
-	t_bool		is_empty;
-
 	while (args->i < args->end)
 	{
-		args->local.ctx = CTX_AND_OR;
-		if (!get_cmd(args, &is_empty))
-			continue ;
-		if (args->local.cmd == NULL)
+		if (args->has_malloc_error)
 			return ;
+		args->local.ctx = CTX_AND_OR;
+		if (!get_cmd(args))
+			continue ;
 		if (is_cmd(args, CMD_SEMICOL))
 			return (add_child(cmd_master, cmd_prev, args));
 		if (args->i == args->end)
@@ -36,11 +34,24 @@ void	get_or_and_cmd_wrapper(t_ast_node **cmd_prev, t_ast_node *cmd_master, t_get
 {
 	t_ast_node	*cmd;
 
+	printf("get_or_and_cmd_wrapper\n");
 	cmd = args->local.cmd;
 	args->local.cmd = &args->local.lcmd;
 	add_child(cmd_master, cmd_prev, args);
 	if (is_node(cmd, CMD_PARENTHESIS_OPEN))
+	{
 		get_parenthesis_cmd_master(cmd_master, args);
+		if (((t_token *)get_dynarray_value(args->tokens, args->i))->type == M_SPACE)
+			args->i++;
+		if (((t_token *)get_dynarray_value(args->tokens, args->i))->type == OP_SEMICOL)
+		{
+			cmd = init_node_secure(CMD_SEMICOL, NULL, args);
+			if (args->has_malloc_error)
+				return ;
+			add_child(cmd_master, &cmd, args);
+			args->i++;
+		}
+	}
 	else
 	{
 		get_or_and_cmd(cmd_prev, cmd, args);

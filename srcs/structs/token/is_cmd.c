@@ -3,7 +3,7 @@
 int is_cmd_token(t_token token)
 {
 	return (token.type & (
-		E_REDIR_OPERATOR_MASK |
-		E_TOKEN_NAME_MASK |
-		SPACE));
+		get_lexer_token_def()->masks.redir |
+		get_lexer_token_def()->masks.text |
+		M_SPACE));
 }

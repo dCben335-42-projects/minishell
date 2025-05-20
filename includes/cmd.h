@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:36:28 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/20 11:38:43 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/20 19:38:30 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 #include  <sys/types.h>
 
 
-int		command_handler(char *input, t_shell *shell);
+void	*command_handler(char *input, t_shell *shell);
 
 int		wait_childrens(int last_pid);
 t_bool	is_valid_cmd_path(char *path, int *exit_code);

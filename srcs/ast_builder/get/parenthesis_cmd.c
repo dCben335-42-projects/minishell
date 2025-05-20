@@ -10,7 +10,7 @@ static int	count_token_between_brackets(t_dynarray *tokens, t_uint i)
 	parenthesis = (t_bracket){1, 0};
 	while (i < tokens->count - 1)
 	{
-		token = (t_token *)get_dynarray_value(tokens, i);
+		token = get_dynarray_value(tokens, i);
 		if (token->type == OP_PARENTHESIS_OPEN)
 			parenthesis.open++;
 		else if (token->type == OP_PARENTHESIS_CLOSE)
@@ -55,9 +55,9 @@ static t_ast_node	*get_adjacent_cmd(t_get_cmd_master *args, int count)
 {
 	t_token		*token;
 
-	token = (t_token *)get_dynarray_value(args->tokens, args->i + count + 1);
+	token = get_dynarray_value(args->tokens, args->i + count + 1);
 	if (token && token->type & M_SPACE)
-		token = (t_token *)get_dynarray_value(args->tokens, args->i + count + 2);
+		token = get_dynarray_value(args->tokens, args->i + count + 2);
 	if (token && token->type & OP_PIPE)
 		return (init_node_secure(CMD_PIPE, NULL, args));
 	return (NULL);

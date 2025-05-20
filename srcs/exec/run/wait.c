@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:01:05 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/20 10:13:49 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/20 18:03:14 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,9 @@ static int handle_status(int status)
 		return (128 + WSTOPSIG(status));
 	return (1);
 }
+
+
+
 
 /**
  * @brief Wait for all child processes to finish and return their exit codes.

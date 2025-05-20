@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:39:44 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/04/18 18:40:50 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/20 19:15:22 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,5 +45,8 @@ getcwd: cannot access parent directories"
 # define ERR_EXPORT_ID "export: '%s': not a valid identifier\n"
 
 # define ERR_NOT_FOUND "minishell: command not found: "
+
+# define SYNTAX_ERR_START "syntax error near unexpected token `"
+# define SYNTAX_ERR_END "'\n"
 
 #endif

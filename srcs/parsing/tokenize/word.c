@@ -16,5 +16,5 @@ t_pointer	tokenize_word(t_lexer_args *args)
 			return (pointer);
 		args->input++;
     }
-	return (init_pointer(init_token(quoted_wrapper(args, &current_type), start_i, args->input - start_i), TRUE, FALSE));
+	return (init_pointer(init_token(quoted_wrapper(args, &current_type), start_i, args->input - start_i), TRUE));
 }

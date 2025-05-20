@@ -4,9 +4,9 @@ t_bool	is_empty(t_get_cmd_master *args)
 {
 	t_token	*token;
 
-	token = (t_token *)get_dynarray_value(args->tokens, args->i);
+	token = get_dynarray_value(args->tokens, args->i);
 	if (token->type == M_SPACE)
-		token = (t_token *)get_dynarray_value(args->tokens, args->i + 1);
+		token = get_dynarray_value(args->tokens, args->i + 1);
 	if (token->type == M_EOF)
 		return (TRUE);
 	if (is_control_extended_token(*token))
@@ -44,7 +44,7 @@ static t_ast_node	*add_cmd_child(t_get_cmd_master *args, t_get_cmd_primitive *d)
 	cmd_redir = NULL;
 	while (args->i < args->end)
 	{
-		token = (t_token *)get_dynarray_value(args->tokens, args->i);
+		token = get_dynarray_value(args->tokens, args->i);
 		if (is_control_extended_token(*token))
 			break;
 		if (is_text_token(*token))
@@ -97,7 +97,7 @@ void	get_cmd_primitive(t_get_cmd_master *args, t_ast_node **cmd)
 
 	if (args->i >= args->end)
 		*cmd = NULL;
-	token = (t_token *)get_dynarray_value(args->tokens, args->i);
+	token = get_dynarray_value(args->tokens, args->i);
 	if (is_cmd_token(*token))
 		*cmd = add_cmd_child(args, &d);
 	else

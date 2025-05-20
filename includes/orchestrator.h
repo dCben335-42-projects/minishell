@@ -23,5 +23,6 @@ t_ast_node	*exec_and(t_shell *shell, t_ast_node *cmd);
 t_ast_node	*exec_or(t_shell *shell, t_ast_node *cmd);
 t_ast_node	*exec_pipeline(t_shell *shell, t_ast_node *cmd);
 t_ast_node	*exec_subshell(t_shell *shell, t_ast_node *cmd);
+t_ast_node	*exec_semicolon(t_shell *shell, t_ast_node *cmd);
 
 #endif

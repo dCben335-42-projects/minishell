@@ -1,6 +1,29 @@
 {
 	"files.associations": {
 		"struct_lexer_args.h": "c",
-		"cmd_redir.h": "c"
+		"cmd_redir.h": "c",
+		"struct_env.h": "c",
+		"parsing.h": "c",
+		"fcntl.h": "c",
+		"ast.h": "c",
+		"minishell.h": "c",
+		"cstdlib": "c",
+		"utils.h": "c",
+		"libft.h": "c",
+		"readline.h": "c",
+		"termios.h": "c",
+		"stdio.h": "c",
+		"unistd.h": "c",
+		"struct_pointer.h": "c",
+		"array": "c",
+		"deque": "c",
+		"string": "c",
+		"unordered_map": "c",
+		"vector": "c",
+		"iterator": "c",
+		"string_view": "c",
+		"ast_node.h": "c",
+		"messages.h": "c",
+		"types.h": "c"
 	}
 }

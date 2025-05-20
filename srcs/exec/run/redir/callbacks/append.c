@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 11:35:48 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/20 14:34:57 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/20 17:23:02 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ t_bool	redir_append(t_shell *shell, t_ast_node *node)
 	fd = open(tree->value, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (!p_int(fd, -1, tree->value))
 		return ((t_bool) destroy_tree(tree));
+	printf("dupping in append for redir: %s\n", (char *)tree->value);
 	ret = p_int(dup2(fd, STDOUT_FILENO), -1, "dup2");
 	close(fd);
 	destroy_tree(tree);

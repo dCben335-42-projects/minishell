@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 10:34:29 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/20 14:05:37 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/20 18:21:56 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,16 @@
 
 # include "struct_shell.h"
 # include "libft_tree.h"
+# include "cmd_expand.h"
 # include "fcntl.h"
 # include "unistd.h"
 # include "errors.h"
 # include "utils.h"
-# include "cmd_expand.h"
 
 typedef struct s_redir_map
 {
 	t_node_type	type;
-	t_bool		(*f)(t_shell *shell, t_ast_node *node);
+	t_bool		(*f)(t_shell	*shell, t_ast_node	*node);
 }	t_redir_map;
 
 t_bool	redirect(t_shell *shell, t_dynarray *cmd);

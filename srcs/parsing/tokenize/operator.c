@@ -9,8 +9,7 @@ t_pointer	tokenize_operator(t_lexer_args *args,
 		args->is_heredoc = HEREDOC;
 	else if (type == R_HEREDOC_TRIM)
 		args->is_heredoc = HEREDOC_TRIM;
-	pointer = init_pointer(init_token(type, args->input, offset), TRUE, FALSE);
-
+	pointer = init_pointer(init_token(type, args->input, offset), TRUE);
 	args->input += offset;
 	return (pointer);
 }

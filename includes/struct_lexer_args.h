@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   struct_lexer_args.h                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:35:32 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/20 13:07:49 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/05/20 19:55:11 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ typedef enum e_is_heredoc
 
 typedef struct s_lexer_args
 {
+	char 				*base_input;
 	const char			*input;
 	char				*error;
 	char				quote;
@@ -53,7 +54,6 @@ typedef struct s_lexer_args
 	t_bracket			parenthesis;
 	t_bracket			bracket;
 	t_right_operand_status	right_operand;
-	
 }	t_lexer_args;
 
 t_lexer_args	init_lexer_args(const char *input);

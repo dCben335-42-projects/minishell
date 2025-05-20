@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:18:18 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/20 12:27:21 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/05/20 19:58:44 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_lexer_args	init_lexer_args(const char *input)
 {
 	t_lexer_args	args;
 
-	
+	args.base_input = (char *) input;
 	args.input = input;
 	args.error = NULL;
 	args.quote = 0;

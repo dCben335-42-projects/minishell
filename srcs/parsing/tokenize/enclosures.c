@@ -7,14 +7,13 @@ static t_pointer	return_token(t_lexer_args *args, char **start_i, t_uint *curren
 	args->input++;
 	pointer = init_pointer(
 			init_token(quoted_wrapper(args, current_type), *start_i, args->input - *start_i - 1),
-			TRUE, FALSE);
+			TRUE);
 	if (args->quote == quote)
 		args->quote = 0;
 	else
 		args->quote = quote;
 	return (pointer);
 }
-
 
 static t_pointer	handler_enclosure(t_lexer_args *args, char **start_i, t_uint *current_type, const char quote)
 {
@@ -35,19 +34,27 @@ static t_pointer	handler_enclosure(t_lexer_args *args, char **start_i, t_uint *c
 			args->quote = 0;
 		}
 	}
-	return (init_pointer(NULL, FALSE, FALSE));
+	return (init_pointer(NULL, FALSE));
+}
+
+static t_bool is_directly_closed(const char *input, const char quote)
+{
+	if (!quote && *input == DELIMITER_EXPANDABLE_TEXT && *(input + 1) == DELIMITER_LITERAL_TEXT)
+		return (TRUE);
+	else if (!quote  && *input == DELIMITER_LITERAL_TEXT && *(input + 1) == DELIMITER_EXPANDABLE_TEXT)
+		return (TRUE);
+	return (FALSE);
 }
 
 static t_pointer	handler_enclosures(t_lexer_args *args, char **start_i, t_uint *current_type)
 {
 	t_pointer	pointer;
 
-	if ((!args->quote && *(args->input) == DELIMITER_EXPANDABLE_TEXT && *(args->input + 1) == DELIMITER_EXPANDABLE_TEXT) || 
-		(!args->quote && *(args->input) == DELIMITER_LITERAL_TEXT && *(args->input + 1) == DELIMITER_LITERAL_TEXT))
-		{
-			args->input += 2;
-			return (init_pointer(init_token(QUOTED_TEXT, NULL, 0), TRUE, FALSE));
-		}
+	if (is_directly_closed(args->input, args->quote))
+	{
+		args->input += 2;
+		return (init_pointer(init_token(QUOTED_TEXT, NULL, 0), TRUE));
+	}
 	pointer = handler_enclosure(args, start_i, current_type, DELIMITER_EXPANDABLE_TEXT);
 	if (pointer.is_malloc)
 		return (pointer);
@@ -61,8 +68,8 @@ t_pointer	tokenize_enclosures(t_lexer_args *args, char **start_i, t_uint *curren
 	pointer = handler_enclosures(args, start_i, current_type);
 	if (pointer.is_malloc)
 		return (pointer);
-	pointer = handler_expand(args, start_i, current_type);
+	pointer = tokenize_expand(args, start_i, current_type);
 	if (pointer.is_malloc)
 		return (pointer);
-	return (handler_wildcard(args, current_type));
+	return (tokenize_wildcard(args, current_type));
 }

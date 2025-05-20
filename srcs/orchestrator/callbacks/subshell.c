@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 09:04:49 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/20 11:38:38 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/20 17:59:12 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 #include "cmd.h"
 #include "utils.h"
 #include "errors.h"
+#include <signal.h>
+#include <sys/types.h>
 
 static t_ast_node	*run_subshell(
 	t_shell *shell, t_ast_node *cmd, t_ast_node *skipped_cmd
@@ -28,6 +30,8 @@ static t_ast_node	*run_subshell(
 	}
 	else if (shell->last_pid == 0)
 	{
+		signal(SIGQUIT, SIG_DFL);
+		signal(SIGINT, SIG_DFL);
 		cmd = find_next_cmd(cmd);
 		while (cmd && cmd != skipped_cmd)
 			cmd = handle_cmd(shell, cmd);
@@ -73,7 +77,7 @@ t_ast_node	*exec_subshell(t_shell *shell, t_ast_node *cmd)
 	t_bool		is_redir;
 
 	skipped_cmd = skip_cmd(cmd);
-	is_redir = is_only_redir(cmd);
+	is_redir = is_only_redir(skipped_cmd);
 	if (!is_redir)
 		return (run_subshell(shell, cmd, skipped_cmd));
 	return (subshell_redir(shell, cmd, skipped_cmd));

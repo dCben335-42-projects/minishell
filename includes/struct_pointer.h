@@ -11,6 +11,6 @@ typedef struct t_pointer
 	void		*pointer;
 }	t_pointer;
 
-t_pointer	init_pointer(void *pointer, t_bool is_malloc, t_bool has_malloc_error);
+t_pointer	init_pointer(void *pointer, t_bool is_malloc);
 
 #endif

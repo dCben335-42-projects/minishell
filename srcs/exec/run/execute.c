@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:07:25 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/20 11:40:52 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/20 17:58:50 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ static void	child_exec(t_shell *shell, char **argv, t_dynarray *cmd)
 {
     int	exit_code;
 
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
 	exit_code = EXIT_FAILURE;
 	if (!redirect(shell, cmd)
 		|| !is_valid_cmd_path(argv[0], &exit_code))

@@ -34,6 +34,8 @@ t_ast_node *find_next_cmd(t_ast_node *node)
 	t_ast_node	*child;
 	if (node == NULL)
 		return (NULL);
+	if (!node->content)
+		return (skip_cmd(node));
 	child = get_dynarray_value(node->content, 0);
 	if (child && is_valid_exec_type(child->type))
 		return (child);

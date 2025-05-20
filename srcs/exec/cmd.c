@@ -6,15 +6,14 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:57:59 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/20 12:39:25 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/20 20:15:46 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "ast_node.h"
 
-void	command_handler_lexer(char *input, t_lexer_args *args);
-
+void	*command_handler_lexer(char *input, t_lexer_args *args);
 // static void	print_tokens(t_dynarray *tokens)
 // {
 // 	t_uint	i;
@@ -31,101 +30,84 @@ void	command_handler_lexer(char *input, t_lexer_args *args);
 // 	}
 // }
 
-static void	command_not_finished(t_lexer_args *args, char *input)
+static void	*command_not_finished(t_lexer_args *args)
 {
 	char	*new_input;
 	char	*tmp;
 	char 	*strs[2];
 
 	tmp = readline(SHELL_NEXT_NAME);
-	strs[0] = input;
+	strs[0] = args->base_input;
 	strs[1] = tmp;
-	
 	new_input = ft_strsjoin((const char **)strs, 2, " ");
 	free(tmp);
-	free(input);
+	free(args->base_input);
 	if (!new_input)
-	{
-		printf("Error: %s\n", args->error);
-		return ;
-	}
+		return (NULL);
 	destroy_lexer_args(args);
-	command_handler_lexer(new_input, args);
+	return (command_handler_lexer(new_input, args));
 }
 
-void	command_not_finished_handler(t_lexer_args *args, char *input)
+void	*command_not_finished_handler(t_lexer_args *args)
 {
 	char				*tmp;
 	t_token				*token;
 
-	token = ((t_token *)get_dynarray_value_last(&args->tokens));
+	token = get_dynarray_value_last(&args->tokens);
 	if (args->parenthesis.open > args->parenthesis.close && (is_text_token(*token) || token->type & OP_SEMICOL))
 	{
 		if (is_text_token(*token))
 		{
-			tmp = ft_strjoin(input, ";");
+			tmp = ft_strjoin(args->base_input, ";");
 			if (!tmp)
-			{
-				printf("Error: %s\n", args->error);
-				return ;
-			}
-			free(input);
-			input = tmp;			
+				return (NULL);
+			free(args->base_input);
+			args->base_input = tmp;		
 		}
 	}
-	command_not_finished(args, input);
-	return ;
+	return (command_not_finished(args));
 }
 
-void	command_handler_lexer(char *input, t_lexer_args *args)
+void	*command_handler_lexer(char *input, t_lexer_args *args)
 {
 	t_parse_status	status;
 
 	*args = init_lexer_args(input);
 	if (!args->tokens.data)
-	{
-		printf("Error: %s\n", args->error);
-		return ;
-	}
+		return (NULL);
 	status = lexer(args);
+	if (status == MALLOC_ERROR || status == COMMAND_NOT_VALID)
+		return (NULL);
 	if (status == COMMAND_NOT_FINISHED)
-		return (command_not_finished_handler(args, input));
-	if (status != COMMAND_VALID)
-		return ;
-
+		return (command_not_finished_handler(args));
+	return (args->tokens.data);
 }
 
-int	command_handler(char *input, t_shell *shell)
+void	*command_handler(char *input, t_shell *shell)
 {
 	t_lexer_args	args;
-
-	command_handler_lexer(input, &args);
-	if (*input)
-		add_history(input);
-	if (args.error)
+	t_bool			is_lexer_error;
+	
+	is_lexer_error = !command_handler_lexer(input, &args);
+	if (args.base_input)
 	{
-		printf("Error: %s\n", args.error);
-		destroy_lexer_args(&args);
-		return (0);
+		add_history(args.base_input);
+		free(args.base_input);
 	}
-	if (args.tokens.count == 0)
-	{
-		destroy_lexer_args(&args);
-		return (0);
-	}
+	if (is_lexer_error)
+		return (destroy_lexer_args(&args));
 	shell->ast = ast_builder(&args.tokens);
 	destroy_lexer_args(&args);
 	if (!shell->ast)
 		return (0);
 	if (DEBUG_MODE)
 	{
-		ft_printf("<--DEBUG_MODE-->\n");
-		ft_printf("COMMAND: %s\n", input);
-		ft_printf("ABSTRACT SYNTAX TREE:\n");
+		printf("<--DEBUG_MODE-->\n");
+		printf("ABSTRACT SYNTAX TREE:\n");
 		print_ast_json_wrapper(shell->ast->content);
 	}
 	orchestrator(shell);
 	recursive_destroy_node(shell->ast);
 	shell->ast = NULL;
-	return (1);
+	return (shell);
 }

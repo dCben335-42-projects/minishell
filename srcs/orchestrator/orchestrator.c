@@ -1,23 +1,15 @@
-#include "ast.h"
-#include "orchestrator.h"
 #include "cmd.h"
-#include "cmd_expand.h"
-#include "cmd_builtin.h"
-#include <fcntl.h>
-#include <unistd.h>
-# include "cmd.h"
-#include <fcntl.h>
-#include <unistd.h>
+#include "orchestrator.h"
 
 static const t_exec_map	*get_exec_map(void)
 {
 	static const t_exec_map	map[] = {
-	{CMD_SEQ, &exec_basic},
 	{CMD_JOIN, &exec_basic},
 	{CMD_AND, &exec_and},
 	{CMD_OR, &exec_or},
 	{CMD_PIPE, &exec_pipeline},
 	{CMD_PARENTHESIS, &exec_subshell},
+	{CMD_SEMICOL, &exec_semicolon},
 	{0, NULL}};
 
 	return (map);
@@ -30,7 +22,7 @@ t_bool  is_only_redir(t_ast_node *cmd)
 	t_ast_node	*node;
 	t_dynarray	*arr;
 
-	if (cmd->type != CMD_JOIN)
+	if (!cmd || cmd->type != CMD_JOIN)
 		return (FALSE);
 	i = 0;
 	arr = cmd->content;

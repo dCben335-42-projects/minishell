@@ -6,11 +6,12 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 12:01:53 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/20 12:34:12 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/20 14:11:10 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cmd_redir.h"
+#include "struct_lexer_args.h"
 
 int	create_fd(char *content)
 {
@@ -30,23 +31,21 @@ int	create_fd(char *content)
 	return (fd[0]);
 }
 
-const t_bool is_expandable(t_dynarray *arr)
+t_bool is_expandable(t_dynarray *arr)
 {
-	const t_ast_node	*first = get_dynarray_value(arr, 0);
+	const t_ast_node	*node = get_dynarray_value(arr, 1);
 	
-	return (ft_strcmp(first->content, "<<") == 0);
+	return (ft_strcmp(node->content, HEREDOC_EXPANDABLE_TRUE) == 0);
 }
 
 
 t_bool	redir_heredoc(t_shell *shell, t_ast_node *node)
 {
-	const t_dynarray	*content = node->content;
-	const t_bool 		need_expand = is_expandable(content);
-	const t_ast_node	*value_node = get_dynarray_value(content, 1);
+	const t_ast_node	*value_node = get_dynarray_value(node->content, 0);
 	int					fd;
 	t_bool				ret;
 
-	if (need_expand)
+	if (is_expandable(node->content))
 		fd = create_fd(expand_env_str(shell, (char **)&value_node->content));
 	else 
 		fd = create_fd(value_node->content);

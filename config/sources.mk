@@ -28,6 +28,7 @@ SRC_FILES += exec/run/builtins/callbacks/unset.c
 SRC_FILES += exec/run/execute.c
 SRC_FILES += exec/run/path.c
 SRC_FILES += exec/run/redir/callbacks/append.c
+SRC_FILES += exec/run/redir/callbacks/heredoc.c
 SRC_FILES += exec/run/redir/callbacks/in.c
 SRC_FILES += exec/run/redir/callbacks/out.c
 SRC_FILES += exec/run/redir/redir.c

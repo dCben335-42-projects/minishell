@@ -1,0 +1,6 @@
+{
+	"files.associations": {
+		"struct_lexer_args.h": "c",
+		"cmd_redir.h": "c"
+	}
+}

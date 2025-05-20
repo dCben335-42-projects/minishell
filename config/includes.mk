@@ -3,6 +3,7 @@ INCLUDES_FILES += ast_node.h
 INCLUDES_FILES += cmd_builtin.h
 INCLUDES_FILES += cmd_expand.h
 INCLUDES_FILES += cmd.h
+INCLUDES_FILES += cmd_redir.h
 INCLUDES_FILES += errors.h
 INCLUDES_FILES += messages.h
 INCLUDES_FILES += minishell.h

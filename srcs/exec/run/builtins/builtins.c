@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 15:14:14 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/20 06:44:20 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/20 11:38:38 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static t_bool run_builtin_redir(
 
 	if (!p_int(saved_stdin, -1, "dup") 
 		|| !p_int(saved_stdout, -1, "dup") 
-		|| !handle_redirections(shell, cmd))
+		|| !redirect(shell, cmd))
 	{
 		restore_std_in_out(saved_stdin, saved_stdout);
 		shell->exit_code = 1;

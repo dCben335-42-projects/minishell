@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 09:04:49 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/20 09:26:37 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/20 11:38:38 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static t_ast_node	*subshell_redir(
 
 	if (!p_int(saved_stdin, -1, "dup")
 		|| !p_int(saved_stdout, -1, "dup")
-		|| !handle_redirections(shell, skipped_cmd->content))
+		|| !redirect(shell, skipped_cmd->content))
 	{
 		restore_std_in_out(saved_stdin, saved_stdout);
 		shell->exit_code = EXIT_FAILURE;

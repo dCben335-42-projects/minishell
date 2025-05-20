@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 10:29:31 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/20 14:05:24 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/20 14:26:10 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ static const t_redir_map *get_redir_map(void)
 		{CMD_REDIR_IN, &redir_in},
 		{CMD_APPEND, &redir_append},
 		{CMD_HEREDOC, &redir_heredoc},
+		{CMD_HEREDOC_TRIM, &redir_heredoc},
 		{0, NULL}
 	};
 

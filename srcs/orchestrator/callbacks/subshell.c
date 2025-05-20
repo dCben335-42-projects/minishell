@@ -1,6 +1,6 @@
 #include "orchestrator.h"
 #include "cmd.h"
-
+#include "utils.h"
 
 /**
  * @brief Executes the subshell command in the shell.
@@ -25,7 +25,7 @@ t_ast_node	*exec_subshell(t_shell *shell, t_ast_node *cmd)
 	else if (shell->last_pid == 0)
 	{
 		cmd = find_next_cmd(cmd);
-		while (cmd || cmd != skiped_cmd)
+		while (cmd && cmd != skiped_cmd)
 			cmd = handle_cmd(shell, cmd);
 		destroy_self(shell, NULL, shell->exit_code);
 	}

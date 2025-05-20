@@ -1,13 +1,7 @@
 #include "minishell.h"
 #include "cmd.h"
 #include "orchestrator.h"
-
-
-void	handle_sigpipe(int signum)
-{
-	if (signum == SIGPIPE)
-		exit(141);
-}
+#include "utils.h"
 
 t_bool exec_pipe_segment(t_shell *shell, t_ast_node *cmd, int input_fd, int output_fd, int *pipefd)
 {
@@ -41,17 +35,14 @@ t_bool exec_pipe_segment(t_shell *shell, t_ast_node *cmd, int input_fd, int outp
         handle_cmd(shell, cmd);
 		destroy_self(shell, NULL, shell->exit_code);
 	}
-	else
+	if (pipefd)
 	{
-		if (pipefd)
-		{
-			close(pipefd[1]);
-			if (input_fd != -1)
-				close(input_fd);
-		}
+		close(pipefd[1]);
 		if (input_fd != -1)
 			close(input_fd);
-    }
+	}
+	if (input_fd != -1)
+		close(input_fd);
     if (input_fd != -1)
         close(input_fd);
     if (output_fd != -1)
@@ -92,10 +83,9 @@ t_ast_node *exec_pipe(t_shell *shell, t_ast_node *cmd)
         }
         else
             output_fd = -1;
-
         exec_pipe_segment(shell, current, input_fd, output_fd, current->next ? pipefd : NULL);
         input_fd = (current->next && current->next != end) ? pipefd[0] : -1;
-        current = find_next_cmd(current);
+        current = skip_cmd(current);
     }
     if (input_fd != -1)
         close(input_fd);

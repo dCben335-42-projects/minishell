@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 15:14:14 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/16 20:41:13 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/20 06:44:20 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static const t_builtin	*get_builtin_map(void)
 	return (map);
 }
 
-static t_bool f_savestd(
+static t_bool run_builtin_redir(
 	t_shell *shell,
 	t_dynarray *cmd,
 	char **args,
@@ -58,11 +58,11 @@ t_bool	is_builtin(t_shell *shell, t_dynarray *cmd, char **args)
 	const t_builtin	*builtin_map = get_builtin_map();
 
 	if (!*args)
-		return (f_savestd(shell, cmd, args, NULL));
+		return (run_builtin_redir(shell, cmd, args, NULL));
 	while (builtin_map->name)
 	{
-		if (!ft_strcmp(builtin_map->name, args[0]))
-			return (f_savestd(shell, cmd, args, builtin_map->f));
+		if (!ft_strcmp(builtin_map->name, *args))
+			return (run_builtin_redir(shell, cmd, args, builtin_map->f));
 		builtin_map++;
 	}
 	return (FALSE);

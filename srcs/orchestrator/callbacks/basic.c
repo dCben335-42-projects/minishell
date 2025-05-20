@@ -23,7 +23,7 @@ t_ast_node	*exec_basic(t_shell *shell, t_ast_node *cmd)
 	{
 		*argv[0] = get_full_cmd_path(*argv, get_env_node(shell->env, "PATH"));
 		if (!*argv[0])
-			destroy_self(shell, *argv, EXIT_FAILURE);
+			return (destroy_dynarray(&args));
 		fork_and_exec(shell, *argv, cmd->content);
 	}
 	destroy_dynarray(&args);

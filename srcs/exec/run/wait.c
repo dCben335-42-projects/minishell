@@ -6,13 +6,24 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:01:05 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/20 04:51:54 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/20 06:30:29 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "libft.h"
 #include <sys/types.h>
+
+static int handle_status(int status)
+{
+	if (WIFEXITED(status))
+		return (WEXITSTATUS(status));
+	else if (WIFSIGNALED(status))
+		return (128 + WTERMSIG(status));
+	else if (WIFSTOPPED(status))
+		return (128 + WSTOPSIG(status));
+	return (1);
+}
 
 /**
  * @brief Wait for all child processes to finish and return their exit codes.
@@ -34,14 +45,7 @@ int	wait_childrens(int last_pid)
     while (pid > 0)
     {
         if (pid == last_pid)
-        {
-            if (WIFEXITED(status))
-                exit_code = WEXITSTATUS(status);
-            else if (WIFSIGNALED(status))
-                exit_code = 128 + WTERMSIG(status);
-            else
-                exit_code = 1;
-        }
+			exit_code = handle_status(status);
         pid = waitpid(-1, &status, 0);
     }
 	return (exit_code);

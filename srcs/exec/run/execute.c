@@ -6,13 +6,13 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:07:25 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/20 04:53:26 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/20 06:46:37 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "cmd.h"
-
+#include "utils.h"
 
 /**
  * @brief Execute a command using execve.
@@ -30,22 +30,22 @@
  * also destroy the shell instance and exit the process.
  * 
  */
-void	exec_cmd(char **argv, t_shell *shell)
+static void	exec_cmd(char **argv, t_shell *shell)
 {
 	execve(argv[0], argv, (char **)shell->env_array.data);
 	perror("execve");
 	destroy_self(shell, argv, EXIT_FAILURE);
 }
 
-void	child_exec(t_shell *shell, char **argv, t_dynarray *cmd) 
+static void	child_exec(t_shell *shell, char **argv, t_dynarray *cmd) 
 {
-    int exit_code;
+    int	exit_code;
 
 	exit_code = EXIT_FAILURE;
-	if (!handle_redirections(shell, cmd) 
+	if (!handle_redirections(shell, cmd)
 		|| !is_valid_cmd_path(argv[0], &exit_code))
 		destroy_self(shell, argv, exit_code);
-	exec_cmd(argv, shell); 
+	exec_cmd(argv, shell);
 }
 
 /**
@@ -77,3 +77,4 @@ void	fork_and_exec(t_shell *shell, char **argv, t_dynarray *cmd)
 		child_exec(shell, argv, cmd);
 	shell->exit_code = wait_childrens(pid);
 }
+

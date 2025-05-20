@@ -6,7 +6,7 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:18:18 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/15 19:51:52 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/05/20 12:27:21 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ t_lexer_args	init_lexer_args(const char *input)
 	args.start = input;
 	args.input_size = ft_strlen(input);
 	args.parenthesis = (t_bracket){0, 0};
+	args.is_heredoc = NOT_HEREDOC;
 	args.bracket = (t_bracket){0, 0};
 	args.tokens = init_dynarray(2, (void *(*)(void *))destroy_token);
 	args.right_operand = UNDEFINED;

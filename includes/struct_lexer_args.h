@@ -6,7 +6,7 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:35:32 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/16 19:14:23 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/05/20 13:07:49 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,16 @@ typedef enum e_right_operand_status
 	REQUIRED_WITHOUT_PAREN,
 }	t_right_operand_status;
 
+typedef enum e_is_heredoc
+{
+	NOT_HEREDOC,
+	HEREDOC,
+	HEREDOC_TRIM,
+}	t_is_heredoc;
+
+#define HEREDOC_EXPANDABLE_TRUE		"expandable=true"
+#define HEREDOC_EXPANDABLE_FALSE	"expandable=false"
+
 typedef struct s_lexer_args
 {
 	const char			*input;
@@ -38,6 +48,7 @@ typedef struct s_lexer_args
 	char				quote;
 	const char			*start;
 	long				input_size;
+	t_is_heredoc		is_heredoc;
 	t_dynarray			tokens;
 	t_bracket			parenthesis;
 	t_bracket			bracket;

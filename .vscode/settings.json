@@ -9,6 +9,7 @@
 		"ast.h": "c",
 		"parsing.h": "c",
 		"types.h": "c",
-		"struct_env.h": "c"
+		"struct_env.h": "c",
+		"type_traits": "c"
 	}
 }

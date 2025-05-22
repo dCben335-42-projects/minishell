@@ -24,6 +24,19 @@
 		"string_view": "c",
 		"ast_node.h": "c",
 		"messages.h": "c",
-		"types.h": "c"
+		"types.h": "c",
+		"signal.h": "c",
+		"cmd.h": "c",
+		"charconv": "c",
+		"chrono": "c",
+		"optional": "c",
+		"format": "c",
+		"ratio": "c",
+		"system_error": "c",
+		"functional": "c",
+		"tuple": "c",
+		"type_traits": "c",
+		"utility": "c",
+		"minishell_signal.h": "c"
 	}
 }

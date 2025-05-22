@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   subshell.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 09:04:49 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/20 17:59:12 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/22 20:59:16 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "errors.h"
 #include <signal.h>
 #include <sys/types.h>
+#include "minishell_signal.h"
 
 static t_ast_node	*run_subshell(
 	t_shell *shell, t_ast_node *cmd, t_ast_node *skipped_cmd
@@ -30,8 +31,6 @@ static t_ast_node	*run_subshell(
 	}
 	else if (shell->last_pid == 0)
 	{
-		signal(SIGQUIT, SIG_DFL);
-		signal(SIGINT, SIG_DFL);
 		cmd = find_next_cmd(cmd);
 		while (cmd && cmd != skipped_cmd)
 			cmd = handle_cmd(shell, cmd);

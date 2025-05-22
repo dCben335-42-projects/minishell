@@ -63,6 +63,7 @@ static t_parse_status handle_right_operand(t_lexer_args *args, t_right_operand_s
 t_parse_status	check_all_rules(t_lexer_args *args, t_token *token)
 {
 	static t_right_operand_status	must_be_operand = UNDEFINED;
+	printf("must_be_operand: %u\n", must_be_operand);
 
 	if (must_be_operand == REQUIRED_WITHOUT_PAREN)
 		handle_require_without_parenthesis(args, token, &must_be_operand);

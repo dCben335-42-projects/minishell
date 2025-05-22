@@ -7,6 +7,7 @@ INCLUDES_FILES += cmd_redir.h
 INCLUDES_FILES += errors.h
 INCLUDES_FILES += messages.h
 INCLUDES_FILES += minishell.h
+INCLUDES_FILES += minishell_signal.h
 INCLUDES_FILES += orchestrator.h
 INCLUDES_FILES += parsing.h
 INCLUDES_FILES += struct_dynarray.h

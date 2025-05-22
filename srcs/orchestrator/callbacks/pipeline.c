@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipeline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 08:45:59 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/20 08:53:45 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/22 19:19:26 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "orchestrator.h"
 #include "utils.h"
 #include "errors.h"
+#include "minishell_signal.h"
 
 static void	close_in_out(int fds[2])
 {
@@ -59,8 +60,8 @@ static t_bool	exec_pipe(
 	}
 	else if (shell->last_pid == 0)
 	{
-		signal(SIGQUIT, SIG_DFL);
-		signal(SIGINT, SIG_DFL);
+		enable_sigquit();
+		enable_sigint();
 		if (!setup_redirections(in_out))
 			destroy_self(shell, NULL, EXIT_FAILURE);
 		close_in_out(pipefd);
@@ -68,6 +69,8 @@ static t_bool	exec_pipe(
 		destroy_self(shell, NULL, shell->exit_code);
 	}
 	close_in_out(in_out);
+	disable_sigquit();
+	disable_sigint();
 	return (TRUE);
 }
 

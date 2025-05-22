@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 19:31:21 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/20 19:45:36 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/22 20:55:39 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "messages.h"
 #include "minishell.h"
 #include "cmd.h"
-
+#include "minishell_signal.h"
 
 volatile sig_atomic_t g_signal = 0;
 
@@ -46,9 +46,13 @@ int	main(int argc, char **argv, char **envp)
 
 	(void)argc;
 	(void)argv;
+	restore_termios();
+	disable_sigquit();
+	enable_sigint_default();
 	shell = init_shell(envp);
-	init_signals();
+	//init_signals();
 	handle_loop(&shell);
+	restore_termios();
 	ft_exit(&shell, NULL);
 	return (0);
 }

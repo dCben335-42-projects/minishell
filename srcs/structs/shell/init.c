@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 13:49:50 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/20 10:00:12 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/22 17:03:54 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ t_shell	init_shell(char **envp)
 	shell.env_array = env_to_array(shell.env);
 	shell.current_path = getcwd(NULL, 0);
 	shell.ast = NULL;
-	if (!shell.current_path)
-		perror(ERROR_SHELL_INIT);
+	p_ptr(shell.current_path, ERROR_SHELL_INIT);
 	return (shell);
 }

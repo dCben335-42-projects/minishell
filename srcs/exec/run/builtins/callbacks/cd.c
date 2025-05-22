@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 13:40:14 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/04/18 18:13:03 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/22 17:40:53 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static	void	handle_env(t_shell *shell, char *new_oldpwd)
 		new_oldpwd = get_pwd(shell);
 	if (p_ptr(new_path, ERR_GETCWD) && p_ptr(newpwd, ERR_GETCWD))
 		p_ptr(new_oldpwd, ERR_CD);
-	if (!new_oldpwd || !new_path || !newpwd || !ft_strcmp(new_oldpwd, newpwd))
+	if (!new_oldpwd || !new_path || !newpwd)
 	{
 		free(new_oldpwd);
 		free(new_path);
@@ -53,17 +53,14 @@ static	void	handle_env(t_shell *shell, char *new_oldpwd)
 static	t_bool	home_relative(char *path, char *home)
 {
 	char	*new_path;
+	t_bool	ret;
 
 	new_path = ft_strjoin(home, path + 1);
-	if (p_ptr(new_path, ERR_CD))
+	if (!p_ptr(new_path, ERR_CD))
 		return (FALSE);
-	if (!p_int(chdir(new_path), -1, ERR_CD))
-	{
-		free(new_path);
-		return (FALSE);
-	}
+	ret = p_int(chdir(new_path), -1, ERR_CD);
 	free(new_path);
-	return (TRUE);
+	return (ret);
 }
 
 static t_bool	env_path(t_env *path, char *err_msg, t_bool need_print)
@@ -101,8 +98,10 @@ void	ft_cd(t_shell *shell, char **args)
 	else if (ft_strncmp(args[1], "~/", 2) == 0)
 		ret = home_relative(args[1], home->value);
 	else
-		ret = (p_int(chdir(args[1]), -1, ERR_CD));
+		ret = p_int(chdir(args[1]), -1, ERR_CD);
 	shell->exit_code = !ret;
 	if (ret)
 		handle_env(shell, (char *)pwd);
+	else 
+		free((char *)pwd);
 }

@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 13:40:14 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/22 17:40:53 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/22 18:00:49 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,13 @@
 static char	*get_pwd(t_shell *shell)
 {
 	const t_env	*oldpwd = get_env_node(shell->env, PWD_KEY);
-
+	
 	if (oldpwd)
 		return (ft_strdup(oldpwd->value));
 	return (ft_strdup(""));
 }
 
-static	void	handle_env(t_shell *shell, char *new_oldpwd)
+static void	handle_env(t_shell *shell, char *new_oldpwd)
 {
 	char	*new_path;
 	char	*newpwd;
@@ -50,37 +50,25 @@ static	void	handle_env(t_shell *shell, char *new_oldpwd)
 	shell->current_path = new_path;
 }
 
-static	t_bool	home_relative(char *path, char *home)
+static t_bool	env_path(void *value, char *err_msg, t_bool is_node)
 {
-	char	*new_path;
-	t_bool	ret;
-
-	new_path = ft_strjoin(home, path + 1);
-	if (!p_ptr(new_path, ERR_CD))
+	if (is_node && value)
+		value = ((t_env *)value)->value;
+	if (!s_ptr(value, err_msg))
 		return (FALSE);
-	ret = p_int(chdir(new_path), -1, ERR_CD);
-	free(new_path);
-	return (ret);
-}
-
-static t_bool	env_path(t_env *path, char *err_msg, t_bool need_print)
-{
-	if (!s_ptr((void *)path, err_msg))
-		return (FALSE);
-	if (chdir(path->value) == -1)
+	if (chdir(value) == -1)
 	{
 		ft_putstr_fd("cd: ", 2);
-		perror(path->value);
+		perror(value);
 		return (FALSE);
 	}
-	if (need_print)
-		ft_putendl_fd(path->value, 1);
+	if (is_node)
+		ft_putendl_fd(value, 1);
 	return (TRUE);
 }
 
 void	ft_cd(t_shell *shell, char **args)
 {
-	const t_env	*home = get_env_node(shell->env, HOME_KEY);
 	const char	*pwd = getcwd(NULL, 0);
 	t_bool		ret;
 
@@ -90,15 +78,14 @@ void	ft_cd(t_shell *shell, char **args)
 		shell->exit_code = 1;
 		return ;
 	}
-	if (!args[1] || !ft_strcmp(args[1], "~"))
-		ret = env_path((t_env *)home, ERR_CD_HOME, TRUE);
+	if (!args[1])
+		ret = env_path(get_env_node(shell->env, HOME_KEY),\
+			ERR_CD_HOME, TRUE);
 	else if (ft_strcmp(args[1], "-") == 0)
-		ret = env_path(get_env_node(shell->env, OLDPWD_KEY), \
+		ret = env_path(get_env_node(shell->env, OLDPWD_KEY),\
 			ERR_CD_OLDPWD, TRUE);
-	else if (ft_strncmp(args[1], "~/", 2) == 0)
-		ret = home_relative(args[1], home->value);
 	else
-		ret = p_int(chdir(args[1]), -1, ERR_CD);
+		ret = env_path(args[1], ERR_CD, FALSE);
 	shell->exit_code = !ret;
 	if (ret)
 		handle_env(shell, (char *)pwd);

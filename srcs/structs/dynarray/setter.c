@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 17:46:29 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/20 18:53:41 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/22 18:30:37 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "libft.h"
 #include <stdio.h>
 
-static void	**ft_realloc(t_dynarray *arr, size_t new_size)
+static void	**realloc_dynarray(t_dynarray *arr, size_t new_size)
 {
 	void	**new;
 	size_t	copy_size;
@@ -41,10 +41,11 @@ static void	**ft_realloc(t_dynarray *arr, size_t new_size)
 void	*set_dynarray_value(t_dynarray *arr, t_uint index, void *value)
 {
 	t_uint	new_size;
+	
 	if (index >= arr->size)
 	{
 		new_size = arr->size * 2;
-		arr->data = ft_realloc(arr, new_size);
+		arr->data = realloc_dynarray(arr, new_size);
 		if (!arr->data)
 			return (NULL);
 		arr->size = new_size;

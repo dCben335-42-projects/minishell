@@ -24,7 +24,7 @@ static void	cleanup_args(t_dynarray *arr)
 		str = get_dynarray_value(arr, i);
 		if (str && *str)
 			arr->data[j++] = arr->data[i];
-		else if (arr->destroyer)
+		else
 			arr->destroyer(arr->data[i]); 
 		i++;
 	}
@@ -35,7 +35,8 @@ static void	cleanup_args(t_dynarray *arr)
 
 static void	*push_tree_values(t_tree *tree, t_dynarray *arr)
 {
-	char *value;
+	char	*value;
+
 	if (!tree || !arr)
 		return (NULL);
 	push_tree_values(tree->left, arr);
@@ -56,7 +57,7 @@ static char *save_word(t_shell *shell, t_dynarray *argv, t_dynarray *word)
 	if (!push_tree_values(tree, argv))
 		return (destroy_tree(tree));
 	destroy_tree(tree);
-	return (argv->data[argv->count - 1]);
+	return (get_dynarray_last_value(argv));
 }
 
 static void	skip_redirection(t_uint *i, t_uint count, t_dynarray *arr)

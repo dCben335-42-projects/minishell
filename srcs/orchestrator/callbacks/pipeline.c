@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 08:45:59 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/20 08:53:45 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/22 18:07:51 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,18 +49,15 @@ static t_bool	exec_pipe(
 )
 {
 	shell->last_pid = fork();
-	if (shell->last_pid == -1)
+	if (!p_int(shell->last_pid, -1, "fork"))
 	{
-		perror("fork");
 		shell->exit_code = EXIT_FAILURE;
 		close_in_out(pipefd);
 		close_in_out(in_out);
 		return (FALSE);
 	}
-	else if (shell->last_pid == 0)
+	if (shell->last_pid == 0)
 	{
-		signal(SIGQUIT, SIG_DFL);
-		signal(SIGINT, SIG_DFL);
 		if (!setup_redirections(in_out))
 			destroy_self(shell, NULL, EXIT_FAILURE);
 		close_in_out(pipefd);
@@ -73,9 +70,8 @@ static t_bool	exec_pipe(
 
 static t_bool	is_pipe(t_shell *shell, int pipefd[2], int input_fd)
 {
-	if (pipe(pipefd) == -1)
+	if (!p_int(pipe(pipefd), -1, "pipe"))
 	{
-		perror("pipe");
 		shell->exit_code = EXIT_FAILURE;
 		if (input_fd != -1)
 			close(input_fd);

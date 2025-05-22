@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 19:31:21 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/20 19:45:36 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/22 18:32:45 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,7 @@ volatile sig_atomic_t g_signal = 0;
 static void	handle_loop(t_shell *shell)
 {
 	char	*input;
-	char	**args;
-	(void)args;
-	(void)shell;
 	
-	get_lexer_token_def();
 	while (TRUE)
 	{
 		input = readline(SHELL_NAME);

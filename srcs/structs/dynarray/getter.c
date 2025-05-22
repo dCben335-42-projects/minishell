@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   getter.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 17:47:10 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/06 18:21:11 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/05/22 18:28:59 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	*get_dynarray_value(t_dynarray *arr, t_uint index)
 	return (0);
 }
 
-void	*get_dynarray_value_last(t_dynarray *arr)
+void	*get_dynarray_last_value(t_dynarray *arr)
 {
 	if (arr->count > 0)
 		return (arr->data[arr->count - 1]);

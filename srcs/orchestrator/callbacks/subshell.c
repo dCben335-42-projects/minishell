@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 09:04:49 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/20 17:59:12 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/22 18:16:52 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,12 @@ static t_ast_node	*run_subshell(
 )
 {
 	shell->last_pid = fork();
-	if (shell->last_pid == -1)
+	if (!p_int(shell->last_pid, -1, "fork"))
 	{
-		perror("fork");
 		shell->exit_code = EXIT_FAILURE;
 		return (FALSE);
 	}
-	else if (shell->last_pid == 0)
+	if (shell->last_pid == 0)
 	{
 		signal(SIGQUIT, SIG_DFL);
 		signal(SIGINT, SIG_DFL);

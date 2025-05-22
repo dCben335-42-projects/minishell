@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:57:59 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/20 20:15:46 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/22 18:28:59 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	*command_not_finished_handler(t_lexer_args *args)
 	char				*tmp;
 	t_token				*token;
 
-	token = get_dynarray_value_last(&args->tokens);
+	token = get_dynarray_last_value(&args->tokens);
 	if (args->parenthesis.open > args->parenthesis.close && (is_text_token(*token) || token->type & OP_SEMICOL))
 	{
 		if (is_text_token(*token))

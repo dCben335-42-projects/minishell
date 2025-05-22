@@ -6,14 +6,14 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 13:40:14 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/22 18:00:49 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/22 19:05:04 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cmd_builtin.h"
 #include "libft.h"
 #include "messages.h"
-#include "errors.h"
+#include "utils.h"
 
 static char	*get_pwd(t_shell *shell)
 {

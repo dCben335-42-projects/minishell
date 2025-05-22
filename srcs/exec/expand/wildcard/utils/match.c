@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 21:43:04 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/04/18 18:55:14 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/22 20:04:45 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,11 @@ static t_bool	scan_dir(t_wcard_match *ctx)
  * @param wildcard The wildcard structure.
  * @param rel_path The relative path of the directory to match.
  * @param segs The segments of the path.
+ * 
+ * @note This function is called recursively to match the wildcard.
+ * 
+ * @note The function builds the absolute path of the directory which
+ * is specifically used to scan the entries type.
  * 
  * @return t_bool TRUE if the wildcard matches, FALSE otherwise.
  */

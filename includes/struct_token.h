@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:44:15 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/22 18:42:42 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/22 18:48:46 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,46 +40,75 @@
 # define DELIMITER_LITERAL_TEXT 		'\''
 # define DELIMITER_EXPANDABLE_TEXT 		'"'
 
-typedef enum e_only_metachar
+typedef enum e_token_type
 {
 	M_SPACE							= 1 << 0,	// ' '
 	M_TAB							= 1 << 1,	// \t
 	M_NEWLINE						= 1 << 2,	// \n
 	M_EOF							= 1 << 3,	// EOF
-}	t_only_metachar;
+	TEXT							= 1 << 4,	// TEXT
+	QUOTED_TEXT						= 1 << 5,	// 'TEXT'
+	EXPAND							= 1 << 6,	// $VAR
+	QUOTED_EXPAND					= 1 << 7,	// "$VAR"
+	WILDCARD						= 1 << 8,	// WILDCARD
+	OP_OR							= 1 << 9,	// ||
+	OP_PIPE							= 1 << 10,	// |
+	OP_AND							= 1 << 11,	// &&
+	OP_AMP							= 1 << 12,	// &
+	OP_SEMICOL						= 1 << 13,	// ;
+	OP_DB_SEMICOL					= 1 << 14,	// ;;
+	OP_SEMICOL_AMP					= 1 << 15,	// ;&
+	OP_DB_SEMICOL_AMP				= 1 << 16,	// ;;&
+	OP_PIPE_ERR						= 1 << 17,	// |&
+	OP_PARENTHESIS_OPEN				= 1 << 18,	// (
+	OP_PARENTHESIS_CLOSE			= 1 << 19,	// )
+	R_IN							= 1 << 20,	// <
+	R_OUT							= 1 << 21,	// >
+	R_APPEND						= 1 << 22,	// >>
+	R_HEREDOC						= 1 << 23,	// <<
+	R_HEREDOC_TRIM					= 1 << 24,	// <<TRIM
+}	t_token_type;
 
-typedef enum e_token_name
-{
-	TEXT						= 1 << 4,	// TEXT
-	QUOTED_TEXT					= 1 << 5,	// 'TEXT'
-	EXPAND						= 1 << 6,	// $VAR
-	QUOTED_EXPAND				= 1 << 7,	// "$VAR"
-	WILDCARD					= 1 << 8,	// WILDCARD
-}	t_token_name;
+// typedef enum e_only_metachar
+// {
+// 	M_SPACE							= 1 << 0,	// ' '
+// 	M_TAB							= 1 << 1,	// \t
+// 	M_NEWLINE						= 1 << 2,	// \n
+// 	M_EOF							= 1 << 3,	// EOF
+// }	t_only_metachar;
 
-typedef enum e_control_operator
-{
-	OP_OR						= 1 << 9,	// ||
-	OP_PIPE						= 1 << 10,	// |
-	OP_AND						= 1 << 11,	// &&
-	OP_AMP						= 1 << 12,	// &
-	OP_SEMICOL					= 1 << 13,	// ;
-	OP_DB_SEMICOL				= 1 << 14,	// ;;
-	OP_SEMICOL_AMP				= 1 << 15,	// ;&
-	OP_DB_SEMICOL_AMP			= 1 << 16,	// ;;&
-	OP_PIPE_ERR					= 1 << 17,	// |&
-	OP_PARENTHESIS_OPEN			= 1 << 18,	// (
-	OP_PARENTHESIS_CLOSE		= 1 << 19,	// )
-}	t_control_operator;
+// typedef enum e_token_name
+// {
+// 	TEXT						= 1 << 4,	// TEXT
+// 	QUOTED_TEXT					= 1 << 5,	// 'TEXT'
+// 	EXPAND						= 1 << 6,	// $VAR
+// 	QUOTED_EXPAND				= 1 << 7,	// "$VAR"
+// 	WILDCARD					= 1 << 8,	// WILDCARD
+// }	t_token_name;
 
-typedef enum e_redir_operator
-{
-	R_IN					= 1 << 20,	// <
-	R_OUT					= 1 << 21,	// >
-	R_APPEND				= 1 << 22,	// >>
-	R_HEREDOC				= 1 << 23,	// <<
-	R_HEREDOC_TRIM			= 1 << 24,	// <<TRIM
-}	t_redir_operator; 
+// typedef enum e_control_operator
+// {
+// 	OP_OR						= 1 << 9,	// ||
+// 	OP_PIPE						= 1 << 10,	// |
+// 	OP_AND						= 1 << 11,	// &&
+// 	OP_AMP						= 1 << 12,	// &
+// 	OP_SEMICOL					= 1 << 13,	// ;
+// 	OP_DB_SEMICOL				= 1 << 14,	// ;;
+// 	OP_SEMICOL_AMP				= 1 << 15,	// ;&
+// 	OP_DB_SEMICOL_AMP			= 1 << 16,	// ;;&
+// 	OP_PIPE_ERR					= 1 << 17,	// |&
+// 	OP_PARENTHESIS_OPEN			= 1 << 18,	// (
+// 	OP_PARENTHESIS_CLOSE		= 1 << 19,	// )
+// }	t_control_operator;
+
+// typedef enum e_redir_operator
+// {
+// 	R_IN					= 1 << 20,	// <
+// 	R_OUT					= 1 << 21,	// >
+// 	R_APPEND				= 1 << 22,	// >>
+// 	R_HEREDOC				= 1 << 23,	// <<
+// 	R_HEREDOC_TRIM			= 1 << 24,	// <<TRIM
+// }	t_redir_operator; 
 
 typedef enum e_token_flag
 {
@@ -126,12 +155,12 @@ typedef enum e_token_flag
 typedef struct s_token_map
 {
 	char				*op;
-	t_uint				type;
+	t_token_type		type;
 }	t_token_map;
 
 typedef struct s_token
 {
-	t_uint				type;
+	t_token_type		type;
 	t_uint				rules;
 	char				*value;
 }	t_token;
@@ -157,7 +186,7 @@ typedef enum e_token_category
 
 typedef struct s_token_map_rules
 {
-	t_uint				type;
+	t_token_type		type;
 	t_uint				rules;
 	t_token_category	category;
 }	t_token_map_rules;
@@ -178,31 +207,21 @@ t_uint				get_rules(t_uint token_type);
 
 
 
-void			*destroy_token(
-					t_token *token);
 
-const char			*get_token_type_name(
-						const t_uint type);
+void			*destroy_token(t_token *token);
 
-t_uint	get_token_type(
-						const char *str,
-						int *offset);
+const char			*get_token_type_name(const t_uint type);
 
-t_token			*init_token(t_uint token_type, const char *start, size_t len);
+t_uint	get_token_type(const char *str, int *offset);
 
-int				is_control_token(
-					t_token token);
-int				is_text_token(
-					t_token token);
-int				is_redir_token(
-					t_token token);
-int				is_parenthesis_token(
-					t_token token);
-int				is_control_extended_token(
-					t_token token);
-int				is_cmd_token(
-					t_token token);
+t_token			*init_token(t_token_type token_type, const char *start, size_t len);
 
+int				is_control_token(t_token token);
+int				is_text_token(t_token token);
+int				is_redir_token(t_token token);
+int				is_parenthesis_token(t_token token);
+int				is_control_extended_token(t_token token);
+int				is_cmd_token(t_token token);
 int				is_meta_token(t_token token);
 
 #endif

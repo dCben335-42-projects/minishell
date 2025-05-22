@@ -6,14 +6,14 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:16:15 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/20 18:32:42 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/22 18:49:01 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "struct_token.h"
 #include "libft.h"
 
-t_token	*init_token(t_uint token_type, const char *start, size_t len)
+t_token	*init_token(t_token_type token_type, const char *start, size_t len)
 {
 	t_token	*token;
 

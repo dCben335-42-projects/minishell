@@ -6,14 +6,13 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 19:31:21 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/22 18:32:45 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/22 18:51:24 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "messages.h"
 #include "minishell.h"
 #include "cmd.h"
-
 
 volatile sig_atomic_t g_signal = 0;
 

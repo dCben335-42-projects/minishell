@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 10:34:29 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/20 18:21:56 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/22 19:06:18 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 # include "cmd_expand.h"
 # include "fcntl.h"
 # include "unistd.h"
-# include "errors.h"
 # include "utils.h"
 
 typedef struct s_redir_map

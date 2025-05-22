@@ -6,15 +6,23 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 13:49:50 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/22 18:18:58 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/22 19:16:02 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "messages.h"
+#include "utils.h"
 #include <unistd.h>
-#include <sys/ioctl.h>
 
+
+/**
+ * @brief Initializes the shell structure with the given environment variables.
+ *
+ * @param envp The environment variables to initialize the shell with.
+ * 
+ * @return t_shell The initialized shell structure.
+ */
 t_shell	init_shell(char **envp)
 {
 	t_shell	shell;

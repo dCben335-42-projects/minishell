@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 20:33:47 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/20 12:57:05 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/22 18:52:26 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,10 @@
 # include "libft.h"
 # include <stdio.h>
 
+/**
+ * @brief The type of the node in the AST.
+ * 
+*/
 typedef enum e_node_type
 {
 	CMD_SEQ					= 1 << 0,

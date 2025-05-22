@@ -6,12 +6,12 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 01:36:46 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/22 16:19:13 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/22 19:04:21 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "errors.h"
 #include "libft.h"
+# include <stdio.h>
 
 /**
  * @brief Function that use perror and print the message

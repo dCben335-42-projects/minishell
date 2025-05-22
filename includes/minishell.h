@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 13:48:13 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/20 12:56:54 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/22 19:06:20 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@
 # include "cmd_expand.h"
 # include "cmd_builtin.h"
 # include "messages.h"
-# include "errors.h"
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <signal.h>

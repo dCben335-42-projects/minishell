@@ -6,14 +6,13 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 09:04:49 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/22 18:16:52 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/22 19:05:35 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "orchestrator.h"
 #include "cmd.h"
 #include "utils.h"
-#include "errors.h"
 #include <signal.h>
 #include <sys/types.h>
 

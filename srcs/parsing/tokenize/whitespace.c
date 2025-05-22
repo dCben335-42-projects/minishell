@@ -1,6 +1,6 @@
 #include "parsing.h"
 
-t_pointer	tokenize_whitespace(t_lexer_args *args)
+t_ptr	tokenize_whitespace(t_lexer_args *args)
 {
     while (ft_isspace(*args->input))
         args->input++;

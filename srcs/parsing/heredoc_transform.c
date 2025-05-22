@@ -1,7 +1,7 @@
 #include "parsing.h"
 #include "minishell.h"
 
-static t_pointer	handle_expandale_token(t_uint type)
+static t_ptr	handle_expandale_token(t_uint type)
 {
     if (type == QUOTED_TEXT || type == QUOTED_EXPAND)
 	{
@@ -67,16 +67,16 @@ t_bool handle_loop(t_token *token)
 	return (TRUE);
 }
 
-t_pointer	transform_heredoc(t_lexer_args *args, t_token *token)
+t_ptr	transform_heredoc(t_lexer_args *args, t_token *token)
 {
-	t_pointer	pointer;
+	t_ptr	pointer;
     
 	args->is_heredoc = NOT_HEREDOC;
    	pointer = handle_expandale_token(token->type);
     if (!handle_loop(token))
 	{
-		destroy_token(pointer.pointer);
-		pointer.pointer = NULL;
+		destroy_token(pointer.p);
+		pointer.p = NULL;
 		pointer.has_malloc_error = TRUE;
 	}
     return (pointer);

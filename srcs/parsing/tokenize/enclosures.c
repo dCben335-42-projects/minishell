@@ -1,8 +1,8 @@
 #include "parsing.h"
 
-static t_pointer	return_token(t_lexer_args *args, char **start_i, t_uint *current_type, const char quote)
+static t_ptr	return_token(t_lexer_args *args, char **start_i, t_uint *current_type, const char quote)
 {
-	t_pointer	pointer;
+	t_ptr	pointer;
 
 	args->input++;
 	pointer = init_pointer(
@@ -15,7 +15,7 @@ static t_pointer	return_token(t_lexer_args *args, char **start_i, t_uint *curren
 	return (pointer);
 }
 
-static t_pointer	handler_enclosure(t_lexer_args *args, char **start_i, t_uint *current_type, const char quote)
+static t_ptr	handler_enclosure(t_lexer_args *args, char **start_i, t_uint *current_type, const char quote)
 {
 	if (*args->input == quote)
 	{
@@ -46,9 +46,9 @@ static t_bool is_directly_closed(const char *input, const char quote)
 	return (FALSE);
 }
 
-static t_pointer	handler_enclosures(t_lexer_args *args, char **start_i, t_uint *current_type)
+static t_ptr	handler_enclosures(t_lexer_args *args, char **start_i, t_uint *current_type)
 {
-	t_pointer	pointer;
+	t_ptr	pointer;
 
 	if (is_directly_closed(args->input, args->quote))
 	{
@@ -61,9 +61,9 @@ static t_pointer	handler_enclosures(t_lexer_args *args, char **start_i, t_uint *
 	return (handler_enclosure(args, start_i, current_type, DELIMITER_LITERAL_TEXT));
 }
 
-t_pointer	tokenize_enclosures(t_lexer_args *args, char **start_i, t_uint *current_type)
+t_ptr	tokenize_enclosures(t_lexer_args *args, char **start_i, t_uint *current_type)
 {
-	t_pointer	pointer;
+	t_ptr	pointer;
 
 	pointer = handler_enclosures(args, start_i, current_type);
 	if (pointer.is_malloc)

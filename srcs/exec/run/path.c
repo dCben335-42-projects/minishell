@@ -6,12 +6,12 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:12:13 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/22 17:02:33 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/22 19:07:28 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "libft.h"
+#include "utils.h"
 
 static t_bool	ft_is_path(char *str)
 {

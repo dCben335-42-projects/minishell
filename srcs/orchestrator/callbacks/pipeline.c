@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 08:45:59 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/22 18:07:51 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/22 19:05:31 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 #include "cmd.h"
 #include "orchestrator.h"
 #include "utils.h"
-#include "errors.h"
 
 static void	close_in_out(int fds[2])
 {

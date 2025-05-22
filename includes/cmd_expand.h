@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 17:19:31 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/16 19:32:06 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/22 20:04:11 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,27 @@ t_tree	*expand_wildcard_word(t_shell *shell, char *word);
 void	*expand_env_word(t_shell *shell, t_dynarray *word);
 char	*expand_env_str(t_shell *shell, char **str);
 
+
+/**
+ * @brief The wildcard match structure.
+ * 
+ * @param wildcard The wildcard structure.
+ * 
+ * @param abs_path The absolute path of the directory which
+ * is specifically used to scan the entries type
+ * 
+ * @param rel_path The relative path of the current entry. It is used
+ * to build the path of the entry to be saved in the tree.
+ * 
+ * @param segs Each segment (/) of the path. It is used to
+ * 
+ * @param skiped_segs 
+ *
+ * @param is_last_seg Indicates if the current entry is the last segment
+ * so that the entry can be saved in the tree. It also useful to 
+ * determine if the entry need to be saved in the tree or not.
+ * 
+*/
 typedef struct t_wcard_match
 {
 	t_wildcard		*wildcard;

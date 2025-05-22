@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 13:59:51 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/15 22:27:25 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/05/22 18:58:35 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static size_t	get_equal_index(char *envp)
  * @brief Returns the length of the envp key
  *  from the start of the string until '=' or '+'.
  * 
- * @param str The envp variable.
+ * @param str The envp variable.parse_env_value
  * 
  * @return size_t The length of the envp key. 
  * 	0 if invalid or empty string.

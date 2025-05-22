@@ -6,24 +6,24 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 15:14:14 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/20 11:38:38 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/22 19:04:58 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cmd.h"
-#include "errors.h"
+#include "cmd_builtin.h"
+#include "cmd_redir.h"
 #include "utils.h"
 
 static const t_builtin	*get_builtin_map(void)
 {
 	static const t_builtin	map[] = {
-	{ENV, &ft_env},
-	{CD, &ft_cd},
-	{EXPORT, &ft_export},
-	{UNSET, &ft_unset},
-	{PWD, &ft_pwd},
-	{EXIT, &ft_exit},
-	{ECHO, &ft_echo},
+	{BUILTIN_ENV, &ft_env},
+	{BUILTIN_CD, &ft_cd},
+	{BUILTIN_EXPORT, &ft_export},
+	{BUILTIN_UNSET, &ft_unset},
+	{BUILTIN_PWD, &ft_pwd},
+	{BUILTIN_EXIT, &ft_exit},
+	{BUILTIN_ECHO, &ft_echo},
 	{NULL, NULL}};
 	
 	return (map);

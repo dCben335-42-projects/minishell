@@ -15,7 +15,7 @@ static t_bool	is_command_finished(const char *input, t_token *token, t_lexer_arg
 	return (TRUE);
 }
 
-static t_pointer	get_next_token(t_lexer_args *args)
+static t_ptr	get_next_token(t_lexer_args *args)
 {
     int offset;
 
@@ -36,16 +36,16 @@ static t_pointer	get_next_token(t_lexer_args *args)
 	return (init_pointer(NULL, FALSE));
 }
 
-t_parse_status	get_parsing_error_status(t_lexer_args *args, t_pointer pointer)
+t_parse_status	get_parsing_error_status(t_lexer_args *args, t_ptr pointer)
 {
     t_parse_status  status;
 
 	if (pointer.has_malloc_error)
 		return (MALLOC_ERROR);
-    status = token_parser(args, pointer.pointer);
+    status = token_parser(args, pointer.p);
     if (status != COMMAND_VALID)
 		return (status);
-    if (!is_command_finished(args->input, pointer.pointer, args))
+    if (!is_command_finished(args->input, pointer.p, args))
 		return (COMMAND_NOT_FINISHED);
     return (status);
 }
@@ -65,29 +65,26 @@ t_parse_status	get_parsing_error_status(t_lexer_args *args, t_pointer pointer)
  */
 t_parse_status    lexer(t_lexer_args *args)
 {
-    t_pointer		pointer;
+    t_ptr		pointer;
     t_parse_status	status;
-    // t_pointer       pointer2;
 
     pointer = get_next_token(args);
-	if (pointer.has_malloc_error)
-		return (MALLOC_ERROR);
-    while (pointer.pointer)
+    while (pointer.p)
 	{
 		status = get_parsing_error_status(args, pointer);
         if (status != COMMAND_VALID)
             return (status);
-        if (args->is_heredoc && is_text_token(*((t_token *)pointer.pointer)))
-           	pointer = transform_heredoc(args, pointer.pointer);
+        if (args->is_heredoc && is_text_token(*((t_token *)pointer.p)))
+           	pointer = transform_heredoc(args, pointer.p);
 		else
 			pointer = get_next_token(args);
-		if (pointer.has_malloc_error)
-			return (MALLOC_ERROR);
     }
+	if (pointer.has_malloc_error)
+		return (MALLOC_ERROR);
     pointer = init_pointer(init_token(M_EOF, "newline", 7), TRUE);
-    if (!(pointer.pointer))
+    if (!(pointer.p))
         return (MALLOC_ERROR);
-    return (token_parser(args, pointer.pointer));
+    return (token_parser(args, pointer.p));
 }
 
 

@@ -3,14 +3,17 @@
 #include "minishell.h"
 #include "fcntl.h"
 
-static t_bool	is_command_finished(const char *input, t_token *token, t_lexer_args *args)
+static t_bool	is_command_finished(t_lexer_args *args, t_token *token)
 {
 	if (token->rules & EXPECT_CONT || args->parenthesis.open > args->parenthesis.close)
 	{
-		while (ft_isspace(*input))
-			input++;
-		if (!*input)
+		while (ft_isspace(*args->input))
+			args->input++;
+		if (!*args->input)
+		{
+			args->not_finished_value = get_readline_arg(token->type);
 			return (FALSE);
+		}
 	}
 	return (TRUE);
 }
@@ -36,16 +39,14 @@ static t_ptr	get_next_token(t_lexer_args *args)
 	return (init_pointer(NULL, FALSE));
 }
 
-t_parse_status	get_parsing_error_status(t_lexer_args *args, t_ptr pointer)
+t_parse_status	get_parsing_error_status(t_lexer_args *args, t_ptr ptr)
 {
     t_parse_status  status;
 
-	if (pointer.has_malloc_error)
-		return (MALLOC_ERROR);
-    status = token_parser(args, pointer.p);
+    status = token_parser(args, ptr.p);
     if (status != COMMAND_VALID)
 		return (status);
-    if (!is_command_finished(args->input, pointer.p, args))
+    if (!is_command_finished(args, ptr.p))
 		return (COMMAND_NOT_FINISHED);
     return (status);
 }
@@ -65,26 +66,26 @@ t_parse_status	get_parsing_error_status(t_lexer_args *args, t_ptr pointer)
  */
 t_parse_status    lexer(t_lexer_args *args)
 {
-    t_ptr		pointer;
+    t_ptr		ptr;
     t_parse_status	status;
 
-    pointer = get_next_token(args);
-    while (pointer.p)
+    ptr = get_next_token(args);
+    while (ptr.p)
 	{
-		status = get_parsing_error_status(args, pointer);
+		status = get_parsing_error_status(args, ptr);
         if (status != COMMAND_VALID)
             return (status);
-        if (args->is_heredoc && is_text_token(*((t_token *)pointer.p)))
-           	pointer = transform_heredoc(args, pointer.p);
+        if (args->is_heredoc && is_text_token(*((t_token *)ptr.p)))
+           	ptr = transform_heredoc(args, ptr.p);
 		else
-			pointer = get_next_token(args);
+			ptr = get_next_token(args);
     }
-	if (pointer.has_malloc_error)
+	if (ptr.has_malloc_error)
 		return (MALLOC_ERROR);
-    pointer = init_pointer(init_token(M_EOF, "newline", 7), TRUE);
-    if (!(pointer.p))
+    ptr = init_pointer(init_token(M_EOF, "newline", 7), TRUE);
+    if (!(ptr.p))
         return (MALLOC_ERROR);
-    return (token_parser(args, pointer.p));
+    return (token_parser(args, ptr.p));
 }
 
 

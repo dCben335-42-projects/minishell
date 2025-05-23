@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:57:59 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/22 18:28:59 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/23 21:34:33 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,16 +30,18 @@ void	*command_handler_lexer(char *input, t_lexer_args *args);
 // 	}
 // }
 
-static void	*command_not_finished(t_lexer_args *args)
+static void	*command_not_finished(t_lexer_args *args, char *sep)
 {
 	char	*new_input;
 	char	*tmp;
 	char 	*strs[2];
 
-	tmp = readline(SHELL_NEXT_NAME);
+	tmp = readline(args->not_finished_value);
+	if (!tmp)
+		return (NULL);
 	strs[0] = args->base_input;
 	strs[1] = tmp;
-	new_input = ft_strsjoin((const char **)strs, 2, " ");
+	new_input = ft_strsjoin((const char **)strs, 2, sep);
 	free(tmp);
 	free(args->base_input);
 	if (!new_input)
@@ -54,6 +56,15 @@ void	*command_not_finished_handler(t_lexer_args *args)
 	t_token				*token;
 
 	token = get_dynarray_last_value(&args->tokens);
+	if (args->quote)
+	{
+		tmp = ft_strjoin(args->base_input, "\n");
+		if (!tmp)
+			return (NULL);
+		free(args->base_input);
+		args->base_input = tmp;	
+		return (command_not_finished(args, ""));
+	}
 	if (args->parenthesis.open > args->parenthesis.close && (is_text_token(*token) || token->type & OP_SEMICOL))
 	{
 		if (is_text_token(*token))
@@ -65,7 +76,7 @@ void	*command_not_finished_handler(t_lexer_args *args)
 			args->base_input = tmp;		
 		}
 	}
-	return (command_not_finished(args));
+	return (command_not_finished(args, " "));
 }
 
 void	*command_handler_lexer(char *input, t_lexer_args *args)
@@ -89,17 +100,17 @@ void	*command_handler(char *input, t_shell *shell)
 	t_bool			is_lexer_error;
 	
 	is_lexer_error = !command_handler_lexer(input, &args);
-	if (args.base_input)
-	{
-		add_history(args.base_input);
-		free(args.base_input);
-	}
+	add_history(args.base_input);
+	free(args.base_input);
 	if (is_lexer_error)
+	{
+		shell->exit_code = 2;
 		return (destroy_lexer_args(&args));
+	}
 	shell->ast = ast_builder(&args.tokens);
 	destroy_lexer_args(&args);
 	if (!shell->ast)
-		return (0);
+		return (NULL);
 	if (DEBUG_MODE)
 	{
 		printf("<--DEBUG_MODE-->\n");

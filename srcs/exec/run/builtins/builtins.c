@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 15:14:14 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/22 19:04:58 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/23 23:00:22 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ static t_bool run_builtin_redir(
 	}
 	if (f)
 		f(shell, args);
+	else
+		shell->exit_code = 0;
 	restore_std_in_out(saved_stdin, saved_stdout);
 	return (TRUE);
 }

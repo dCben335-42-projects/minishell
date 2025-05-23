@@ -42,7 +42,7 @@ static char	*trim_leading_tabs(char **str, char *line, t_bool is_first, t_bool n
 	return (heredoc_join(str, start, is_first));
 }
 
-t_bool handle_loop(t_token *token)
+static t_bool handle_loop(t_token *token, const char *readline_arg)
 {
 	t_bool		is_first;
 	char		*str;
@@ -54,7 +54,7 @@ t_bool handle_loop(t_token *token)
 	is_first = TRUE;
 	while (TRUE) 
 	{
-		line = readline(SHELL_NEXT_NAME);
+		line = readline(readline_arg);
 		if (!line || (!ft_strcmp(line, token->value) && !ft_free((void **)&line)))
 			break ;
 		if (!trim_leading_tabs(&str, line, is_first, TRUE) && !ft_free((void **)&line))
@@ -69,11 +69,15 @@ t_bool handle_loop(t_token *token)
 
 t_ptr	transform_heredoc(t_lexer_args *args, t_token *token)
 {
+	t_token	*prev;
 	t_ptr	pointer;
-    
+	
 	args->is_heredoc = NOT_HEREDOC;
+	prev = args->tokens.data[args->tokens.count - 2];
+	if (prev && prev->type == M_SPACE)
+	   prev = args->tokens.data[args->tokens.count - 3];
    	pointer = handle_expandale_token(token->type);
-    if (!handle_loop(token))
+    if (!prev || !handle_loop(token, get_readline_arg(prev->type)))
 	{
 		destroy_token(pointer.p);
 		pointer.p = NULL;

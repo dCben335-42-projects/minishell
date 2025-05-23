@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 17:45:18 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/22 18:56:53 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/23 19:12:58 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ typedef enum e_parse_status
 	COMMAND_NOT_FINISHED,
 	MALLOC_ERROR,
 }	t_parse_status;
+
+
 
 t_parse_status	lexer(t_lexer_args *args);
 t_parse_status	get_parsing_error_status(t_lexer_args *args, t_ptr pointer);

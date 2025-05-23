@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:35:32 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/20 19:55:11 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/23 22:58:35 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,13 @@ typedef struct s_bracket
 	size_t		close;
 }	t_bracket;
 
-typedef enum e_right_operand_status
+typedef enum e_rhs_status
 {
 	DISALLOWED,
 	UNDEFINED,
 	REQUIRED,
 	REQUIRED_WITHOUT_PAREN,
-}	t_right_operand_status;
+}	t_rhs_status;
 
 typedef enum e_is_heredoc
 {
@@ -45,18 +45,37 @@ typedef struct s_lexer_args
 {
 	char 				*base_input;
 	const char			*input;
-	char				*error;
 	char				quote;
-	const char			*start;
-	long				input_size;
 	t_is_heredoc		is_heredoc;
 	t_dynarray			tokens;
 	t_bracket			parenthesis;
-	t_bracket			bracket;
-	t_right_operand_status	right_operand;
+	t_rhs_status		rhs;
+	t_rhs_status		expected_rhs;
+	const char			*not_finished_value;
 }	t_lexer_args;
+
+typedef struct s_readline_state
+{
+	t_token_type	type;
+	const char		*value;
+}	t_readline_state;
 
 t_lexer_args	init_lexer_args(const char *input);
 void			*destroy_lexer_args(t_lexer_args *args);
+
+const char *get_readline_arg(t_token_type type);
+
+# define READLINE_S_QUOTE_KEY		-1
+# define READLINE_D_QUOTE_KEY		-2
+# define READLINE_S_QUOTE_VAL 		"single_quote>"
+# define READLINE_D_QUOTE_VAL 		"double_quote>"
+# define READLINE_PARENTHESIS_VAL 	"subshell>"
+# define READLINE_HEREDOC_VAL 		"heredoc>"
+# define READLINE_HEREDOC_TRIM_VAL 	"dash_heredoc>"
+# define READLINE_AND_VAL			"and>"
+# define READLINE_OR_VAL			"or>"
+# define READLINE_PIPE_VAL			"pipe>"
+# define READLINE_HEREDOC_VAL		"heredoc>"
+# define READLINE_HEREDOC_TRIM_VAL	"dash_heredoc>"
 
 #endif

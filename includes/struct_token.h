@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:44:15 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/24 03:17:33 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/24 06:38:00 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,12 +54,7 @@ typedef enum e_token_type
 	OP_OR							= 1 << 9,	// ||
 	OP_PIPE							= 1 << 10,	// |
 	OP_AND							= 1 << 11,	// &&
-	OP_AMP							= 1 << 12,	// &
 	OP_SEMICOL						= 1 << 13,	// ;
-	OP_DB_SEMICOL					= 1 << 14,	// ;;
-	OP_SEMICOL_AMP					= 1 << 15,	// ;&
-	OP_DB_SEMICOL_AMP				= 1 << 16,	// ;;&
-	OP_PIPE_ERR						= 1 << 17,	// |&
 	OP_PARENTHESIS_OPEN				= 1 << 18,	// (
 	OP_PARENTHESIS_CLOSE			= 1 << 19,	// )
 	R_IN							= 1 << 20,	// <
@@ -198,7 +193,7 @@ typedef struct s_lexer_token_def
 }	t_lexer_token_def;
 
 t_lexer_token_def	*get_lexer_token_def(void);
-t_uint				get_rules(t_uint token_type);
+t_uint				get_token_rules(t_uint token_type);
 
 
 
@@ -210,7 +205,7 @@ t_uint				get_rules(t_uint token_type);
 
 void			*destroy_token(t_token *token);
 
-t_uint			get_token_type(const char *str, int *offset);
+t_token_type	get_token_type(const char *str, int *offset);
 
 t_token			*init_token(t_token_type token_type, const char *start, size_t len);
 

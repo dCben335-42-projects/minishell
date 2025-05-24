@@ -50,6 +50,22 @@ static char	*get_correct_pwd(const t_env *home, char *pwd, t_bool *is_home_based
 	return (pwd);
 }
 
+/**
+ * @brief Generates the main readline prompt argument.
+ *
+ * @param shell The shell structure containing the current state.
+ *
+ * @note If there is no current path, it will use the user name
+ * 	 from the environment variable USER or the shell name.
+ * 
+ * @note Otherwise, it will use the current path and the user name
+ * 	 and the HOME environment variable to determine if the path is
+ * 	 home-based or not.
+ * 
+ * @note The prompt will be formatted with colors:
+ * 
+ * @return The generated readline prompt argument.
+ */
 const char *get_main_readline_arg(t_shell *shell)
 {
 	const t_env	*user = get_env_node(shell->env, USER_KEY);

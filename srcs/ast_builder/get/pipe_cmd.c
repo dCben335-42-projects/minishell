@@ -28,7 +28,7 @@ void	get_pipe_cmd(t_ast_node **cmd_prev, t_ast_node *cmd_master, t_get_cmd_maste
 			add_child(cmd_master, cmd_prev, args);
 		else if (is_cmd(args, CMD_PARENTHESIS_OPEN))
 			get_parenthesis_cmd(args, cmd_master);
-		else if (!is_cmd(args, CMD_JOIN))
+		else if (!is_cmd(args, CMD_BASE))
 			return (add_child(cmd_master, cmd_prev, args));
 		else
 			*cmd_prev = args->local.cmd;

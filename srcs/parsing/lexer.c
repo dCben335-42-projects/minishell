@@ -83,8 +83,8 @@ t_parse_status    lexer(t_lexer_args *args)
 	if (ptr.has_malloc_error)
 		return (MALLOC_ERROR);
     ptr = init_pointer(init_token(M_EOF, "newline", 7), TRUE);
-    if (!(ptr.p))
-        return (MALLOC_ERROR);
+   if (ptr.has_malloc_error)
+		return (MALLOC_ERROR);
     return (token_parser(args, ptr.p));
 }
 

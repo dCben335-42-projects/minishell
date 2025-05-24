@@ -13,41 +13,25 @@ static const t_token_map_rules	*get_token_map_rules(void)
 	{M_NEWLINE, 0, C_METACHAR},
 	{M_NEWLINE, 0, C_METACHAR},
 
-
 	{TEXT, 0, C_TEXT},
 	{QUOTED_TEXT, 0, C_TEXT},
 	{EXPAND, 0, C_TEXT},
 	{QUOTED_EXPAND, 0, C_TEXT}, 
 	{WILDCARD, 0, C_TEXT},
 
-
 	{OP_OR, control_rules, C_OPERATOR},
 	{OP_PIPE, control_rules, C_OPERATOR},
 	{OP_AND, control_rules, C_OPERATOR},
 
-	// probaly gonna be removed
-	{OP_AMP, control_rules, C_OPERATOR},
-	{OP_PIPE_ERR, control_rules, C_OPERATOR},
-
-
 	{OP_SEMICOL, ERR_EMPTY_SEMI, C_OPERATOR},
-
-	// probaly gonna be removed
-	{OP_DB_SEMICOL, ERR_EMPTY_SEMI, C_OPERATOR},
-	{OP_SEMICOL_AMP, ERR_EMPTY_SEMI, C_OPERATOR},
-	{OP_DB_SEMICOL_AMP, ERR_EMPTY_SEMI, C_OPERATOR},
-
-
 	{OP_PARENTHESIS_OPEN, INC_PAREN_OPEN | EXPECT_CONT | ERR_NO_LEFT_OPERAND, C_PAREN},
 	{OP_PARENTHESIS_CLOSE, ERR_NO_OPEN_PAREN | INC_PAREN_CLOSE | ERR_EMPTY_PAREN | ERR_NO_RIGHT_OPERAND, C_PAREN}, 
-
 
 	{R_IN, redir_rules, C_REDIR},
 	{R_OUT,	redir_rules, C_REDIR},
 	{R_APPEND, redir_rules, C_REDIR},
 	{R_HEREDOC, redir_rules, C_REDIR},
 	{R_HEREDOC_TRIM, redir_rules, C_REDIR},
-
 	{M_EOF, ERR_NO_CLOSE_PAREN, C_METACHAR},
 	{0, 0, 0}
 	};
@@ -76,7 +60,7 @@ static void	get_masks(t_lexer_token_def *def)
 	def->masks.control_extended = def->masks.control | def->masks.paren;
 }
 
-t_uint	get_rules(t_uint token_type)
+t_uint	get_token_rules(t_uint token_type)
 {
 	const t_token_map_rules	*map = get_token_map_rules();
 

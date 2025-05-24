@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:16:15 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/22 18:49:01 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/24 06:38:00 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ t_token	*init_token(t_token_type token_type, const char *start, size_t len)
 	if (!token)
 		return (NULL);
 	token->type = token_type;
-	token->rules = get_rules(token_type);
+	token->rules = get_token_rules(token_type);
 	if (len != 0)
 		token->value = ft_substr(start, 0, len);
 	else

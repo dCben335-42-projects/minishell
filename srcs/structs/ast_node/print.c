@@ -53,7 +53,6 @@ void	print_ast_json(t_print_ast_json_args args)
 		j = 0;
 		while (TRUE)
 		{
-			//printf("type=[%d]\n ", node->type);
 			if ((int)node->type == args.mappings[j].type)
 			{
 				if (args.mappings[j].use_cmd_join)
@@ -70,7 +69,7 @@ void	print_ast_json(t_print_ast_json_args args)
 
 void	print_ast_json_wrapper(t_dynarray *cmd)
 {
-	ft_printf("[\n");
+	printf("[\n");
 	print_ast_json((t_print_ast_json_args){cmd, 2, get_mappings()});
-	ft_printf("]\n");
+	printf("]\n");
 }

@@ -54,7 +54,7 @@ static t_bool	check_quote(t_lexer_args *args, t_token *token)
 
 t_parse_status	get_error_message(t_token *token, char *msg)
 {
-	write(2, msg, ft_strlen(msg));
+	(void)msg;
 	if (token->value)
 	{
 		write(2, SYNTAX_ERR_START, ft_strlen(SYNTAX_ERR_START));

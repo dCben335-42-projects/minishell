@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 19:05:04 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/22 19:18:13 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/24 02:48:07 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,26 @@
 # include "struct_dynarray.h"
 # include "ast_node.h"
 # include <sys/types.h>
+
+/**
+ * @brief The debug structure.
+ * 
+ * @param all The debug mode for all.
+ * @param tokens The debug mode only for tokens.
+ * @param lexer The debug mode only for lexer.
+ * @param ast The debug mode only for AST.
+ * 
+ * @note debug_all overrides all other debug modes.
+ */
+typedef struct s_debug
+{
+	t_bool   all;
+	t_bool   tokens;
+	t_bool   lexer;
+	t_bool   ast;
+	t_bool   exitcode;
+}	t_debug;
+
 
 /**
  * @brief The shell structure.
@@ -40,6 +60,7 @@ typedef struct s_shell
 	int			exit_code;
 	pid_t		last_pid;
 	t_ast_node	*ast;
+	t_debug		debug;
 }	t_shell;
 
 t_shell	init_shell(char **envp);

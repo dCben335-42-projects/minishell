@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 15:14:14 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/23 23:00:22 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/24 02:12:15 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ static const t_builtin	*get_builtin_map(void)
 	{BUILTIN_PWD, &ft_pwd},
 	{BUILTIN_EXIT, &ft_exit},
 	{BUILTIN_ECHO, &ft_echo},
+	{BUILTIN_DEBUG, &ft_debug},
 	{NULL, NULL}};
 	
 	return (map);

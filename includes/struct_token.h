@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:44:15 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/22 18:48:46 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/24 03:17:33 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 # define STRUCT_TOKEN_H
 
 # include "types.h"
+#include "struct_dynarray.h"
 
-# define DEBUG_MODE 					TRUE
 
 // FLAGS
 # define FLAG_BRACE_EXPANSION			FALSE	// {a,b,c}
@@ -210,9 +210,7 @@ t_uint				get_rules(t_uint token_type);
 
 void			*destroy_token(t_token *token);
 
-const char			*get_token_type_name(const t_uint type);
-
-t_uint	get_token_type(const char *str, int *offset);
+t_uint			get_token_type(const char *str, int *offset);
 
 t_token			*init_token(t_token_type token_type, const char *start, size_t len);
 
@@ -223,5 +221,7 @@ int				is_parenthesis_token(t_token token);
 int				is_control_extended_token(t_token token);
 int				is_cmd_token(t_token token);
 int				is_meta_token(t_token token);
+
+void			print_tokens(t_dynarray *tokens);
 
 #endif

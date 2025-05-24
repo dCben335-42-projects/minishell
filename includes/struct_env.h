@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 13:43:27 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/22 18:59:23 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/24 04:55:04 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 typedef t_tree	t_env;
 
 # define HOME_KEY "HOME"
+# define USER_KEY "USER"
 # define PATH_KEY "PATH"
 # define PWD_KEY "PWD"
 # define OLDPWD_KEY "OLDPWD"

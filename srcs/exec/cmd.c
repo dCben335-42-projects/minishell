@@ -6,29 +6,15 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:57:59 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/23 21:34:33 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/24 03:18:36 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "ast_node.h"
+#include "utils.h"
 
 void	*command_handler_lexer(char *input, t_lexer_args *args);
-// static void	print_tokens(t_dynarray *tokens)
-// {
-// 	t_uint	i;
-// 	t_uint	count;
-// 	t_token	*data;
-
-// 	i = 0;
-// 	count = tokens->count;
-// 	while (i < count)
-// 	{
-// 		data = (t_token *)get_dynarray_value(tokens, i);
-// 		printf("%-40s %-40s\n", get_token_type_name(data->type), data->value);
-// 		i++;
-// 	}
-// }
 
 static void	*command_not_finished(t_lexer_args *args, char *sep)
 {
@@ -107,16 +93,12 @@ void	*command_handler(char *input, t_shell *shell)
 		shell->exit_code = 2;
 		return (destroy_lexer_args(&args));
 	}
+	debug_tokens(shell, &args.tokens);
 	shell->ast = ast_builder(&args.tokens);
 	destroy_lexer_args(&args);
 	if (!shell->ast)
 		return (NULL);
-	if (DEBUG_MODE)
-	{
-		printf("<--DEBUG_MODE-->\n");
-		printf("ABSTRACT SYNTAX TREE:\n");
-		print_ast_json_wrapper(shell->ast->content);
-	}
+	debug_ast(shell);
 	orchestrator(shell);
 	recursive_destroy_node(shell->ast);
 	shell->ast = NULL;

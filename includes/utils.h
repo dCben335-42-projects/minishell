@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 20:38:38 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/22 19:07:44 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/24 05:37:31 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,17 @@
 # define UTILS_H
 
 # include "struct_shell.h"
+
+# define FIRST_COL "\033[1;35m"
+# define SECOND_COL "\033[1;34m"
+# define VARIANT_COL "\033[1;36m"
+# define ACCENT_COL "\033[1;32m"
+# define COMMAND_COL "\033[33m"
+# define RESET_COL "\033[0m"
+
+# define KEY_COL FIRST_COL
+# define VALUE_COL SECOND_COL
+# define BRACE_COL VARIANT_COL
 
 void	close_fds(unsigned int start);
 void	restore_std_in_out(int saved_stdin, int saved_stdout);
@@ -23,10 +34,15 @@ char	*word_join(t_dynarray *word);
 
 t_dynarray	*cmd_to_argv(t_shell *shell, t_dynarray *arr, t_dynarray *argv);
 
-
 t_bool	p_int(int data, int error_value, const char *msg);
 t_bool	s_int(int data, int error_value, const char *msg);
 void	*p_ptr(void *data, const char *msg);
 void	*s_ptr(void *data, const char *msg);
+
+void	debug_exitcode(t_shell *shell);
+void	debug_ast(t_shell *shell);
+void	debug_tokens(t_shell *shell, t_dynarray *tokens);
+
+const char *get_main_readline_arg(t_shell *shell);
 
 #endif

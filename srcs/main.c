@@ -6,37 +6,17 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 19:31:21 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/23 22:57:44 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/24 05:01:28 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "messages.h"
 #include "minishell.h"
 #include "cmd.h"
+#include "utils.h"
 
 volatile sig_atomic_t g_signal = 0;
 
-static const char *get_main_readline_arg(t_shell *shell)
-{
-	const t_env	*user = get_env_node(shell->env, "USER");
-	const t_env	*home = get_env_node(shell->env, "HOME");
-	char		*pwd;
-
-	pwd = shell->current_path;
-	if (user && user->value && pwd)
-	{
-		if (home && home->value && !ft_strncmp(pwd, home->value, ft_strlen(home->value)))
-			pwd += ft_strlen(home->value);
-		return (ft_strsjoin((const char *[])
-		{
-			"\033[32m", user->value, "\033[0m", ":",
-			"\033[34m", "~", pwd, "\033[0m", "$ "
-		}, 9, ""));
-	}
-	else if (user && user->value)
-		return (ft_strsjoin((const char *[]){"\033[32m", user->value, "\033[0m", "$ "}, 4, ""));
-	return (ft_strsjoin((const char *[]){"\033[32m", SHELL_NAME, "\033[0m", "$ "}, 4, ""));
-}
 
 static void	handle_loop(t_shell *shell)
 {
@@ -56,8 +36,30 @@ static void	handle_loop(t_shell *shell)
 			continue ;
 		}
 		command_handler(input, shell);
-		printf("exit code: %d\n", shell->exit_code);
+		debug_exitcode(shell);
 	}
+}
+
+static void	print_shell_banner(void)
+{
+	const char	*banner = \
+		ACCENT_COL"\t\t\t Welcome to\n"
+		SECOND_COL"\t   ____  _          _ "
+		FIRST_COL"_\n"
+		SECOND_COL"\t  / ___|| |__   ___| |"
+		FIRST_COL" | ___  ___| |_ ___\n"
+		SECOND_COL"\t  \\___ \\| '_ \\ / _ \\ |"
+		FIRST_COL" |/ _ \\/ __| __/ __|\n"
+		SECOND_COL"\t   ___) | | | |  __/ |"
+		FIRST_COL" | (_) \\__ \\ |_\\__ \\\n"
+		SECOND_COL"\t  |____/|_| |_|\\___|_|"
+		FIRST_COL"_|\\___/|___/\\__|___/\n"
+		VARIANT_COL"\n""\t\t\tCrafted by\n\t   "
+		FIRST_COL"dCben335 (bcabocel)"
+		VARIANT_COL" & "
+		SECOND_COL"Azall (abonneau)"
+		RESET_COL"\n\n";
+	write(1, banner, ft_strlen(banner));
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -66,6 +68,7 @@ int	main(int argc, char **argv, char **envp)
 
 	(void)argc;
 	(void)argv;
+	print_shell_banner();
 	shell = init_shell(envp);
 	init_signals();
 	handle_loop(&shell);

@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 13:49:50 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/23 22:59:05 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/24 02:47:46 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,11 @@ t_shell	init_shell(char **envp)
 	shell.current_path = getcwd(NULL, 0);
 	shell.ast = NULL;
 	shell.last_pid = -1;
+	shell.debug.all = FALSE;
+	shell.debug.tokens = FALSE;
+	shell.debug.lexer = FALSE;
+	shell.debug.ast = FALSE;
+	shell.debug.exitcode = FALSE;
 	p_ptr(shell.current_path, ERROR_SHELL_INIT);
 	return (shell);
 }

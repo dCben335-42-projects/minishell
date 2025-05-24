@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 03:14:02 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/24 06:40:42 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/24 08:02:33 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,10 @@
 #include "stdio.h"
 #include "utils.h"
 
-typedef struct s_token_print
-{
-	t_uint		type;
-	const char	*name;
-}	t_token_print;
-
 static const t_token_print	*get_print_map(void)
 {
 	static const t_token_print	map[] = {
 		{M_SPACE, "SPACE"},
-		{M_TAB, "TAB"},
-		{M_NEWLINE, "NEWLINE"},
 		{M_EOF, "EOF"},
 		{TEXT, "TEXT"},
 		{QUOTED_TEXT, "QUOTED_TEXT"},
@@ -66,9 +58,14 @@ static const char	*get_token_type_name(t_token_type type)
  * @brief Prints the tokens in the dynamic array.
  *
  * @param tokens The dynamic array of tokens to print.
+ * 
+ * @note This function uses a map to get the token type name
+ * and prints the token type and value in a formatted way.
+ * The output is color-coded for better readability.
  */
 void	print_tokens(t_dynarray *tokens)
 {
+	const char	*type;
 	t_uint	i;
 	t_uint	count;
 	t_token	*data;
@@ -78,7 +75,8 @@ void	print_tokens(t_dynarray *tokens)
 	while (i < count)
 	{
 		data = (t_token *)get_dynarray_value(tokens, i);
-		printf(KEY_COL"%-25s "VALUE_COL"%s\n", get_token_type_name(data->type), data->value);
+		type = get_token_type_name(data->type);
+		printf(KEY_COL"%-25s "VALUE_COL"%s\n", type, data->value);
 		i++;
 	}
 	write(1, RESET_COL, sizeof(RESET_COL));

@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 15:14:14 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/24 02:12:15 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/24 08:17:29 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,20 @@ static t_bool run_builtin_redir(
 	return (TRUE);
 }
 
+/**
+ * @brief Checks if the command is a builtin command.
+ *
+ * @param shell The shell structure.
+ * @param cmd The command to check.
+ * @param args The arguments of the command.
+ * 
+ * @note If the command is a builtin, it will also execute the builtin
+ * function with the provided arguments.
+ * 
+ * @note If there in no arguments, it will run all redirections
+ *
+ * @return TRUE if the command is a builtin or empty, FALSE otherwise.
+ */
 t_bool	is_builtin(t_shell *shell, t_dynarray *cmd, char **args)
 {
 	const t_builtin	*builtin_map = get_builtin_map();

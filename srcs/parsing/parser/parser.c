@@ -29,7 +29,7 @@ static t_parse_status	run_parsing_action(t_lexer_args *args, t_token *token)
 	{
 		if (token->rules & map->key)
 		{
-			status = map->callback(args, token);
+			status = map->f(args, token);
 			if (status != COMMAND_VALID)
 				return (status);
 		}

@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 20:37:25 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/24 05:42:42 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/24 07:16:25 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_bool is_word_wildcard(t_dynarray *word)
 		node = (t_ast_node *)get_dynarray_value(word, i);
 		if (node->type == CMD_WILDCARD)
 			return (TRUE);
-		if (node->type == CMD_EXPAND && ft_strchr(node->content, '*'))
+		if (node->type == CMD_EXPAND && ft_strchr(node->content, SYMBOL_GLOB_ANY))
 			return (TRUE);
 		i++;
 	}

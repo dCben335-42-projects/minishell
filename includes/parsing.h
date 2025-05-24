@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 17:45:18 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/23 19:12:58 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/24 07:10:47 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,8 @@ t_ptr		transform_heredoc(t_lexer_args *args, t_token *token);
 
 typedef struct s_rules_map
 {
-	size_t				key;
-	t_parse_status		(*callback)(t_lexer_args *args, t_token *token);
+	t_token_flag	key;
+	t_parse_status	(*f)(t_lexer_args *args, t_token *token);
 }	t_rules_map;
 
 t_parse_status	token_parser(t_lexer_args *args, t_token *token);

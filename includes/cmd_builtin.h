@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 15:10:38 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/24 04:46:49 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/24 08:15:45 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,16 +58,24 @@ void	ft_debug(t_shell *shell, char **args);
 
 # define DEBUG_HELP_MSG "Try debug --help for more information.\n"
 # define DEBUG_OPTIONS_MSG \
-"Missing arguments for debug command, debug options:\n\
+"All debug options:\n\
 \t--help\t\tShow this help message\n \
 \t--all\t\tToggle debug mode which if activated will override all other debug modes\n \
 \t--tokens\tToggle debug mode for tokens gotten from lexer\n \
 \t--ast\t\tToggle debug mode for AST\n \
 \t--exitcode\tShow the exit code of the last command\n"
 
+/**
+ * @brief The debug structure.
+ * 
+ * @param options The string options for the debug mode.
+ * @param toggle The boolean to toggle when the option is encountered.
+ *
+ * @note The options are used to identify the debug mode to be toggled.
+*/
 typedef struct s_debug_map
 {
-	const char	*options;
+	const char	*option;
 	t_bool		*toggle;
 }	t_debug_map;
 

@@ -1,7 +1,7 @@
 NAME        = minishell
 
 CC          = cc
-C_FLAGS     = -Wall -Wextra -Werror -g3
+C_FLAGS     = -Wall -Wextra -Werror
 
 RM = rm -rf
 MKDIR = mkdir -p

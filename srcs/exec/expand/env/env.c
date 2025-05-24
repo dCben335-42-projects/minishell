@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 21:34:50 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/20 13:01:01 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/24 07:21:27 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,19 @@
 #include "unistd.h"
 #include "utils.h"
 
+
+/**
+ * @brief Expands the environment variables in a string.
+ *
+ * @param shell The shell instance that contains the environment.
+ * @param str The string to expand.
+ * 
+ * @note This function iterates through the string and expands
+ * the environment variables. It directly free the old content
+ * of the string and replaces it with the new expanded value.
+ * 
+ * @return The expanded string or NULL if an error occurred.
+ */
 char	*expand_env_str(t_shell *shell, char **str)
 {
 	char	*new_value;
@@ -31,6 +44,19 @@ char	*expand_env_str(t_shell *shell, char **str)
 	return (*str);
 }
 
+/**
+ * @brief Expands the environment variables in a word.
+ *
+ * @param shell The shell instance that contains the environment.
+ * @param word The word to expand.
+ * 
+ * @note This function iterates through the word and expands
+ * the environment variables in each node. It directly free the
+ * old content of the node and replaces it with the new
+ * expanded value.
+ * 
+ * @return The expanded word or NULL if an error occurred.
+ */
 void	*expand_env_word(t_shell *shell, t_dynarray *word)
 {
 	t_ast_node	*node;

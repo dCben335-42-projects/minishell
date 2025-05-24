@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 15:26:39 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/05 16:02:08 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/24 07:24:34 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,15 @@ static t_bool	get_n_option(char *arg)
 	return (TRUE);
 }
 
+/**
+ * @brief Prints the arguments to the standard output.
+ *
+ * @param shell The shell instance.
+ * @param args The arguments to print.
+ * 
+ * @note This function prints the arguments to the standard output
+ * and adds a newline at the end if the -n option is not used.
+ */
 void	ft_echo(t_shell *shell, char **args)
 {
 	size_t	i;

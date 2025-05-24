@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   getter.c                                           :+:      :+:    :+:   */
+/*   get.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:15:48 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/24 06:37:19 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/24 08:00:55 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,9 @@
 static const t_token_map	*get_operator_table(void)
 {
 	static const t_token_map	op_table[] = {
+	{"<<-", R_HEREDOC_TRIM},
+	{"<<", R_HEREDOC},
+	{">>", R_APPEND},
 	{"||", OP_OR},
 	{"&&", OP_AND},
 	{"|", OP_PIPE},
@@ -24,10 +27,7 @@ static const t_token_map	*get_operator_table(void)
 	{"(", OP_PARENTHESIS_OPEN},
 	{")", OP_PARENTHESIS_CLOSE},
 	{">", R_OUT},
-	{">>", R_APPEND},
 	{"<", R_IN},
-	{"<<", R_HEREDOC},
-	{"<<-", R_HEREDOC_TRIM},
 	{NULL, M_EOF}};
 
 	return (op_table);
@@ -63,4 +63,3 @@ t_token_type	get_token_type(const char *str, int *offset)
 	}
 	return (TEXT);
 }
-

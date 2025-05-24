@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 15:53:10 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/16 15:58:10 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/24 07:22:20 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,17 @@ static char	*copy_env_value(
 	return (dest);
 }
 
+/**
+ * @brief Copies the environment variables from the string to the destination.
+ *
+ * @param str The string to copy from.
+ * @param dest The destination string which has already been allocated with
+ * enough space.
+ * @param shell The shell instance.
+ * 
+ *
+ * @return The destination string or NULL if an error occurred.
+ */
 char	*cpy_env(const char *str, char *dest, t_shell *shell)
 {
 	size_t	i;

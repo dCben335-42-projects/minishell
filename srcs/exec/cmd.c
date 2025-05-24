@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:57:59 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/24 03:18:36 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/24 07:34:13 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,11 @@ static void	*command_not_finished(t_lexer_args *args, char *sep)
 {
 	char	*new_input;
 	char	*tmp;
-	char 	*strs[2];
 
 	tmp = readline(args->not_finished_value);
 	if (!tmp)
 		return (NULL);
-	strs[0] = args->base_input;
-	strs[1] = tmp;
-	new_input = ft_strsjoin((const char **)strs, 2, sep);
+	new_input = ft_strsjoin((const char *[]){args->base_input, tmp}, 2, sep);
 	free(tmp);
 	free(args->base_input);
 	if (!new_input)

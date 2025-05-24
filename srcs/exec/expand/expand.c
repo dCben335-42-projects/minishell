@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 19:10:10 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/22 16:47:12 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/24 07:20:02 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,14 @@ static t_bool	is_word_wildcard(t_dynarray *word)
 	return (FALSE);
 }
 
+/**
+ * @brief Expands a word by expanding environment variables and wildcards.
+ *
+ * @param shell The shell instance.
+ * @param word The word to expand.
+ * 
+ * @return The expanded word or NULL if an error occurred.
+ */
 t_tree	*expand_word(t_shell *shell, t_dynarray *word)
 {
 	char *joined_word;

@@ -67,12 +67,26 @@ static t_bool handle_loop(t_token *token, const char *readline_arg)
 	return (TRUE);
 }
 
+/**
+ * @brief Transforms a heredoc token by expanding it 
+ * and reading input until the delimiter is reached.
+ *
+ * @param args The lexer arguments containing the tokens.
+ * @param token The heredoc token to be transformed.
+ * 
+ * @note The token argument will be modified to contain the
+ * heredoc content.
+ * 
+ * @return A pointer to the a token that indicate
+ * if the heredoc is expandable or not.
+ */
 t_ptr	transform_heredoc(t_lexer_args *args, t_token *token)
 {
 	t_token	*prev;
 	t_ptr	pointer;
 	
 	args->is_heredoc = NOT_HEREDOC;
+	printf("transform_heredoc\n");
 	prev = args->tokens.data[args->tokens.count - 2];
 	if (prev && prev->type == M_SPACE)
 	   prev = args->tokens.data[args->tokens.count - 3];

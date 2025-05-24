@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 15:53:13 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/16 15:54:05 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/24 07:23:58 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,21 @@ static size_t	get_env_len(const char *str, size_t	key_len, t_shell *shell)
 	return (0);
 }
 
+/**
+ * @brief Determines the length of the environment variables in a single string.
+ *
+ * @param str The string to check.
+ * @param shell The shell instance.
+ * 
+ * @note This function iterates through the string and checks for
+ * environment variables. It calculates the total length of the
+ * environment variables in the string.
+ * 
+ * @note This function needs to be called before expanding the string
+ * to allocate the correct amount of memory for the new string.
+ * 
+ * @return The total length of the environment variables in the string.
+ */
 size_t	determine_env_length(const char *str, t_shell *shell)
 {
 	size_t	env_len;

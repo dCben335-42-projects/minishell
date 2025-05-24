@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 02:08:03 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/24 05:24:40 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/24 08:14:53 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,12 @@ static void print_current_debug(t_shell *shell)
 	const t_debug_map	*map = get_debug_map(&shell->debug);
 
 	printf("Current debug options:\n");
-	while (map->options)
+	while (map->option)
 	{
 		if (*(map->toggle))
-			printf("%-25s enabled\n", (map->options + 2));
+			printf("%-25s enabled\n", (map->option + 2));
 		else
-			printf("%-25s disabled\n", (map->options + 2));
+			printf("%-25s disabled\n", (map->option + 2));
 		map++;
 	}
 }
@@ -43,15 +43,15 @@ static t_bool toggle_debug_mode(t_shell *shell, const char *arg)
 {
 	const t_debug_map	*map = get_debug_map(&shell->debug);
 
-	while (map->options)
+	while (map->option)
 	{
-		if (!ft_strcmp(arg, map->options))
+		if (!ft_strcmp(arg, map->option))
 		{
 			*(map->toggle) = !(*(map->toggle));
 			if (*(map->toggle))
-				printf("enabled debug mode for %s\n", (map->options + 2));
+				printf("enabled debug mode for %s\n", (map->option + 2));
 			else
-				printf("disabled debug mode for %s\n", (map->options + 2));
+				printf("disabled debug mode for %s\n", (map->option + 2));
 			return (TRUE);
 		}
 		map++;
@@ -68,7 +68,8 @@ static t_bool run_args(t_shell *shell, char **args)
 	{
 		if (!toggle_debug_mode(shell, args[i]))
 		{
-			printf("Invalid argument: %s\n", args[i]);
+			printf("Unrecognized option: %s\n", args[i]);
+			write(1, DEBUG_HELP_MSG, ft_strlen(DEBUG_HELP_MSG));
 			return (FALSE);
 		}
 		i++;

@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 15:26:52 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/22 16:46:29 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/24 07:25:28 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,16 @@
 #include "math_utils.h"
 #include "utils.h"
 
+/**
+ * @brief Exits the shell with the given exit code.
+ *
+ * @param shell The shell instance.
+ * @param args The arguments to the command.
+ * 
+ * @note This function prints the exit message and exits the shell
+ * with the given exit code. If no exit code is provided, it uses
+ * the last exit code of the shell.
+ */
 void	ft_exit(t_shell *shell, char **args)
 {
 	t_bool	is_number;

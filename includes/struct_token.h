@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:44:15 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/24 06:38:00 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/24 08:07:56 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,144 +14,90 @@
 # define STRUCT_TOKEN_H
 
 # include "types.h"
-#include "struct_dynarray.h"
-
+# include "struct_dynarray.h"
 
 // FLAGS
-# define FLAG_BRACE_EXPANSION			FALSE	// {a,b,c}
-# define FLAG_ARITHMETIC_EXPANSION		FALSE	// $((...))
-# define FLAG_COMMAND_SUBSTITUTION		FALSE	// $(...)
-# define FLAG_GLOBBING					TRUE	// *, ?, **
-# define FLAG_GLOBBING_EXTENDED			FALSE	// [abc], [!abc], [^abc], [a-z]
-# define FLAG_VAR_EXPANSION				TRUE	// $VAR
-# define FLAG_VAR_EXPANSION_EXTENDED	FALSE	// ${VAR:0:1}, ${VAR#prefix}, ${VAR%suffix}
+# define FLAG_WILDCARD_EXPANSION		TRUE	
+# define FLAG_VAR_EXPANSION				TRUE
 
 // EXPANDABLES
 # define SYMBOL_VAR_EXPAND				'$'
 
 // WILDCARDS
 # define SYMBOL_GLOB_ANY				'*'
-# define SYMBOL_GLOB_DIR				"**"
 # define SYMBOL_GLOB_ONE				'?'
-# define DELIMITER_GLOB_REGEX_CLOSE		'['
-# define DELIMITER_GLOB_REGEX_OPEN		']'
 
 // WORDS
 # define DELIMITER_LITERAL_TEXT 		'\''
 # define DELIMITER_EXPANDABLE_TEXT 		'"'
 
+/**
+ *	@brief Enumeration of token types.
+ *
+ *	@note This enumeration is used to define the different types of tokens
+ *	that can be encountered during parsing.
+ *
+ *	@note Each token type is represented by a bit flag, allowing for
+ *	bitwise operations to check for specific token types.
+ *
+*/
 typedef enum e_token_type
 {
-	M_SPACE							= 1 << 0,	// ' '
-	M_TAB							= 1 << 1,	// \t
-	M_NEWLINE						= 1 << 2,	// \n
-	M_EOF							= 1 << 3,	// EOF
-	TEXT							= 1 << 4,	// TEXT
-	QUOTED_TEXT						= 1 << 5,	// 'TEXT'
-	EXPAND							= 1 << 6,	// $VAR
-	QUOTED_EXPAND					= 1 << 7,	// "$VAR"
-	WILDCARD						= 1 << 8,	// WILDCARD
-	OP_OR							= 1 << 9,	// ||
-	OP_PIPE							= 1 << 10,	// |
-	OP_AND							= 1 << 11,	// &&
-	OP_SEMICOL						= 1 << 13,	// ;
-	OP_PARENTHESIS_OPEN				= 1 << 18,	// (
-	OP_PARENTHESIS_CLOSE			= 1 << 19,	// )
-	R_IN							= 1 << 20,	// <
-	R_OUT							= 1 << 21,	// >
-	R_APPEND						= 1 << 22,	// >>
-	R_HEREDOC						= 1 << 23,	// <<
-	R_HEREDOC_TRIM					= 1 << 24,	// <<TRIM
+	M_EOF						= 1 << 0,
+	M_SPACE						= 1 << 1, 
+	TEXT						= 1 << 2,
+	QUOTED_TEXT					= 1 << 3,
+	EXPAND						= 1 << 4, 
+	QUOTED_EXPAND				= 1 << 5,
+	WILDCARD					= 1 << 6, 
+	OP_OR						= 1 << 7,
+	OP_PIPE						= 1 << 8,
+	OP_AND						= 1 << 9,
+	OP_SEMICOL					= 1 << 10,
+	OP_PARENTHESIS_OPEN			= 1 << 11,
+	OP_PARENTHESIS_CLOSE		= 1 << 12,
+	R_IN						= 1 << 13,
+	R_OUT						= 1 << 14,
+	R_APPEND					= 1 << 15,
+	R_HEREDOC					= 1 << 16,
+	R_HEREDOC_TRIM				= 1 << 17,
 }	t_token_type;
 
-// typedef enum e_only_metachar
-// {
-// 	M_SPACE							= 1 << 0,	// ' '
-// 	M_TAB							= 1 << 1,	// \t
-// 	M_NEWLINE						= 1 << 2,	// \n
-// 	M_EOF							= 1 << 3,	// EOF
-// }	t_only_metachar;
 
-// typedef enum e_token_name
-// {
-// 	TEXT						= 1 << 4,	// TEXT
-// 	QUOTED_TEXT					= 1 << 5,	// 'TEXT'
-// 	EXPAND						= 1 << 6,	// $VAR
-// 	QUOTED_EXPAND				= 1 << 7,	// "$VAR"
-// 	WILDCARD					= 1 << 8,	// WILDCARD
-// }	t_token_name;
-
-// typedef enum e_control_operator
-// {
-// 	OP_OR						= 1 << 9,	// ||
-// 	OP_PIPE						= 1 << 10,	// |
-// 	OP_AND						= 1 << 11,	// &&
-// 	OP_AMP						= 1 << 12,	// &
-// 	OP_SEMICOL					= 1 << 13,	// ;
-// 	OP_DB_SEMICOL				= 1 << 14,	// ;;
-// 	OP_SEMICOL_AMP				= 1 << 15,	// ;&
-// 	OP_DB_SEMICOL_AMP			= 1 << 16,	// ;;&
-// 	OP_PIPE_ERR					= 1 << 17,	// |&
-// 	OP_PARENTHESIS_OPEN			= 1 << 18,	// (
-// 	OP_PARENTHESIS_CLOSE		= 1 << 19,	// )
-// }	t_control_operator;
-
-// typedef enum e_redir_operator
-// {
-// 	R_IN					= 1 << 20,	// <
-// 	R_OUT					= 1 << 21,	// >
-// 	R_APPEND				= 1 << 22,	// >>
-// 	R_HEREDOC				= 1 << 23,	// <<
-// 	R_HEREDOC_TRIM			= 1 << 24,	// <<TRIM
-// }	t_redir_operator; 
-
+/**
+ * @brief Enumeration of token flags.
+ * 
+ * @note This enumeration is used to define different flags
+ * that can be associated with tokens during parsing.
+ * 
+ * @param EXPECT_CONT Flag indicating that a continuation is expected.
+ * @param ERR_LEFT_OPERAND Flag indicating an error with the left operand.
+ * @param ERR_RIGHT_OPERAND Flag indicating an error with the right operand.
+ * @param ERR_NO_OPEN_PAREN Flag indicating no open parenthesis found.
+ * @param INC_PAREN_CLOSE Flag indicating an incorrect closing parenthesis.
+ * @param INC_PAREN_OPEN Flag indicating an incorrect opening parenthesis.
+ * @param ERR_NO_CLOSE_PAREN Flag indicating no closing parenthesis found.
+ * @param ERR_EMPTY_PAREN Flag indicating an empty parenthesis.
+ * @param ERR_EMPTY_SEMI Flag indicating an empty semicolon.
+ * @param ERR_NO_RIGHT_OPERAND Flag indicating no right operand found.
+ * @param ERR_NO_LEFT_OPERAND Flag indicating no left operand found.
+ * @param ERR_RIGHT_OPERAND_NP Flag indicating a right operand not found.
+*/
 typedef enum e_token_flag
 {
-	EXPECT_CONT			= 1 << 0,  // EXPECT_CONT
-	ERR_LEFT_OPERAND	= 1 << 1,  // ERR_LEFT_OP
-	ERR_RIGHT_OPERAND	= 1 << 2,  // ERR_RIGHT_OP
-	ERR_NO_OPEN_PAREN	= 1 << 3,  // ERR_UNOPENED_PARENTHESIS
-	INC_PAREN_CLOSE		= 1 << 4,  // INCREMENT_PAREN_CLOSE
-	INC_PAREN_OPEN		= 1 << 5,  // INC_PAREN_OPEN
-	ERR_NO_CLOSE_PAREN	= 1 << 6,  // ERR_PAREN_NOT_CLOSED
-	ERR_EMPTY_PAREN		= 1 << 7,  // ERR_PAREN_EMPTY
-	ERR_EMPTY_SEMI		= 1 << 8,  // ERR_SEMICOL_EMPTY
-	ERR_NO_RIGHT_OPERAND	= 1 << 9,  // ERR_NO_RIGHT_OPERAND
-	ERR_NO_LEFT_OPERAND	= 1 << 10, // ERR_NO_LEFT_OPERAND
-	ERR_RIGHT_OPERAND_NP	= 1 << 11, // ERR_RIGHT_OPERAND_NP
+	EXPECT_CONT					= 1 << 0,
+	ERR_LEFT_OPERAND			= 1 << 1,
+	ERR_RIGHT_OPERAND			= 1 << 2,
+	ERR_NO_OPEN_PAREN			= 1 << 3,
+	INC_PAREN_CLOSE				= 1 << 4,
+	INC_PAREN_OPEN				= 1 << 5,
+	ERR_NO_CLOSE_PAREN			= 1 << 6,
+	ERR_EMPTY_PAREN				= 1 << 7,
+	ERR_EMPTY_SEMI				= 1 << 8,
+	ERR_NO_RIGHT_OPERAND		= 1 << 9,
+	ERR_NO_LEFT_OPERAND			= 1 << 10,
+	ERR_RIGHT_OPERAND_NP		= 1 << 11,
 }	t_token_flag;
-
-//typedef enum e_token_type_flags
-//{
-//	TOKEN_SPACE					= M_SPACE,
-//	TOKEN_TAB					= M_TAB,
-//	TOKEN_NEWLINE				= M_NEWLINE,
-//	TOKEN_TEXT					= TEXT,
-//	TOKEN_EXPAND				= EXPAND,
-//	TOKEN_WILDCARD				= WILDCARD,
-//	TOKEN_OR					= OP_OR | ERR_LEFT_OPERAND | EXPECT_CONT,
-//	TOKEN_PIPE					= OP_PIPE | ERR_LEFT_OPERAND | EXPECT_CONT,
-//	TOKEN_AND					= OP_AND | ERR_LEFT_OPERAND | EXPECT_CONT,
-//	TOKEN_BACKGROUND			= OP_AMP | ERR_LEFT_OPERAND | EXPECT_CONT,
-//	TOKEN_SEMICOL				= OP_SEMICOL | ERR_EMPTY_SEMI,
-//	TOKEN_DB_SEMICOL			= OP_DB_SEMICOL | ERR_LEFT_OPERAND,
-//	TOKEN_SEMICOL_AMP			= OP_SEMICOL_AMP | ERR_LEFT_OPERAND,
-//	TOKEN_DB_SEMICOL_AMP		= OP_DB_SEMICOL_AMP | ERR_LEFT_OPERAND,
-//	TOKEN_PIPE_ERR				= OP_PIPE_ERR | ERR_LEFT_OPERAND | EXPECT_CONT,
-//	TOKEN_PARENTHESIS_OPEN		= OP_PARENTHESIS_OPEN | EXPECT_CONT | INC_PAREN_OPEN,
-//	TOKEN_PARENTHESIS_CLOSE		= OP_PARENTHESIS_CLOSE | ERR_NO_OPEN_PAREN | INC_PAREN_CLOSE | ERR_EMPTY_PAREN,
-//	TOKEN_REDIR_IN				= R_IN | ERR_RIGHT_OPERAND,
-//	TOKEN_REDIR_OUT				= R_OUT | ERR_RIGHT_OPERAND,
-//	TOKEN_APPEND				= R_APPEND | ERR_RIGHT_OPERAND,
-//	TOKEN_HEREDOC				= R_HEREDOC | ERR_RIGHT_OPERAND,
-//	TOKEN_EOF					= M_EOF | ERR_NO_CLOSE_PAREN,	// EOF
-//}	t_token_type_flags;
-
-typedef struct s_token_map
-{
-	char				*op;
-	t_token_type		type;
-}	t_token_map;
 
 typedef struct s_token
 {
@@ -160,6 +106,62 @@ typedef struct s_token
 	char				*value;
 }	t_token;
 
+
+t_token	*init_token(t_token_type token_type, const char *start, size_t len);
+void	*destroy_token(t_token *token);
+
+
+/**
+ * @brief Structure that maps operators to their token types.
+ * 
+ * @note This structure is used to identify the type of token
+ * based on the operator string.
+ * 
+ * @param op The operator string.
+ * @param type The token type associated with the operator.
+ * 
+ * @note The operator string is used to match the input string
+*/
+typedef struct s_token_map
+{
+	const char			*op;
+	t_token_type		type;
+}	t_token_map;
+
+t_token_type	get_token_type(const char *str, int *offset);
+
+
+/**
+ * @brief Structure that holds the token type and its name.
+ * 
+ * @param type The token type.
+ * @param name The name of the token type.
+ * 
+ * @note This structure is on ly used for printing purposes
+ * and is not used in the parsing process.
+*/
+typedef struct s_token_print
+{
+	t_uint		type;
+	const char	*name;
+}	t_token_print;
+
+void	print_tokens(t_dynarray *tokens);
+
+
+/**
+ * @brief Structure that holds masks for different token types.
+ * 
+ * @param metachar Mask for metacharacter tokens.
+ * @param text Mask for text tokens.
+ * @param control Mask for control tokens.
+ * @param redir Mask for redirection tokens.
+ * @param paren Mask for parenthesis tokens.
+ * @param control_extended Mask for extended control tokens.
+ * 
+ * @note The masks are then used to check 
+ * if a token belongs to a specific category
+*/
 typedef struct s_masks
 {
 	t_uint	metachar;
@@ -170,6 +172,18 @@ typedef struct s_masks
 	t_uint	control_extended;
 }	t_masks;
 
+/**
+ * @brief Enumeration of token categories.
+ * 
+ * @note This enumeration is used to categorize tokens
+ * based on their type and behavior during parsing.
+ * 
+ * @param C_METACHAR Represents metacharacter tokens.
+ * @param C_TEXT Represents text tokens.
+ * @param C_OPERATOR Represents operator tokens.
+ * @param C_REDIR Represents redirection tokens.
+ * @param C_PAREN Represents parenthesis tokens.
+*/
 typedef enum e_token_category
 {
 	C_METACHAR,
@@ -179,6 +193,16 @@ typedef enum e_token_category
 	C_PAREN,
 }	t_token_category;
 
+/**
+ * @brief Structure that maps token types to their rules and categories.
+ * 
+ * @param type The token type.
+ * @param rules The rules associated with the token type.
+ * @param category The category of the token type.
+ * 
+ * @note This structure is used to define the behavior of each token type
+ * during parsing.
+*/
 typedef struct s_token_map_rules
 {
 	t_token_type		type;
@@ -186,37 +210,15 @@ typedef struct s_token_map_rules
 	t_token_category	category;
 }	t_token_map_rules;
 
-typedef struct s_lexer_token_def
-{
-	t_masks					masks;
-	const t_token_map_rules	*map;
-}	t_lexer_token_def;
+t_masks			*get_masks(void);
+t_uint			get_token_rules(t_token_type token_type);
 
-t_lexer_token_def	*get_lexer_token_def(void);
-t_uint				get_token_rules(t_uint token_type);
-
-
-
-
-
-
-
-
-
-void			*destroy_token(t_token *token);
-
-t_token_type	get_token_type(const char *str, int *offset);
-
-t_token			*init_token(t_token_type token_type, const char *start, size_t len);
-
-int				is_control_token(t_token token);
-int				is_text_token(t_token token);
-int				is_redir_token(t_token token);
-int				is_parenthesis_token(t_token token);
-int				is_control_extended_token(t_token token);
-int				is_cmd_token(t_token token);
-int				is_meta_token(t_token token);
-
-void			print_tokens(t_dynarray *tokens);
+int		is_control_token(t_token token);
+int		is_text_token(t_token token);
+int		is_redir_token(t_token token);
+int		is_parenthesis_token(t_token token);
+int		is_control_extended_token(t_token token);
+int		is_cmd_token(t_token token);
+int		is_meta_token(t_token token);
 
 #endif

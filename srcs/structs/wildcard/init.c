@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 18:51:44 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/04/17 20:29:21 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/24 07:33:03 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static char	*get_pattern(const char *str, char *prefix, char *suffix)
 
 static char	*get_base_path(char *prefix, char *current_path)
 {
-	const char	*args[3] = {current_path, "/", prefix};
+	const char	*args[] = {current_path, "/", prefix};
 
 	if (!prefix)
 	{

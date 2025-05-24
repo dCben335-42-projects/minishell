@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 15:30:22 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/24 05:31:41 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/24 07:26:10 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,19 @@ static t_bool	is_valid_export(t_shell *shell, char **args)
 	return (is_valid);
 }
 
+/**
+ * @brief Exports the environment variables to the shell.
+ *
+ * @param shell The shell instance.
+ * @param args The arguments to the command.
+ * 
+ * @note This function checks if the arguments are valid and
+ * exports them to the shell. If no arguments are provided,
+ * it will print the current environment variables.
+ * 
+ * @note If one of the arguments is invalid, it will print an
+ * error message and return a non-zero exit code.
+ */
 void	ft_export(t_shell *shell, char **args)
 {
 	if (!args[1])

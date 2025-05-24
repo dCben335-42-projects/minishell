@@ -42,21 +42,39 @@ static void	*push_tree_values(t_tree *tree, t_dynarray *arr)
 	push_tree_values(tree->left, arr);
 	value = ft_strdup(tree->value);
 	if (!value || !push(arr, value))
+	{
+		free(value);
 		return (NULL);
+	}
 	push_tree_values(tree->right, arr);
 	return (arr);
 }
 
 static char *save_word(t_shell *shell, t_dynarray *argv, t_dynarray *word)
 {
-	t_tree	*tree;
+	t_dynarray	*expand;
+	t_expand	*node;
+	size_t		i;
+	char		*val;
 
-	tree = expand_word(shell, word);
-	if (!tree)	
+	expand = expand_word(shell, word);
+	if (!expand)	
 		return (NULL);
-	if (!push_tree_values(tree, argv))
-		return (destroy_tree(tree));
-	destroy_tree(tree);
+	i = 0;
+	while (i < expand->count)
+	{
+		node = (t_expand *)get_dynarray_value(expand, i);
+		if (node->is_tree && !push_tree_values(node->content, argv))
+			return (destroy_expand_array(expand));
+		else if (!node->is_tree)
+		{
+			val = ft_strdup(node->content);
+			if (!val || (!push(argv, val) && !ft_free((void **)&val)))
+				return (destroy_expand_array(expand));
+		}
+		i++;
+	}
+	destroy_expand_array(expand);
 	return (get_dynarray_last_value(argv));
 }
 

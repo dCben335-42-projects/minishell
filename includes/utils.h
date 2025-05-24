@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 20:38:38 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/24 05:37:31 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/24 19:52:37 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ void	close_fds(unsigned int start);
 void	restore_std_in_out(int saved_stdin, int saved_stdout);
 
 void	*destroy_self(t_shell *shell, char **argv, int exit_code);
+
+t_bool	is_word_wildcard(t_dynarray *word);
 char	*word_join(t_dynarray *word);
 
 t_dynarray	*cmd_to_argv(t_shell *shell, t_dynarray *arr, t_dynarray *argv);

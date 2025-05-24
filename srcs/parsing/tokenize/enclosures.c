@@ -39,9 +39,9 @@ static t_ptr	handler_enclosure(t_lexer_args *args, char **start_i, t_uint *curre
 
 static t_bool is_directly_closed(const char *input, const char quote)
 {
-	if (!quote && *input == DELIMITER_EXPANDABLE_TEXT && *(input + 1) == DELIMITER_LITERAL_TEXT)
+	if (!quote && *input == DELIMITER_EXPANDABLE_TEXT && *(input + 1) == DELIMITER_EXPANDABLE_TEXT)
 		return (TRUE);
-	else if (!quote  && *input == DELIMITER_LITERAL_TEXT && *(input + 1) == DELIMITER_EXPANDABLE_TEXT)
+	if (!quote  && *input == DELIMITER_LITERAL_TEXT && *(input + 1) == DELIMITER_LITERAL_TEXT)
 		return (TRUE);
 	return (FALSE);
 }
@@ -63,13 +63,13 @@ static t_ptr	handler_enclosures(t_lexer_args *args, char **start_i, t_uint *curr
 
 t_ptr	tokenize_enclosures(t_lexer_args *args, char **start_i, t_uint *current_type)
 {
-	t_ptr	pointer;
+	t_ptr	ptr;
 
-	pointer = handler_enclosures(args, start_i, current_type);
-	if (pointer.is_malloc)
-		return (pointer);
-	pointer = tokenize_expand(args, start_i, current_type);
-	if (pointer.is_malloc)
-		return (pointer);
+	ptr = handler_enclosures(args, start_i, current_type);
+	if (ptr.is_malloc)
+		return (ptr);
+	ptr = tokenize_expand(args, start_i, current_type);
+	if (ptr.is_malloc)
+		return (ptr);
 	return (tokenize_wildcard(args, current_type));
 }

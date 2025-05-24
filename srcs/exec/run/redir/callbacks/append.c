@@ -6,30 +6,33 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 11:35:48 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/20 17:23:02 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/24 20:38:49 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cmd_redir.h"
 
+
+
 t_bool	redir_append(t_shell *shell, t_ast_node *node)
 {
 	const char		*joined_word = word_join(node->content);
-	t_tree			*tree;
+	t_dynarray		*word;
 	int				fd;
 	t_bool			ret;
+	char			*filename;
 	
-	tree = expand_word(shell, node->content);
-	if (!tree)
+	word = expand_word(shell, node->content);
+	if (!word)
 		return ((t_bool) ft_free((void **)&joined_word));
-	if (!is_valid_filename(tree, (char *)joined_word))
-		return ((t_bool) destroy_tree(tree));
-	fd = open(tree->value, O_WRONLY | O_CREAT | O_APPEND, 0644);
-	if (!p_int(fd, -1, tree->value))
-		return ((t_bool) destroy_tree(tree));
-	printf("dupping in append for redir: %s\n", (char *)tree->value);
+	if (!is_valid_filename(word, (char *)joined_word))
+		return ((t_bool) destroy_expand_array(word));
+	filename = get_redir_filename(word);
+	fd = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
+	if (!p_int(fd, -1, filename))
+		return ((t_bool) destroy_expand_array(word));
 	ret = p_int(dup2(fd, STDOUT_FILENO), -1, "dup2");
 	close(fd);
-	destroy_tree(tree);
+	destroy_expand_array(word);
 	return (ret);
 }

@@ -15,7 +15,6 @@ static const t_exec_map	*get_exec_map(void)
 	return (map);
 }
 
-
 t_bool  is_only_redir(t_ast_node *cmd)
 {
 	t_uint	i;

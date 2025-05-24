@@ -6,7 +6,7 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 19:31:21 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/22 20:55:39 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/05/24 15:56:59 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ int	main(int argc, char **argv, char **envp)
 	disable_sigquit();
 	enable_sigint_default();
 	shell = init_shell(envp);
-	//init_signals();
 	handle_loop(&shell);
 	restore_termios();
 	ft_exit(&shell, NULL);

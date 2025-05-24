@@ -6,7 +6,7 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 18:07:59 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/22 20:55:20 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/05/24 15:56:52 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,13 +50,4 @@ void	signal_handler(int signum)
 		rl_redisplay();
 		return ;
 	}
-}
-
-void	init_signals(void)
-{
-	struct sigaction	sa;
-
-	sa.sa_flags = 0;
-	sa.sa_handler = signal_handler;
-	sigemptyset(&sa.sa_mask);
 }

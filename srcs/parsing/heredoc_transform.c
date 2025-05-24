@@ -1,5 +1,6 @@
 #include "parsing.h"
 #include "minishell.h"
+#include "minishell_signal.h"
 
 static t_pointer	handle_expandale_token(t_uint type)
 {
@@ -52,9 +53,19 @@ t_bool handle_loop(t_token *token)
 	if (!str)
 		return (FALSE);
 	is_first = TRUE;
+	disable_sigint();
+	enable_sigint_heredoc();
 	while (TRUE) 
 	{
 		line = readline(SHELL_NEXT_NAME);
+		if (g_heredoc_interrupted)
+		{
+			free(line);
+			free(str);
+			g_heredoc_interrupted = 0;
+			return (FALSE);
+		}
+		write(STDOUT_FILENO, "BONJOUR\n", 8);
 		if (!line || (!ft_strcmp(line, token->value) && !ft_free((void **)&line)))
 			break ;
 		if (!trim_leading_tabs(&str, line, is_first, TRUE) && !ft_free((void **)&line))
@@ -62,6 +73,9 @@ t_bool handle_loop(t_token *token)
 		is_first = FALSE;
 		free(line);
 	}
+
+	disable_sigint();
+	enable_sigint_default();
 	free(token->value);
 	token->value = str;
 	return (TRUE);

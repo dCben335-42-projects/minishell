@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 10:34:29 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/20 18:21:56 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/24 20:37:51 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 # include "cmd_expand.h"
 # include "fcntl.h"
 # include "unistd.h"
-# include "errors.h"
 # include "utils.h"
 
 typedef struct s_redir_map
@@ -28,8 +27,9 @@ typedef struct s_redir_map
 }	t_redir_map;
 
 t_bool	redirect(t_shell *shell, t_dynarray *cmd);
-t_bool	is_valid_filename(t_tree *tree, char *joined_word);
+t_bool	is_valid_filename(t_dynarray *arr, char *joined_word);
 t_bool	is_redirection(t_node_type type);
+char	*get_redir_filename(t_dynarray *arr);
 
 t_bool	redir_out(t_shell *shell, t_ast_node *node);
 t_bool	redir_in(t_shell *shell, t_ast_node *node);

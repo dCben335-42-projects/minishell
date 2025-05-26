@@ -6,12 +6,12 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:12:13 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/20 14:36:34 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/22 19:07:28 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "libft.h"
+#include "utils.h"
 
 static t_bool	ft_is_path(char *str)
 {
@@ -60,15 +60,13 @@ static char	*find_path(char *cmd_path, char **paths)
  */
 t_bool	is_valid_cmd_path(char *path, int *exit_code)
 {
-	if (access(path, F_OK) == -1)
+	if (!p_int(access(path, F_OK), -1, path))
 	{
-		perror(path);
 		*exit_code = 127;
 		return (FALSE);
 	}
-	if (access(path, X_OK) == -1)
+	if (!p_int(access(path, X_OK), -1, path))
 	{
-		perror(path);
 		*exit_code = 126;
 		return (FALSE);
 	}

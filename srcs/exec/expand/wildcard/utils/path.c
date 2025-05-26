@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 21:43:40 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/16 19:26:25 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/24 07:33:48 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static char	*join_segs(char *new, const char **segs)
 		return (NULL);
 	while (*segs && (!ft_strcmp(*segs, ".") || !ft_strcmp(*segs, "..")))
 	{
-		tmp = ft_strsjoin((const char *[3]){new, *segs, "/"}, 3, FALSE);
+		tmp = ft_strsjoin((const char *[]){new, *segs, "/"}, 3, FALSE);
 		free(new);
 		if (!tmp)
 			return (NULL);

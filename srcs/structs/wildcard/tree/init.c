@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:25:02 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/16 19:45:58 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/24 20:01:12 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,18 @@ static void *free_params(char *key, char *value)
 	return (NULL);
 }
 
+/**
+ * @brief Initializes a wildcard tree node.
+ *
+ * @param key The key of the node.
+ * @param value The value of the node.
+ * 
+ * @note The key and value must be allocated strings.
+ * If one of them is NULL, the function will free both
+ * and return NULL.
+ * 
+ * @return The initialized tree node or NULL if an error occurred.
+ */
 t_tree	*init_wildcard_tree(char *key, char *value)
 {
 	t_tree	*node;

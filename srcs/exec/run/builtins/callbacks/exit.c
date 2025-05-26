@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 15:26:52 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/16 20:32:51 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/24 07:25:28 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,26 @@
 #include "math_utils.h"
 #include "utils.h"
 
+/**
+ * @brief Exits the shell with the given exit code.
+ *
+ * @param shell The shell instance.
+ * @param args The arguments to the command.
+ * 
+ * @note This function prints the exit message and exits the shell
+ * with the given exit code. If no exit code is provided, it uses
+ * the last exit code of the shell.
+ */
 void	ft_exit(t_shell *shell, char **args)
 {
-	int		status;
 	t_bool	is_number;
+	int		status;
 
 	status = shell->exit_code;
 	ft_putendl_fd(EXIT_MSG, 1);
 	if (args && args[1])
 	{
-		is_number = ft_isnumber(args[1], FALSE);
+		is_number = ft_isnumber(args[1], TRUE);
 		if (is_number && args[2])
 		{
 			ft_putendl_fd(ERROR_EXIT_ARGS_NUM, 2);
@@ -39,5 +49,5 @@ void	ft_exit(t_shell *shell, char **args)
 		else
 			status = ft_atol_base(args[1], BASE_10);
 	}
-	destroy_self(shell, args, ft_abs(status % 256));
+	destroy_self(shell, args, status % 256);
 }

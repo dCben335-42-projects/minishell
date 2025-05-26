@@ -34,7 +34,6 @@ void	get_or_and_cmd_wrapper(t_ast_node **cmd_prev, t_ast_node *cmd_master, t_get
 {
 	t_ast_node	*cmd;
 
-	printf("get_or_and_cmd_wrapper\n");
 	cmd = args->local.cmd;
 	args->local.cmd = &args->local.lcmd;
 	add_child(cmd_master, cmd_prev, args);

@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:39:44 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/20 19:15:22 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/24 07:43:17 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,7 @@
 
 # include <stdio.h>
 
-# define SHELL_NAME "minishell >"
-# define SHELL_NEXT_NAME ">"
+# define SHELL_NAME "SHELLOSTS"
 
 # define ERROR_MALLOC "Error: malloc"
 

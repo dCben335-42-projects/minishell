@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 20:33:47 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/20 12:57:05 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/24 07:18:11 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,34 +21,26 @@
 typedef enum e_node_type
 {
 	CMD_SEQ					= 1 << 0,
-	CMD_JOIN				= 1 << 1,
+	CMD_BASE				= 1 << 1,
 	CMD_PARENTHESIS			= 1 << 2,
-	CMD_SPACE				= 1 << 3,
-	CMD_TAB					= 1 << 4,
-	CMD_NEWLINE				= 1 << 5,
-	CMD_TEXT				= 1 << 6,
-	CMD_QUOTED_TEXT			= 1 << 7,
-	CMD_EXPAND				= 1 << 8,
-	CMD_QUOTED_EXPAND		= 1 << 9,
-	CMD_WILDCARD			= 1 << 10,
-	CMD_OR					= 1 << 11,
-	CMD_AMP					= 1 << 12,
-	CMD_AND					= 1 << 13,
-	CMD_SEMICOL				= 1 << 14,
-	CMD_DB_SEMICOL			= 1 << 15,
-	CMD_SEMICOL_AMP			= 1 << 16,
-	CMD_DB_SEMICOL_AMP		= 1 << 17,
-	CMD_PIPE				= 1 << 18,
-	CMD_PIPE_ERR			= 1 << 19,
-	CMD_PARENTHESIS_OPEN	= 1 << 20,
-	CMD_PARENTHESIS_CLOSE	= 1 << 21,
-	CMD_REDIR_IN			= 1 << 22,
-	CMD_REDIR_OUT			= 1 << 23,
-	CMD_APPEND				= 1 << 24,
-	CMD_HEREDOC				= 1 << 25,
-	CMD_HEREDOC_TRIM		= 1 << 26,
-	CMD_EOF					= 1 << 27,
-	CMD_WORD				= 1 << 28,
+	CMD_TEXT				= 1 << 3,
+	CMD_QUOTED_TEXT			= 1 << 4,
+	CMD_EXPAND				= 1 << 5,
+	CMD_QUOTED_EXPAND		= 1 << 6,
+	CMD_WILDCARD			= 1 << 7,
+	CMD_OR					= 1 << 8,
+	CMD_AND					= 1 << 9,
+	CMD_SEMICOL				= 1 << 10,
+	CMD_PIPE				= 1 << 11,
+	CMD_PARENTHESIS_OPEN	= 1 << 12,
+	CMD_PARENTHESIS_CLOSE	= 1 << 13,
+	CMD_REDIR_IN			= 1 << 14,
+	CMD_REDIR_OUT			= 1 << 15,
+	CMD_APPEND				= 1 << 16,
+	CMD_HEREDOC				= 1 << 17,
+	CMD_HEREDOC_TRIM		= 1 << 18,
+	CMD_EOF					= 1 << 19,
+	CMD_WORD				= 1 << 20,
 }	t_node_type;
 
 typedef struct s_ast_node
@@ -62,16 +54,15 @@ typedef struct s_ast_node
 
 typedef struct s_ast_print_mapping
 {
-	int			type;
+	t_node_type	type;
 	const char	*name;
-	int			use_cmd_join;
-}	t_ast_print_mapping;
+	t_bool		use_cmd_join;
+}	t_ast_print_map;
 
 typedef struct s_print_ast_json_args
 {
-	t_dynarray			*cmd;
-	t_uint				depth;
-	t_ast_print_mapping	*mappings;
+	t_dynarray	*cmd;
+	t_uint		depth;
 }	t_print_ast_json_args;
 
 typedef struct s_token_node_map

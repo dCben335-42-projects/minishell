@@ -4,7 +4,7 @@
 static const t_exec_map	*get_exec_map(void)
 {
 	static const t_exec_map	map[] = {
-	{CMD_JOIN, &exec_basic},
+	{CMD_BASE, &exec_basic},
 	{CMD_AND, &exec_and},
 	{CMD_OR, &exec_or},
 	{CMD_PIPE, &exec_pipeline},
@@ -15,14 +15,13 @@ static const t_exec_map	*get_exec_map(void)
 	return (map);
 }
 
-
 t_bool  is_only_redir(t_ast_node *cmd)
 {
 	t_uint	i;
 	t_ast_node	*node;
 	t_dynarray	*arr;
 
-	if (!cmd || cmd->type != CMD_JOIN)
+	if (!cmd || cmd->type != CMD_BASE)
 		return (FALSE);
 	i = 0;
 	arr = cmd->content;

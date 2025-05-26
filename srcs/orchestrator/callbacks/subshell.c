@@ -6,14 +6,13 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 09:04:49 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/22 20:59:16 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/05/26 15:43:14 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "orchestrator.h"
 #include "cmd.h"
 #include "utils.h"
-#include "errors.h"
 #include <signal.h>
 #include <sys/types.h>
 #include "minishell_signal.h"
@@ -23,13 +22,12 @@ static t_ast_node	*run_subshell(
 )
 {
 	shell->last_pid = fork();
-	if (shell->last_pid == -1)
+	if (!p_int(shell->last_pid, -1, "fork"))
 	{
-		perror("fork");
 		shell->exit_code = EXIT_FAILURE;
 		return (FALSE);
 	}
-	else if (shell->last_pid == 0)
+	if (shell->last_pid == 0)
 	{
 		cmd = find_next_cmd(cmd);
 		while (cmd && cmd != skipped_cmd)

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   getter.c                                           :+:      :+:    :+:   */
+/*   get.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:15:48 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/20 16:45:13 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/24 08:00:55 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,18 +18,16 @@ static const t_token_map	*get_operator_table(void)
 {
 	static const t_token_map	op_table[] = {
 	{"<<-", R_HEREDOC_TRIM},
-	{">>", R_APPEND},
 	{"<<", R_HEREDOC},
+	{">>", R_APPEND},
 	{"||", OP_OR},
-	{"|&", OP_PIPE_ERR},
 	{"&&", OP_AND},
 	{"|", OP_PIPE},
-	{"&", OP_AMP},
-	{">", R_OUT},
-	{"<", R_IN},
 	{";", OP_SEMICOL},
 	{"(", OP_PARENTHESIS_OPEN},
 	{")", OP_PARENTHESIS_CLOSE},
+	{">", R_OUT},
+	{"<", R_IN},
 	{NULL, M_EOF}};
 
 	return (op_table);
@@ -47,7 +45,7 @@ static const t_token_map	*get_operator_table(void)
  * 
  * @return token type
  */
-t_uint	get_token_type(const char *str, int *offset)
+t_token_type	get_token_type(const char *str, int *offset)
 {
 	const t_token_map	*op_table = get_operator_table();
 	size_t				len;
@@ -55,7 +53,7 @@ t_uint	get_token_type(const char *str, int *offset)
 	while (op_table->op)
 	{
 		len = ft_strlen(op_table->op);
-		if (ft_strncmp(str, op_table->op, len) == 0)
+		if (!ft_strncmp(str, op_table->op, len))
 		{
 			if (offset)
 				*offset += len;
@@ -64,49 +62,4 @@ t_uint	get_token_type(const char *str, int *offset)
 		op_table++;
 	}
 	return (TEXT);
-}
-
-/**
- * @brief Function that return the name of the token type 
- * 	based on the enum (index).
- * 
- * @param type: token type
- * 
- * @return String corresponding to the token type
- */
-const char	*get_token_type_name(const t_uint type)
-{
-	static const char	*token_name[] = {
-		"SPACE",
-		"TAB",
-		"NEWLINE",
-		"EOF",
-		"TEXT",
-		"QUOTED_TEXT",
-		"EXPAND",
-		"QUOTED_EXPAND",
-		"WILDCARD",
-		"OR",
-		"PIPE",
-		"AND",
-		"BACKGROUND",
-		"SEMICOL",
-		"DB_SEMICOL",
-		"SEMICOL_AMP",
-		"DB_SEMICOL_AMP",
-		"PIPE_ERR",
-		"PARENTHESIS_OPEN",
-		"PARENTHESIS_CLOSE",
-		"R_IN",
-		"R_OUT",
-		"APPEND",
-		"HEREDOC",
-		"HEREDOC_TRIM",
-	};
-	t_uint	i;
-
-	i = 0;
-	while ((type & (1 << i)) == 0)
-		i++;
-	return (token_name[i]);
 }

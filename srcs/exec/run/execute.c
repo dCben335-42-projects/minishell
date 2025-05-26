@@ -6,7 +6,7 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:07:25 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/22 20:46:35 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/05/26 15:42:08 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static void	exec_cmd(char **argv, t_shell *shell)
 static void	child_exec(t_shell *shell, char **argv, t_dynarray *cmd) 
 {
     int	exit_code;
-	
+
 	exit_code = EXIT_FAILURE;
 	if (!redirect(shell, cmd)
 		|| !is_valid_cmd_path(argv[0], &exit_code))
@@ -68,9 +68,8 @@ void	fork_and_exec(t_shell *shell, char **argv, t_dynarray *cmd)
     pid_t pid;
 
     pid = fork();
-	if (pid == -1)
+	if (!p_int(pid, -1, "fork"))
 	{
-		perror("fork");
 		shell->exit_code = EXIT_FAILURE;
 		return ;
 	}

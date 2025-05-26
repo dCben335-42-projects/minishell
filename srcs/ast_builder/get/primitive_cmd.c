@@ -38,7 +38,7 @@ static t_ast_node	*add_cmd_child(t_get_cmd_master *args, t_get_cmd_primitive *d)
 
 	if (is_empty(args))
 		return (NULL);
-	if (merr(init_node_secure(CMD_JOIN, NULL, args), &d->cmd_new))
+	if (merr(init_node_secure(CMD_BASE, NULL, args), &d->cmd_new))
 		return (NULL);
 	cmd_word = NULL;
 	cmd_redir = NULL;

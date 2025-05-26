@@ -1,8 +1,7 @@
 #include "parsing.h"
 #include "messages.h"
 
-
-static const t_rules_map	*get_parsing_action(void)
+static const t_rules_map	*get_parsing_action_map(void)
 {
 	static const t_rules_map	parsing_action[] = {
 	{INC_PAREN_OPEN,			&increment_parenthesis_open},
@@ -21,9 +20,41 @@ static const t_rules_map	*get_parsing_action(void)
 	return (parsing_action);
 }
 
+static t_parse_status	run_parsing_action(t_lexer_args *args, t_token *token)
+{
+	const t_rules_map	*map = get_parsing_action_map();
+	t_parse_status		status;
+
+	while (map->key)
+	{
+		if (token->rules & map->key)
+		{
+			status = map->f(args, token);
+			if (status != COMMAND_VALID)
+				return (status);
+		}
+		map++;
+	}
+	return (COMMAND_VALID);
+}
+
+static t_bool	check_quote(t_lexer_args *args, t_token *token)
+{
+	if (token->type == M_EOF && args->quote)
+	{
+		if (args->quote == DELIMITER_EXPANDABLE_TEXT)
+			args->not_finished_value = get_readline_arg(READLINE_D_QUOTE_KEY);
+		else
+			args->not_finished_value = get_readline_arg(READLINE_S_QUOTE_KEY);
+		destroy_token(token);
+		return (FALSE);
+	}
+	return (TRUE);
+}
+
 t_parse_status	get_error_message(t_token *token, char *msg)
 {
-	write(2, msg, ft_strlen(msg));
+	(void)msg;
 	if (token->value)
 	{
 		write(2, SYNTAX_ERR_START, ft_strlen(SYNTAX_ERR_START));
@@ -34,36 +65,18 @@ t_parse_status	get_error_message(t_token *token, char *msg)
 	return (COMMAND_NOT_VALID);
 }
 
-/**
- * @brief Function to check whether the command is still in a valid
- * format after the new token has been added.
- * 
- * @param input: input string
- * @param offset: offset of the token
- * 
- * @return the type of the token
- */
 t_parse_status	token_parser(t_lexer_args *args, t_token *token)
 {
-	const t_rules_map	*parsing_action = get_parsing_action();
 	t_parse_status				status;
 
-	status = COMMAND_VALID;
-	args->right_operand = UNDEFINED;
-	while (parsing_action->key)
-	{
-		if (token->rules & parsing_action->key)
-			status = parsing_action->callback(args, token);
-		if (status != COMMAND_VALID)
-			return (status);
-		parsing_action++;
-	}
-	status = check_all_rules(args, token);
+	args->rhs = UNDEFINED;
+	status = run_parsing_action(args, token);
+	if (status == COMMAND_VALID)
+		status = check_all_rules(args, token);
 	if (status != COMMAND_VALID)
 		return (status);
-	if (token->type == M_EOF)
-		if (args->quote != 0)
-			return (COMMAND_NOT_FINISHED);
+	if (!check_quote(args, token))
+		return (COMMAND_NOT_FINISHED);
 	if (!push(&args->tokens, token))
 	{
 		destroy_token(token);

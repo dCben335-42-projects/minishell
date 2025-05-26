@@ -6,15 +6,16 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 01:36:46 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/04/18 19:28:04 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/22 19:04:21 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "errors.h"
 #include "libft.h"
+# include <stdio.h>
 
 /**
- * @brief Function that use perror and print the message if the pointer is NULL
+ * @brief Function that use perror and print the message
+ * if the pointer is NULL
  * 
  * @param data: pointer to check
  * @param msg: message to print in case of NULL ptr
@@ -32,7 +33,8 @@ void	*p_ptr(void *data, const char *msg)
 }
 
 /**
- * @brief Function that print the message if the data is equal to error_value
+ * @brief Function that use perror and print the message
+ * if the pointer is equal to error_value
  * 
  * @param data: data to check
  * @param error_value: value to compare with
@@ -51,7 +53,8 @@ t_bool	p_int(int data, int error_value, const char *msg)
 }
 
 /**
- * @brief Function that print the message if the pointer is NULL
+ * @brief Function that print the message in the error stream
+ * if the pointer is NULL
  
  * @param ptr: pointer to check
  * @param msg: message to print in case of NULL ptr
@@ -62,8 +65,28 @@ void	*s_ptr(void *ptr, const char *msg)
 {
 	if (!ptr)
 	{
-		ft_putendl_fd((char *)msg, 2);
+		ft_putendl_fd(msg, 2);
 		return (NULL);
 	}
 	return (ptr);
+}
+
+/**
+ * @brief Function that print the message in the error stream
+ * if the pointer is equal to error_value
+ * 
+ * @param data: data to check
+ * @param error_value: value to compare with
+ * @param msg: message to print in case of error
+ * 
+ * @return TRUE if data is not equal to error_value, FALSE otherwise
+ */
+t_bool	s_int(int data, int error_value, const char *msg)
+{
+	if (data == error_value)
+	{
+		ft_putendl_fd(msg, 2);
+		return (FALSE);
+	}
+	return (TRUE);
 }

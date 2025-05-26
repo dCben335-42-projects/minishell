@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 10:29:31 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/20 14:26:10 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/24 20:37:41 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,28 @@ static t_bool	handle_redir(t_shell *shell, t_ast_node *node)
 	return (FALSE);
 }
 
-t_bool	is_valid_filename(t_tree *tree, char *joined_word)
+char *get_redir_filename(t_dynarray *arr)
 {
-	if (get_size_tree(tree) != 1)
+	t_expand	*node;
+	t_tree		*tree;
+
+	node = (t_expand *)get_dynarray_value(arr, 0);
+	if (node->is_tree)
+	{
+		tree = (t_tree *)node->content;
+		return (tree->value);
+	}
+	return (node->content);
+}
+
+t_bool	is_valid_filename(t_dynarray *arr, char *joined_word)
+{
+	t_expand	*node;
+
+	if (!arr || !joined_word)
+		return (FALSE);
+	node = (t_expand *)get_dynarray_value(arr, 0);
+	if (arr->count != 1 || !node || (node->is_tree && get_size_tree(node->content) != 1))
 	{
 		if (!joined_word)
 			return (FALSE);

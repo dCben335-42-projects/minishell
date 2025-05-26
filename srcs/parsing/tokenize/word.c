@@ -1,10 +1,10 @@
 #include "parsing.h"
 
-t_pointer	tokenize_word(t_lexer_args *args)
+t_ptr	tokenize_word(t_lexer_args *args)
 {
 	char				*start_i;
     t_uint	current_type;
-	t_pointer			pointer;
+	t_ptr			pointer;
 
 	start_i = (char *)args->input;
 	current_type = TEXT;

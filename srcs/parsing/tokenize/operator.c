@@ -1,9 +1,9 @@
 #include "parsing.h"
 
-t_pointer	tokenize_operator(t_lexer_args *args,
+t_ptr	tokenize_operator(t_lexer_args *args,
 	int offset, t_uint type)
 {
-	t_pointer	pointer;
+	t_ptr	pointer;
 
 	if (type == R_HEREDOC)
 		args->is_heredoc = HEREDOC;

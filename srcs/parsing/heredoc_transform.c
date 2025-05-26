@@ -2,7 +2,7 @@
 #include "minishell.h"
 #include "minishell_signal.h"
 
-static t_pointer	handle_expandale_token(t_uint type)
+static t_ptr	handle_expandale_token(t_uint type)
 {
     if (type == QUOTED_TEXT || type == QUOTED_EXPAND)
 	{
@@ -43,7 +43,7 @@ static char	*trim_leading_tabs(char **str, char *line, t_bool is_first, t_bool n
 	return (heredoc_join(str, start, is_first));
 }
 
-t_bool handle_loop(t_token *token)
+static t_bool handle_loop(t_token *token, const char *readline_arg)
 {
 	t_bool		is_first;
 	char		*str;
@@ -57,15 +57,16 @@ t_bool handle_loop(t_token *token)
 	enable_sigint_heredoc();
 	while (TRUE) 
 	{
-		line = readline(SHELL_NEXT_NAME);
-		if (g_heredoc_interrupted)
-		{
-			free(line);
-			free(str);
-			g_heredoc_interrupted = 0;
-			return (FALSE);
-		}
-		write(STDOUT_FILENO, "BONJOUR\n", 8);
+		//line = readline(SHELL_NEXT_NAME);
+		//if (g_heredoc_interrupted)
+		//{
+		//	free(line);
+		//	free(str);
+		//	g_heredoc_interrupted = 0;
+		//	return (FALSE);
+		//}
+		//write(STDOUT_FILENO, "BONJOUR\n", 8);
+		line = readline(readline_arg);
 		if (!line || (!ft_strcmp(line, token->value) && !ft_free((void **)&line)))
 			break ;
 		if (!trim_leading_tabs(&str, line, is_first, TRUE) && !ft_free((void **)&line))
@@ -81,16 +82,34 @@ t_bool handle_loop(t_token *token)
 	return (TRUE);
 }
 
-t_pointer	transform_heredoc(t_lexer_args *args, t_token *token)
+/**
+ * @brief Transforms a heredoc token by expanding it 
+ * and reading input until the delimiter is reached.
+ *
+ * @param args The lexer arguments containing the tokens.
+ * @param token The heredoc token to be transformed.
+ * 
+ * @note The token argument will be modified to contain the
+ * heredoc content.
+ * 
+ * @return A pointer to the a token that indicate
+ * if the heredoc is expandable or not.
+ */
+t_ptr	transform_heredoc(t_lexer_args *args, t_token *token)
 {
-	t_pointer	pointer;
-    
+	t_token	*prev;
+	t_ptr	pointer;
+	
 	args->is_heredoc = NOT_HEREDOC;
+	printf("transform_heredoc\n");
+	prev = args->tokens.data[args->tokens.count - 2];
+	if (prev && prev->type == M_SPACE)
+	   prev = args->tokens.data[args->tokens.count - 3];
    	pointer = handle_expandale_token(token->type);
-    if (!handle_loop(token))
+    if (!prev || !handle_loop(token, get_readline_arg(prev->type)))
 	{
-		destroy_token(pointer.pointer);
-		pointer.pointer = NULL;
+		destroy_token(pointer.p);
+		pointer.p = NULL;
 		pointer.has_malloc_error = TRUE;
 	}
     return (pointer);

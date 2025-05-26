@@ -6,7 +6,7 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 13:48:13 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/24 15:56:56 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/05/26 15:40:39 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@
 # include "cmd_expand.h"
 # include "cmd_builtin.h"
 # include "messages.h"
-# include "errors.h"
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <signal.h>

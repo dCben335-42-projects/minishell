@@ -1,5 +1,5 @@
 #include "ast_node.h"
-#include "ft_printf.h"
+#include "utils.h"
 
 static t_ast_print_map	*get_mappings(void)
 {
@@ -61,9 +61,27 @@ void	print_ast_json(t_print_ast_json_args args)
 	}
 }
 
+t_print_ast_json_args init_t_print_ast_json_args(t_dynarray *cmd, t_uint depth)
+{
+	const t_print_ast_json_args args = {
+		.cmd = cmd,
+		.depth = depth,
+		.v_l_brace = BRACE_COL"{\n"RESET_COL,
+		.v_r_brace = BRACE_COL"}"RESET_COL,
+		.v_l_hook = BRACE_COL"[\n"RESET_COL,
+		.v_r_hook = BRACE_COL"]\n"RESET_COL,
+		.v_content = FIRST_COL"\"content\": "RESET_COL,
+		.f_type = FIRST_COL"\"type\": "SECOND_COL"\"%s\",\n"RESET_COL,
+		.f_string = SECOND_COL"\"%s\"\n"RESET_COL
+	};
+
+	return (args);
+}
+
 void	print_ast_json_wrapper(t_dynarray *cmd)
 {
 	printf("[\n");
-	print_ast_json((t_print_ast_json_args){cmd, 2});
+	print_ast_json(init_t_print_ast_json_args(cmd, 2));
 	printf("]\n");
+
 }

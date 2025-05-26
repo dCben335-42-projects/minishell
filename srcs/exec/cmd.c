@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:57:59 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/24 07:34:13 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/26 20:39:04 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,8 @@ void	*command_handler_lexer(char *input, t_lexer_args *args)
 	if (!args->tokens.data)
 		return (NULL);
 	status = lexer(args);
+	if (args->heredoc_interupted)
+		return (NULL);
 	if (status == MALLOC_ERROR || status == COMMAND_NOT_VALID)
 		return (NULL);
 	if (status == COMMAND_NOT_FINISHED)
@@ -77,17 +79,21 @@ void	*command_handler_lexer(char *input, t_lexer_args *args)
 	return (args->tokens.data);
 }
 
+
 void	*command_handler(char *input, t_shell *shell)
 {
 	t_lexer_args	args;
 	t_bool			is_lexer_error;
 	
 	is_lexer_error = !command_handler_lexer(input, &args);
+
 	add_history(args.base_input);
 	free(args.base_input);
 	if (is_lexer_error)
 	{
 		shell->exit_code = 2;
+		if (args.heredoc_interupted)
+			shell->exit_code = 130;
 		return (destroy_lexer_args(&args));
 	}
 	debug_tokens(shell, &args.tokens);

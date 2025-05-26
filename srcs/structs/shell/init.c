@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 13:49:50 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/24 02:47:46 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/26 18:55:35 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ t_shell	init_shell(char **envp)
 	shell.debug.lexer = FALSE;
 	shell.debug.ast = FALSE;
 	shell.debug.exitcode = FALSE;
+	shell.interrupted = FALSE;
 	p_ptr(shell.current_path, ERROR_SHELL_INIT);
 	return (shell);
 }

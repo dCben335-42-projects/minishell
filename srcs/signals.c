@@ -6,7 +6,7 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 18:07:59 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/26 15:41:23 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/05/26 19:09:01 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,6 @@
 
 void	signal_handler(int signum)
 {
-	if (signum == SIGQUIT)
-	{
-		printf("Quit: 3\n");
-		return ;
-	}
 	if (signum == SIGINT)
 	{
 		write(1, "\n", 1);

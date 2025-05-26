@@ -97,6 +97,7 @@ void	orchestrator(t_shell *shell)
 	t_ast_node	*cmd;
 
 	cmd = find_next_cmd(shell->ast);
-	while (cmd)
+	shell->interrupted = FALSE;
+	while (!shell->interrupted && cmd)
 		cmd = handle_cmd(shell, cmd);
 }

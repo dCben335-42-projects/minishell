@@ -1,56 +1,47 @@
 #include "ast_node.h"
 #include "utils.h"
 
-static void	print_indentation(t_uint depth)
-{
+static void	print_text(t_uint depth,
+	const char *format, const char *text)
+{	
+	const char	*base_format = "%s";
+
 	while (depth--)
 		printf("  ");
-}
-
-static void	print_indent_text(t_uint depth, const char *text)
-{
-	print_indentation(depth);
-	printf("%s", text);
-}
-
-static void	print_indent_text_format(t_uint depth,
-	const char *format, const char *text)
-{
 	if (format)
 	{
-		print_indentation(depth);
 		printf(format, text);
 		return ;
 	}
-	print_indent_text(depth, text);
+	printf(base_format, text);
 }
+
 
 void	print_ast_node_json(t_ast_node *node,
 	t_uint i, const char *node_type, t_print_ast_json_args args)
 {
-	print_indent_text(args.depth, BRACE_COL"{\n"RESET_COL);
-	print_indent_text_format(args.depth + 2, FIRST_COL"\"type\": "SECOND_COL"\"%s\",\n"RESET_COL, node_type);
+	(void)i; // Unused parameter
+	print_text(args.depth, NULL, args.v_l_brace);
+	print_text(args.depth + 2, args.f_type, node_type);
 	if (node->content)
 	{
-		print_indent_text(args.depth + 2, FIRST_COL"\"content\": "RESET_COL);;
+		print_text(args.depth + 2, NULL, args.v_content);
 		if (node->child_count == 1)
-		{
-			printf(SECOND_COL"\"%s\"\n"RESET_COL, (char *)node->content);
-			print_indent_text(args.depth, BRACE_COL"}"RESET_COL);
-		}
+			print_text(0, args.f_string, node->content);
 		if (node->child_count > 2)
 		{
-			printf(BRACE_COL"[\n"RESET_COL);
-			print_ast_json((t_print_ast_json_args){(t_dynarray *)node->content, args.depth + 4});
-			print_indent_text(args.depth + 2, BRACE_COL"]\n"RESET_COL);
-			print_indent_text(args.depth, BRACE_COL"}"RESET_COL);
-			if (i < args.cmd->count - 1)
-				printf(",");
-			printf("\n");
+			print_text(0, NULL, args.v_l_hook);
+			print_ast_json(init_t_print_ast_json_args(node->content, args.depth + 4));
+			print_text(args.depth + 2, NULL, args.v_r_hook);
+			print_text(args.depth, NULL, args.v_r_brace);	
 		}
 	}
-	else
-		print_indent_text(args.depth, "}");
+	if (node->child_count <= 1)
+		print_text(args.depth, NULL, args.v_r_brace);
+	if (!node->content || (node->child_count > 2 && node->next))
+		printf(",");
+	if (!node->content || node->child_count > 2)
+		printf("\n");
 }
 
 void	cmd_join(t_ast_node *node,
@@ -59,6 +50,6 @@ void	cmd_join(t_ast_node *node,
 	if (index != 0)
 		printf(",\n");
 	print_ast_node_json(node, index, name, args);
-	if (index == args.cmd->count - 1)
+	if (!node->next)
 		printf("\n");
 }

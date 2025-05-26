@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   struct_lexer_args.h                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:35:32 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/23 22:58:35 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/26 19:29:48 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ typedef struct s_lexer_args
 	t_rhs_status		rhs;
 	t_rhs_status		expected_rhs;
 	const char			*not_finished_value;
+	t_bool				heredoc_interupted;
 }	t_lexer_args;
 
 typedef struct s_readline_state

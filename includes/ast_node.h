@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_node.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 20:33:47 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/24 07:18:11 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/26 17:08:35 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,13 @@ typedef struct s_print_ast_json_args
 {
 	t_dynarray	*cmd;
 	t_uint		depth;
+	const char	*v_l_brace;
+	const char	*v_r_brace;
+	const char	*v_l_hook;
+	const char	*v_r_hook;
+	const char	*v_content;
+	const char	*f_type;
+	const char	*f_string;
 }	t_print_ast_json_args;
 
 typedef struct s_token_node_map
@@ -94,4 +101,5 @@ void		print_ast_node_json(t_ast_node *node, t_uint i,
 				const char *node_type, t_print_ast_json_args args);
 int			is_node(t_ast_node *node, size_t mask);
 
+t_print_ast_json_args init_t_print_ast_json_args(t_dynarray *cmd, t_uint depth);
 #endif

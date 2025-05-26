@@ -6,7 +6,7 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:07:25 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/26 15:42:08 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/05/26 18:54:56 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,8 @@ void	fork_and_exec(t_shell *shell, char **argv, t_dynarray *cmd)
 		child_exec(shell, argv, cmd);
 	}
 	shell->exit_code = wait_childrens(pid);
+	if (g_sig == SIGINT)
+		shell->interrupted = TRUE;
 	disable_sigquit();
 	enable_sigint_default();
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:18:18 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/23 22:59:00 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/26 19:30:08 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,5 +25,6 @@ t_lexer_args	init_lexer_args(const char *input)
 	args.rhs = UNDEFINED;
 	args.expected_rhs = UNDEFINED;
 	args.not_finished_value = NULL;
+	args.heredoc_interupted = FALSE;
 	return (args);
 }

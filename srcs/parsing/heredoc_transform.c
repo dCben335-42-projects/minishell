@@ -1,6 +1,7 @@
 #include "parsing.h"
 #include "minishell.h"
 #include "minishell_signal.h"
+#include "utils.h"
 
 static t_ptr	handle_expandale_token(t_uint type)
 {
@@ -17,15 +18,19 @@ static t_ptr	handle_expandale_token(t_uint type)
 	), TRUE));
 }
 
-static char	*heredoc_join(char **str, char *line, t_bool is_first)
+
+static char	*trim_leading_tabs(char **str, char *line, t_bool is_first, t_bool need)
 {
-    const char	*joined[2] = {*str, line};
+	char *start;
     char		*tmp;
 
+	start = line;
+	while (need && *start && *start == '\t')
+		start++;
     if (is_first)
-        tmp = ft_strdup(line);
+        tmp = ft_strdup(start);
     else
-        tmp = ft_strsjoin(joined, 2, "\n");
+        tmp = ft_strsjoin((const char *[]){*str, start}, 2, "\n");
     free(*str);
     *str = tmp;
     if (!tmp)
@@ -33,17 +38,7 @@ static char	*heredoc_join(char **str, char *line, t_bool is_first)
     return (tmp);
 }
 
-static char	*trim_leading_tabs(char **str, char *line, t_bool is_first, t_bool need)
-{
-	char *start;
-
-	start = line;
-	while (need && *start && *start == '\t')
-		start++;
-	return (heredoc_join(str, start, is_first));
-}
-
-static t_bool handle_loop(t_token *token, const char *readline_arg)
+static t_bool handle_loop(t_token *token, const char *readline_arg, t_bool need_trim)
 {
 	t_bool		is_first;
 	char		*str;
@@ -53,32 +48,41 @@ static t_bool handle_loop(t_token *token, const char *readline_arg)
 	if (!str)
 		return (FALSE);
 	is_first = TRUE;
-	disable_sigint();
-	enable_sigint_heredoc();
 	while (TRUE) 
 	{
-		//line = readline(SHELL_NEXT_NAME);
-		//if (g_heredoc_interrupted)
-		//{
-		//	free(line);
-		//	free(str);
-		//	g_heredoc_interrupted = 0;
-		//	return (FALSE);
-		//}
-		//write(STDOUT_FILENO, "BONJOUR\n", 8);
 		line = readline(readline_arg);
-		if (!line || (!ft_strcmp(line, token->value) && !ft_free((void **)&line)))
+		if (g_sig == SIGINT || !line || (!ft_strcmp(line, token->value) && !ft_free((void **)&line)))
 			break ;
-		if (!trim_leading_tabs(&str, line, is_first, TRUE) && !ft_free((void **)&line))
+		if (!trim_leading_tabs(&str, line, is_first, need_trim) && !ft_free((void **)&line))
 			return (FALSE);
 		is_first = FALSE;
 		free(line);
 	}
-
-	disable_sigint();
-	enable_sigint_default();
 	free(token->value);
 	token->value = str;
+	return (TRUE);
+}
+
+
+static t_bool heredoc_wrapper(t_token *token, const char *readline_arg, t_bool need_trim, t_bool *is_interrupted)
+{
+	const int	saved_stdin = dup(STDIN_FILENO);
+	t_bool		ret;
+
+	if (!saved_stdin)
+		return (FALSE);
+	enable_sigint_heredoc();
+	ret = handle_loop(token, readline_arg, need_trim);
+	restore_std_in_out(saved_stdin, -1);
+	enable_sigint_default();
+	if (!ret)
+		return (FALSE);
+	if (g_sig == SIGINT)
+	{
+		*is_interrupted = TRUE;
+		g_sig = 0;
+		return (FALSE);
+	}
 	return (TRUE);
 }
 
@@ -94,19 +98,22 @@ static t_bool handle_loop(t_token *token, const char *readline_arg)
  * 
  * @return A pointer to the a token that indicate
  * if the heredoc is expandable or not.
- */
+*/
 t_ptr	transform_heredoc(t_lexer_args *args, t_token *token)
 {
 	t_token	*prev;
 	t_ptr	pointer;
+	t_bool	need_trim;
 	
+	need_trim = args->is_heredoc == HEREDOC_TRIM;
 	args->is_heredoc = NOT_HEREDOC;
-	printf("transform_heredoc\n");
 	prev = args->tokens.data[args->tokens.count - 2];
 	if (prev && prev->type == M_SPACE)
 	   prev = args->tokens.data[args->tokens.count - 3];
    	pointer = handle_expandale_token(token->type);
-    if (!prev || !handle_loop(token, get_readline_arg(prev->type)))
+	if (pointer.has_malloc_error)
+		return (pointer);
+    if (!prev || !heredoc_wrapper(token, get_readline_arg(prev->type), need_trim, &args->heredoc_interupted))
 	{
 		destroy_token(pointer.p);
 		pointer.p = NULL;

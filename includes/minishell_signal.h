@@ -10,7 +10,7 @@
 # include <termios.h>
 # include "libft.h"
 
-extern volatile sig_atomic_t g_heredoc_interrupted;
+extern volatile sig_atomic_t g_sig;
 
 void	get_termios(struct termios *minishell_term);
 void	update_termios(struct termios *minishell_term);

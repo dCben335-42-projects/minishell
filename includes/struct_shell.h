@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   struct_shell.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 19:05:04 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/24 02:48:07 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/26 18:54:40 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ typedef struct s_shell
 	int			exit_code;
 	pid_t		last_pid;
 	t_ast_node	*ast;
+	t_bool		interrupted;
 	t_debug		debug;
 }	t_shell;
 

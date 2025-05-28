@@ -6,7 +6,7 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 09:04:49 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/26 19:09:25 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/05/28 19:10:11 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,19 +27,17 @@ static t_ast_node	*run_subshell(
 		shell->exit_code = EXIT_FAILURE;
 		return (FALSE);
 	}
-	disable_sigint();
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
 	if (shell->last_pid == 0)
 	{
-		enable_sigquit();
-		enable_sigint();
 		cmd = find_next_cmd(cmd);
 		while (cmd && cmd != skipped_cmd)
 			cmd = handle_cmd(shell, cmd);
 		destroy_self(shell, NULL, shell->exit_code);
 	}
 	shell->exit_code = wait_childrens(shell->last_pid);
-	disable_sigquit();
-	enable_sigint_default();
+	signals(SIGCTX_SHELL);
 	return (skipped_cmd);
 }
 

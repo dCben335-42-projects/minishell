@@ -6,7 +6,7 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 19:31:21 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/26 15:41:09 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/05/28 19:10:03 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,12 @@
 #include "minishell_signal.h"
 #include "utils.h"
 
-volatile sig_atomic_t g_signal = 0;
-
-
 static void	handle_loop(t_shell *shell)
 {
 	const char	*readline_arg;
-	char	*input;
-	
+	char		*input;
+
+	signals(SIGCTX_SHELL);
 	while (TRUE)
 	{
 		readline_arg = get_main_readline_arg(shell);
@@ -69,13 +67,9 @@ int	main(int argc, char **argv, char **envp)
 
 	(void)argc;
 	(void)argv;
-	restore_termios();
-	disable_sigquit();
-	enable_sigint_default();
 	print_shell_banner();
 	shell = init_shell(envp);
 	handle_loop(&shell);
-	restore_termios();
 	ft_exit(&shell, NULL);
 	return (0);
 }

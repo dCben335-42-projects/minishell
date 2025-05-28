@@ -6,7 +6,7 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:57:59 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/26 20:39:04 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/05/28 18:40:58 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,6 @@ void	*command_handler(char *input, t_shell *shell)
 	t_bool			is_lexer_error;
 	
 	is_lexer_error = !command_handler_lexer(input, &args);
-
 	add_history(args.base_input);
 	free(args.base_input);
 	if (is_lexer_error)

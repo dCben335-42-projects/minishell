@@ -6,7 +6,7 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 08:45:59 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/26 15:43:07 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/05/28 17:30:39 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,6 @@ static t_bool	exec_pipe(
 	}
 	if (shell->last_pid == 0)
 	{
-		enable_sigquit();
-		enable_sigint();
 		if (!setup_redirections(in_out))
 			destroy_self(shell, NULL, EXIT_FAILURE);
 		close_in_out(pipefd);
@@ -67,8 +65,6 @@ static t_bool	exec_pipe(
 		destroy_self(shell, NULL, shell->exit_code);
 	}
 	close_in_out(in_out);
-	disable_sigquit();
-	disable_sigint();
 	return (TRUE);
 }
 

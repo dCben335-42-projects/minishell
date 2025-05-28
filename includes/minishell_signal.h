@@ -10,18 +10,15 @@
 # include <termios.h>
 # include "libft.h"
 
+typedef enum e_signal_ctx
+{
+	SIGCTX_HEREDOC,
+	SIGCTX_SHELL,
+	SIGCTX_FORK,	
+}	t_signal_ctx;
+
 extern volatile sig_atomic_t g_sig;
 
-void	get_termios(struct termios *minishell_term);
-void	update_termios(struct termios *minishell_term);
-void	restore_termios(void);
-
-void	enable_sigquit(void);
-void	disable_sigquit(void);
-void	enable_sigint(void);
-void	disable_sigint(void);
-void	signal_handler(int signum);
-void	enable_sigint_default(void);
-void	enable_sigint_heredoc(void);
+void	signals(t_signal_ctx ctx);
 
 #endif

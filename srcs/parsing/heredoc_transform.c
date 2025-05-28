@@ -71,19 +71,17 @@ static t_bool heredoc_wrapper(t_token *token, const char *readline_arg, t_bool n
 
 	if (!saved_stdin)
 		return (FALSE);
-	enable_sigint_heredoc();
+	signals(SIGCTX_HEREDOC);
 	ret = handle_loop(token, readline_arg, need_trim);
 	restore_std_in_out(saved_stdin, -1);
-	enable_sigint_default();
-	if (!ret)
-		return (FALSE);
+	signals(SIGCTX_SHELL);
 	if (g_sig == SIGINT)
 	{
 		*is_interrupted = TRUE;
 		g_sig = 0;
 		return (FALSE);
 	}
-	return (TRUE);
+	return (ret);
 }
 
 /**

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   destroy_self.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 20:39:46 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/22 18:50:26 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/28 18:01:17 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	*destroy_self(t_shell *shell, char **argv, int exit_code)
 	if (argv)
 		ft_free_split(argv);
 	destroy_shell(shell);
-	close_fds(0);
+	//close_fds(0);
 	exit(exit_code);
 	return (NULL);
 }

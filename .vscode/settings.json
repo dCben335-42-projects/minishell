@@ -37,6 +37,8 @@
 		"tuple": "c",
 		"type_traits": "c",
 		"utility": "c",
-		"minishell_signal.h": "c"
+		"minishell_signal.h": "c",
+		"string.h": "c",
+		"ioctl.h": "c"
 	}
 }

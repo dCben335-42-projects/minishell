@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:35:32 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/23 22:58:35 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/28 19:44:11 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ typedef struct s_lexer_args
 	t_rhs_status		rhs;
 	t_rhs_status		expected_rhs;
 	const char			*not_finished_value;
+	t_bool				check_rules;
 }	t_lexer_args;
 
 typedef struct s_readline_state
@@ -60,7 +61,7 @@ typedef struct s_readline_state
 	const char		*value;
 }	t_readline_state;
 
-t_lexer_args	init_lexer_args(const char *input);
+t_lexer_args	init_lexer_args(const char *input, t_bool check_rules);
 void			*destroy_lexer_args(t_lexer_args *args);
 
 const char *get_readline_arg(t_token_type type);

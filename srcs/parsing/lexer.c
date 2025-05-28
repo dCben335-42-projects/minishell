@@ -3,13 +3,15 @@
 #include "minishell.h"
 #include "fcntl.h"
 
-static t_bool	is_command_finished(t_lexer_args *args, t_token *token)
+static t_bool	is_command_finished(t_lexer_args *args, t_token *token, const char *input)
 {
+	if (!args->check_rules)
+		return (TRUE);
 	if (token->rules & EXPECT_CONT || args->parenthesis.open > args->parenthesis.close)
 	{
-		while (ft_isspace(*args->input))
-			args->input++;
-		if (!*args->input)
+		while (ft_isspace(*input))
+			input++;
+		if (!*input)
 		{
 			args->not_finished_value = get_readline_arg(token->type);
 			return (FALSE);
@@ -22,21 +24,18 @@ static t_ptr	get_next_token(t_lexer_args *args)
 {
     int offset;
 
-    while (*args->input)
-    {
-        if (args->quote == DELIMITER_EXPANDABLE_TEXT 
-			&& *args->input == DELIMITER_EXPANDABLE_TEXT)
-        {
-            args->input++;
-            args->quote = 0;
-            continue ;
-        }
-        if (ft_isspace(*args->input) && args->quote == 0)
-            return (tokenize_whitespace(args));
-        offset = 0;
-        return (get_token(args, offset, get_token_type(args->input, &offset)));
-    }
-	return (init_pointer(NULL, FALSE));
+	if (!*args->input)
+		return (init_pointer(NULL, FALSE));
+	if (args->quote == DELIMITER_EXPANDABLE_TEXT 
+		&& *args->input == DELIMITER_EXPANDABLE_TEXT)
+	{
+		args->input++;
+		args->quote = 0;
+	}
+	if (ft_isspace(*args->input) && args->quote == 0)
+		return (tokenize_whitespace(args));
+	offset = 0;
+	return (get_token(args, offset, get_token_type(args->input, &offset)));
 }
 
 t_parse_status	get_parsing_error_status(t_lexer_args *args, t_ptr ptr)
@@ -46,7 +45,7 @@ t_parse_status	get_parsing_error_status(t_lexer_args *args, t_ptr ptr)
     status = token_parser(args, ptr.p);
     if (status != COMMAND_VALID)
 		return (status);
-    if (!is_command_finished(args, ptr.p))
+    if (!is_command_finished(args, ptr.p, args->input))
 		return (COMMAND_NOT_FINISHED);
     return (status);
 }

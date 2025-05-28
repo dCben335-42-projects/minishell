@@ -6,13 +6,13 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:18:18 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/28 13:41:53 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/28 19:44:04 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "struct_lexer_args.h"
 
-t_lexer_args	init_lexer_args(const char *input)
+t_lexer_args	init_lexer_args(const char *input, t_bool check_rules)
 {
 	t_lexer_args	args;
 
@@ -25,5 +25,6 @@ t_lexer_args	init_lexer_args(const char *input)
 	args.rhs = UNDEFINED;
 	args.expected_rhs = UNDEFINED;
 	args.not_finished_value = NULL;
+	args.check_rules = check_rules;
 	return (args);
 }

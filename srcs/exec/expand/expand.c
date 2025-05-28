@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 19:10:10 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/28 15:20:42 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/28 20:25:42 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ t_dynarray	*expand_word(t_shell *shell, t_dynarray *word, t_dynarray *args)
 	input = build_expand_input(word);
 	if (!input)
 		return (NULL);
-	lex = init_lexer_args(input);
+	lex = init_lexer_args(input, FALSE);
 	if (!lex.tokens.data)
 		return (NULL);
 	ret = NULL;

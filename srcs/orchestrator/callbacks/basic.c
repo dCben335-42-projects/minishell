@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 08:58:30 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/24 05:39:58 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/28 13:28:58 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ t_ast_node	*exec_basic(t_shell *shell, t_ast_node *cmd)
 	if (!cmd_to_argv(shell, cmd->content, &args))
 		return (NULL);
 	argv = (char ***)&args.data;
-	write(1, COMMAND_COL, sizeof(COMMAND_COL));
 	if (!is_builtin(shell, cmd->content, *argv))
 	{
 		*argv[0] = get_full_cmd_path(*argv, get_env_node(shell->env, "PATH"));
@@ -40,7 +39,6 @@ t_ast_node	*exec_basic(t_shell *shell, t_ast_node *cmd)
 			return (destroy_dynarray(&args));
 		fork_and_exec(shell, *argv, cmd->content);
 	}
-	write(1, RESET_COL, sizeof(RESET_COL));
 	destroy_dynarray(&args);
 	return (find_next_cmd(cmd));
 }

@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 20:33:47 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/24 07:18:11 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/28 14:22:01 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,9 @@ void		cmd_join(t_ast_node *node, t_uint index,
 				const char *name, t_print_ast_json_args args);
 void		print_ast_node_json(t_ast_node *node, t_uint i,
 				const char *node_type, t_print_ast_json_args args);
+
+
 int			is_node(t_ast_node *node, size_t mask);
+int			is_node_wildcard(t_ast_node *node);
 
 #endif

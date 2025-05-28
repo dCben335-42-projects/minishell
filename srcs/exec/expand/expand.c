@@ -6,93 +6,88 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 19:10:10 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/24 21:02:18 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/28 15:20:42 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cmd_expand.h"
 #include "utils.h"
 #include "libft_tree.h"
+#include "parsing.h"
+#include "ast.h"
+#include "cmd_redir.h"
 
-void *destroy_expand(t_expand *node)
+static char *join_token(t_token *token, char *value, t_bool *is_wildcard)
 {
-	if (!node)
+	char	*tmp;
+
+	if (token->type == WILDCARD)
+		*is_wildcard = TRUE;
+	tmp = ft_strjoin(value, token->value);
+	free(value);
+	if (!tmp)
 		return (NULL);
-	if (node->is_tree)
-		destroy_tree((t_tree *)node->content);
-	else 
-		free(node->content);
-	free(node);
-	return (NULL);
+	return (tmp);
 }
 
-t_expand *init_expand(t_bool is_tree, void *content)
+static t_dynarray	*join_word_tokens(t_shell *shell, t_dynarray *tokens, t_dynarray *args)
 {
-	t_expand	*expand;
-
-	if (!content)
-		return (NULL);
-	expand = malloc(sizeof(t_expand));
-	if (!expand)
-	{
-		if (is_tree)
-			return (destroy_tree((t_tree *)content));
-		free(content);
-		return (NULL);
-	}
-	expand->is_tree = is_tree;
-	expand->content = content;
-	return (expand);
-}
-
-void	*destroy_expand_array(t_dynarray *arr)
-{
+	t_token	*token;
+	char	*value;
+	t_bool  is_wildcard;
 	t_uint	i;
-	t_expand	*node;
 
-	if (!arr || !arr->data)
-		return (NULL);
 	i = 0;
-	while (i < arr->count)
+	value = ft_strdup("");
+	if (!value)
+		return (NULL);
+	is_wildcard = FALSE;
+	while (i < tokens->count)
 	{
-		node = (t_expand *)get_dynarray_value(arr, i);
-		destroy_expand(node);
+		token = get_dynarray_value(tokens, i);
+		if (token->type == M_EOF || token->type == M_SPACE)
+			value = save_expand_entry(shell, args, value, &is_wildcard);
+		else
+			value = join_token(token, value, &is_wildcard);
+		if (!value)
+			return (NULL);
 		i++;
 	}
-	return (destroy_dynarray(arr));
+	free(value);
+	return (args);
 }
-t_bool	is_word_env(t_dynarray *word);
+
 /**
- * @brief Expands a word by expanding environment variables and wildcards.
- *
- * @param shell The shell instance.
- * @param word The word to expand.
+ * @brief Expands a word in the shell context.
  * 
- * @return The expanded word or NULL if an error occurred.
- */
-t_dynarray	*expand_word(t_shell *shell, t_dynarray *word)
+ * This function checks if the word is an environment variable or a wildcard.
+ *
+ * @param shell The shell context containing environment variables.
+ * @param word The word to be expanded, represented as a dynamic array.
+ * @param args The array to store the expanded arguments.
+ * 
+ * @return The last args element or NULL if an error occurs.
+*/
+t_dynarray	*expand_word(t_shell *shell, t_dynarray *word, t_dynarray *args)
 {
-	t_dynarray	*expand;
-	t_expand	*node;
+	t_lexer_args	lex;
+	t_parse_status	status;
+	char			*input;
+	t_dynarray		*ret;
 	
-	expand = init_dynarray_malloc(10, NULL);
-	if (!is_word_env(word) && !is_word_wildcard(word))
-	{
-		node = init_expand(FALSE, word_join(word));
-		if (!node || (!push(expand, node) && !destroy_expand(node)))
-			return (destroy_dynarray(expand));
-		return (expand);
-	}
-	// if (!expand_env_word(shell, word))
-	// 	return (destroy_expand_array(expand));
-	
-	if (is_word_wildcard(word))
-	{
-		node = init_expand(TRUE, expand_wildcard_word(shell, word_join(word)));
-		if (!node || (!push(expand, node) && !destroy_expand(node)))
-			return (destroy_expand_array(expand));
-	}
-		
-	// return (init_wildcard_tree(joined_word, ft_strdup(joined_word)));
-	return (expand);
+	if (!expand_env_word(shell, word))
+		return (NULL);
+	input = build_expand_input(word);
+	if (!input)
+		return (NULL);
+	lex = init_lexer_args(input);
+	if (!lex.tokens.data)
+		return (NULL);
+	ret = NULL;
+	status = lexer(&lex);
+	free(input);
+	if (status != MALLOC_ERROR)
+		ret = join_word_tokens(shell, &lex.tokens, args);
+	destroy_lexer_args(&lex);
+	return (ret);
 }

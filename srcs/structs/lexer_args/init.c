@@ -6,13 +6,13 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:18:18 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/26 19:30:08 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/05/29 15:32:35 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "struct_lexer_args.h"
 
-t_lexer_args	init_lexer_args(const char *input)
+t_lexer_args	init_lexer_args(const char *input, t_dynarray *heredoc_cval)
 {
 	t_lexer_args	args;
 
@@ -26,5 +26,7 @@ t_lexer_args	init_lexer_args(const char *input)
 	args.expected_rhs = UNDEFINED;
 	args.not_finished_value = NULL;
 	args.heredoc_interupted = FALSE;
+	args.heredoc_cval = heredoc_cval;
+	args.heredoc_ckey = 0;
 	return (args);
 }

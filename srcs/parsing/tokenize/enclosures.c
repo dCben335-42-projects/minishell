@@ -5,8 +5,8 @@ static t_ptr	return_token(t_lexer_args *args, char **start_i, t_uint *current_ty
 	t_ptr	pointer;
 
 	args->input++;
-	pointer = init_pointer(
-			init_token(quoted_wrapper(args, current_type), *start_i, args->input - *start_i - 1),
+	pointer = init_pointer(init_token(
+		quoted_wrapper(args, current_type), *start_i, args->input - *start_i - 1),
 			TRUE);
 	if (args->quote == quote)
 		args->quote = 0;
@@ -24,8 +24,7 @@ static t_ptr	handler_enclosure(t_lexer_args *args, char **start_i, t_uint *curre
 			if (args->input - *start_i > 0)
 				return (return_token(args, start_i, current_type, quote));
 			args->quote = quote;
-			if (args->input - *start_i == 0)
-				(*start_i)++;
+			(*start_i)++;
 		}
 		else if (args->quote == quote)
 		{
@@ -52,6 +51,8 @@ static t_ptr	handler_enclosures(t_lexer_args *args, char **start_i, t_uint *curr
 
 	if (is_directly_closed(args->input, args->quote))
 	{
+		if (args->input - *start_i > 0)
+			return (init_pointer(init_token(quoted_wrapper(args, current_type), *start_i, args->input - *start_i), TRUE));
 		args->input += 2;
 		return (init_pointer(init_token(QUOTED_TEXT, NULL, 0), TRUE));
 	}

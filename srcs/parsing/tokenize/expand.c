@@ -14,9 +14,11 @@ static t_bool	is_an_expand(t_lexer_args * args)
 t_ptr	tokenize_expand(t_lexer_args *args, char **start_i, t_uint *current_type)
 {
 	size_t		key_len;
+	
 	if (FLAG_VAR_EXPANSION && is_an_expand(args))
 	{
-		if (args->input - *start_i > 0){
+		if (args->input - *start_i > 0)
+		{
 			return (init_pointer(
 						init_token(quoted_wrapper(args, current_type), *start_i, args->input - *start_i),
 						TRUE));

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 20:38:38 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/24 19:52:37 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/29 15:21:19 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ void	*s_ptr(void *data, const char *msg);
 void	debug_exitcode(t_shell *shell);
 void	debug_ast(t_shell *shell);
 void	debug_tokens(t_shell *shell, t_dynarray *tokens);
+
+void	*destroy_string(char *str);
 
 const char *get_main_readline_arg(t_shell *shell);
 

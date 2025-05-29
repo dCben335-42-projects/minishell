@@ -6,7 +6,7 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:57:59 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/28 18:40:58 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/05/29 16:33:12 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 #include "ast_node.h"
 #include "utils.h"
 
-void	*command_handler_lexer(char *input, t_lexer_args *args);
+void	*command_handler_lexer(char *input, t_lexer_args *args, t_dynarray *heredoc_cval);
 
 static void	*command_not_finished(t_lexer_args *args, char *sep)
 {
-	char	*new_input;
-	char	*tmp;
+	char		*new_input;
+	char		*tmp;
 
 	tmp = readline(args->not_finished_value);
 	if (!tmp)
@@ -29,8 +29,8 @@ static void	*command_not_finished(t_lexer_args *args, char *sep)
 	free(args->base_input);
 	if (!new_input)
 		return (NULL);
-	destroy_lexer_args(args);
-	return (command_handler_lexer(new_input, args));
+	destroy_lexer_args(args, FALSE);
+	return (command_handler_lexer(new_input, args, args->heredoc_cval));
 }
 
 void	*command_not_finished_handler(t_lexer_args *args)
@@ -62,11 +62,15 @@ void	*command_not_finished_handler(t_lexer_args *args)
 	return (command_not_finished(args, " "));
 }
 
-void	*command_handler_lexer(char *input, t_lexer_args *args)
+void	*command_handler_lexer(char *input, t_lexer_args *args, t_dynarray *heredoc_cval)
 {
 	t_parse_status	status;
-
-	*args = init_lexer_args(input);
+	
+	if (!heredoc_cval)
+		heredoc_cval = init_dynarray_malloc(3, (void *(*)(void *))free_value);
+	if (!heredoc_cval->data)
+		return (NULL);
+	*args = init_lexer_args(input, heredoc_cval);
 	if (!args->tokens.data)
 		return (NULL);
 	status = lexer(args);
@@ -85,7 +89,7 @@ void	*command_handler(char *input, t_shell *shell)
 	t_lexer_args	args;
 	t_bool			is_lexer_error;
 	
-	is_lexer_error = !command_handler_lexer(input, &args);
+	is_lexer_error = !command_handler_lexer(input, &args, NULL);
 	add_history(args.base_input);
 	free(args.base_input);
 	if (is_lexer_error)
@@ -93,11 +97,11 @@ void	*command_handler(char *input, t_shell *shell)
 		shell->exit_code = 2;
 		if (args.heredoc_interupted)
 			shell->exit_code = 130;
-		return (destroy_lexer_args(&args));
+		return (destroy_lexer_args(&args, TRUE));
 	}
 	debug_tokens(shell, &args.tokens);
 	shell->ast = ast_builder(&args.tokens);
-	destroy_lexer_args(&args);
+	destroy_lexer_args(&args, TRUE);
 	if (!shell->ast)
 		return (NULL);
 	debug_ast(shell);

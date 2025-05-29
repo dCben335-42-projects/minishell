@@ -6,7 +6,7 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:35:32 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/26 19:29:48 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/05/29 16:04:32 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ typedef struct s_lexer_args
 	t_rhs_status		expected_rhs;
 	const char			*not_finished_value;
 	t_bool				heredoc_interupted;
+	t_dynarray			*heredoc_cval;
+	t_uint				heredoc_ckey;
 }	t_lexer_args;
 
 typedef struct s_readline_state
@@ -61,8 +63,8 @@ typedef struct s_readline_state
 	const char		*value;
 }	t_readline_state;
 
-t_lexer_args	init_lexer_args(const char *input);
-void			*destroy_lexer_args(t_lexer_args *args);
+t_lexer_args	init_lexer_args(const char *input, t_dynarray *heredoc_cval);
+void			*destroy_lexer_args(t_lexer_args *args, t_bool destroy_heredocs);
 
 const char *get_readline_arg(t_token_type type);
 

@@ -5,7 +5,7 @@
 
 static t_ptr	handle_expandale_token(t_uint type)
 {
-    if (type == QUOTED_TEXT || type == QUOTED_EXPAND)
+    if (type & (QUOTED_TEXT | QUOTED_EXPAND))
 	{
 		return (init_pointer(init_token(TEXT,
 			HEREDOC_EXPANDABLE_FALSE,
@@ -64,10 +64,11 @@ static t_bool handle_loop(t_token *token, const char *readline_arg, t_bool need_
 }
 
 
-static t_bool heredoc_wrapper(t_token *token, const char *readline_arg, t_bool need_trim, t_bool *is_interrupted)
+static t_bool heredoc_wrapper(t_token *token, const char *readline_arg, t_bool need_trim, t_lexer_args *args)
 {
 	const int	saved_stdin = dup(STDIN_FILENO);
 	t_bool		ret;
+	char		*tmp;
 
 	if (!saved_stdin)
 		return (FALSE);
@@ -77,11 +78,34 @@ static t_bool heredoc_wrapper(t_token *token, const char *readline_arg, t_bool n
 	signals(SIGCTX_SHELL);
 	if (g_sig == SIGINT)
 	{
-		*is_interrupted = TRUE;
+		args->heredoc_interupted = TRUE;
 		g_sig = 0;
 		return (FALSE);
 	}
-	return (ret);
+	if (!ret)
+		return (FALSE);
+	tmp = ft_strdup(token->value);
+	if (!tmp)
+		return (FALSE);
+	return ((t_bool)push(args->heredoc_cval, tmp));
+}
+
+
+static int read_heredoc_if_possible(t_lexer_args *args, t_token *token)
+{
+	char	*cache_heredoc;
+
+	cache_heredoc = (char *)get_dynarray_value(args->heredoc_cval, args->heredoc_ckey);
+	if (cache_heredoc)
+	{
+		free(token->value);
+		token->value = ft_strdup(cache_heredoc);
+		args->heredoc_ckey++;
+		if (!token->value)
+			return (-1);
+		return (1);
+	}
+	return (0);
 }
 
 /**
@@ -99,19 +123,25 @@ static t_bool heredoc_wrapper(t_token *token, const char *readline_arg, t_bool n
 */
 t_ptr	transform_heredoc(t_lexer_args *args, t_token *token)
 {
-	t_token	*prev;
-	t_ptr	pointer;
-	t_bool	need_trim;
+	const t_bool	need_trim = args->is_heredoc == HEREDOC_TRIM;
+	t_token			*prev;
+	t_ptr			pointer;
+	int				ret;
 	
-	need_trim = args->is_heredoc == HEREDOC_TRIM;
 	args->is_heredoc = NOT_HEREDOC;
-	prev = args->tokens.data[args->tokens.count - 2];
-	if (prev && prev->type == M_SPACE)
-	   prev = args->tokens.data[args->tokens.count - 3];
    	pointer = handle_expandale_token(token->type);
 	if (pointer.has_malloc_error)
 		return (pointer);
-    if (!prev || !heredoc_wrapper(token, get_readline_arg(prev->type), need_trim, &args->heredoc_interupted))
+	ret = read_heredoc_if_possible(args, token);
+	if (!ret)
+	{
+		prev = args->tokens.data[args->tokens.count - 2];
+		if (prev && prev->type == M_SPACE)
+			prev = args->tokens.data[args->tokens.count - 3];
+		if (!prev || !heredoc_wrapper(token, get_readline_arg(prev->type), need_trim, args))
+			ret = -1;
+	}
+	if (ret == -1)
 	{
 		destroy_token(pointer.p);
 		pointer.p = NULL;

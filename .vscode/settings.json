@@ -39,6 +39,8 @@
 		"utility": "c",
 		"minishell_signal.h": "c",
 		"string.h": "c",
-		"ioctl.h": "c"
+		"ioctl.h": "c",
+		"initializer_list": "c",
+		"span": "c"
 	}
 }

@@ -61,12 +61,8 @@ SRC_FILES += parsing/tokenize/operator.c
 SRC_FILES += parsing/tokenize/whitespace.c
 SRC_FILES += parsing/tokenize/wildcard.c
 SRC_FILES += parsing/tokenize/word.c
-<<<<<<< HEAD
-SRC_FILES += signals/signals.c
-=======
 SRC_FILES += parsing/transform/wildcard.c
-SRC_FILES += signals.c
->>>>>>> origin/orchestrator
+SRC_FILES += signals/signals.c
 SRC_FILES += structs/ast_node/convert.c
 SRC_FILES += structs/ast_node/destroy.c
 SRC_FILES += structs/ast_node/init.c

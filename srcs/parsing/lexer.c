@@ -88,5 +88,5 @@ t_parse_status    lexer(t_lexer_args *args)
 }
 
 
-// ( ( ( echo jojo$PATH'$GOOD'"okksa   'fjeifj'          iji*ji$HELLO"jigo/*'ffe'./?out) )&& echo $'bonjour'"salut $" )
+// ( ( ( echo jojo$PATH'$GOOD'"okksa   'fjeifj'          iji*ji$HELLO"jigo/*'ffe'./?out) )&& echo $'bonjour'"salut $" ); >>test
 // bash: erreur de syntaxe : fin de fichier prématurée

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 19:10:10 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/29 15:44:16 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/29 18:11:39 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ t_dynarray	*expand_word(t_shell *shell, t_dynarray *word, t_dynarray *args)
 	input = build_expand_input(word);
 	if (!input)
 		return (NULL);
-	lex = init_lexer_args(input, FALSE);
+	lex = init_lexer_args(input, NULL, FALSE);
 	if (!lex.tokens.data)
 		return (NULL);
 	ret = NULL;
@@ -95,6 +95,6 @@ t_dynarray	*expand_word(t_shell *shell, t_dynarray *word, t_dynarray *args)
 	free(input);
 	if (status != MALLOC_ERROR)
 		ret = join_word_tokens(shell, &lex.tokens, args);
-	destroy_lexer_args(&lex);
+	destroy_lexer_args(&lex, FALSE);
 	return (ret);
 }

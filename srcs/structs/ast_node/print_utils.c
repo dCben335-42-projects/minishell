@@ -17,10 +17,8 @@ static void	print_text(t_uint depth,
 }
 
 
-void	print_ast_node_json(t_ast_node *node,
-	t_uint i, const char *node_type, t_print_ast_json_args args)
+void	print_ast_node_json(t_ast_node *node, const char *node_type, t_print_ast_json_args args)
 {
-	(void)i; // Unused parameter
 	print_text(args.depth, NULL, args.v_l_brace);
 	print_text(args.depth + 2, args.f_type, node_type);
 	if (node->content)
@@ -44,12 +42,3 @@ void	print_ast_node_json(t_ast_node *node,
 		printf("\n");
 }
 
-void	cmd_join(t_ast_node *node,
-	t_uint index, const char *name, t_print_ast_json_args args)
-{
-	if (index != 0)
-		printf(",\n");
-	print_ast_node_json(node, index, name, args);
-	if (!node->next)
-		printf("\n");
-}

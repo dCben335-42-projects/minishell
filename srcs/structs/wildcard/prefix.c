@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 19:03:02 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/04/17 20:32:48 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/29 15:12:46 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ t_bool	is_wildcard_prefix(const char *str, char **prefix)
 	i = 0;
 	if (!segs)
 		return (FALSE);
-	while (segs[i] && !ft_strchr(segs[i], '*'))
+	while (segs[i] && !ft_strchr(segs[i], -'*'))
 		i++;
 	len = get_suffix_len(str, segs, i);
 	if (len)

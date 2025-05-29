@@ -11,7 +11,7 @@ static t_bool	is_an_expand(t_lexer_args * args)
 	return (FALSE);
 }
 
-t_ptr	tokenize_expand(t_lexer_args *args, char **start_i, t_uint *current_type)
+t_ptr	tokenize_expand(t_lexer_args *args, char **start_i, t_token_type *current_type)
 {
 	size_t		key_len;
 	

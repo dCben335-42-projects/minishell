@@ -69,14 +69,18 @@ t_parse_status	token_parser(t_lexer_args *args, t_token *token)
 {
 	t_parse_status				status;
 
-	args->rhs = UNDEFINED;
-	status = run_parsing_action(args, token);
-	if (status == COMMAND_VALID)
-		status = check_all_rules(args, token);
-	if (status != COMMAND_VALID)
-		return (status);
-	if (!check_quote(args, token))
-		return (COMMAND_NOT_FINISHED);
+	status = COMMAND_VALID;
+	if (args->check_rules)
+	{
+		args->rhs = UNDEFINED;
+		status = run_parsing_action(args, token);
+		if (status == COMMAND_VALID)
+			status = check_all_rules(args, token);
+		if (status != COMMAND_VALID)
+			return (status);
+		if (!check_quote(args, token))
+			return (COMMAND_NOT_FINISHED);
+	}
 	if (!push(&args->tokens, token))
 	{
 		destroy_token(token);

@@ -6,7 +6,7 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 20:38:38 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/29 15:21:19 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/05/29 18:04:42 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ void	restore_std_in_out(int saved_stdin, int saved_stdout);
 
 void	*destroy_self(t_shell *shell, char **argv, int exit_code);
 
-t_bool	is_word_wildcard(t_dynarray *word);
 char	*word_join(t_dynarray *word);
 
 t_dynarray	*cmd_to_argv(t_shell *shell, t_dynarray *arr, t_dynarray *argv);

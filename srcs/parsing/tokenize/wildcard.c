@@ -1,6 +1,6 @@
 #include "parsing.h"
 
-static t_bool	is_a_wildcard(t_lexer_args * args, t_uint *current_type)
+static t_bool	is_a_wildcard(t_lexer_args * args, t_token_type *current_type)
 {
 	if (*current_type == TEXT && !args->quote &&
 		*args->input == SYMBOL_GLOB_ANY)
@@ -8,7 +8,7 @@ static t_bool	is_a_wildcard(t_lexer_args * args, t_uint *current_type)
 	return (FALSE);
 }
 
-t_ptr	tokenize_wildcard(t_lexer_args *args, t_uint *current_type)
+t_ptr	tokenize_wildcard(t_lexer_args *args, t_token_type *current_type)
 {
 	if (FLAG_WILDCARD_EXPANSION && is_a_wildcard(args, current_type))
 		*current_type = WILDCARD;

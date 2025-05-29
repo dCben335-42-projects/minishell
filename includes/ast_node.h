@@ -6,7 +6,7 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 20:33:47 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/26 17:08:35 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/05/29 18:02:47 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,10 @@ void		cmd_join(t_ast_node *node, t_uint index,
 				const char *name, t_print_ast_json_args args);
 void		print_ast_node_json(t_ast_node *node, t_uint i,
 				const char *node_type, t_print_ast_json_args args);
+
+
 int			is_node(t_ast_node *node, size_t mask);
+int			is_node_wildcard(t_ast_node *node);
 
 t_print_ast_json_args init_t_print_ast_json_args(t_dynarray *cmd, t_uint depth);
 #endif

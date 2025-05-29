@@ -6,7 +6,7 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:07:25 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/28 19:10:09 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/05/29 18:05:59 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,12 @@
  * and free the allocated memory for the arguments. It will
  * also destroy the shell instance and exit the process.
  * 
- */
+*/
 static void	exec_cmd(char **argv, t_shell *shell)
 {
 	execve(argv[0], argv, (char **)shell->env_array.data);
-	perror("execve");
+	write(STDERR_FILENO, "execve: ", 9);
+	perror(argv[0]);
 	destroy_self(shell, argv, EXIT_FAILURE);
 }
 
@@ -62,7 +63,7 @@ static void	child_exec(t_shell *shell, char **argv, t_dynarray *cmd)
  * in the child process. The parent process will wait for the child
  * to finish and return its exit code.
  * 
- */
+*/
 void	fork_and_exec(t_shell *shell, char **argv, t_dynarray *cmd) 
 {
     pid_t pid;
@@ -84,4 +85,3 @@ void	fork_and_exec(t_shell *shell, char **argv, t_dynarray *cmd)
 		shell->interrupted = TRUE;
 	signals(SIGCTX_SHELL);
 }
-

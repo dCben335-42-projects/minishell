@@ -8,10 +8,12 @@ SRC_FILES += ast_builder/get/primitive_cmd.c
 SRC_FILES += ast_builder/other_utils.c
 SRC_FILES += ast_builder/utils.c
 SRC_FILES += exec/cmd.c
+SRC_FILES += exec/expand/build_input.c
 SRC_FILES += exec/expand/env/env.c
 SRC_FILES += exec/expand/env/utils/create.c
 SRC_FILES += exec/expand/env/utils/len.c
 SRC_FILES += exec/expand/expand.c
+SRC_FILES += exec/expand/save.c
 SRC_FILES += exec/expand/wildcard/utils/entry.c
 SRC_FILES += exec/expand/wildcard/utils/match.c
 SRC_FILES += exec/expand/wildcard/utils/path.c
@@ -59,7 +61,12 @@ SRC_FILES += parsing/tokenize/operator.c
 SRC_FILES += parsing/tokenize/whitespace.c
 SRC_FILES += parsing/tokenize/wildcard.c
 SRC_FILES += parsing/tokenize/word.c
+<<<<<<< HEAD
 SRC_FILES += signals/signals.c
+=======
+SRC_FILES += parsing/transform/wildcard.c
+SRC_FILES += signals.c
+>>>>>>> origin/orchestrator
 SRC_FILES += structs/ast_node/convert.c
 SRC_FILES += structs/ast_node/destroy.c
 SRC_FILES += structs/ast_node/init.c

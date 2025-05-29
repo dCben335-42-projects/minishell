@@ -6,7 +6,7 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 19:05:04 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/26 18:54:40 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/05/29 18:04:37 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ typedef struct s_debug
  * @param exit_code The exit code of the last command.
  * @param last_pid The last process ID.
  * @param ast The abstract syntax tree.
+ * @param debug The debug structure fot the custom debug builtin.
  * 
  * @note The env_array is meant to be pass to the execve function.
  * @note The last_pid is used especially when several processes are

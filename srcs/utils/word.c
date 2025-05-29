@@ -6,47 +6,12 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 20:37:25 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/24 20:14:05 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/28 13:04:54 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ast_node.h"
 #include "struct_shell.h"
-
-t_bool is_word_env(t_dynarray *word)
-{
-	t_ast_node	*node;
-	t_uint		i;
-
-	i = 0;
-	while (i < word->count)
-	{
-		node = (t_ast_node *)get_dynarray_value(word, i);
-		if (node->type == CMD_EXPAND || node->type == CMD_QUOTED_EXPAND)
-			return (TRUE);
-		i++;
-	}
-	return (FALSE);
-}
-
-
-t_bool is_word_wildcard(t_dynarray *word)
-{
-	t_ast_node	*node;
-	t_uint		i;
-
-	i = 0;
-	while (i < word->count)
-	{
-		node = (t_ast_node *)get_dynarray_value(word, i);
-		if (node->type == CMD_WILDCARD)
-			return (TRUE);
-		if (node->type == CMD_EXPAND && ft_strchr(node->content, SYMBOL_GLOB_ANY))
-			return (TRUE);
-		i++;
-	}
-	return (FALSE);
-}
 
 char *word_join(t_dynarray *word)
 {

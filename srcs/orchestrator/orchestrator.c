@@ -96,8 +96,10 @@ void	orchestrator(t_shell *shell)
 {
 	t_ast_node	*cmd;
 
+	write(1, COMMAND_COL, sizeof(COMMAND_COL));
 	cmd = find_next_cmd(shell->ast);
 	shell->interrupted = FALSE;
 	while (!shell->interrupted && cmd)
 		cmd = handle_cmd(shell, cmd);
+	write(1, RESET_COL, sizeof(RESET_COL));
 }

@@ -6,7 +6,7 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:57:59 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/29 16:33:12 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/05/29 18:05:48 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void	*command_handler_lexer(char *input, t_lexer_args *args, t_dynarray *heredoc
 		heredoc_cval = init_dynarray_malloc(3, (void *(*)(void *))free_value);
 	if (!heredoc_cval->data)
 		return (NULL);
-	*args = init_lexer_args(input, heredoc_cval);
+	*args = init_lexer_args(input, heredoc_cval, TRUE);
 	if (!args->tokens.data)
 		return (NULL);
 	status = lexer(args);

@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 10:29:31 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/24 20:37:41 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/27 19:02:10 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,31 +36,14 @@ static t_bool	handle_redir(t_shell *shell, t_ast_node *node)
 			return (redir_map->f(shell, node));			
 		redir_map++;
 	}
-	return (FALSE);
-}
-
-char *get_redir_filename(t_dynarray *arr)
-{
-	t_expand	*node;
-	t_tree		*tree;
-
-	node = (t_expand *)get_dynarray_value(arr, 0);
-	if (node->is_tree)
-	{
-		tree = (t_tree *)node->content;
-		return (tree->value);
-	}
-	return (node->content);
+	return (TRUE);
 }
 
 t_bool	is_valid_filename(t_dynarray *arr, char *joined_word)
 {
-	t_expand	*node;
-
 	if (!arr || !joined_word)
 		return (FALSE);
-	node = (t_expand *)get_dynarray_value(arr, 0);
-	if (arr->count != 1 || !node || (node->is_tree && get_size_tree(node->content) != 1))
+	if (arr->count != 1 || !arr->data[0])
 	{
 		if (!joined_word)
 			return (FALSE);
@@ -95,7 +78,7 @@ t_bool	redirect(t_shell *shell, t_dynarray *cmd)
 	while (i < cmd->count)
 	{
 		node = get_dynarray_value(cmd, i);
-		if (node->type != CMD_WORD && !handle_redir(shell, node))
+		if (!handle_redir(shell, node))
 			return (FALSE);
 		i++;
 	}

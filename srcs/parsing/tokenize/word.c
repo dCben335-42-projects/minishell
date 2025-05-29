@@ -2,9 +2,9 @@
 
 t_ptr	tokenize_word(t_lexer_args *args)
 {
-	char				*start_i;
-    t_uint	current_type;
+	t_token_type	current_type;
 	t_ptr			pointer;
+	char			*start_i;
 
 	start_i = (char *)args->input;
 	current_type = TEXT;

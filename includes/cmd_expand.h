@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 17:19:31 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/24 20:57:57 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/28 15:20:57 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,10 @@
 # include "libft.h"
 # include <dirent.h>
 
+t_dynarray	*expand_word(t_shell *shell, t_dynarray *word, t_dynarray *args);
+char		*build_expand_input(t_dynarray *word);
+char		*save_expand_entry(t_shell *shell, t_dynarray *args, char *value, t_bool *is_wildcard);
 
-typedef struct s_expand
-{
-	t_bool	is_tree;
-	void	*content;
-}	t_expand;
-
-t_dynarray	*expand_word(t_shell *shell, t_dynarray *word);
-void		*destroy_expand_array(t_dynarray *arr);
 t_tree		*expand_wildcard_word(t_shell *shell, char *word);
 void		*expand_env_word(t_shell *shell, t_dynarray *word);
 char		*expand_env_str(t_shell *shell, char **str);

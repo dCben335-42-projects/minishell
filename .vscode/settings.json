@@ -25,6 +25,7 @@
 		"ast_node.h": "c",
 		"messages.h": "c",
 		"types.h": "c",
+<<<<<<< HEAD
 		"signal.h": "c",
 		"cmd.h": "c",
 		"charconv": "c",
@@ -42,5 +43,8 @@
 		"ioctl.h": "c",
 		"initializer_list": "c",
 		"span": "c"
+=======
+		"struct_token.h": "c"
+>>>>>>> origin/orchestrator
 	}
 }

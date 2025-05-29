@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:25:02 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/24 20:01:12 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/29 15:01:45 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,9 @@ static void *free_params(char *key, char *value)
 	return (NULL);
 }
 
+
+void	positivate_wildcard(char **str);
+
 /**
  * @brief Initializes a wildcard tree node.
  *
@@ -45,6 +48,8 @@ t_tree	*init_wildcard_tree(char *key, char *value)
 	
 	if (!key || !value)
 		return (free_params(key, value));
+	positivate_wildcard(&key);
+	positivate_wildcard(&value);
 	node = init_tree_node(key, value, &ft_strcasecmp, &free_value);
 	if (!node)
 		return (free_params(key, value));

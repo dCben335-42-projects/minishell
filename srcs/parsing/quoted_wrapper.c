@@ -1,6 +1,6 @@
 #include "parsing.h"
 
-t_uint quoted_wrapper(t_lexer_args *args, t_uint *current_type)
+t_token_type	quoted_wrapper(t_lexer_args *args, t_token_type *current_type)
 {
 	if (args->quote)
 	{

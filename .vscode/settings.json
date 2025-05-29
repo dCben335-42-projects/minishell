@@ -24,6 +24,7 @@
 		"string_view": "c",
 		"ast_node.h": "c",
 		"messages.h": "c",
-		"types.h": "c"
+		"types.h": "c",
+		"struct_token.h": "c"
 	}
 }

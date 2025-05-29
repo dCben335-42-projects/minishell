@@ -86,7 +86,6 @@ t_ptr	transform_heredoc(t_lexer_args *args, t_token *token)
 	t_ptr	pointer;
 	
 	args->is_heredoc = NOT_HEREDOC;
-	printf("transform_heredoc\n");
 	prev = args->tokens.data[args->tokens.count - 2];
 	if (prev && prev->type == M_SPACE)
 	   prev = args->tokens.data[args->tokens.count - 3];

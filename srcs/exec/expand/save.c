@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 14:47:55 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/28 15:19:19 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/29 15:43:33 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,9 @@ static t_dynarray	*save_wildcard(t_shell *shell, t_dynarray *args, char *value)
 	return (ret);
 }
 
+void	negate_wildcard(char **str);
+void	positivate_wildcard(char **str);
+
 char	*save_expand_entry(t_shell *shell, t_dynarray *args, char *value, t_bool *is_wildcard)
 {
 	if (*is_wildcard)
@@ -49,8 +52,12 @@ char	*save_expand_entry(t_shell *shell, t_dynarray *args, char *value, t_bool *i
 		if (!save_wildcard(shell, args, value))
 			return (NULL);
 	}
-	else if (!push(args, value))
-		return (NULL);
+	else 
+	{
+		positivate_wildcard(&value);
+		if (!push(args, value))
+			return (NULL);	
+	} 
 	*is_wildcard = FALSE;
 	return (ft_strdup(""));
 }

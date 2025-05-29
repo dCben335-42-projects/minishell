@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 21:37:52 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/20 12:38:51 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/29 15:13:48 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ t_tree	*expand_wildcard_word(t_shell *shell, char *word)
 		return (NULL);
 	wildcard = get_wildcard(shell, word);
 	if (!wildcard)
-		return (init_wildcard_tree(word, ft_strdup(word)));
+		return (init_wildcard_tree(ft_strdup(word), word));
 	free(word);
 	return (wildcard);
 }

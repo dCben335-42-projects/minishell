@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 14:13:00 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/28 14:35:00 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/29 15:29:29 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,10 @@ static char *build_standart(t_ast_node *node, char *input)
 {
 	char	*tmp;
 
-	tmp = ft_strsjoin((const char *[]){input, "'", node->content, "'"}, 4, NULL);
+	if (node->type == CMD_TEXT)
+		tmp = ft_strjoin(input, node->content);
+	else 
+		tmp = ft_strsjoin((const char *[]){input, "'", node->content, "'"}, 4, NULL);
 	free(input);
 	if (!tmp)
 		return (NULL);

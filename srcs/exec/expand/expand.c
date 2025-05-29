@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 19:10:10 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/28 20:25:42 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/29 15:44:16 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,19 @@
 #include "ast.h"
 #include "cmd_redir.h"
 
+
+void	negate_wildcard(char **str);
+
 static char *join_token(t_token *token, char *value, t_bool *is_wildcard)
 {
 	char	*tmp;
+	t_token_type	type;
 
-	if (token->type == WILDCARD)
+	type = token->type;
+	if (type & WILDCARD)
 		*is_wildcard = TRUE;
+	if (type & (WILDCARD | TEXT))
+		negate_wildcard(&token->value);
 	tmp = ft_strjoin(value, token->value);
 	free(value);
 	if (!tmp)

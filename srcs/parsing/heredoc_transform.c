@@ -3,9 +3,51 @@
 #include "minishell_signal.h"
 #include "utils.h"
 
-static t_ptr	handle_expandale_token(t_uint type)
+
+t_uint  find_last_token_space_index(t_dynarray *tokens)
 {
-    if (type & (QUOTED_TEXT | QUOTED_EXPAND))
+	t_token *token;
+	t_uint	i;
+
+	if (tokens->count == 0)
+		return (0);
+	i = tokens->count - 1;
+	while (i > 0)
+	{
+		token = get_dynarray_value(tokens, i);
+		if (token->type & M_SPACE)
+			return (i);
+		i--;
+	}
+	return (0);
+}
+
+char *get_delimiter(t_lexer_args *args)
+{
+	t_uint	i;
+	char	*delimiter;
+	char	*tmp;
+	t_token *token;
+
+	i = find_last_token_space_index(&args->tokens) + 1;
+	delimiter = ft_strdup("");
+	while (i < args->tokens.count)
+	{
+		token = get_dynarray_value(&args->tokens, i);
+		tmp = ft_strjoin(delimiter, token->value);
+		free(delimiter);
+		if (!tmp)
+			return (NULL);
+		delimiter = tmp;
+		i++;
+	}
+	return (delimiter);
+}
+
+
+static t_ptr	handle_expandale_token(t_bool is_expandable)
+{
+    if (is_expandable)
 	{
 		return (init_pointer(init_token(TEXT,
 			HEREDOC_EXPANDABLE_FALSE,
@@ -115,30 +157,27 @@ static int read_heredoc_if_possible(t_lexer_args *args, t_token *token)
  * @param args The lexer arguments containing the tokens.
  * @param token The heredoc token to be transformed.
  * 
- * @note The token argument will be modified to contain the
- * heredoc content.
+ * @note The token value is containing the delimiter
+ * and the heredoc content will be read from the user input and
+ * then stored in the token value.
  * 
  * @return A pointer to the a token that indicate
  * if the heredoc is expandable or not.
 */
-t_ptr	transform_heredoc(t_lexer_args *args, t_token *token)
+t_ptr	transform_heredoc(t_lexer_args *args, t_token *token, t_bool is_expandable, t_token_type type)
 {
 	const t_bool	need_trim = args->is_heredoc == HEREDOC_TRIM;
-	t_token			*prev;
 	t_ptr			pointer;
 	int				ret;
 	
 	args->is_heredoc = NOT_HEREDOC;
-   	pointer = handle_expandale_token(token->type);
+   	pointer = handle_expandale_token(is_expandable);
 	if (pointer.has_malloc_error)
 		return (pointer);
 	ret = read_heredoc_if_possible(args, token);
 	if (!ret)
 	{
-		prev = args->tokens.data[args->tokens.count - 2];
-		if (prev && prev->type == M_SPACE)
-			prev = args->tokens.data[args->tokens.count - 3];
-		if (!prev || !heredoc_wrapper(token, get_readline_arg(prev->type), need_trim, args))
+		if (!heredoc_wrapper(token, get_readline_arg(type), need_trim, args))
 			ret = -1;
 	}
 	if (ret == -1)

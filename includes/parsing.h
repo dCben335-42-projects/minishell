@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 17:45:18 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/29 15:15:05 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/29 20:20:15 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ t_ptr		get_token(t_lexer_args *args, int offset,t_token_type type);
 t_bool		get_prev_token(t_lexer_args *args, t_token **prev_token);
 
 t_token_type	quoted_wrapper(t_lexer_args *args, t_token_type *current_type);
-t_ptr			transform_heredoc(t_lexer_args *args, t_token *token);
+t_ptr			transform_heredoc(t_lexer_args *args, t_token *token, t_bool is_expandable, t_token_type type);
 
 typedef struct s_rules_map
 {

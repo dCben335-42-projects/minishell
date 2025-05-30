@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 11:35:48 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/28 15:24:56 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/30 17:20:59 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,10 @@ t_bool	redir_append(t_shell *shell, t_ast_node *node)
 		return (FALSE);
 	fd = open(args->data[0], O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (!p_int(fd, -1, args->data[0]))
-		return ((t_bool) destroy_dynarray(args));
+	{
+		destroy_dynarray(args);
+		return (FALSE);
+	}
 	ret = p_int(dup2(fd, STDOUT_FILENO), -1, "dup2");
 	close(fd);
 	destroy_dynarray(args);

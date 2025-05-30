@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 18:51:44 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/29 15:48:29 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/30 17:23:40 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static char	*get_base_path(char *prefix, char *current_path)
 	}
 	if (*prefix == '/')
 		return (ft_strdup(prefix));
-	return (ft_strsjoin(args, 3, FALSE));
+	return (ft_strsjoin(args, 3, ""));
 }
 
 /**

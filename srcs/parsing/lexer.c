@@ -101,7 +101,6 @@ t_ptr handle_heredoc(t_lexer_args *args, t_token *token)
 		destroy_token(ptr.p);
 		ptr = next_ptr;
 	}
-	printf("ptr.p: %s\n", ((t_token *)(ptr.p))->value);
 	free(((t_token *)(ptr.p))->value);
 	((t_token *)(ptr.p))->value = delimer;
 	get_parsing_error_status(args, transform_heredoc(args, ptr.p, is_expandable_heredoc, token->type));
@@ -139,7 +138,6 @@ t_parse_status    lexer(t_lexer_args *args)
 		else
 			ptr = get_next_token(args);
     }
-	print_tokens(&args->tokens);
 	if (ptr.has_malloc_error)
 		return (MALLOC_ERROR);
     ptr = init_pointer(init_token(M_EOF, "newline", 7), TRUE);

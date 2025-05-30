@@ -129,7 +129,12 @@ static t_bool heredoc_wrapper(t_token *token, const char *readline_arg, t_bool n
 	tmp = ft_strdup(token->value);
 	if (!tmp)
 		return (FALSE);
-	return ((t_bool)push(args->heredoc_cval, tmp));
+	if (!push(args->heredoc_cval, tmp))
+	{
+		free(tmp);
+		return (FALSE);
+	}
+	return (TRUE);
 }
 
 

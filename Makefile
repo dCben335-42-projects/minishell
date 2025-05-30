@@ -48,7 +48,7 @@ all: $(NAME)
 
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c $(INCLUDES) Makefile
 	@$(MKDIR) $(@D)
-	$(CC) $(C_FLAGS) -o $@ -c $< $(INCLUDES_FLAGS) $(LIBFT_FLAGS)
+	$(CC) $(C_FLAGS) -o $@ -c $< $(INCLUDES_FLAGS)
 
 $(LIBFT): force
 	$(MAKE) -C $(LIBFT_FOLDER)

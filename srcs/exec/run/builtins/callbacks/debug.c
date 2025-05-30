@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 02:08:03 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/24 08:14:53 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/30 17:20:20 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static const t_debug_map *get_debug_map(t_debug *debug)
 {
-    static t_debug_map map[4];
+    static t_debug_map map[5];
 	
     map[0] = (t_debug_map){DEBUG_ALL_OPTION, &debug->all};
     map[1] = (t_debug_map){DEBUG_TOKENS_OPTION, &debug->tokens};

@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 21:43:40 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/24 07:33:48 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/30 17:19:58 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static char	*join_segs(char *new, const char **segs)
 		return (NULL);
 	while (*segs && (!ft_strcmp(*segs, ".") || !ft_strcmp(*segs, "..")))
 	{
-		tmp = ft_strsjoin((const char *[]){new, *segs, "/"}, 3, FALSE);
+		tmp = ft_strsjoin((const char *[]){new, *segs, "/"}, 3, "");
 		free(new);
 		if (!tmp)
 			return (NULL);
@@ -49,7 +49,7 @@ char	*build_dir_path(const char *base, const char *suffix, const char **segs)
 		return (ft_strdup(suffix));
 	if (!*suffix)
 		return (ft_strdup(base));
-	new = ft_strsjoin(join, 4, FALSE);
+	new = ft_strsjoin(join, 4, "");
 	return (join_segs(new, segs));
 }
 

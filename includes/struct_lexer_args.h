@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   struct_lexer_args.h                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:35:32 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/29 18:04:28 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/05/30 18:02:22 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@ typedef enum e_rhs_status
 typedef enum e_is_heredoc
 {
 	NOT_HEREDOC,
-	HEREDOC,
-	HEREDOC_TRIM,
+	HEREDOC = R_HEREDOC,
+	HEREDOC_TRIM = R_HEREDOC_TRIM
 }	t_is_heredoc;
 
 #define HEREDOC_EXPANDABLE_TRUE		"expandable=true"

@@ -35,13 +35,15 @@ static t_ptr	get_next_token(t_lexer_args *args)
 	if (ft_isspace(*args->input) && args->quote == 0)
 		return (tokenize_whitespace(args));
 	offset = 0;
-	return (get_token(args, offset, get_token_type(args->input, &offset)));
+	return (get_token(args, get_token_type(args->input, &offset), offset));
 }
 
 t_parse_status	get_parsing_error_status(t_lexer_args *args, t_ptr ptr)
 {
     t_parse_status  status;
 
+	if (ptr.has_malloc_error)
+		return (MALLOC_ERROR);
     status = token_parser(args, ptr.p);
     if (status != COMMAND_VALID)
 		return (status);
@@ -147,5 +149,6 @@ t_parse_status    lexer(t_lexer_args *args)
 }
 
 
-// ( ( ( echo jojo$PATH'$GOOD'"okksa   'fjeifj'          iji*ji$HELLO"jigo/*'ffe'./?out) )&& echo $'bonjour'"salut $" ); >>test
+//( ( ( echo jojo$PATH'$GOOD'"okksa   'fjeifj'          iji*ji$HELLO"jigo/*'ffe'./?out) )&& echo $'bonjour'"salut $" ); >>test
+
 // bash: erreur de syntaxe : fin de fichier prématurée

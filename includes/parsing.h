@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 17:45:18 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/29 20:20:15 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/30 17:54:28 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ t_ptr		tokenize_word(t_lexer_args *args);
 t_ptr		tokenize_wildcard(t_lexer_args *args, t_token_type *current_type);
 t_ptr		tokenize_expand(t_lexer_args *args, char **start_i, t_token_type *current_type);
 
-t_ptr		get_token(t_lexer_args *args, int offset,t_token_type type);
+t_ptr		get_token(t_lexer_args *args, t_token_type type, int offset);
 t_bool		get_prev_token(t_lexer_args *args, t_token **prev_token);
 
 t_token_type	quoted_wrapper(t_lexer_args *args, t_token_type *current_type);

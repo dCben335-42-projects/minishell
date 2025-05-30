@@ -19,7 +19,7 @@ t_bool	get_prev_token(t_lexer_args *args, t_token **prev_token)
 
 void *negate_wildcard(char **str);
 
-t_ptr	get_token(t_lexer_args *args, int offset, t_token_type type)
+t_ptr	get_token(t_lexer_args *args, t_token_type type, int offset)
 {
 	if (type == TEXT || args->quote)
 		return (tokenize_word(args));

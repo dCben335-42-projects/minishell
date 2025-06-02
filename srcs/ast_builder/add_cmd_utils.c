@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   add_cmd_utils.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/02 19:09:42 by abonneau          #+#    #+#             */
+/*   Updated: 2025/06/02 19:45:41 by abonneau         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ast.h"
 
 /**
@@ -12,7 +24,7 @@
  *
 */
 void	add_child(t_ast_node *parent,
-	t_ast_node **child, t_get_cmd_master *args)
+	t_ast_node **child, t_ast_ctx *args)
 {
 	if (*child)
 	{

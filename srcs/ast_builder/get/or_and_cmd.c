@@ -1,18 +1,26 @@
 #include "ast.h"
 
-static void	get_or_and_cmd_next_parenthesis(t_ast_node **cmd_prev, t_ast_node *cmd_master, t_get_cmd_master *args)
+static void	handle_parenthesis(
+	t_ast_node **cmd_prev,
+	t_ast_node *cmd_master,
+	t_ast_ctx *args
+)
 {
 	add_child(cmd_master, cmd_prev, args);
 	get_parenthesis_cmd(args, cmd_master);
 }
 
-static void	get_or_and_cmd(t_ast_node **cmd_prev, t_ast_node *cmd_master, t_get_cmd_master *args)
+static void	add_cmds(
+	t_ast_node **cmd_prev,
+	t_ast_node *cmd_master,
+	t_ast_ctx *args
+)
 {
 	while (args->i < args->end)
 	{
 		if (args->has_malloc_error)
 			return ;
-		args->local.ctx = CTX_AND_OR;
+		args->local.ctx = CTX_OP;
 		if (!get_cmd(args))
 			continue ;
 		if (is_cmd(args, CMD_SEMICOL))
@@ -22,7 +30,7 @@ static void	get_or_and_cmd(t_ast_node **cmd_prev, t_ast_node *cmd_master, t_get_
 		if (is_cmd(args, CMD_PIPE))
 			get_pipe_cmd_wrapper(cmd_prev, cmd_master, args);
 		else if (is_cmd(args, CMD_PARENTHESIS_OPEN))
-			get_or_and_cmd_next_parenthesis(cmd_prev, cmd_master, args);
+			handle_parenthesis(cmd_prev, cmd_master, args);
 		else if (is_cmd(args, CMD_AND | CMD_OR))
 			return (add_child(cmd_master, cmd_prev, args));
 		else
@@ -35,11 +43,13 @@ static void	get_or_and_cmd(t_ast_node **cmd_prev, t_ast_node *cmd_master, t_get_
  * @brief Handles the case where the command is AND/OR/PARENTHESIS operation.
  * 
  * @param cmd_prev Pointer to the previous command node (not yet added).
- * @param cmd_master The master command node to which the new command will be added.
+ * (It's the operator node other than pipe)
+ * @param cmd_master The master command node to which the new command
+ * will be added.
  * @param args The arguments structure containing the tokens and indices.
  * 
 */
-void	other_op_handler(t_ast_node **cmd_prev, t_ast_node *cmd_master, t_get_cmd_master *args)
+void	add_op_cmds(t_ast_node **cmd_prev, t_ast_node *cmd_master, t_ast_ctx *args)
 {
 	t_ast_node	*cmd;
 
@@ -53,7 +63,7 @@ void	other_op_handler(t_ast_node **cmd_prev, t_ast_node *cmd_master, t_get_cmd_m
 			args->i++;
 		if (((t_token *)get_dynarray_value(args->tokens, args->i))->type == OP_SEMICOL)
 		{
-			cmd = init_node_secure(CMD_SEMICOL, NULL, args);
+			cmd = ast_init_node(args, CMD_SEMICOL);
 			if (args->has_malloc_error)
 				return ;
 			add_child(cmd_master, &cmd, args);
@@ -62,7 +72,7 @@ void	other_op_handler(t_ast_node **cmd_prev, t_ast_node *cmd_master, t_get_cmd_m
 	}
 	else
 	{
-		get_or_and_cmd(cmd_prev, cmd, args);
+		add_cmds(cmd_prev, cmd, args);
 		add_child(cmd_master, &cmd, args);
 	}
 }

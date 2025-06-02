@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   primitive_cmd.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/02 19:10:17 by abonneau          #+#    #+#             */
+/*   Updated: 2025/06/02 20:23:06 by abonneau         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ast.h"
 
-t_bool	is_empty(t_get_cmd_master *args)
+t_bool	is_empty(t_ast_ctx *args)
 {
 	t_token	*token;
 
@@ -14,7 +26,7 @@ t_bool	is_empty(t_get_cmd_master *args)
 	return (FALSE);
 }
 
-static void	add_cmd_join_child(t_get_cmd_master *args, t_get_cmd_primitive *d, t_ast_node **cmd_word, t_ast_node **cmd_redir)
+static void	add_cmd_join_child(t_ast_ctx *args, t_get_cmd_primitive *d, t_ast_node **cmd_word, t_ast_node **cmd_redir)
 {
 	if (*cmd_word)
 		add_child(d->cmd_new, cmd_word, args);
@@ -30,7 +42,7 @@ t_bool	merr(t_ast_node *node, t_ast_node **out)
 	return (FALSE);
 }
 
-static t_ast_node	*add_cmd_child(t_get_cmd_master *args, t_get_cmd_primitive *d)
+static t_ast_node	*add_cmd_child(t_ast_ctx *args, t_get_cmd_primitive *d)
 {
 	t_token		*token;
 	t_ast_node	*cmd_word;
@@ -38,7 +50,7 @@ static t_ast_node	*add_cmd_child(t_get_cmd_master *args, t_get_cmd_primitive *d)
 
 	if (is_empty(args))
 		return (NULL);
-	if (merr(init_node_secure(CMD_BASE, NULL, args), &d->cmd_new))
+	if (merr(ast_init_node(args, CMD_BASE), &d->cmd_new))
 		return (NULL);
 	cmd_word = NULL;
 	cmd_redir = NULL;
@@ -49,9 +61,9 @@ static t_ast_node	*add_cmd_child(t_get_cmd_master *args, t_get_cmd_primitive *d)
 			break;
 		if (is_text_token(*token))
 		{
-			if (!cmd_word && !cmd_redir && merr(init_node_secure(CMD_WORD, NULL, args), &cmd_word))
+			if (!cmd_word && !cmd_redir && merr(ast_init_node(args, CMD_WORD), &cmd_word))
 				return (NULL);
-			if (merr(convert_token_to_cmd_secure(token, args), &d->cmd_temp))
+			if (merr(ast_convert_token_to_cmd(args, token), &d->cmd_temp))
 				return (NULL);
 			if (cmd_word)
 				add_child(cmd_word, &d->cmd_temp, args);
@@ -63,7 +75,7 @@ static t_ast_node	*add_cmd_child(t_get_cmd_master *args, t_get_cmd_primitive *d)
 		else
 		{
 			add_cmd_join_child(args, d, &cmd_word, &cmd_redir);
-			if (merr(convert_token_to_cmd_secure(token, args), &cmd_redir))
+			if (merr(ast_convert_token_to_cmd(args, token), &cmd_redir))
 				return (NULL);
 		}
 		args->i++;
@@ -72,11 +84,11 @@ static t_ast_node	*add_cmd_child(t_get_cmd_master *args, t_get_cmd_primitive *d)
 	return (d->cmd_new);
 }
 
-static void	get_node(t_get_cmd_master *args, t_token *token, t_ast_node **cmd)
+static void	get_node(t_ast_ctx *args, t_token *token, t_ast_node **cmd)
 {
 	if (token->type & OP_SEMICOL)
 		init_node_on_stack(*cmd, CMD_SEMICOL);
-	else if (args->local.ctx == CTX_AND_OR && token->type & (OP_AND | OP_OR))
+	else if (args->local.ctx == CTX_OP && token->type & (OP_AND | OP_OR))
 		return (init_node_on_stack(*cmd, CMD_AND));
 	else if (args->local.ctx == CTX_PIPE && token->type & OP_PIPE)
 		init_node_on_stack(*cmd, CMD_PIPE);
@@ -85,11 +97,11 @@ static void	get_node(t_get_cmd_master *args, t_token *token, t_ast_node **cmd)
 	else if (args->local.ctx == CTX_PIPE && !(token->type & TEXT))
 		return (init_node_on_stack(*cmd, CMD_EOF));
 	else
-		*cmd = convert_token_to_cmd_secure(token, args);
+		*cmd = ast_convert_token_to_cmd(args, token);
 	args->i++;
 }
 
-void	get_cmd_primitive(t_get_cmd_master *args, t_ast_node **cmd)
+void	get_cmd_primitive(t_ast_ctx *args, t_ast_node **cmd)
 {
 	t_token				*token;
 	t_get_cmd_primitive	d;

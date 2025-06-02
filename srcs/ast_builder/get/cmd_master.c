@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cmd_master.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/02 19:11:30 by abonneau          #+#    #+#             */
+/*   Updated: 2025/06/02 19:59:11 by abonneau         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ast.h"
 
-static void	add_cmd_master(t_ast_node **cmd_prev, t_get_cmd_master *args)
+static void	add_cmd_master(t_ast_node **cmd_prev, t_ast_ctx *args)
 {
 	if (is_cmd(args, CMD_SEMICOL))
 		add_child(args->local.cmd_master, cmd_prev, args);
@@ -9,7 +21,7 @@ static void	add_cmd_master(t_ast_node **cmd_prev, t_get_cmd_master *args)
 	else if (is_cmd(args, CMD_PIPE))
 		get_pipe_cmd_wrapper(cmd_prev, args->local.cmd_master, args);
 	else if (is_cmd(args, CMD_AND | CMD_OR | CMD_PARENTHESIS_OPEN))
-		other_op_handler(cmd_prev, args->local.cmd_master, args);
+		add_op_cmds(cmd_prev, args->local.cmd_master, args);
 	else
 		*cmd_prev = args->local.cmd;
 }
@@ -22,11 +34,14 @@ static void	add_cmd_master(t_ast_node **cmd_prev, t_get_cmd_master *args)
  * 
  * @note The master node can be a cmd_seq or cmd_parenthesis.
  * 
+ * @note When a new subshell is encountered, the function 
+ * calls itself recursively to handle the new context.
+ * 
 */
-void	get_cmd_master(t_get_cmd_master *args)
+void	add_master_cmds(t_ast_ctx *args)
 {
 	t_ast_node		*cmd_prev;
-	
+
 	cmd_prev = NULL;
 	while (args->i < args->end)
 	{

@@ -15,7 +15,7 @@
  * 
  * (A new memory space on the stack is assigned to args->local.cmd)
 */
-void	get_pipe_cmd_wrapper(t_ast_node **cmd_prev, t_ast_node *cmd_master, t_get_cmd_master *args)
+void	get_pipe_cmd_wrapper(t_ast_node **cmd_prev, t_ast_node *cmd_master, t_ast_ctx *args)
 {
 	t_ast_node	*cmd;
 
@@ -32,10 +32,10 @@ void	get_pipe_cmd_wrapper(t_ast_node **cmd_prev, t_ast_node *cmd_master, t_get_c
  * 
  * @param cmd_prev Pointer to the previous command node (not yet added).
  * @param cmd_master The master command node to which the new cmd_pipe will be added.
- * @param args The arguments structure containing the tokens and indices.
+ * @param args The AST global context containing the tokens and indices.
  * 
 */
-void	get_pipe_cmd(t_ast_node **cmd_prev, t_ast_node *cmd_master, t_get_cmd_master *args)
+void	get_pipe_cmd(t_ast_node **cmd_prev, t_ast_node *cmd_master, t_ast_ctx *args)
 {
 	while (args->i < args->end)
 	{

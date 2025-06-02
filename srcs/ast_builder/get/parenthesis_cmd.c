@@ -35,9 +35,9 @@ static int	count_token_between_brackets(t_dynarray *tokens, t_uint i)
  * it initializes a CMD_PARENTHESIS node.
  * 
 */
-void	get_parenthesis_cmd(t_get_cmd_master *args, t_ast_node *cmd_master)
+void	get_parenthesis_cmd(t_ast_ctx *args, t_ast_node *cmd_master)
 {
-	t_get_cmd_master	cmd_master_params;
+	t_ast_ctx	cmd_master_params;
 	t_ast_node			cmd;
 	t_ast_node			*cmd_p;
 	int					count;
@@ -46,12 +46,12 @@ void	get_parenthesis_cmd(t_get_cmd_master *args, t_ast_node *cmd_master)
 	if (cmd_master->type == CMD_PARENTHESIS)
 		init_node_on_stack(&cmd, CMD_SEQ);
 	else
-		cmd_p = init_node_secure(CMD_PARENTHESIS, NULL, args);
+		cmd_p = ast_init_node(args, CMD_PARENTHESIS);
 	if (args->has_malloc_error)
 		return ;
 	count = count_token_between_brackets(args->tokens, args->i);
-	cmd_master_params = init_t_get_cmd_master(args->tokens, args->i, args->i + count, cmd_p);
-	get_cmd_master(&cmd_master_params);
+	cmd_master_params = init_ast_glbctx(args->tokens, args->i, args->i + count, cmd_p);
+	add_master_cmds(&cmd_master_params);
 	if (cmd_master_params.has_malloc_error)
 	{
 		args->has_malloc_error = TRUE;
@@ -63,7 +63,7 @@ void	get_parenthesis_cmd(t_get_cmd_master *args, t_ast_node *cmd_master)
 	add_child(cmd_master, &cmd_p, args);
 }
 
-static t_ast_node	*get_adjacent_cmd(t_get_cmd_master *args, int count)
+static t_ast_node	*get_adjacent_cmd(t_ast_ctx *args, int count)
 {
 	t_token		*token;
 
@@ -71,19 +71,23 @@ static t_ast_node	*get_adjacent_cmd(t_get_cmd_master *args, int count)
 	if (token && token->type & M_SPACE)
 		token = get_dynarray_value(args->tokens, args->i + count + 2);
 	if (token && token->type & OP_PIPE)
-		return (init_node_secure(CMD_PIPE, NULL, args));
+		return (ast_init_node(args, CMD_PIPE));
 	return (NULL);
 }
 
 /**
  * 
- * @brief Handles the case where the command is a parenthesis operation.
+ * @brief Handles the case where the command is a parenthesis operation
+ * and handle the case where the command is part of a pipe.
  * 
  * @param cmd_master The master command node to which the new command will be added.
  * @param args The arguments structure containing the tokens and indices.
  * 
+ * @note This parenthesis can't be added directly to cmd_master 
+ * if it's part of a pipe; it must be wrapped in a CMD_PIPE node instead.
+ * 
 */
-void	get_parenthesis_cmd_master(t_ast_node *cmd_master, t_get_cmd_master *args)
+void	get_parenthesis_cmd_master(t_ast_node *cmd_master, t_ast_ctx *args)
 {
 	t_ast_node	*cmd;
 	t_ast_node	*cmd_pipe;
@@ -91,7 +95,7 @@ void	get_parenthesis_cmd_master(t_ast_node *cmd_master, t_get_cmd_master *args)
 	cmd_pipe = get_adjacent_cmd(args, count_token_between_brackets(args->tokens, args->i));
 	if (args->has_malloc_error)
 		return ;
-	cmd = init_node_secure(CMD_PARENTHESIS, NULL, args);
+	cmd = ast_init_node(args, CMD_PARENTHESIS);
 	if (args->has_malloc_error)
 		return ;
 	get_parenthesis_cmd(args, cmd);

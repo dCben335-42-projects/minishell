@@ -23,6 +23,18 @@ static int	count_token_between_brackets(t_dynarray *tokens, t_uint i)
 	return (count);
 }
 
+/**
+ * 
+ * @brief Handles the case where the command is a parenthesis operation.
+ * Gets the command inside the parentheses and adds it to the master command node.
+ * 
+ * @param args The arguments structure containing the tokens and indices.
+ * @param cmd_master The master command node to which the new command will be added.
+ * 
+ * @note If the master command node isn't of type CMD_PARENTHESIS,
+ * it initializes a CMD_PARENTHESIS node.
+ * 
+*/
 void	get_parenthesis_cmd(t_get_cmd_master *args, t_ast_node *cmd_master)
 {
 	t_get_cmd_master	cmd_master_params;
@@ -63,6 +75,14 @@ static t_ast_node	*get_adjacent_cmd(t_get_cmd_master *args, int count)
 	return (NULL);
 }
 
+/**
+ * 
+ * @brief Handles the case where the command is a parenthesis operation.
+ * 
+ * @param cmd_master The master command node to which the new command will be added.
+ * @param args The arguments structure containing the tokens and indices.
+ * 
+*/
 void	get_parenthesis_cmd_master(t_ast_node *cmd_master, t_get_cmd_master *args)
 {
 	t_ast_node	*cmd;

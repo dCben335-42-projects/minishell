@@ -72,7 +72,6 @@ static t_ast_node	*add_cmd_child(t_get_cmd_master *args, t_get_cmd_primitive *d)
 	return (d->cmd_new);
 }
 
-// bonjour$PATH sa va <<?.txt$DUZHDU
 static void	get_node(t_get_cmd_master *args, t_token *token, t_ast_node **cmd)
 {
 	if (token->type & OP_SEMICOL)

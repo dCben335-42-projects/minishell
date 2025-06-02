@@ -22,7 +22,7 @@ static t_parse_status handle_require(t_lexer_args *args, t_token *token)
 	if (token->type & M_SPACE)
 		return (COMMAND_VALID);
 	args->expected_rhs = UNDEFINED;
-	if (is_text_token(*token) || token->type == OP_PARENTHESIS_OPEN)
+	if (is_text_token(*token) || is_redir_token(*token) || token->type == OP_PARENTHESIS_OPEN)
 		return (COMMAND_VALID);
 	if (token->type & M_EOF && get_prev_token(args, &prev_token) && prev_token->rules & EXPECT_CONT)
 		return (COMMAND_NOT_FINISHED);

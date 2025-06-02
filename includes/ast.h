@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 20:20:38 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/27 19:59:21 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/05/29 20:45:29 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 
 t_ast_node			*ast_builder(t_dynarray *tokens);
 
-typedef enum e_ast_ctx 
+typedef enum e_ast_ctx
 {
 	CTX_MASTER,
 	CTX_PIPE,
@@ -39,6 +39,23 @@ typedef struct s_local_node_info
 	t_ast_ctx	ctx;
 }	t_local_node_info;
 
+/**
+ * 
+ * @brief Structure to hold the parameters for command parsing.
+ * 
+ * @param tokens Dynamic array of tokens to be parsed.
+ * @param start The starting index of the token array for the current subshell.
+ * @param i The current index of the token array for the current subshell.
+ * @param end The ending index of the token array for the current subshell.
+ * @param has_malloc_error Flag to indicate if a malloc error occurred.
+ * 
+ * @note start and end are used to define the range of tokens
+ * to be treated in the current subshell.
+ * 
+ * @note a subshell is either a command sequence (CMD_SEQ)
+ * or a command parenthesis (CMD_PARENTHESIS).
+ * 
+*/
 typedef struct s_get_cmd_master
 {
 	t_dynarray			*tokens;
@@ -47,15 +64,31 @@ typedef struct s_get_cmd_master
 	t_uint				end;
 	t_bool				has_malloc_error;
 	t_local_node_info	local;
-	
 }	t_get_cmd_master;
 
+/**
+ * 
+ * @brief Structure to hold the parameters for command parsing.
+ * 
+ * @param count Number of command children.
+ * @param space_at_end Flag to indicate if there is a space at the end of the command.
+*/
 typedef struct s_count_cmd_child
 {
 	t_uint		count;
 	t_bool		space_at_end;
 }	t_count_cmd_child;
 
+/**
+ * 
+ * @brief Structure to hold the parameters for command parsing.
+ * 
+ * @param counter Structure to count command children.
+ * @param cmd_new Pointer to the new command node being created.
+ * @param cmd_temp Temporary command node.
+ * @param is_empty Pointer to a boolean indicating if the command is empty.
+ * 
+ */
 typedef struct s_get_cmd_primitive
 {
 	t_count_cmd_child	counter;
@@ -73,7 +106,7 @@ void				get_pipe_cmd(
 						t_ast_node *cmd_master,
 						t_get_cmd_master *args);
 
-void				get_or_and_cmd_wrapper(
+void				other_op_handler(
 						t_ast_node **cmd_prev,
 						t_ast_node *cmd_master,
 						t_get_cmd_master *args);

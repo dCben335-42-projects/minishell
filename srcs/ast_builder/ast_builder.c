@@ -1,6 +1,15 @@
 #include "ast.h"
 #include <stdlib.h>
 
+/**
+ * @brief Builds the AST from the given tokens.
+ * This function initializes the master node of the AST and
+ * calls the command master function to populate it.
+ * 
+ * @note The master node is initialized with the type CMD_SEQ.
+ * 
+ * @return t_ast_node* Pointer to the root of the AST or NULL on malloc error.
+ */
 t_ast_node	*ast_builder(t_dynarray *tokens)
 {
 	t_get_cmd_master	cmd_master_params;

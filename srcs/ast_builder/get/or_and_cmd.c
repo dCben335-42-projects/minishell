@@ -2,7 +2,7 @@
 
 static void	get_or_and_cmd_next_parenthesis(t_ast_node **cmd_prev, t_ast_node *cmd_master, t_get_cmd_master *args)
 {
-	add_child(cmd_master, cmd_prev, args);	// ajoute le texte (cmd_prev) au cmd_master (&& ||)
+	add_child(cmd_master, cmd_prev, args);
 	get_parenthesis_cmd(args, cmd_master);
 }
 
@@ -30,7 +30,16 @@ static void	get_or_and_cmd(t_ast_node **cmd_prev, t_ast_node *cmd_master, t_get_
 	}
 }
 
-void	get_or_and_cmd_wrapper(t_ast_node **cmd_prev, t_ast_node *cmd_master, t_get_cmd_master *args)
+/**
+ * 
+ * @brief Handles the case where the command is AND/OR/PARENTHESIS operation.
+ * 
+ * @param cmd_prev Pointer to the previous command node (not yet added).
+ * @param cmd_master The master command node to which the new command will be added.
+ * @param args The arguments structure containing the tokens and indices.
+ * 
+*/
+void	other_op_handler(t_ast_node **cmd_prev, t_ast_node *cmd_master, t_get_cmd_master *args)
 {
 	t_ast_node	*cmd;
 

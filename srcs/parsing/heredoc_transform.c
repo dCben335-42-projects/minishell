@@ -72,6 +72,7 @@ static t_bool heredoc_wrapper(t_token *token, const char *readline_arg, t_bool n
 
 	if (!saved_stdin)
 		return (FALSE);
+	rl_catch_signals = 0;
 	signals(SIGCTX_HEREDOC);
 	ret = handle_loop(token, readline_arg, need_trim);
 	restore_std_in_out(saved_stdin, -1);

@@ -6,7 +6,7 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 19:31:21 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/29 18:04:52 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/06/03 20:24:40 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ static void	handle_loop(t_shell *shell)
 	{
 		readline_arg = get_main_readline_arg(shell);
 		input = readline(readline_arg);
+		rl_catch_signals = 1;
 		free((char *)readline_arg);
 		if (!input)
 			break ;

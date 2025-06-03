@@ -18,9 +18,12 @@ volatile sig_atomic_t g_sig = 0;
 void	sigint_handler_heredoc(int sig)
 {
 	g_sig = sig;
-
-	ft_putendl_fd("", 1);
-	rl_replace_line("", 0);
+	//ft_putendl_fd("", 1);
+	//rl_replace_line("huhu", 0);
+	//rl_on_new_line();
+	//rl_redisplay();
+	//rl_catch_signals = 1;
+	//rl_done = 1;
 	close(0);
 }
 
@@ -29,7 +32,7 @@ void	sigint_handler_shell(int sig)
 	(void) sig;
 
 	write(1, "\n", 1);
-	rl_replace_line("", 0);
+	rl_replace_line("", 0); //remet la ligne à 0;
 	rl_on_new_line();
 	rl_redisplay();
 }
@@ -42,7 +45,7 @@ void	heredoc_handler(int signo, siginfo_t *info, void *context)
 	(void) info;
 	(void) context;
 	g_sig = signo;
-	//ft_putendl_fd("", 2);
+	ft_putendl_fd("", 2);
 	rl_replace_line("", 0);
 	close(0);
 }

@@ -6,7 +6,7 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 20:33:47 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/03 19:11:21 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/06/03 19:33:23 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,5 +143,5 @@ void				print_ast_node_json(
 						t_ast_printer_ctx args);
 int					is_node(t_ast_node *node, size_t mask);
 int					is_node_wildcard(t_ast_node *node);
-t_ast_printer_ctx	init_printer_ctx(t_dynarray *cmd);
+t_ast_printer_ctx	init_printer_ctx(t_dynarray *cmd, t_uint depth);
 #endif

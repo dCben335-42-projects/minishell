@@ -6,7 +6,7 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 18:09:50 by abonneau          #+#    #+#             */
-/*   Updated: 2025/06/03 19:10:12 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/06/03 19:33:45 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,11 +93,11 @@ void	print_ast_json(t_ast_printer_ctx args)
  * @param cmd The dynamic array of command nodes to be printed.
  * 
 */
-t_ast_printer_ctx	init_printer_ctx(t_dynarray *cmd)
+t_ast_printer_ctx	init_printer_ctx(t_dynarray *cmd, t_uint depth)
 {
 	const t_ast_printer_ctx	args = {
 		.cmd = cmd,
-		.depth = 2,
+		.depth = depth,
 		.v_l_brace = BRACE_COL"{\n"RESET_COL,
 		.v_r_brace = BRACE_COL"}"RESET_COL,
 		.v_l_hook = BRACE_COL"[\n"RESET_COL,
@@ -120,6 +120,6 @@ t_ast_printer_ctx	init_printer_ctx(t_dynarray *cmd)
 void	print_ast_json_wrapper(t_dynarray *cmd)
 {
 	printf("[\n");
-	print_ast_json(init_printer_ctx(cmd));
+	print_ast_json(init_printer_ctx(cmd, 2));
 	printf("]\n");
 }

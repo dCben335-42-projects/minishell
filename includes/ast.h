@@ -6,7 +6,7 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 20:20:38 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/02 20:23:10 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/06/03 17:21:17 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,8 @@ typedef struct s_get_cmd_primitive
 	t_count_cmd_child	counter;
 	t_ast_node			*cmd_new;
 	t_ast_node			*cmd_temp;
+	t_ast_node			*cmd_word;
+	t_ast_node			*cmd_redir;
 	t_bool				*is_empty;
 }	t_get_cmd_primitive;
 
@@ -144,5 +146,8 @@ void				get_pipe_cmd_wrapper(
 						t_ast_ctx *args);
 
 int					is_cmd(t_ast_ctx *args, size_t mask);
+
+t_bool				merr(t_ast_node *node, t_ast_node **out);
+t_bool				is_empty(t_ast_ctx *args);
 
 #endif

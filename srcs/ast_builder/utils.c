@@ -6,7 +6,7 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 18:58:30 by abonneau          #+#    #+#             */
-/*   Updated: 2025/06/02 20:22:18 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/06/03 17:26:02 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,4 +86,42 @@ t_ast_ctx	init_ast_glbctx(t_dynarray *tokens,
 	args.local.cmd_master = cmd_master;
 	args.has_malloc_error = FALSE;
 	return (args);
+}
+
+/**
+ * @brief Checks if a malloc error occurred and sets the output node.
+ * 
+ * @param node The AST node to check for malloc error.
+ * @param out Pointer to fill with the pointer node if no error occurred.
+ * 
+ * @return t_bool TRUE if a malloc error occurred, FALSE otherwise.
+ * 
+*/
+t_bool	merr(t_ast_node *node, t_ast_node **out)
+{
+	if (!node)
+		return (TRUE);
+	*out = node;
+	return (FALSE);
+}
+
+/**
+ * @brief Checks if the current command node is empty.
+ * 
+ * @param args The AST global context containing the tokens and indices.
+ * 
+ * @return t_bool TRUE if the command node is empty, FALSE otherwise.
+*/
+t_bool	is_empty(t_ast_ctx *args)
+{
+	t_token	*token;
+
+	token = get_dynarray_value(args->tokens, args->i);
+	if (token->type == M_SPACE)
+		token = get_dynarray_value(args->tokens, args->i + 1);
+	if (token->type == M_EOF)
+		return (TRUE);
+	if (is_control_extended_token(*token))
+		return (TRUE);
+	return (FALSE);
 }

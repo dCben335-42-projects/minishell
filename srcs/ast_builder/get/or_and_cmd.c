@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   or_and_cmd.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/02 20:35:51 by abonneau          #+#    #+#             */
+/*   Updated: 2025/06/02 20:35:57 by abonneau         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ast.h"
 
 static void	handle_parenthesis(
@@ -49,7 +61,11 @@ static void	add_cmds(
  * @param args The arguments structure containing the tokens and indices.
  * 
 */
-void	add_op_cmds(t_ast_node **cmd_prev, t_ast_node *cmd_master, t_ast_ctx *args)
+void	add_op_cmds(
+	t_ast_node **cmd_prev,
+	t_ast_node *cmd_master,
+	t_ast_ctx *args
+)
 {
 	t_ast_node	*cmd;
 
@@ -59,9 +75,11 @@ void	add_op_cmds(t_ast_node **cmd_prev, t_ast_node *cmd_master, t_ast_ctx *args)
 	if (is_node(cmd, CMD_PARENTHESIS_OPEN))
 	{
 		get_parenthesis_cmd_master(cmd_master, args);
-		if (((t_token *)get_dynarray_value(args->tokens, args->i))->type == M_SPACE)
+		if (((t_token *)
+				get_dynarray_value(args->tokens, args->i))->type == M_SPACE)
 			args->i++;
-		if (((t_token *)get_dynarray_value(args->tokens, args->i))->type == OP_SEMICOL)
+		if (((t_token *)
+				get_dynarray_value(args->tokens, args->i))->type == OP_SEMICOL)
 		{
 			cmd = ast_init_node(args, CMD_SEMICOL);
 			if (args->has_malloc_error)
@@ -69,10 +87,8 @@ void	add_op_cmds(t_ast_node **cmd_prev, t_ast_node *cmd_master, t_ast_ctx *args)
 			add_child(cmd_master, &cmd, args);
 			args->i++;
 		}
+		return ;
 	}
-	else
-	{
-		add_cmds(cmd_prev, cmd, args);
-		add_child(cmd_master, &cmd, args);
-	}
+	add_cmds(cmd_prev, cmd, args);
+	add_child(cmd_master, &cmd, args);
 }

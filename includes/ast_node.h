@@ -6,7 +6,7 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 20:33:47 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/29 18:25:53 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/06/03 19:11:21 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,9 @@
 # include "libft.h"
 # include <stdio.h>
 
+/**
+ * @brief Enumeration representing the different types of nodes in the AST.
+*/
 typedef enum e_node_type
 {
 	CMD_SEQ					= 1 << 0,
@@ -43,6 +46,22 @@ typedef enum e_node_type
 	CMD_WORD				= 1 << 20,
 }	t_node_type;
 
+/**
+ * 
+ * @brief Structure representing a node in the Abstract Syntax Tree (AST).
+ * 
+ * @param type The type of the node, represented by a bitmask.
+ * @param content Pointer to the content of the node,
+ * which can be a string or a dynamic array.
+ * @param child_count The number of children the node has (see note).
+ * @param parent Pointer to the parent node in the AST.
+ * @param next Pointer to the next sibling node in the AST.
+ * 
+ * @note child_count = 0 -> content = NULL
+ * @note child_count = 1 -> content = char *
+ * @note child_count = 2 + n -> content = t_dynarray * with n children
+ * 
+*/
 typedef struct s_ast_node
 {
 	t_node_type			type;
@@ -52,12 +71,38 @@ typedef struct s_ast_node
 	struct s_ast_node	*next;
 }	t_ast_node;
 
+/**
+ * 
+ * @brief Structure to associate AST node types with
+ * their string representations.
+ * 
+ * @param type The type of the AST node.
+ * @param name The string representation of the AST node type.
+ * 
+ * @note This structure is used for printing the AST in JSON format.
+ * 
+*/
 typedef struct s_ast_print_mapping
 {
 	t_node_type	type;
 	const char	*name;
 }	t_ast_print_map;
 
+/**
+ * 
+ * @brief Structure to hold the arguments for printing the AST in JSON format.
+ * 
+ * @param cmd Dynamic array of command nodes to be printed.
+ * @param depth The current depth in the AST for indentation.
+ * @param v_l_brace The string representation of the left brace for JSON.
+ * @param v_r_brace The string representation of the right brace for JSON.
+ * @param v_l_hook The string representation of the left hook for JSON.
+ * @param v_r_hook The string representation of the right hook for JSON.
+ * @param v_content The string representation of the content field in JSON.
+ * @param f_type The format string for the type field in JSON.
+ * @param f_string The format string for string content in JSON.
+ * 
+*/
 typedef struct s_print_ast_json_args
 {
 	t_dynarray	*cmd;
@@ -69,38 +114,34 @@ typedef struct s_print_ast_json_args
 	const char	*v_content;
 	const char	*f_type;
 	const char	*f_string;
-}	t_print_ast_json_args;
+}	t_ast_printer_ctx;
 
+/**
+ * @brief Structure to associate token types with AST node types.
+ * 
+ * @param type The type of the token.
+ * @param cmd The corresponding AST node type.
+ * 
+*/
 typedef struct s_token_node_map
 {
 	t_uint				type;
 	t_node_type			cmd;
 }	t_token_node_map;
 
-t_ast_node	*init_node(t_node_type type, char *value);
-void		init_node_on_stack(t_ast_node *node, t_node_type type);
-t_ast_node	*convert_token_to_cmd(t_token *token);
-
-/**
- * @brief Add a child node to the parent node.
- * if child_count == 1, it means that the parent node has string as content.
- * if child_count == 2, it means that the parent 
- * node has dynamic array empty as content. (malloc error)
- * if child_count == n, it means that the parent 
- * node has dynamic array with n - 2 child as content.
- */
-int			add_child_primitive(t_ast_node *parent, t_ast_node *child);
-void		print_ast_json_wrapper(t_dynarray *cmd);
-void		print_ast_json(t_print_ast_json_args args);
-void		*recursive_destroy_node(t_ast_node *node);
-void		add_childs(t_ast_node *parent, t_dynarray *childs);
-void		cmd_join(t_ast_node *node, t_uint index,
-				const char *name, t_print_ast_json_args args);
-void		print_ast_node_json(t_ast_node *node, const char *node_type, t_print_ast_json_args args);
-
-
-int			is_node(t_ast_node *node, size_t mask);
-int			is_node_wildcard(t_ast_node *node);
-
-t_print_ast_json_args init_t_print_ast_json_args(t_dynarray *cmd, t_uint depth);
+t_ast_node			*init_node(t_node_type type, char *value);
+void				init_node_on_stack(t_ast_node *node, t_node_type type);
+t_ast_node			*convert_token_to_cmd(t_token *token);
+int					add_child_primitive(t_ast_node *parent, t_ast_node *child);
+void				print_ast_json_wrapper(t_dynarray *cmd);
+void				print_ast_json(t_ast_printer_ctx args);
+void				*recursive_destroy_node(t_ast_node *node);
+void				add_childs(t_ast_node *parent, t_dynarray *childs);
+void				print_ast_node_json(
+						t_ast_node *node,
+						const char *node_type,
+						t_ast_printer_ctx args);
+int					is_node(t_ast_node *node, size_t mask);
+int					is_node_wildcard(t_ast_node *node);
+t_ast_printer_ctx	init_printer_ctx(t_dynarray *cmd);
 #endif

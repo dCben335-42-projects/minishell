@@ -6,7 +6,7 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 20:20:38 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/03 17:21:17 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/06/03 19:18:48 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,9 @@
 
 t_ast_node			*ast_builder(t_dynarray *tokens);
 
+/**
+ * @brief Enumeration representing the local context of command nodes.
+*/
 typedef enum e_ast_local_ctx
 {
 	CTX_MASTER,
@@ -29,13 +32,21 @@ typedef enum e_ast_local_ctx
 	CTX_PARENTHESIS,
 }	t_ast_local_ctx;
 
-//NOTE - cmd is a pointer (t_ast_node **cmd) because we need to
+/**
+ * @brief Structure to hold local information for command nodes.
+ * 
+ * @param cmd_master Pointer to the master command node.
+ * @param lcmd Local command node used for temporary storage.
+ * @param cmd Pointer to the current command node being processed.
+ * @param ctx Context of the command node
+ * (master, pipe, operator, or parenthesis).
+ * 
+*/
 typedef struct s_local_node_info
 {
-	t_ast_node	*cmd_master;
-	int			pos;
-	t_ast_node	lcmd;
-	t_ast_node	*cmd;
+	t_ast_node		*cmd_master;
+	t_ast_node		lcmd;
+	t_ast_node		*cmd;
 	t_ast_local_ctx	ctx;
 }	t_local_node_info;
 
@@ -48,6 +59,7 @@ typedef struct s_local_node_info
  * @param i The current index of the token array for the current subshell.
  * @param end The ending index of the token array for the current subshell.
  * @param has_malloc_error Flag to indicate if a malloc error occurred.
+ * @param local Local information for command nodes.
  * 
  * @note start and end are used to define the range of tokens
  * to be treated in the current subshell.
@@ -71,7 +83,9 @@ typedef struct s_ast_glbctx
  * @brief Structure to hold the parameters for command parsing.
  * 
  * @param count Number of command children.
- * @param space_at_end Flag to indicate if there is a space at the end of the command.
+ * @param space_at_end Flag to indicate if there is a space
+ * at the end of the command.
+ * 
 */
 typedef struct s_count_cmd_child
 {
@@ -134,7 +148,7 @@ t_ast_node			*ast_init_node(
 						t_ast_ctx *args,
 						t_node_type type);
 
-t_ast_ctx	init_ast_glbctx(
+t_ast_ctx			init_ast_glbctx(
 						t_dynarray *tokens,
 						int start,
 						int end,

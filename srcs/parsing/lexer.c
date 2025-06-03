@@ -22,7 +22,7 @@ static t_bool	is_command_finished(t_lexer_args *args, t_token *token, const char
 
 static t_ptr	get_next_token(t_lexer_args *args)
 {
-    int offset;
+
 
 	if (!*args->input)
 		return (init_pointer(NULL, FALSE));
@@ -34,8 +34,7 @@ static t_ptr	get_next_token(t_lexer_args *args)
 	}
 	if (ft_isspace(*args->input) && args->quote == 0)
 		return (tokenize_whitespace(args));
-	offset = 0;
-	return (get_token(args, get_token_type(args->input, &offset), offset));
+	return (get_token(args));
 }
 
 t_parse_status	get_parsing_error_status(t_lexer_args *args, t_ptr ptr)

@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 17:45:18 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/30 17:54:28 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/02 19:13:31 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,17 +31,20 @@ typedef enum e_parse_status
 t_parse_status	lexer(t_lexer_args *args);
 t_parse_status	get_parsing_error_status(t_lexer_args *args, t_ptr pointer);
 
-t_ptr		tokenize_enclosures(t_lexer_args *args, char **start_i, t_token_type *current_type);
-t_ptr		tokenize_operator(t_lexer_args *args, int offset, t_token_type type);
-t_ptr		tokenize_whitespace(t_lexer_args *args);
-t_ptr		tokenize_word(t_lexer_args *args);
-t_ptr		tokenize_wildcard(t_lexer_args *args, t_token_type *current_type);
-t_ptr		tokenize_expand(t_lexer_args *args, char **start_i, t_token_type *current_type);
+t_ptr			tokenize_enclosures(t_lexer_args *args, char **start_i, t_token_type *current_type);
+t_ptr			tokenize_operator(t_lexer_args *args, int offset, t_token_type type);
+t_ptr			tokenize_whitespace(t_lexer_args *args);
+t_ptr			tokenize_word(t_lexer_args *args);
+t_ptr			tokenize_wildcard(t_lexer_args *args, t_token_type *current_type);
+t_ptr			tokenize_expand(t_lexer_args *args, char **start_i, t_token_type *current_type);
 
-t_ptr		get_token(t_lexer_args *args, t_token_type type, int offset);
-t_bool		get_prev_token(t_lexer_args *args, t_token **prev_token);
+t_ptr			get_token(t_lexer_args *args);
+t_bool			get_prev_token(t_lexer_args *args, t_token **prev_token);
 
 t_token_type	quoted_wrapper(t_lexer_args *args, t_token_type *current_type);
+t_bool 			need_tokenize(t_lexer_args *args, char **start_i);
+t_ptr			wrap_ptr_token(t_lexer_args *args, t_token_type *current_type, char **start_i, size_t optional_len);
+
 t_ptr			transform_heredoc(t_lexer_args *args, t_token *token, t_bool is_expandable, t_token_type type);
 
 typedef struct s_rules_map

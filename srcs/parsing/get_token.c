@@ -17,11 +17,14 @@ t_bool	get_prev_token(t_lexer_args *args, t_token **prev_token)
 	return (TRUE);
 }
 
-void *negate_wildcard(char **str);
 
-t_ptr	get_token(t_lexer_args *args, t_token_type type, int offset)
+t_ptr	get_token(t_lexer_args *args)
 {
+	int				op_len;
+	t_token_type	type;
+
+	type = get_token_type(args->input, &op_len);
 	if (type == TEXT || args->quote)
 		return (tokenize_word(args));
-    return (tokenize_operator(args, offset, type));
+    return (tokenize_operator(args, op_len, type));
 }

@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:44:15 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/29 15:26:34 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/02 18:04:18 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 
 // WORDS
 # define DELIMITER_LITERAL_TEXT 		'\''
-# define DELIMITER_EXPANDABLE_TEXT 		'"'
+# define DELIMITER_EXPANDABLE_TEXT 		'\"'
 
 /**
  *	@brief Enumeration of token types.

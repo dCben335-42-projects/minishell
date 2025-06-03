@@ -7,31 +7,31 @@
 #include "cmd_expand.h"
 #include "struct_shell.h"
 
-static void	cleanup_args(t_dynarray *arr)
-{
-	t_uint	i;
-	t_uint	j;
-	t_uint	count;
-	char	*str;
+// static void	cleanup_args(t_dynarray *arr)
+// {
+// 	t_uint	i;
+// 	t_uint	j;
+// 	t_uint	count;
+// 	char	*str;
 	
-	if (!arr || !arr->data)
-		return;
-	i = 0;
-	j = 0;
-	count = arr->count;
-	while (i < count)
-	{
-		str = get_dynarray_value(arr, i);
-		if (str && *str)
-			arr->data[j++] = arr->data[i];
-		else
-			arr->destroyer(arr->data[i]); 
-		i++;
-	}
-	arr->count = j;
-	while (j < count)
-		arr->data[j++] = NULL;
-}
+// 	if (!arr || !arr->data)
+// 		return;
+// 	i = 0;
+// 	j = 0;
+// 	count = arr->count;
+// 	while (i < count)
+// 	{
+// 		str = get_dynarray_value(arr, i);
+// 		if (str && *str)
+// 			arr->data[j++] = arr->data[i];
+// 		else
+// 			arr->destroyer(arr->data[i]); 
+// 		i++;
+// 	}
+// 	arr->count = j;
+// 	while (j < count)
+// 		arr->data[j++] = NULL;
+// }
 
 
 static void	skip_redirection(t_uint *i, t_uint count, t_dynarray *arr)
@@ -63,6 +63,6 @@ t_dynarray	*cmd_to_argv(t_shell *shell, t_dynarray *arr, t_dynarray *argv)
 			return (destroy_dynarray(argv));
 		i++;
 	}
-	cleanup_args(argv);
+	// cleanup_args(argv);
 	return (argv);
 }

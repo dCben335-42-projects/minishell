@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:12:13 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/28 17:22:11 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/06/04 02:15:20 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,5 +85,5 @@ char	*get_full_cmd_path(char **cmd, t_env *path)
 {
 	if (ft_is_path(cmd[0]) || !path || !path->value)
 		return (cmd[0]);
-	return (find_path(cmd[0], ft_split(path->value, ':')));
+	return (find_path(cmd[0], ft_split(path->value, ":")));
 }

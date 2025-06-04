@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 19:05:58 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/22 19:09:30 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/04 02:16:22 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ t_bool	is_wildcard_suffix(const char *str, char **suffix)
 
 	if (i != len)
 	{
-		segs = ft_split(&str[i], '/');
+		segs = ft_split(&str[i], "/");
 		if (segs)
 		{
 			*suffix = create_suffix(&str[i], segs, str[len - 1] == '/');

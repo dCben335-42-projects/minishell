@@ -6,69 +6,104 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 19:10:10 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/03 17:35:23 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/04 02:17:43 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cmd_expand.h"
-#include "utils.h"
-#include "libft_tree.h"
-#include "parsing.h"
-#include "ast.h"
-#include "cmd_redir.h"
 
+void	positivate_wildcard(char **str);
 void	negate_wildcard(char **str);
 
-// static char *join_token(t_token *token, char *value, t_bool *is_wildcard, t_bool *is_quoted)
-// {
-// 	char	*tmp;
-// 	t_token_type	type;
+static char *handle_loop(t_shell *shell, t_dynarray *args, char *arg, const char *content)
+{
+	const t_bool	is_last_spaced = *content && ft_isspace(content[ft_strlen(content) - 1]);
+	char			**split;
+	char			*tmp;
+	size_t			i;
 
-// 	type = token->type;
-// 	if (type & WILDCARD)
-// 		*is_wildcard = TRUE;
-// 	if (type & (WILDCARD | TEXT))
-// 		negate_wildcard(&token->value);
-// 	if (type & (QUOTED_TEXT | QUOTED_EXPAND))
-// 		*is_quoted = TRUE;
-// 	tmp = ft_strjoin(value, token->value);
-// 	free(value);
-// 	if (!tmp)
-// 		return (NULL);
-// 	return (tmp);
-// }
+	i = 0;
+	split = ft_split(content, " \t\n\v\f\r");
+	if (!split)
+		return (ft_free((void **)&arg));
+	while (split[i])
+	{
+		negate_wildcard(&split[i]);
+		tmp = ft_strjoin(arg, split[i]);
+		free(arg);
+		if (tmp && (split[i + 1] || (!split[i + 1] && is_last_spaced)))
+			tmp = save_expand_entry(shell, args, tmp, TRUE);
+		if (!tmp)
+		 	return (ft_free_split(split));
+		arg = tmp;
+		i++;
+	}
+	ft_free_split(split);
+	return (arg);
+}
 
-// static t_dynarray	*join_word_tokens(t_shell *shell, t_dynarray *tokens, t_dynarray *args)
-// {
-// 	t_token	*token;
-// 	char	*value;
-// 	t_bool  is_wildcard;
-// 	t_bool  is_quoted;
-// 	t_uint	i;
+static char *join_and_save_env(t_shell *shell, t_dynarray *args, t_expand_ctx *ctx)
+{
+	const char		*content = ctx->curr_node->content;
+	const size_t	content_len = ft_strlen(content) - 1;
+	const t_bool	is_space_start = ft_isspace(*content);
+	const t_bool	is_space_end = *content && ft_isspace(content[content_len]);
 
-// 	i = 0;
-// 	value = ft_strdup("");
-// 	if (!value)
-// 		return (NULL);
-// 	is_wildcard = FALSE;
-// 	is_quoted = FALSE;
-// 	while (i < tokens->count)
-// 	{
-// 		token = get_dynarray_value(tokens, i);
-// 		if (token->type == M_EOF || token->type == M_SPACE)
-// 			value = save_expand_entry(shell, args, value, &is_wildcard, &is_quoted);
-// 		else
-// 			value = join_token(token, value, &is_wildcard, &is_quoted);
-// 		if (!value)
-// 			return (NULL);
-// 		i++;
-// 	}
-// 	free(value);
-// 	return (args);
-// }
+	if (is_space_start && (*ctx->arg || ctx->is_quoted))
+		ctx->arg = save_expand_entry(shell, args, ctx->arg, ctx->is_wildcard);
+	if (!ctx->arg)
+		return (NULL);
+	if (*content)
+		ctx->is_quoted = FALSE;
+	if (is_space_end)
+		ctx->is_wildcard = FALSE;
+	else
+		ctx->is_wildcard = TRUE;
+	return (handle_loop(shell, args, ctx->arg, content));
+}
+
+static char *join_standard(t_expand_ctx *ctx)
+{
+	const t_node_type	type = ctx->curr_node->type;
+	char				*content;
+	char				*tmp;
+
+	content = ctx->curr_node->content;
+	if (type & CMD_WILDCARD)
+		ctx->is_wildcard = TRUE;
+	if (type & (CMD_QUOTED_TEXT | CMD_QUOTED_EXPAND))
+		ctx->is_quoted = TRUE;
+	if (type & (CMD_TEXT | CMD_WILDCARD))
+		negate_wildcard(&content);
+	tmp = ft_strjoin(ctx->arg, content);
+	free(ctx->arg);
+	return (tmp);
+}
 
 
-void *join_all(t_shell *shell, t_dynarray *word, t_dynarray *args);
+static t_dynarray	*join_all(t_shell *shell, t_dynarray *args, t_dynarray *word, t_expand_ctx *ctx)
+{
+	t_uint	i;
+
+	i = 0;
+	while (i < word->count)
+	{
+		ctx->curr_node = get_dynarray_value(word, i);
+		if (ctx->curr_node->type & CMD_EXPAND)
+			ctx->arg = join_and_save_env(shell, args, ctx);
+		else
+			ctx->arg = join_standard(ctx);
+		if (!ctx->arg)
+			return (NULL);
+		i++;
+	}
+	if (*ctx->arg || ctx->is_quoted)
+		ctx->arg = save_expand_entry(shell, args, ctx->arg, ctx->is_wildcard);
+	if (!ctx->arg)
+		return (NULL);
+	free(ctx->arg);
+	return (args);
+}
 
 /**
  * @brief Expands a word in the shell context.
@@ -83,7 +118,15 @@ void *join_all(t_shell *shell, t_dynarray *word, t_dynarray *args);
 */
 t_dynarray	*expand_word(t_shell *shell, t_dynarray *word, t_dynarray *args)
 {
+	t_expand_ctx	ctx;
+	
 	if (!expand_env_word(shell, word))
 		return (NULL);
-	return (join_all(shell, word, args));
+	ctx.arg = ft_strdup("");
+	if (!ctx.arg)
+		return (NULL);
+	ctx.curr_node = NULL;
+	ctx.is_wildcard = FALSE;
+	ctx.is_quoted = FALSE;
+	return (join_all(shell, args, word, &ctx));
 }

@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 15:30:22 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/24 07:26:10 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/04 01:41:30 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,15 @@ static void	process_env(t_shell *shell, char *key, char *arg)
 	const t_env	*matched_env = get_env_node(shell->env, key);
 	char		*value;
 	char		*complete_value;
+	char 		*parsed_value;
 
 	if (!matched_env)
 	{
 		add_env_node(&shell->env, init_env_node(arg));
 		return ;
 	}
-	value = parse_env_value(arg);
+	parsed_value = parse_env_value(arg);
+	value = parsed_value;
 	if (!value)
 		value = ft_strdup("");
 	if (!p_ptr(value, ERROR_MALLOC))
@@ -37,8 +39,7 @@ static void	process_env(t_shell *shell, char *key, char *arg)
 		complete_value = ft_strjoin(matched_env->value, value);
 		free(value);
 	}
-	if (!complete_value || !*complete_value 
-		|| !add_existing_env(shell->env, key, complete_value))
+	if (!parsed_value || !complete_value || !add_existing_env(shell->env, key, complete_value))
 		free(complete_value);
 }
 

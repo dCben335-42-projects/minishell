@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 13:59:51 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/22 18:58:35 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/04 02:00:55 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,16 @@ size_t	parse_env_key_len(const char *str)
 /** 
  * @brief Returns the key of the envp variable before '=' and '+' characters.
  * 
- * @param envp The envp variable.
+ * @param envp The envp variable to be parsed.
+ * 
+ * @note If the '=' character is not found, it returns NULL.
+ * @note If the '=' character is found but there is no key before it,
+ * it returns NULL.
+ * 
+ * @note If the key ends with a '+' and the '=' character is not found,
+ * it returns NULL.
+ * @note If the key ends with a '+', it is removed from the key.
+ * 
  * @return char* The key of the envp variable.
  */
 char	*parse_env_key(char *envp)
@@ -84,7 +93,11 @@ char	*parse_env_key(char *envp)
 	if (*(envp) && *(envp) != '=' && is_key(envp, i))
 	{
 		if (envp[i - 1] == '+')
+		{
+			if (envp[i] != '=')
+				return (NULL);
 			return (ft_substr(envp, 0, i - 1));
+		}
 		return (ft_substr(envp, 0, i));
 	}
 	return (NULL);
@@ -94,6 +107,12 @@ char	*parse_env_key(char *envp)
  * @brief Returns the value of the envp variable after the '=' character.
  * 
  * @param envp The envp variable.
+ * 
+ * @note If the '=' character is not found, it returns NULL.
+ * 
+ * @note If the '=' character is found but there is no value after it,
+ * it returns an empty string.
+ * 
  * @return char* The value of the envp variable.
  */
 char	*parse_env_value(char *envp)
@@ -101,7 +120,7 @@ char	*parse_env_value(char *envp)
 	size_t	i;
 
 	i = get_equal_index(envp);
-	if (*(envp + i) == '=' && *(envp + i + 1))
+	if (*(envp + i) == '=')
 		return (ft_strdup(envp + i + 1));
 	return (NULL);
 }

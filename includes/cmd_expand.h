@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 17:19:31 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/03 16:31:32 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/04 01:12:53 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,16 @@
 # include <dirent.h>
 
 t_dynarray	*expand_word(t_shell *shell, t_dynarray *word, t_dynarray *args);
-char		*build_expand_input(t_dynarray *word);
 char		*save_expand_entry(t_shell *shell, t_dynarray *args, char *value, t_bool is_wildcard);
+
+typedef struct s_expand_ctx
+{
+	char		*arg;
+	t_ast_node	*curr_node;
+	t_bool		is_wildcard;
+	t_bool		is_quoted;
+}	t_expand_ctx;
+
 
 t_tree		*expand_wildcard_word(t_shell *shell, char *word);
 void		*expand_env_word(t_shell *shell, t_dynarray *word);

@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 14:47:55 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/03 20:21:03 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/04 01:15:45 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,3 +64,4 @@ char	*save_expand_entry(t_shell *shell, t_dynarray *args, char *value, t_bool is
 	}
 	return (ft_strdup(""));
 }
+

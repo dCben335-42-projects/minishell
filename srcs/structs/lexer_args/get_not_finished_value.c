@@ -17,6 +17,15 @@ static const t_readline_state *get_readline_map(void)
 	return (map);
 }
 
+/**
+ * 
+ * @brief Gets the readline prefix corresponding to the token type.
+ * 
+ * @param type The token type for which to get the readline prefix.
+ * 
+ * @return The corresponding readline prefix as a string.
+ * 
+*/
 const char *get_readline_arg(t_token_type type)
 {
 	const t_readline_state	*map = get_readline_map();

@@ -6,7 +6,7 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:35:32 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/29 18:04:28 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/06/04 18:28:46 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,34 @@ typedef enum e_is_heredoc
 #define HEREDOC_EXPANDABLE_TRUE		"expandable=true"
 #define HEREDOC_EXPANDABLE_FALSE	"expandable=false"
 
+/**
+ * 
+ * @brief Structure to hold arguments for the lexer.
+ * 
+ * @param base_input The original input string to be processed.
+ * @param input The current input string being processed.
+ * @param quote The current quote character being processed (if any).
+ * @param is_heredoc Indicates whether the lexer is currently
+ * processing a heredoc.
+ * @param tokens A dynamic array to hold the tokens generated
+ * by the lexer.
+ * @param parenthesis A structure to keep track of the number
+ * of open and close parentheses.
+ * 
+ * @param rhs The current right-hand side status of the lexer.
+ * @param expected_rhs The expected right-hand side status of
+ * the lexer.
+ * 
+ * @param not_finished_value A string to hold the value of a
+ * command that is not finished yet.
+ * @param heredoc_interupted A boolean indicating whether a heredoc
+ * was interrupted.
+ * @param heredoc_cval A dynamic array to hold cached heredoc values.
+ * @param heredoc_ckey The current key for accessing a cached heredoc value.
+ * @param check_rules A boolean indicating whether to check
+ * rules during lexing.
+ * 
+*/
 typedef struct s_lexer_args
 {
 	char 				*base_input;

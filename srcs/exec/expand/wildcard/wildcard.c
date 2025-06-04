@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 21:37:52 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/04 02:15:03 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/04 03:11:22 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static t_bool	resolve_wildcard(t_wildcard *wildcard)
 	if (!segs)
 		return (FALSE);
 	ret = match_wildcard(wildcard, "", (const char **)segs);
-	ft_free_split(segs);
+	ft_strsfree(segs);
 	return (ret);
 }
 

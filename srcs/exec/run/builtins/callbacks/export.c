@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 15:30:22 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/04 01:41:30 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/04 03:05:19 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ static t_bool	is_valid_export(t_shell *shell, char **args)
 void	ft_export(t_shell *shell, char **args)
 {
 	if (!args[1])
-		read_env(shell->env, EXPORT_PREFIX);
+		read_env(shell->env, TRUE);
 	shell->exit_code = !is_valid_export(shell, args);
 	destroy_dynarray(&shell->env_array);
 	shell->env_array = env_to_array(shell->env);

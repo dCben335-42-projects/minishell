@@ -6,32 +6,58 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 15:38:20 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/04/18 19:11:02 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/04 03:12:35 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "struct_env.h"
 #include "libft.h"
+#include "messages.h"
 
-static int	read_value(void *value, int fd)
+static void	read_exported_env(t_env *node)
 {
-	if (value)
+	const int fd = STDOUT_FILENO;
+
+	ft_putstr_fd(EXPORT_PREFIX" ", fd);
+	ft_putstr_fd(node->key, fd);
+	if (node->value)
 	{
 		ft_putchar_fd('=', fd);
 		ft_putchar_fd('"', fd);
-		ft_putstr_fd(value, fd);
+		ft_putstr_fd(node->value, fd);
 		ft_putchar_fd('"', fd);
 	}
-	return (1);
+	ft_putchar_fd('\n', fd);
+}
+
+static void read_base_env(t_env *node)
+{
+	const int fd = STDOUT_FILENO;
+	
+	if (node->value)
+	{
+		ft_putstr_fd(node->key, fd);
+		ft_putchar_fd('=', fd);
+		ft_putchar_fd('"', fd);
+		ft_putstr_fd(node->value, fd);
+		ft_putchar_fd('"', fd);
+		ft_putchar_fd('\n', fd);
+	}
 }
 
 /**
  * @brief Reads the env tree and prints the key and value of each node.
  * 
  * @param env The env tree.
- * @param prefix The prefix to search for.
- */
-void	read_env(t_env *env, const char *prefix)
+ * @param for_export If true, the output is formatted for export by
+ * adding the `export` prefix. (no `declare -x` prefix because
+ * it is note recognized by this shell) 
+ *
+*/
+void	read_env(t_env *env, t_bool for_export)
 {
-	read_tree(env, prefix, &read_value, 1);
+	if (for_export)
+		read_tree(env, &read_exported_env);
+	else
+		read_tree(env, &read_base_env);
 }

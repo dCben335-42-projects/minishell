@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 13:44:38 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/15 18:48:29 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/04 03:27:47 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ static void	*free_node_params(char *key, char *value)
 	free(value);
 	return (NULL);
 }
+
+#include <stdio.h>
 
 /**
  * @brief Initializes a new environment node with the given envp string.

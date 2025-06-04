@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 19:10:10 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/04 02:17:43 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/04 03:11:22 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,11 @@ static char *handle_loop(t_shell *shell, t_dynarray *args, char *arg, const char
 		if (tmp && (split[i + 1] || (!split[i + 1] && is_last_spaced)))
 			tmp = save_expand_entry(shell, args, tmp, TRUE);
 		if (!tmp)
-		 	return (ft_free_split(split));
+		 	return (ft_strsfree(split));
 		arg = tmp;
 		i++;
 	}
-	ft_free_split(split);
+	ft_strsfree(split);
 	return (arg);
 }
 

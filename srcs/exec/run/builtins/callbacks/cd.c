@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 13:40:14 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/22 19:05:04 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/04 03:29:17 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 static char	*get_pwd(t_shell *shell)
 {
-	const t_env	*oldpwd = get_env_node(shell->env, PWD_KEY);
+	const t_env	*oldpwd = get_env_node(shell->env, ENV_PWD_KEY);
 	
 	if (oldpwd)
 		return (ft_strdup(oldpwd->value));
@@ -42,9 +42,9 @@ static void	handle_env(t_shell *shell, char *new_oldpwd)
 		free(newpwd);
 		return ;
 	}
-	if (!add_existing_env(shell->env, OLDPWD_KEY, new_oldpwd))
+	if (!add_existing_env(shell->env, ENV_OLDPWD_KEY, new_oldpwd))
 		free(new_oldpwd);
-	if (!add_existing_env(shell->env, PWD_KEY, newpwd))
+	if (!add_existing_env(shell->env, ENV_PWD_KEY, newpwd))
 		free(newpwd);
 	free(shell->current_path);
 	shell->current_path = new_path;
@@ -79,10 +79,10 @@ void	ft_cd(t_shell *shell, char **args)
 		return ;
 	}
 	if (!args[1])
-		ret = env_path(get_env_node(shell->env, HOME_KEY),\
+		ret = env_path(get_env_node(shell->env, ENV_HOME_KEY),\
 			ERR_CD_HOME, TRUE);
 	else if (ft_strcmp(args[1], "-") == 0)
-		ret = env_path(get_env_node(shell->env, OLDPWD_KEY),\
+		ret = env_path(get_env_node(shell->env, ENV_OLDPWD_KEY),\
 			ERR_CD_OLDPWD, TRUE);
 	else
 		ret = env_path(args[1], ERR_CD, FALSE);

@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:12:13 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/04 02:15:20 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/04 03:11:22 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,14 +39,14 @@ static char	*find_path(char *cmd_path, char **paths)
 		new = ft_strsjoin((const char **)join, 2, "/");
 		if (new && !access(new, F_OK))
 		{
-			ft_free_split(paths);
+			ft_strsfree(paths);
 			free(cmd_path);
 			return (new);
 		}
 		free(new);
 		i++;
 	}
-	ft_free_split(paths);
+	ft_strsfree(paths);
 	return (cmd_path);
 }
 

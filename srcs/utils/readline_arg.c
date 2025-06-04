@@ -6,13 +6,13 @@ static const char	*handle_pwd_user(char *user_value, char *pwd, t_bool is_home_b
 	if (is_home_based)
 	{
 		return (ft_strsjoin((const char *[]){
-			FIRST_COL, user_value, RESET_COL, ":",
-			SECOND_COL, "~/", pwd, RESET_COL, "$ "
+			FIRST_COL_RL, user_value, RESET_COL_RL, ":",
+			SECOND_COL_RL, "~/", pwd, RESET_COL_RL, "$ "
 		}, 9, ""));
 	}
 	return (ft_strsjoin((const char *[]){
-		FIRST_COL, user_value, RESET_COL, ":",
-		SECOND_COL, pwd, RESET_COL, "$ "
+		FIRST_COL_RL, user_value, RESET_COL_RL, ":",
+		SECOND_COL_RL, pwd, RESET_COL_RL, "$ "
 	}, 8, ""));
 }
 
@@ -21,13 +21,13 @@ static const char	*handle_pwd_no_user(char *pwd, t_bool is_home_based)
 	if (is_home_based)
 	{
 		return (ft_strsjoin((const char *[]){
-			FIRST_COL, SHELL_NAME, RESET_COL, ":",
-			SECOND_COL, "~/", pwd, RESET_COL, "$ "
+			FIRST_COL_RL, SHELL_NAME, RESET_COL_RL, ":",
+			SECOND_COL_RL, "~/", pwd, RESET_COL_RL, "$ "
 		}, 9, ""));
 	}
 	return (ft_strsjoin((const char *[]){
-		FIRST_COL, SHELL_NAME, RESET_COL, ":",
-		SECOND_COL, pwd, RESET_COL, "$ "
+		FIRST_COL_RL, SHELL_NAME, RESET_COL_RL, ":",
+		SECOND_COL_RL, pwd, RESET_COL_RL, "$ "
 	}, 8, ""));
 }
 
@@ -68,8 +68,8 @@ static char	*get_correct_pwd(const t_env *home, char *pwd, t_bool *is_home_based
  */
 const char *get_main_readline_arg(t_shell *shell)
 {
-	const t_env	*user = get_env_node(shell->env, USER_KEY);
-	const t_env	*home = get_env_node(shell->env, HOME_KEY);
+	const t_env	*user = get_env_node(shell->env, ENV_USER_KEY);
+	const t_env	*home = get_env_node(shell->env, ENV_HOME_KEY);
 	t_bool		is_home_based;
 	char		*pwd;
 
@@ -82,6 +82,6 @@ const char *get_main_readline_arg(t_shell *shell)
 		return (handle_pwd_no_user(pwd, is_home_based));
 	}
 	else if (user && user->value)
-		return (ft_strsjoin((const char *[]){FIRST_COL, user->value, RESET_COL, "$ "}, 4, ""));
-	return (ft_strsjoin((const char *[]){FIRST_COL, SHELL_NAME, RESET_COL, "$ "}, 4, ""));
+		return (ft_strsjoin((const char *[]){FIRST_COL_RL, user->value, RESET_COL_RL, "$ "}, 4, ""));
+	return (ft_strsjoin((const char *[]){FIRST_COL_RL, SHELL_NAME, RESET_COL_RL, "$ "}, 4, ""));
 }

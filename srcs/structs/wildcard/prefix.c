@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 19:03:02 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/04 02:15:31 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/04 03:11:22 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,6 @@ t_bool	is_wildcard_prefix(const char *str, char **prefix)
 	len = get_suffix_len(str, segs, i);
 	if (len)
 		*prefix = ft_substr(str, 0, len);
-	ft_free_split(segs);
+	ft_strsfree(segs);
 	return (len > 0);
 }

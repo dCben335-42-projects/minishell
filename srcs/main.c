@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 19:31:21 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/29 18:04:52 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/06/04 04:13:53 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 #include "cmd.h"
 #include "minishell_signal.h"
 #include "utils.h"
+#include "libft.h"
+#include "math_utils.h"
 
 static void	handle_loop(t_shell *shell)
 {
@@ -61,14 +63,83 @@ static void	print_shell_banner(void)
 	write(1, banner, ft_strlen(banner));
 }
 
+
+void set_default_env(t_shell *shell)
+{
+	char	*pwd;
+
+	if (!get_env_node(shell->env, ENV_PATH_KEY))
+		add_env_node(&shell->env, init_env_node(ENV_PATH_KEY"=""/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"));
+	if (!get_env_node(shell->env, ENV_PWD_KEY) && shell->current_path)
+	{
+		pwd = ft_strjoin(ENV_PWD_KEY"=", shell->current_path);
+		if (pwd)
+		{
+			add_env_node(&shell->env, init_env_node(pwd));
+			free(pwd);
+		}
+	}
+	if (!get_env_node(shell->env, ENV_OLDPWD_KEY))
+		add_env_node(&shell->env, init_env_node(ENV_OLDPWD_KEY"="""));
+}
+
+t_bool ft_is_only_one_number(const char *str)
+{
+	t_bool	is_space_between;
+
+	while (ft_isspace(*str))
+		str++;
+	is_space_between = FALSE;
+	while (*str)
+	{
+		if (ft_isspace(*str))
+		{
+			is_space_between = TRUE;
+			while (ft_isspace(*str))
+				str++;
+			continue;
+		}
+		else if (!ft_isdigit(*str) || is_space_between)
+			return (FALSE);
+		str++;
+	}
+	printf("true\n");
+	return (TRUE);
+}
+
+void update_shlvl(t_shell *shell)
+{
+	t_env	*shlvl_node;
+	char	*new_val;
+	int		shlvl;
+
+	shlvl_node = get_env_node(shell->env, "SHLVL");
+	if (shlvl_node)
+	{
+		shlvl = 1;
+		if (shlvl_node->value && ft_is_only_one_number(shlvl_node->value))
+			shlvl += ft_atoi_base(shlvl_node->value, BASE_10);
+		printf("Current SHLVL: %s\n", (char *)shlvl_node->value);
+		new_val = ft_itoa_base(shlvl, BASE_10);
+		if (new_val)
+		{
+			free(shlvl_node->value);
+			shlvl_node->value = new_val;
+		}
+	}
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_shell		shell;
 
 	(void)argc;
 	(void)argv;
-	print_shell_banner();
+	if (PRINT_BANNER)
+		print_shell_banner();
 	shell = init_shell(envp);
+	set_default_env(&shell);
+	update_shlvl(&shell);
 	handle_loop(&shell);
 	ft_exit(&shell, NULL);
 	return (0);

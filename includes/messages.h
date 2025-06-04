@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:39:44 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/24 07:43:17 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/04 03:16:12 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ getcwd: cannot access parent directories"
 # define ERROR_EXIT_ARGS_NUM "exit: too many arguments"
 # define ERROR_EXIT_NUM "exit: numeric argument required"
 
-# define EXPORT_PREFIX "export "
+# define EXPORT_PREFIX "export"
 # define ERR_EXPORT_ID "export: '%s': not a valid identifier\n"
 
 # define ERR_NOT_FOUND "minishell: command not found: "

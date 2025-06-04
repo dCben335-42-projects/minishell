@@ -18,12 +18,7 @@ volatile sig_atomic_t g_sig = 0;
 void	sigint_handler_heredoc(int sig)
 {
 	g_sig = sig;
-	//ft_putendl_fd("", 1);
-	//rl_replace_line("huhu", 0);
-	//rl_on_new_line();
-	//rl_redisplay();
-	//rl_catch_signals = 1;
-	//rl_done = 1;
+	write(1, "^C", 2);
 	close(0);
 }
 
@@ -31,44 +26,18 @@ void	sigint_handler_shell(int sig)
 {
 	(void) sig;
 
+	write(1, "^C", 2);
 	write(1, "\n", 1);
-	rl_replace_line("", 0); //remet la ligne à 0;
-	rl_on_new_line();
-	rl_redisplay();
-}
-
-
-
-void	heredoc_handler(int signo, siginfo_t *info, void *context)
-{
-	(void) signo;
-	(void) info;
-	(void) context;
-	g_sig = signo;
-	ft_putendl_fd("", 2);
-	rl_replace_line("", 0);
-	close(0);
-}
-
-void	prompt_handler(int signo, siginfo_t *info, void *context)
-{
-	(void) signo;
-	(void) info;
-	(void) context;
-	ft_putendl_fd("", 2);
 	rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();
 }
 
-void	exec_handler(int signo, siginfo_t *info, void *context)
+void	sig_jump_handler(int sig)
 {
-	(void) signo;
-	(void) info;
-	(void) context;
-	rl_replace_line("", 0);
+	(void)sig;
+	write(1, "\n", 1);
 }
-
 
 
 void	signals(t_signal_ctx ctx)
@@ -79,6 +48,11 @@ void	signals(t_signal_ctx ctx)
 		signal(SIGINT, &sigint_handler_heredoc);
 	else if (ctx == SIGCTX_SHELL)
 		signal(SIGINT, &sigint_handler_shell);
+	else if (ctx == SIGCTX_JUMP)
+	{
+		signal(SIGINT, &sig_jump_handler);
+		signal(SIGQUIT, &sig_jump_handler);
+	}
 	else if (ctx == SIGCTX_FORK)
 	{
 		signal(SIGINT, SIG_DFL);

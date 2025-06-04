@@ -6,7 +6,7 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 19:31:21 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/03 20:24:40 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/06/04 17:35:24 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,11 @@ static void	handle_loop(t_shell *shell)
 	char		*input;
 
 	signals(SIGCTX_SHELL);
+	rl_catch_signals = 0;
 	while (TRUE)
 	{
 		readline_arg = get_main_readline_arg(shell);
 		input = readline(readline_arg);
-		rl_catch_signals = 1;
 		free((char *)readline_arg);
 		if (!input)
 			break ;
@@ -69,6 +69,7 @@ int	main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	print_shell_banner();
+	
 	shell = init_shell(envp);
 	handle_loop(&shell);
 	ft_exit(&shell, NULL);

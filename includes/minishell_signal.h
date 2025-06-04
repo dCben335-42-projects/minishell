@@ -14,7 +14,8 @@ typedef enum e_signal_ctx
 {
 	SIGCTX_HEREDOC,
 	SIGCTX_SHELL,
-	SIGCTX_FORK,	
+	SIGCTX_FORK,
+	SIGCTX_JUMP
 }	t_signal_ctx;
 
 extern volatile sig_atomic_t g_sig;

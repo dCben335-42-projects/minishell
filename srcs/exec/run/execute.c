@@ -6,7 +6,7 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:07:25 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/29 18:05:59 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/06/04 17:44:26 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "minishell_signal.h"
 
 /**
+ * 
  * @brief Execute a command using execve.
  * 
  * @param argv The command and its arguments with the first argument
@@ -44,8 +45,7 @@ static void	child_exec(t_shell *shell, char **argv, t_dynarray *cmd)
     int	exit_code;
 
 	exit_code = EXIT_FAILURE;
-	if (!redirect(shell, cmd)
-		|| !is_valid_cmd_path(argv[0], &exit_code))
+	if (!redirect(shell, cmd) || !is_valid_cmd_path(argv[0], &exit_code))
 		destroy_self(shell, argv, exit_code);
 	exec_cmd(argv, shell);
 }
@@ -74,7 +74,7 @@ void	fork_and_exec(t_shell *shell, char **argv, t_dynarray *cmd)
 		shell->exit_code = EXIT_FAILURE;
 		return ;
 	}
-	signals(-1);
+	signals(SIGCTX_JUMP);
     if (pid == 0)
 	{
 		signals(SIGCTX_FORK);

@@ -6,12 +6,11 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 15:05:14 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/04 03:06:41 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/04 17:02:50 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "struct_shell.h"
-#include <stdio.h>
 
 /**
  * @brief Prints the environment variables.

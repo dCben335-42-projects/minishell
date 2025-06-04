@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 15:14:14 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/26 15:42:13 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/06/04 17:11:38 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ static const t_builtin	*get_builtin_map(void)
 	{BUILTIN_EXIT, &ft_exit},
 	{BUILTIN_ECHO, &ft_echo},
 	{BUILTIN_DEBUG, &ft_debug},
+	{BUILTIN_VOID, &ft_void},
 	{NULL, NULL}};
 	
 	return (map);

@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 02:08:03 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/30 17:20:20 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/04 17:07:23 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,16 @@
 
 static const t_debug_map *get_debug_map(t_debug *debug)
 {
-    static t_debug_map map[5];
+	static t_debug_map map[5] = {0};
 	
-    map[0] = (t_debug_map){DEBUG_ALL_OPTION, &debug->all};
-    map[1] = (t_debug_map){DEBUG_TOKENS_OPTION, &debug->tokens};
-    map[2] = (t_debug_map){DEBUG_AST_OPTION, &debug->ast};
-	map[3] = (t_debug_map){DEBUG_EXITCODE_OPTION, &debug->exitcode};
-    map[4] = (t_debug_map){NULL, NULL};
+	if (!map[0].option)
+	{
+		map[0] = (t_debug_map){DEBUG_ALL_OPTION, &debug->all};
+		map[1] = (t_debug_map){DEBUG_TOKENS_OPTION, &debug->tokens};
+		map[2] = (t_debug_map){DEBUG_AST_OPTION, &debug->ast};
+		map[3] = (t_debug_map){DEBUG_EXITCODE_OPTION, &debug->exitcode};
+		map[4] = (t_debug_map){NULL, NULL};
+	}
 	return (map);
 }
 
@@ -91,7 +94,7 @@ void	ft_debug(t_shell *shell, char **args)
 	{
 		print_current_debug(shell);
 		write(1, DEBUG_HELP_MSG, ft_strlen(DEBUG_HELP_MSG));
-		shell->exit_code = 0;
+		shell->exit_code = 1;
 		return ;
 	}
 	if (!ft_strcmp(args[1], DEBUG_HELP_OPTION))

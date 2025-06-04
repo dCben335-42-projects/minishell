@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_builtin.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 15:10:38 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/26 15:40:26 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/06/04 17:07:55 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef struct s_builtin
 # define BUILTIN_EXIT "exit"
 # define BUILTIN_ECHO "echo"
 # define BUILTIN_DEBUG "debug"
+# define BUILTIN_VOID ":"
 
 void	ft_env(t_shell *shell, char **args);
 void	ft_export(t_shell *shell, char **args);
@@ -49,6 +50,8 @@ void	ft_cd(t_shell *shell, char **args);
 void	ft_exit(t_shell *shell, char **args);
 void	ft_echo(t_shell *shell, char **args);
 void	ft_debug(t_shell *shell, char **args);
+void	ft_void(t_shell *shell, char **args);
+
 
 # define DEBUG_ALL_OPTION "--all"
 # define DEBUG_TOKENS_OPTION "--tokens"

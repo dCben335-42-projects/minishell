@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:12:13 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/04 03:11:22 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/04 16:38:12 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,14 +76,14 @@ t_bool	is_valid_cmd_path(char *path, int *exit_code)
 /**
  * @brief Get the full command path from the command and the PATH environment variable.
  * 
- * @param cmd The command to execute.
+ * @param cmd_name The command name to find the path for.
  * @param paths The PATH environment variable.
  * 
  * @return The full command path if found, otherwise the original command.
  */
-char	*get_full_cmd_path(char **cmd, t_env *path)
+char	*get_full_cmd_path(char *cmd_name, t_env *path)
 {
-	if (ft_is_path(cmd[0]) || !path || !path->value)
-		return (cmd[0]);
-	return (find_path(cmd[0], ft_split(path->value, ":")));
+	if (!cmd_name || ft_is_path(cmd_name) || !path || !path->value)
+		return (cmd_name);
+	return (find_path(cmd_name, ft_split(path->value, ":")));
 }

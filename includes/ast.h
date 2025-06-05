@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 20:20:38 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/03 19:18:48 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/06/05 16:00:42 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ typedef struct s_get_cmd_primitive
 }	t_get_cmd_primitive;
 
 void				add_master_cmds(t_ast_ctx *args);
-void				get_cmd_primitive(t_ast_ctx *args, t_ast_node **cmd);
+void				add_cmd_primitive(t_ast_ctx *args, t_ast_node **cmd);
 t_bool				get_cmd(t_ast_ctx *args);
 
 void				get_pipe_cmd(

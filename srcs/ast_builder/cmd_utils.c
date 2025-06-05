@@ -1,16 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   other_utils.c                                      :+:      :+:    :+:   */
+/*   cmd_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 19:03:36 by abonneau          #+#    #+#             */
-/*   Updated: 2025/06/02 19:45:41 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/06/05 15:52:55 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ast.h"
+
+/**
+ * 
+ * @brief Adds the child node to the contents of the parent node.
+ * 
+ * @param parent The parent node to which the child node will be added.
+ * @param child The child node to be added.
+ * @param args The arguments structure containing the malloc error flag.
+ * 
+ * @note If the allocation fails, it sets the "has_malloc_error" boolean to true.
+ *
+*/
+void	add_child(t_ast_node *parent,
+	t_ast_node **child, t_ast_ctx *args)
+{
+	if (*child)
+	{
+		if (!add_child_primitive(parent, *child))
+		{
+			args->has_malloc_error = TRUE;
+			return ;
+		}
+		*child = NULL;
+	}
+}
 
 /**
  * 
@@ -26,7 +51,7 @@
 t_bool	get_cmd(t_ast_ctx *args)
 {
 	args->local.cmd = &args->local.lcmd;
-	get_cmd_primitive(args, &args->local.cmd);
+	add_cmd_primitive(args, &args->local.cmd);
 	if (args->local.cmd)
 		return (TRUE);
 	args->i++;

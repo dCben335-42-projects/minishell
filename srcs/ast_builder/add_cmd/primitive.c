@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   primitive_cmd.c                                    :+:      :+:    :+:   */
+/*   get_primitive.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 19:10:17 by abonneau          #+#    #+#             */
-/*   Updated: 2025/06/03 17:56:53 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/06/05 16:00:42 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,27 +59,28 @@ static t_bool	add_cmd_child_logic_loop(
 	return (TRUE);
 }
 
-static t_ast_node	*add_cmd_child(t_ast_ctx *args, t_get_cmd_primitive *d)
+static t_ast_node	*add_cmd_child(t_ast_ctx *args)
 {
 	t_token		*token;
+	t_get_cmd_primitive	d;
 
 	if (is_empty(args))
 		return (NULL);
-	if (merr(ast_init_node(args, CMD_BASE), &d->cmd_new))
+	if (merr(ast_init_node(args, CMD_BASE), &d.cmd_new))
 		return (NULL);
-	d->cmd_word = NULL;
-	d->cmd_redir = NULL;
-	d->cmd_temp = NULL;
+	d.cmd_word = NULL;
+	d.cmd_redir = NULL;
+	d.cmd_temp = NULL;
 	while (args->i < args->end)
 	{
 		token = get_dynarray_value(args->tokens, args->i);
 		if (is_control_extended_token(*token))
 			break ;
-		if (!add_cmd_child_logic_loop(args, d, token))
+		if (!add_cmd_child_logic_loop(args, &d, token))
 			return (NULL);
 	}
-	add_cmd_join_child(args, d);
-	return (d->cmd_new);
+	add_cmd_join_child(args, &d);
+	return (d.cmd_new);
 }
 
 static void	get_node(t_ast_ctx *args, t_token *token, t_ast_node **cmd)
@@ -109,17 +110,15 @@ static void	get_node(t_ast_ctx *args, t_token *token, t_ast_node **cmd)
  * @note If an allocation fails, it sets the "has_malloc_error" boolean to true.
  * 
 */
-
-void	get_cmd_primitive(t_ast_ctx *args, t_ast_node **cmd)
+void	add_cmd_primitive(t_ast_ctx *args, t_ast_node **cmd)
 {
 	t_token				*token;
-	t_get_cmd_primitive	d;
 
 	if (args->i >= args->end)
 		*cmd = NULL;
 	token = get_dynarray_value(args->tokens, args->i);
 	if (is_cmd_token(*token))
-		*cmd = add_cmd_child(args, &d);
+		*cmd = add_cmd_child(args);
 	else
 		get_node(args, token, cmd);
 }

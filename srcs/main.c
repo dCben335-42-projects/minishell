@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 19:31:21 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/04 16:13:56 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/04 18:58:50 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,6 @@ t_bool ft_is_only_one_number(const char *str)
 			return (FALSE);
 		str++;
 	}
-	printf("true\n");
 	return (TRUE);
 }
 
@@ -119,7 +118,6 @@ void update_shlvl(t_shell *shell)
 		shlvl = 1;
 		if (shlvl_node->value && ft_is_only_one_number(shlvl_node->value))
 			shlvl += ft_atoi_base(shlvl_node->value, BASE_10);
-		printf("Current SHLVL: %s\n", (char *)shlvl_node->value);
 		new_val = ft_itoa_base(shlvl, BASE_10);
 		if (new_val)
 		{

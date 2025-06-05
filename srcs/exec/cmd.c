@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:57:59 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/04 18:07:50 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/06/06 01:28:20 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,9 @@ void	*command_not_finished_handler(t_lexer_args *args)
 		args->base_input = tmp;	
 		return (command_not_finished(args, ""));
 	}
-	if (args->parenthesis.open > args->parenthesis.close && (is_text_token(*token) || token->type & OP_SEMICOL))
+	if (args->parenthesis.open > args->parenthesis.close && (is_text_token(token) || token->type & OP_SEMICOL))
 	{
-		if (is_text_token(*token))
+		if (is_text_token(token))
 		{
 			tmp = ft_strjoin(args->base_input, ";");
 			if (!tmp)
@@ -92,6 +92,7 @@ void	*command_handler(char *input, t_shell *shell)
 	is_lexer_error = !command_handler_lexer(input, &args, NULL);
 	add_history(args.base_input);
 	free(args.base_input);
+	debug_tokens(shell, &args.tokens);
 	if (is_lexer_error)
 	{
 		shell->exit_code = 2;
@@ -99,7 +100,6 @@ void	*command_handler(char *input, t_shell *shell)
 			shell->exit_code = 130;
 		return (destroy_lexer_args(&args, TRUE));
 	}
-	debug_tokens(shell, &args.tokens);
 	shell->ast = ast_builder(&args.tokens);
 	destroy_lexer_args(&args, TRUE);
 	if (!shell->ast)

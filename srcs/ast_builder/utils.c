@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 18:58:30 by abonneau          #+#    #+#             */
-/*   Updated: 2025/06/03 17:26:02 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/06/05 21:03:43 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ t_bool	is_empty(t_ast_ctx *args)
 		token = get_dynarray_value(args->tokens, args->i + 1);
 	if (token->type == M_EOF)
 		return (TRUE);
-	if (is_control_extended_token(*token))
+	if (is_control_extended_token(token))
 		return (TRUE);
 	return (FALSE);
 }

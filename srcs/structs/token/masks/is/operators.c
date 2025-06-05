@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 06:58:17 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/24 08:00:20 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/05 21:11:14 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@
  * @return 0 if the token is not a control token or a positive value
  * if it is a control token.
  */
-int is_control_token(t_token token)
+int is_control_token(t_token *token)
 {
-	return (token.type & get_masks()->control);
+	return (token->type & get_masks()->control);
 }
 
 /**
@@ -40,9 +40,9 @@ int is_control_token(t_token token)
  * @return 0 if the token is not a parenthesis token or a positive value
  * if it is a parenthesis token.
  */
-int	is_parenthesis_token(t_token token)
+int	is_parenthesis_token(t_token *token)
 {
-	return (token.type & get_masks()->paren);
+	return (token->type & get_masks()->paren);
 }
 
 /**
@@ -56,9 +56,9 @@ int	is_parenthesis_token(t_token token)
  * @return 0 if the token is not a control extended token or a positive value
  * if it is a control extended token.
  */
-int is_control_extended_token(t_token token)
+int is_control_extended_token(t_token *token)
 {
-	return (token.type & get_masks()->control_extended);
+	return (token->type & get_masks()->control_extended);
 }
 
 /**
@@ -72,7 +72,7 @@ int is_control_extended_token(t_token token)
  * @return 0 if the token is not a redirection token or a positive value
  * if it is a redirection token.
  */
-int	is_redir_token(t_token token)
+int	is_redir_token(t_token *token)
 {
-	return (token.type & get_masks()->redir);
+	return (token->type & get_masks()->redir);
 }

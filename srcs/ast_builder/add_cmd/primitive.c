@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 19:10:17 by abonneau          #+#    #+#             */
-/*   Updated: 2025/06/05 18:19:42 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/05 21:05:14 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static t_bool	add_cmd_child_logic_loop(
 	t_token *token
 )
 {
-	if (is_text_token(*token))
+	if (is_text_token(token))
 	{
 		if (!d->cmd_word && !d->cmd_redir
 			&& merr(ast_init_node(args, CMD_WORD), &d->cmd_word))
@@ -74,7 +74,7 @@ static t_ast_node	*add_cmd_child(t_ast_ctx *args)
 	while (args->i < args->end)
 	{
 		token = get_dynarray_value(args->tokens, args->i);
-		if (is_control_extended_token(*token))
+		if (is_control_extended_token(token))
 			break ;
 		if (!add_cmd_child_logic_loop(args, &d, token))
 			return (NULL);
@@ -181,7 +181,7 @@ void	add_cmd_primitive(t_ast_ctx *args, t_ast_node **cmd)
 	if (args->i >= args->end)
 		*cmd = NULL;
 	token = get_dynarray_value(args->tokens, args->i);
-	if (is_cmd_token(*token))
+	if (is_cmd_token(token))
 		*cmd = add_cmd_child(args);
 	else
 		get_node(args, token, cmd);

@@ -65,17 +65,6 @@ t_parse_status	get_error_message(t_token *token, char *msg)
 	return (COMMAND_NOT_VALID);
 }
 
-int is_heredoc_token(t_token *token)
-{
-	return (token->type & (R_HEREDOC | R_HEREDOC_TRIM));
-}
-
-
-int is_text_tokenn(t_token *token)
-{
-	return (token->type & get_masks()->text);;
-}
-
 
 t_parse_status	token_parser(t_lexer_args *args, t_token *token)
 {

@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:44:15 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/05 18:14:30 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/05 21:15:44 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -211,12 +211,13 @@ typedef struct s_token_map_rules
 t_masks			*get_masks(void);
 t_uint			get_token_rules(t_token_type token_type);
 
-int		is_control_token(t_token token);
-int		is_text_token(t_token token);
-int		is_redir_token(t_token token);
-int		is_parenthesis_token(t_token token);
-int		is_control_extended_token(t_token token);
-int		is_cmd_token(t_token token);
-int		is_meta_token(t_token token);
+int		is_control_token(t_token *token);
+int		is_text_token(t_token *token);
+int		is_redir_token(t_token *token);
+int		is_parenthesis_token(t_token *token);
+int		is_control_extended_token(t_token *token);
+int		is_cmd_token(t_token *token);
+int		is_meta_token(t_token *token);
+int		is_quoted_text_token(t_token *token);
 
 #endif

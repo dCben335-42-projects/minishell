@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:07:25 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/05 15:29:29 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/05 19:38:50 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,14 +84,14 @@ void	fork_and_exec(t_shell *shell, t_dynarray *cmd, char **argv, size_t name_i)
 		shell->exit_code = EXIT_FAILURE;
 		return ;
 	}
-	signals(SIGCTX_JUMP);
+	if (shell->last_pid)
+		signals(SIGCTX_JUMP);
     if (pid == 0)
 	{
 		signals(SIGCTX_FORK);
 		child_exec(shell, cmd, argv, name_i);
 	}
 	shell->exit_code = wait_childrens(pid);
-	if (g_sig == SIGINT)
-		shell->interrupted = TRUE;
-	signals(SIGCTX_SHELL);
+	if (shell->last_pid)
+		signals(SIGCTX_SHELL);
 }

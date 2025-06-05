@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipeline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 08:45:59 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/28 17:30:39 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/06/05 19:23:27 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ static t_bool	exec_pipe(
 	}
 	if (shell->last_pid == 0)
 	{
+		signals(-1);
 		if (!setup_redirections(in_out))
 			destroy_self(shell, NULL, EXIT_FAILURE);
 		close_in_out(pipefd);
@@ -101,6 +102,7 @@ t_ast_node	*exec_pipeline(t_shell *shell, t_ast_node *cmd)
 
 	input_fd = -1;
 	skipped_cmd = skip_cmd(cmd);
+	signals(SIGCTX_JUMP);
 	cmd = find_next_cmd(cmd);
 	while (cmd && cmd != skipped_cmd)
 	{
@@ -116,5 +118,6 @@ t_ast_node	*exec_pipeline(t_shell *shell, t_ast_node *cmd)
 	if (input_fd != -1)
 		close(input_fd);
 	shell->exit_code = wait_childrens(shell->last_pid);
+	signals(SIGCTX_SHELL);
 	return (skipped_cmd);
 }

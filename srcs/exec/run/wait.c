@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wait.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:01:05 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/04 17:44:59 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/06/05 19:44:17 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "libft.h"
 #include <sys/types.h>
 
-static int handle_status(int status)
+int parse_status(int status)
 {
 	if (WIFEXITED(status))
 		return (WEXITSTATUS(status));
@@ -46,7 +46,7 @@ int	wait_childrens(pid_t last_pid)
     while (pid > 0)
     {
         if (pid == last_pid)
-			exit_code = handle_status(status);
+			exit_code = parse_status(status);
         pid = waitpid(-1, &status, 0);
     }
 	return (exit_code);

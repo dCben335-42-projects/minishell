@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 13:49:50 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/26 18:55:35 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/06/05 19:47:25 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,19 @@
 #include "messages.h"
 #include "utils.h"
 #include <unistd.h>
+
+static t_debug	init_debug(void)
+{
+	t_debug	debug;
+
+	debug.all = FALSE;
+	debug.tokens = FALSE;
+	debug.lexer = FALSE;
+	debug.ast = FALSE;
+	debug.exitcode = FALSE;
+	return (debug);
+}
+
 
 /**
  * @brief Initializes the shell structure with the given environment variables.
@@ -32,12 +45,7 @@ t_shell	init_shell(char **envp)
 	shell.current_path = getcwd(NULL, 0);
 	shell.ast = NULL;
 	shell.last_pid = -1;
-	shell.debug.all = FALSE;
-	shell.debug.tokens = FALSE;
-	shell.debug.lexer = FALSE;
-	shell.debug.ast = FALSE;
-	shell.debug.exitcode = FALSE;
-	shell.interrupted = FALSE;
+	shell.debug = init_debug();
 	p_ptr(shell.current_path, ERROR_SHELL_INIT);
 	return (shell);
 }

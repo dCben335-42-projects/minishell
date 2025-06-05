@@ -33,10 +33,9 @@ void	sigint_handler_shell(int sig)
 	rl_redisplay();
 }
 
-void	sig_jump_handler(int sig)
+void	sig_capter(int sig)
 {
-	(void)sig;
-	write(1, "\n", 1);
+	g_sig = sig;
 }
 
 
@@ -50,8 +49,8 @@ void	signals(t_signal_ctx ctx)
 		signal(SIGINT, &sigint_handler_shell);
 	else if (ctx == SIGCTX_JUMP)
 	{
-		signal(SIGINT, &sig_jump_handler);
-		signal(SIGQUIT, &sig_jump_handler);
+		signal(SIGINT, &sig_capter);
+		signal(SIGQUIT, &sig_capter);
 	}
 	else if (ctx == SIGCTX_FORK)
 	{
@@ -59,3 +58,4 @@ void	signals(t_signal_ctx ctx)
 		signal(SIGQUIT, SIG_DFL);
 	}
 }
+

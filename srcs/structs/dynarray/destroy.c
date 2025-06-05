@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   destroy.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 17:48:55 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/04 17:56:21 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/06/06 01:35:42 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	*destroy_dynarray(t_dynarray *arr)
 	{
 		while (i < arr->size)
 		{
-			if (arr->data[i] != NULL)
+			if (arr->data[i])
 				arr->destroyer(arr->data[i]);
 			i++;
 		}

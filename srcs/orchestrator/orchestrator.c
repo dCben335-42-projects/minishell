@@ -1,5 +1,6 @@
 #include "cmd.h"
 #include "orchestrator.h"
+#include "minishell_signal.h"
 
 static const t_exec_map	*get_exec_map(void)
 {
@@ -98,8 +99,13 @@ void	orchestrator(t_shell *shell)
 
 	write(1, COMMAND_COL, sizeof(COMMAND_COL));
 	cmd = find_next_cmd(shell->ast);
-	shell->interrupted = FALSE;
-	while (!shell->interrupted && cmd)
+	while (!g_sig && cmd)
 		cmd = handle_cmd(shell, cmd);
+	if (g_sig)
+	{
+		shell->exit_code = parse_status(g_sig);
+		write(1, "\n", 1);
+		g_sig = 0;
+	}
 	write(1, RESET_COL, sizeof(RESET_COL));
 }

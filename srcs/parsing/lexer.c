@@ -20,23 +20,6 @@ static t_bool	is_command_finished(t_lexer_args *args, t_token *token, const char
 	return (TRUE);
 }
 
-static t_ptr	get_next_token(t_lexer_args *args)
-{
-	if (!*args->input)
-		return (init_pointer(NULL, FALSE));
-	if (args->quote == DELIMITER_EXPANDABLE_TEXT 
-		&& *args->input == DELIMITER_EXPANDABLE_TEXT)
-	{
-		args->input++;
-		args->quote = 0;
-	}
-	if (ft_isspace(*args->input) && args->quote == 0)
-		return (tokenize_whitespace(args));
-	if (!*args->input)
-		return (init_pointer(NULL, FALSE));
-	return (get_token(args));
-}
-
 t_parse_status	get_parsing_error_status(t_lexer_args *args, t_ptr ptr)
 {
     t_parse_status  status;
@@ -50,64 +33,6 @@ t_parse_status	get_parsing_error_status(t_lexer_args *args, t_ptr ptr)
 		return (COMMAND_NOT_FINISHED);
     return (status);
 }
-
-
-int is_heredoc_token(t_token *token);
-int is_text_tokenn(t_token *token);
-int is_meta_tokenn(t_token *token);
-
-int is_meta_tokenn(t_token *token)
-{
-	return (token->type & get_masks()->metachar);
-}
-
-#include "utils.h"
-
-int is_quoted_text_token(t_token *token)
-{
-	return (token->type & (QUOTED_TEXT | QUOTED_EXPAND));
-}
-
-t_ptr handle_heredoc(t_lexer_args *args, t_token *token)
-{
-	t_ptr		ptr;
-	t_ptr		next_ptr;
-	t_bool		is_expandable_heredoc;
-	char		*delimer;
-	char		*tmp;
-
-	ptr = get_next_token(args);
-	delimer = ft_strdup("");
-	is_expandable_heredoc = FALSE;
-	if (ptr.p && is_meta_tokenn(ptr.p))
-	{
-		destroy_token(ptr.p);
-		ptr = get_next_token(args);
-	}
-	if (!ptr.p || !is_text_tokenn(ptr.p))
-		return (ptr);
-	while (ptr.p && is_text_tokenn(ptr.p))
-	{
-		if (is_quoted_text_token(ptr.p))
-			is_expandable_heredoc = TRUE;
-		tmp = ft_strjoin(delimer, ((t_token *)(ptr.p))->value);
-		free(delimer);
-		delimer = tmp;
-		next_ptr = get_next_token(args);
-		if (!next_ptr.p || !is_text_tokenn(next_ptr.p))
-		{
-			get_parsing_error_status(args, ptr);
-			break;
-		}
-		destroy_token(ptr.p);
-		ptr = next_ptr;
-	}
-	free(((t_token *)(ptr.p))->value);
-	((t_token *)(ptr.p))->value = delimer;
-	get_parsing_error_status(args, transform_heredoc(args, ptr.p, is_expandable_heredoc, token->type));
-	return (next_ptr);
-}
-
 
 /**
  * @brief Analyzes the input to determine if it follows a valid command format.
@@ -135,7 +60,7 @@ t_parse_status    lexer(t_lexer_args *args)
         if (status != COMMAND_VALID)
             return (status);
         if (args->is_heredoc)
-			ptr = handle_heredoc(args, ptr.p);
+			ptr = transform_heredoc(args);
 		else
 			ptr = get_next_token(args);
     }

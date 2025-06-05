@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 17:45:18 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/02 19:13:31 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/06 01:18:10 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,17 @@ t_ptr			tokenize_wildcard(t_lexer_args *args, t_token_type *current_type);
 t_ptr			tokenize_expand(t_lexer_args *args, char **start_i, t_token_type *current_type);
 
 t_ptr			get_token(t_lexer_args *args);
+t_ptr			get_next_token(t_lexer_args *args);
 t_bool			get_prev_token(t_lexer_args *args, t_token **prev_token);
 
 t_token_type	quoted_wrapper(t_lexer_args *args, t_token_type *current_type);
 t_bool 			need_tokenize(t_lexer_args *args, char **start_i);
 t_ptr			wrap_ptr_token(t_lexer_args *args, t_token_type *current_type, char **start_i, size_t optional_len);
 
-t_ptr			transform_heredoc(t_lexer_args *args, t_token *token, t_bool is_expandable, t_token_type type);
+int				read_heredoc_if_possible(t_lexer_args *args, t_token *token);
+t_parse_status	read_heredoc(t_lexer_args *args, t_token *token, const t_bool is_expandable);
+t_ptr			transform_heredoc(t_lexer_args *args);
+
 
 typedef struct s_rules_map
 {

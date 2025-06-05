@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 09:04:49 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/30 17:21:55 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/05 19:46:35 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,12 @@ static t_ast_node	*run_subshell(
 		shell->exit_code = EXIT_FAILURE;
 		return (NULL);
 	}
-	signal(SIGINT, SIG_IGN);
-	signal(SIGQUIT, SIG_IGN);
+	signals(SIGCTX_JUMP);
 	if (shell->last_pid == 0)
 	{
+		signals(-1);
 		cmd = find_next_cmd(cmd);
-		while (cmd && cmd != skipped_cmd)
+		while (!g_sig && cmd && cmd != skipped_cmd)
 			cmd = handle_cmd(shell, cmd);
 		destroy_self(shell, NULL, shell->exit_code);
 	}

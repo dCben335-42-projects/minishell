@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   operator.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 20:35:51 by abonneau          #+#    #+#             */
-/*   Updated: 2025/06/05 16:49:28 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/05 20:55:57 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,8 @@ static void	add_cmds(
 	t_ast_ctx *args
 )
 {
-	while (args->i < args->end)
+	while (!args->has_malloc_error && args->i < args->end)
 	{
-		if (args->has_malloc_error)
-			return ;
 		args->local.ctx = CTX_OP;
 		if (!get_cmd(args))
 			continue ;

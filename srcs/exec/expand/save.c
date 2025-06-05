@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   save.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 14:47:55 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/04 01:15:45 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/05 20:22:00 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cmd_expand.h"
+#include "config.h"
 
 static t_dynarray	*push_tree_values(t_tree *tree, t_dynarray *arr)
 {

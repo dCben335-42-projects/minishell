@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   prefix.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 19:03:02 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/04 03:11:22 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/05 20:26:59 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "struct_wildcard.h"
 #include "libft.h"
 #include "stdio.h"
+#include "config.h"
 
 static size_t	skip_slashes(const char **str)
 {
@@ -70,7 +71,7 @@ t_bool	is_wildcard_prefix(const char *str, char **prefix)
 	i = 0;
 	if (!segs)
 		return (FALSE);
-	while (segs[i] && !ft_strchr(segs[i], -'*'))
+	while (segs[i] && !ft_strchr(segs[i], -SYMBOL_GLOB_ANY))
 		i++;
 	len = get_suffix_len(str, segs, i);
 	if (len)

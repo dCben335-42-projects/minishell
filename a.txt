@@ -219,10 +219,10 @@ index 5cf7f74..1fd0e6b 100644
  
  t_bool	redir_out(t_shell *shell, t_ast_node *node);
  t_bool	redir_in(t_shell *shell, t_ast_node *node);
-diff --git a/includes/messages.h b/includes/messages.h
+diff --git a/includes/config.h b/includes/config.h
 index b9c779e..eb3383f 100644
---- a/includes/messages.h
-+++ b/includes/messages.h
+--- a/includes/config.h
++++ b/includes/config.h
 @@ -6,7 +6,7 @@
  /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
  /*                                                +#+#+#+#+#+   +#+           */
@@ -2367,7 +2367,7 @@ index 8a6f175..bbec86c 100644
  
  #include "struct_env.h"
  #include "libft.h"
--#include "messages.h"
+-#include "config.h"
  
 -static void	read_exported_env(t_env *node)
 -{

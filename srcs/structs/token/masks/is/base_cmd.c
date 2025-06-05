@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   base_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 06:59:55 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/24 08:00:44 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/05 20:32:15 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
  * @return 0 if the token is not a command token or a positive value
  * if it is a command token.
 */
-int is_cmd_token(t_token token)
+int	is_cmd_token(t_token token)
 {
 	return (token.type & (get_masks()->redir | get_masks()->text | M_SPACE));
 }

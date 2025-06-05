@@ -6,7 +6,7 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 18:04:40 by abonneau          #+#    #+#             */
-/*   Updated: 2025/06/03 18:12:17 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/06/05 20:47:13 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
  * @return NULL
  * 
 */
-static void	*destroy_node(t_ast_node *node)
+static void	*destroy_ast_node(t_ast_node *node)
 {
 	free(node->content);
 	free(node);
@@ -38,17 +38,17 @@ static void	*destroy_node(t_ast_node *node)
  * @return NULL
  * 
 */
-void	*recursive_destroy_node(t_ast_node *node)
+void	*recursive_destroy_ast_node(t_ast_node *node)
 {
 	if (node == NULL)
 		return (NULL);
 	if (node->child_count == 1)
-		return (destroy_node(node));
+		return (destroy_ast_node(node));
 	if (node->child_count > 1)
 	{
 		destroy_dynarray(node->content);
 		free(node);
 		return (NULL);
 	}
-	return (destroy_node(node));
+	return (destroy_ast_node(node));
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parenthesis_cmd.c                                  :+:      :+:    :+:   */
+/*   parenthesis.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 20:36:44 by abonneau          #+#    #+#             */
-/*   Updated: 2025/06/02 20:39:55 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/06/05 20:47:30 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	get_parenthesis_cmd(t_ast_ctx *args, t_ast_node *cmd_master)
 
 	cmd_p = &cmd;
 	if (cmd_master->type == CMD_PARENTHESIS)
-		init_node_on_stack(&cmd, CMD_SEQ);
+		init_ast_node_on_stack(&cmd, CMD_SEQ);
 	else
 		cmd_p = ast_init_node(args, CMD_PARENTHESIS);
 	if (args->has_malloc_error)

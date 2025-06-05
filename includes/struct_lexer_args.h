@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   struct_lexer_args.h                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:35:32 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/05 15:29:46 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/05 20:15:07 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,15 +99,5 @@ const char *get_readline_arg(t_token_type type);
 
 # define READLINE_S_QUOTE_KEY		-1
 # define READLINE_D_QUOTE_KEY		-2
-# define READLINE_S_QUOTE_VAL 		"single_quote>"
-# define READLINE_D_QUOTE_VAL 		"double_quote>"
-# define READLINE_PARENTHESIS_VAL 	"subshell>"
-# define READLINE_HEREDOC_VAL 		"heredoc>"
-# define READLINE_HEREDOC_TRIM_VAL 	"dash_heredoc>"
-# define READLINE_AND_VAL			"and>"
-# define READLINE_OR_VAL			"or>"
-# define READLINE_PIPE_VAL			"pipe>"
-# define READLINE_HEREDOC_VAL		"heredoc>"
-# define READLINE_HEREDOC_TRIM_VAL	"dash_heredoc>"
 
 #endif

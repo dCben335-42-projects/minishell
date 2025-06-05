@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   array.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 18:35:42 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/22 18:19:56 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/05 20:38:50 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "libft.h"
 #include "struct_env.h"
 
-char *stringify_env(t_env *env)
+char	*stringify_env(t_env *env)
 {
 	const char	*strs[] = {env->key, "=", env->value};
 
@@ -28,7 +28,7 @@ void	fill_env_array(t_env *env, t_dynarray *arr)
 	char	*str;
 
 	if (!env || !arr)
-		return;
+		return ;
 	fill_env_array(env->left, arr);
 	str = stringify_env(env);
 	if (str)

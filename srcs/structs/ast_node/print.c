@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 18:09:50 by abonneau          #+#    #+#             */
-/*   Updated: 2025/06/05 18:31:01 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/05 20:31:07 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ static void	print_node(t_ast_node *node, t_uint i, t_ast_printer_ctx args)
 		map++;
 	}
 }
+
 /**
  * 
  * @brief Prints the AST in JSON format.
@@ -84,7 +85,6 @@ void	print_ast_json(t_ast_printer_ctx args)
 		i++;
 	}
 }
-
 
 /**
  * 

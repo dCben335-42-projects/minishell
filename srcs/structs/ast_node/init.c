@@ -6,7 +6,7 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 18:02:31 by abonneau          #+#    #+#             */
-/*   Updated: 2025/06/03 18:29:05 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/06/05 20:49:08 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
  * @return t_ast_node* Pointer to the initialized node or NULL on malloc error.
  * 
 */
-t_ast_node	*init_node(t_node_type type, char *value)
+t_ast_node	*init_ast_node(t_node_type type, char *value)
 {
 	t_ast_node	*node;
 
@@ -56,7 +56,7 @@ t_ast_node	*init_node(t_node_type type, char *value)
  * @param type The type of the node to be initialized.
  * 
 */
-void	init_node_on_stack(t_ast_node *node, t_node_type type)
+void	init_ast_node_on_stack(t_ast_node *node, t_node_type type)
 {
 	node->type = type;
 	node->parent = NULL;
@@ -91,7 +91,7 @@ int	add_child_primitive(t_ast_node *parent, t_ast_node *child)
 	if (parent->child_count == 0)
 	{
 		sub_cmd = init_dynarray_malloc(80,
-				(void *(*)(void *))recursive_destroy_node);
+				(void *(*)(void *))recursive_destroy_ast_node);
 		if (!sub_cmd)
 			return (0);
 		if (!set_dynarray_value(sub_cmd, 0, child))

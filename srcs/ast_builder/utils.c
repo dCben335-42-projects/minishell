@@ -6,7 +6,7 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 18:58:30 by abonneau          #+#    #+#             */
-/*   Updated: 2025/06/03 17:26:02 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/06/05 20:47:21 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ t_ast_node	*ast_init_node(t_ast_ctx *args, t_node_type type)
 {
 	t_ast_node	*node;
 
-	node = init_node(type, NULL);
+	node = init_ast_node(type, NULL);
 	if (!node)
 	{
 		args->has_malloc_error = TRUE;

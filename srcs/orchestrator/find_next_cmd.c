@@ -1,5 +1,16 @@
-#include "orchestrator.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   find_next_cmd.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/05 21:00:15 by abonneau          #+#    #+#             */
+/*   Updated: 2025/06/05 21:00:42 by abonneau         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
+#include "orchestrator.h"
 
 /**
  * @brief Skips to the next command node in the AST.
@@ -8,9 +19,9 @@
  * 
  * @return The next command node or NULL if there are no more commands.
  */
-t_ast_node *skip_cmd(t_ast_node *node)
+t_ast_node	*skip_cmd(t_ast_node *node)
 {
-	t_ast_node *next_node;
+	t_ast_node	*next_node;
 
 	next_node = node;
 	while (!next_node->next)
@@ -27,11 +38,13 @@ t_ast_node *skip_cmd(t_ast_node *node)
  * 
  * @param node The command that has been handled.
  * 
- * @return The next command node to execute or NULL if there are no more commands.
+ * @return The next command node to execute or NULL if there are
+ * no more commands.
  */
-t_ast_node *find_next_cmd(t_ast_node *node)
+t_ast_node	*find_next_cmd(t_ast_node *node)
 {
 	t_ast_node	*child;
+
 	if (node == NULL)
 		return (NULL);
 	if (!node->content)
@@ -41,55 +54,3 @@ t_ast_node *find_next_cmd(t_ast_node *node)
 		return (child);
 	return (skip_cmd(node));
 }
-
-
-// ( ( ( echo 'salut' ) ) && echo 'bonjour' ) | echo bar | echo "sa va"
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//int	planner(t_dynamic_array *cmds)
-//{
-//	int	i;
-//	t_ast_node *node;
-
-//	i = 0;
-//	while (i < cmds->count)
-//	{
-//		node = (t_ast_node *)get_value(cmds, i);
-//		if (node->type == CMD_PIPE)
-//		{
-//			excecute_cmd_pipe(node->content);
-//		}
-//	}
-
-//}

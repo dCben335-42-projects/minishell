@@ -6,7 +6,7 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 18:00:29 by abonneau          #+#    #+#             */
-/*   Updated: 2025/06/03 18:02:13 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/06/05 20:47:21 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,8 @@ t_ast_node	*convert_token_to_cmd(t_token *token)
 		if (map->type == token->type)
 		{
 			if (is_text_token(*token))
-				return (init_node(map->cmd, token->value));
-			return (init_node(map->cmd, NULL));
+				return (init_ast_node(map->cmd, token->value));
+			return (init_ast_node(map->cmd, NULL));
 		}
 		map++;
 	}

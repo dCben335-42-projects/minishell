@@ -6,12 +6,12 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 13:49:50 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/26 18:55:35 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/06/05 20:08:12 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "messages.h"
+#include "config.h"
 #include "utils.h"
 #include <unistd.h>
 

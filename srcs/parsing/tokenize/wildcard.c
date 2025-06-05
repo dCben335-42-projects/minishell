@@ -1,4 +1,5 @@
 #include "parsing.h"
+#include "config.h"
 
 static t_bool	is_a_wildcard(t_lexer_args * args, t_token_type *current_type)
 {

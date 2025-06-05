@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   orchestrator.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/05 20:58:35 by abonneau          #+#    #+#             */
+/*   Updated: 2025/06/05 21:03:15 by abonneau         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cmd.h"
 #include "orchestrator.h"
 
@@ -15,9 +27,9 @@ static const t_exec_map	*get_exec_map(void)
 	return (map);
 }
 
-t_bool  is_only_redir(t_ast_node *cmd)
+t_bool	is_only_redir(t_ast_node *cmd)
 {
-	t_uint	i;
+	t_uint		i;
 	t_ast_node	*node;
 	t_dynarray	*arr;
 
@@ -42,7 +54,7 @@ t_bool  is_only_redir(t_ast_node *cmd)
  * 
  * @return TRUE if the type is valid, FALSE otherwise.
  */
-t_bool is_valid_exec_type(const t_node_type type)
+t_bool	is_valid_exec_type(const t_node_type type)
 {
 	const t_exec_map	*map = get_exec_map();
 
@@ -55,14 +67,14 @@ t_bool is_valid_exec_type(const t_node_type type)
 	return (FALSE);
 }
 
-
 /**
  * @brief Handles the execution of a command in the shell.
  * 
  * @param shell The shell structure containing the current state.
  * @param cmd The command node to execute.
  * 
- * @return The next command node to execute or NULL if there are no more commands.
+ * @return The next command node to execute or NULL if there are
+ * no more commands.
  */
 t_ast_node	*handle_cmd(t_shell *shell, t_ast_node *cmd)
 {
@@ -77,19 +89,22 @@ t_ast_node	*handle_cmd(t_shell *shell, t_ast_node *cmd)
 	return (NULL);
 }
 
-
 /**
- * @brief Orchestrator function that handles the execution of commands in the shell.
- * It finds the next command to execute and calls the appropriate handler function.
+ * @brief Orchestrator function that handles the execution of
+ * commands in the shell.
+ * It finds the next command to execute and calls the appropriate
+ * handler function.
  * 	
  * @param shell The shell structure containing the current state.
  * 
  * @return void
  * 
- * @note This function is responsible for managing the execution flow of commands in the shell.
- * It iterates through the AST (Abstract Syntax Tree) of commands, executing each command
- * in the appropriate context (e.g., subshell, pipe, etc.). The function continues to find
- * and execute commands until there are no more commands to process.
+ * @note This function is responsible for managing the execution
+ * flow of commands in the shell. It iterates through the AST
+ * (Abstract Syntax Tree) of commands, executing each command
+ * in the appropriate context (e.g., subshell, pipe, etc.).
+ * The function continues to find and execute commands until there are
+ * no more commands to process.
  * 
 */
 void	orchestrator(t_shell *shell)

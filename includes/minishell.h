@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 13:48:13 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/04 04:12:30 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/05 20:08:12 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # include "parsing.h"
 # include "cmd_expand.h"
 # include "cmd_builtin.h"
-# include "messages.h"
+# include "config.h"
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <signal.h>

@@ -6,7 +6,7 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:57:59 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/04 18:07:50 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/06/05 20:47:05 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ void	*command_handler(char *input, t_shell *shell)
 		return (NULL);
 	debug_ast(shell);
 	orchestrator(shell);
-	recursive_destroy_node(shell->ast);
+	recursive_destroy_ast_node(shell->ast);
 	shell->ast = NULL;
 	return (shell);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   struct_token.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:44:15 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/05 18:14:30 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/05 20:09:25 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,21 +15,6 @@
 
 # include "types.h"
 # include "struct_dynarray.h"
-
-// FLAGS
-# define FLAG_WILDCARD_EXPANSION		TRUE	
-# define FLAG_VAR_EXPANSION				TRUE
-
-// EXPANDABLES
-# define SYMBOL_VAR_EXPAND				'$'
-
-// WILDCARDS
-# define SYMBOL_GLOB_ANY				'*'
-# define SYMBOL_GLOB_ONE				'?'
-
-// WORDS
-# define DELIMITER_LITERAL_TEXT 		'\''
-# define DELIMITER_EXPANDABLE_TEXT 		'\"'
 
 /**
  *	@brief Enumeration of token types.

@@ -1,5 +1,5 @@
 #include "parsing.h"
-#include "messages.h"
+#include "config.h"
 
 static const t_rules_map	*get_parsing_action_map(void)
 {

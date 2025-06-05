@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 19:31:21 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/04 18:58:50 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/05 15:29:41 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ static void	handle_loop(t_shell *shell)
 	char		*input;
 
 	signals(SIGCTX_SHELL);
+	rl_catch_signals = 0;
 	while (TRUE)
 	{
 		readline_arg = get_main_readline_arg(shell);

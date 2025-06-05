@@ -6,12 +6,25 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:18:18 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/29 18:06:55 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/06/04 18:29:05 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "struct_lexer_args.h"
 
+/**
+ * 
+ * @brief Initializes the lexer arguments structure with the given input
+ * 
+ * @param input The input string to be processed by the lexer.
+ * @param heredoc_cval A dynamic array to store heredoc values.
+ * @param check_rules A boolean indicating whether to check rules
+ * during lexing.
+ * 
+ * @return A t_lexer_args structure initialized with the given input
+ * and heredoc values.
+ * 
+*/
 t_lexer_args	init_lexer_args(const char *input, t_dynarray *heredoc_cval, t_bool check_rules)
 {
 	t_lexer_args	args;

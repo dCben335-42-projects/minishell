@@ -6,7 +6,7 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:01:05 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/22 19:30:52 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/06/04 17:44:59 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,6 @@ static int handle_status(int status)
 		return (128 + WSTOPSIG(status));
 	return (1);
 }
-
-
 
 
 /**

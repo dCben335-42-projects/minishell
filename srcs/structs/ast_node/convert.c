@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   convert.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/03 18:00:29 by abonneau          #+#    #+#             */
+/*   Updated: 2025/06/03 18:02:13 by abonneau         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ast_node.h"
 
 static const t_token_node_map	*get_token_to_cmd_map(void)
@@ -25,6 +37,17 @@ static const t_token_node_map	*get_token_to_cmd_map(void)
 	return (map);
 }
 
+/**
+ * 
+ * @brief Converts a token to a command node.
+ * 
+ * @param token The token to be converted.
+ * 
+ * @return t_ast_node* Pointer to the command node
+ * or NULL if the token is not recognized or if it is NULL
+ * or if an malloc fail.
+ * 
+*/
 t_ast_node	*convert_token_to_cmd(t_token *token)
 {
 	const t_token_node_map	*map = get_token_to_cmd_map();

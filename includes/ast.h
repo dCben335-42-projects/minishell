@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 20:20:38 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/27 19:59:21 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/03 19:18:48 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,25 +21,54 @@
 
 t_ast_node			*ast_builder(t_dynarray *tokens);
 
-typedef enum e_ast_ctx 
+/**
+ * @brief Enumeration representing the local context of command nodes.
+*/
+typedef enum e_ast_local_ctx
 {
 	CTX_MASTER,
 	CTX_PIPE,
-	CTX_AND_OR,
+	CTX_OP,
 	CTX_PARENTHESIS,
-}	t_ast_ctx;
+}	t_ast_local_ctx;
 
-//NOTE - cmd is a pointer (t_ast_node **cmd) because we need to
+/**
+ * @brief Structure to hold local information for command nodes.
+ * 
+ * @param cmd_master Pointer to the master command node.
+ * @param lcmd Local command node used for temporary storage.
+ * @param cmd Pointer to the current command node being processed.
+ * @param ctx Context of the command node
+ * (master, pipe, operator, or parenthesis).
+ * 
+*/
 typedef struct s_local_node_info
 {
-	t_ast_node	*cmd_master;
-	int			pos;
-	t_ast_node	lcmd;
-	t_ast_node	*cmd;
-	t_ast_ctx	ctx;
+	t_ast_node		*cmd_master;
+	t_ast_node		lcmd;
+	t_ast_node		*cmd;
+	t_ast_local_ctx	ctx;
 }	t_local_node_info;
 
-typedef struct s_get_cmd_master
+/**
+ * 
+ * @brief Structure to hold the parameters for command parsing.
+ * 
+ * @param tokens Dynamic array of tokens to be parsed.
+ * @param start The starting index of the token array for the current subshell.
+ * @param i The current index of the token array for the current subshell.
+ * @param end The ending index of the token array for the current subshell.
+ * @param has_malloc_error Flag to indicate if a malloc error occurred.
+ * @param local Local information for command nodes.
+ * 
+ * @note start and end are used to define the range of tokens
+ * to be treated in the current subshell.
+ * 
+ * @note a subshell is either a command sequence (CMD_SEQ)
+ * or a command parenthesis (CMD_PARENTHESIS).
+ * 
+*/
+typedef struct s_ast_glbctx
 {
 	t_dynarray			*tokens;
 	t_uint				start;
@@ -47,60 +76,79 @@ typedef struct s_get_cmd_master
 	t_uint				end;
 	t_bool				has_malloc_error;
 	t_local_node_info	local;
-	
-}	t_get_cmd_master;
+}	t_ast_ctx;
 
+/**
+ * 
+ * @brief Structure to hold the parameters for command parsing.
+ * 
+ * @param count Number of command children.
+ * @param space_at_end Flag to indicate if there is a space
+ * at the end of the command.
+ * 
+*/
 typedef struct s_count_cmd_child
 {
 	t_uint		count;
 	t_bool		space_at_end;
 }	t_count_cmd_child;
 
+/**
+ * 
+ * @brief Structure to hold the parameters for command parsing.
+ * 
+ * @param counter Structure to count command children.
+ * @param cmd_new Pointer to the new command node being created.
+ * @param cmd_temp Temporary command node.
+ * @param is_empty Pointer to a boolean indicating if the command is empty.
+ * 
+ */
 typedef struct s_get_cmd_primitive
 {
 	t_count_cmd_child	counter;
 	t_ast_node			*cmd_new;
 	t_ast_node			*cmd_temp;
+	t_ast_node			*cmd_word;
+	t_ast_node			*cmd_redir;
 	t_bool				*is_empty;
 }	t_get_cmd_primitive;
 
-void				get_cmd_master(t_get_cmd_master *args);
-void				get_cmd_primitive(t_get_cmd_master *args, t_ast_node **cmd);
-int					get_cmd(t_get_cmd_master *args);
+void				add_master_cmds(t_ast_ctx *args);
+void				get_cmd_primitive(t_ast_ctx *args, t_ast_node **cmd);
+t_bool				get_cmd(t_ast_ctx *args);
 
 void				get_pipe_cmd(
 						t_ast_node **cmd_prev,
 						t_ast_node *cmd_master,
-						t_get_cmd_master *args);
+						t_ast_ctx *args);
 
-void				get_or_and_cmd_wrapper(
+void				add_op_cmds(
 						t_ast_node **cmd_prev,
 						t_ast_node *cmd_master,
-						t_get_cmd_master *args);
+						t_ast_ctx *args);
 
 void				get_parenthesis_cmd_master(
 						t_ast_node *cmd_master,
-						t_get_cmd_master *args);
+						t_ast_ctx *args);
 
 void				get_parenthesis_cmd(
-						t_get_cmd_master *args,
+						t_ast_ctx *args,
 						t_ast_node *cmd_master);
 
 void				add_child(
 						t_ast_node *parent,
 						t_ast_node **child,
-						t_get_cmd_master *args);
+						t_ast_ctx *args);
 
-t_ast_node			*convert_token_to_cmd_secure(
-						t_token *token,
-						t_get_cmd_master *args);
+t_ast_node			*ast_convert_token_to_cmd(
+						t_ast_ctx *args,
+						t_token *token);
 
-t_ast_node			*init_node_secure(
-						t_node_type type,
-						char *value,
-						t_get_cmd_master *args);
+t_ast_node			*ast_init_node(
+						t_ast_ctx *args,
+						t_node_type type);
 
-t_get_cmd_master	init_t_get_cmd_master(
+t_ast_ctx			init_ast_glbctx(
 						t_dynarray *tokens,
 						int start,
 						int end,
@@ -109,8 +157,11 @@ t_get_cmd_master	init_t_get_cmd_master(
 void				get_pipe_cmd_wrapper(
 						t_ast_node **cmd_prev,
 						t_ast_node *cmd_master,
-						t_get_cmd_master *args);
+						t_ast_ctx *args);
 
-int					is_cmd(t_get_cmd_master *args, size_t mask);
+int					is_cmd(t_ast_ctx *args, size_t mask);
+
+t_bool				merr(t_ast_node *node, t_ast_node **out);
+t_bool				is_empty(t_ast_ctx *args);
 
 #endif

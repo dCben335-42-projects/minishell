@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   print.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/03 18:09:50 by abonneau          #+#    #+#             */
+/*   Updated: 2025/06/03 19:33:45 by abonneau         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ast_node.h"
 #include "utils.h"
 
@@ -27,7 +39,7 @@ static t_ast_print_map	*get_mappings(void)
 	return (map);
 }
 
-static void	print_node(t_ast_node *node, t_uint i, t_print_ast_json_args args)
+static void	print_node(t_ast_node *node, t_uint i, t_ast_printer_ctx args)
 {
 	const t_ast_print_map	*map = get_mappings();
 
@@ -51,7 +63,14 @@ static void	print_node(t_ast_node *node, t_uint i, t_print_ast_json_args args)
 	}
 }
 
-void	print_ast_json(t_print_ast_json_args args)
+/**
+ * 
+ * @brief Prints the AST in JSON format.
+ * 
+ * @param args The arguments containing the command and depth for printing.
+ * 
+*/
+void	print_ast_json(t_ast_printer_ctx args)
 {
 	t_uint		i;
 	t_ast_node	*node;
@@ -67,9 +86,16 @@ void	print_ast_json(t_print_ast_json_args args)
 	}
 }
 
-t_print_ast_json_args init_t_print_ast_json_args(t_dynarray *cmd, t_uint depth)
+/**
+ * 
+ * @brief Initializes the context for printing the AST in JSON format.
+ * 
+ * @param cmd The dynamic array of command nodes to be printed.
+ * 
+*/
+t_ast_printer_ctx	init_printer_ctx(t_dynarray *cmd, t_uint depth)
 {
-	const t_print_ast_json_args args = {
+	const t_ast_printer_ctx	args = {
 		.cmd = cmd,
 		.depth = depth,
 		.v_l_brace = BRACE_COL"{\n"RESET_COL,
@@ -84,10 +110,16 @@ t_print_ast_json_args init_t_print_ast_json_args(t_dynarray *cmd, t_uint depth)
 	return (args);
 }
 
+/**
+ * 
+ * @brief Wrapper function to print the AST in JSON format.
+ * 
+ * @param cmd The dynamic array of command nodes to be printed.
+ * 
+*/
 void	print_ast_json_wrapper(t_dynarray *cmd)
 {
 	printf("[\n");
-	print_ast_json(init_t_print_ast_json_args(cmd, 2));
+	print_ast_json(init_printer_ctx(cmd, 2));
 	printf("]\n");
-
 }

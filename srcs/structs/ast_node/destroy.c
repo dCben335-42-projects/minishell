@@ -1,6 +1,27 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   destroy.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/03 18:04:40 by abonneau          #+#    #+#             */
+/*   Updated: 2025/06/03 18:12:17 by abonneau         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "struct_dynarray.h"
 #include "ast_node.h"
 
+/**
+ * 
+ * @brief Destroys a single AST node.
+ * 
+ * @param node The AST node to be destroyed.
+ * 
+ * @return NULL
+ * 
+*/
 static void	*destroy_node(t_ast_node *node)
 {
 	free(node->content);
@@ -8,6 +29,15 @@ static void	*destroy_node(t_ast_node *node)
 	return (NULL);
 }
 
+/**
+ * 
+ * @brief Recursively destroys an AST node and its children.
+ * 
+ * @param node The AST node to be destroyed.
+ * 
+ * @return NULL
+ * 
+*/
 void	*recursive_destroy_node(t_ast_node *node)
 {
 	if (node == NULL)

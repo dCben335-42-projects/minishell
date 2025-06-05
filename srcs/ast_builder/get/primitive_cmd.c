@@ -1,83 +1,92 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   primitive_cmd.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/02 19:10:17 by abonneau          #+#    #+#             */
+/*   Updated: 2025/06/03 17:56:53 by abonneau         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ast.h"
 
-t_bool	is_empty(t_get_cmd_master *args)
+static void	add_cmd_join_child(
+	t_ast_ctx *args,
+	t_get_cmd_primitive *d
+)
 {
-	t_token	*token;
-
-	token = get_dynarray_value(args->tokens, args->i);
-	if (token->type == M_SPACE)
-		token = get_dynarray_value(args->tokens, args->i + 1);
-	if (token->type == M_EOF)
-		return (TRUE);
-	if (is_control_extended_token(*token))
-		return (TRUE);
-	return (FALSE);
+	if (d->cmd_temp)
+	{
+		if (d->cmd_word)
+			add_child(d->cmd_word, &d->cmd_temp, args);
+		else
+			add_child(d->cmd_redir, &d->cmd_temp, args);
+	}
+	else
+	{
+		if (d->cmd_word)
+			add_child(d->cmd_new, &d->cmd_word, args);
+		if (d->cmd_redir && (d->cmd_redir)->child_count >= 3)
+			add_child(d->cmd_new, &d->cmd_redir, args);
+	}
 }
 
-static void	add_cmd_join_child(t_get_cmd_master *args, t_get_cmd_primitive *d, t_ast_node **cmd_word, t_ast_node **cmd_redir)
+static t_bool	add_cmd_child_logic_loop(
+	t_ast_ctx *args,
+	t_get_cmd_primitive *d,
+	t_token *token
+)
 {
-	if (*cmd_word)
-		add_child(d->cmd_new, cmd_word, args);
-	if (*cmd_redir && (*cmd_redir)->child_count >= 3)
-		add_child(d->cmd_new, cmd_redir, args);
+	if (is_text_token(*token))
+	{
+		if (!d->cmd_word && !d->cmd_redir
+			&& merr(ast_init_node(args, CMD_WORD), &d->cmd_word))
+			return (FALSE);
+		if (merr(ast_convert_token_to_cmd(args, token), &d->cmd_temp))
+			return (FALSE);
+		add_cmd_join_child(args, d);
+	}
+	else
+	{
+		add_cmd_join_child(args, d);
+		if (token->type != M_SPACE
+			&& merr(ast_convert_token_to_cmd(args, token), &d->cmd_redir))
+			return (FALSE);
+	}
+	args->i++;
+	return (TRUE);
 }
 
-t_bool	merr(t_ast_node *node, t_ast_node **out)
-{
-	if (!node)
-		return (TRUE);
-	*out = node;
-	return (FALSE);
-}
-
-static t_ast_node	*add_cmd_child(t_get_cmd_master *args, t_get_cmd_primitive *d)
+static t_ast_node	*add_cmd_child(t_ast_ctx *args, t_get_cmd_primitive *d)
 {
 	t_token		*token;
-	t_ast_node	*cmd_word;
-	t_ast_node	*cmd_redir;
 
 	if (is_empty(args))
 		return (NULL);
-	if (merr(init_node_secure(CMD_BASE, NULL, args), &d->cmd_new))
+	if (merr(ast_init_node(args, CMD_BASE), &d->cmd_new))
 		return (NULL);
-	cmd_word = NULL;
-	cmd_redir = NULL;
+	d->cmd_word = NULL;
+	d->cmd_redir = NULL;
+	d->cmd_temp = NULL;
 	while (args->i < args->end)
 	{
 		token = get_dynarray_value(args->tokens, args->i);
 		if (is_control_extended_token(*token))
-			break;
-		if (is_text_token(*token))
-		{
-			if (!cmd_word && !cmd_redir && merr(init_node_secure(CMD_WORD, NULL, args), &cmd_word))
-				return (NULL);
-			if (merr(convert_token_to_cmd_secure(token, args), &d->cmd_temp))
-				return (NULL);
-			if (cmd_word)
-				add_child(cmd_word, &d->cmd_temp, args);
-			else
-				add_child(cmd_redir, &d->cmd_temp, args);
-		}
-		else if (token->type == M_SPACE)
-			add_cmd_join_child(args, d, &cmd_word, &cmd_redir);
-		else
-		{
-			add_cmd_join_child(args, d, &cmd_word, &cmd_redir);
-			if (merr(convert_token_to_cmd_secure(token, args), &cmd_redir))
-				return (NULL);
-		}
-		args->i++;
+			break ;
+		if (!add_cmd_child_logic_loop(args, d, token))
+			return (NULL);
 	}
-	add_cmd_join_child(args, d, &cmd_word, &cmd_redir);
+	add_cmd_join_child(args, d);
 	return (d->cmd_new);
 }
 
-// bonjour$PATH sa va <<?.txt$DUZHDU
-static void	get_node(t_get_cmd_master *args, t_token *token, t_ast_node **cmd)
+static void	get_node(t_ast_ctx *args, t_token *token, t_ast_node **cmd)
 {
 	if (token->type & OP_SEMICOL)
 		init_node_on_stack(*cmd, CMD_SEMICOL);
-	else if (args->local.ctx == CTX_AND_OR && token->type & (OP_AND | OP_OR))
+	else if (args->local.ctx == CTX_OP && token->type & (OP_AND | OP_OR))
 		return (init_node_on_stack(*cmd, CMD_AND));
 	else if (args->local.ctx == CTX_PIPE && token->type & OP_PIPE)
 		init_node_on_stack(*cmd, CMD_PIPE);
@@ -86,11 +95,22 @@ static void	get_node(t_get_cmd_master *args, t_token *token, t_ast_node **cmd)
 	else if (args->local.ctx == CTX_PIPE && !(token->type & TEXT))
 		return (init_node_on_stack(*cmd, CMD_EOF));
 	else
-		*cmd = convert_token_to_cmd_secure(token, args);
+		*cmd = ast_convert_token_to_cmd(args, token);
 	args->i++;
 }
 
-void	get_cmd_primitive(t_get_cmd_master *args, t_ast_node **cmd)
+/**
+ * 
+ * @brief Retrieves the next command node from the tokens.
+ * 
+ * @param args The AST global context containing the tokens and indices.
+ * @param cmd Pointer to fill with the command node.
+ * 
+ * @note If an allocation fails, it sets the "has_malloc_error" boolean to true.
+ * 
+*/
+
+void	get_cmd_primitive(t_ast_ctx *args, t_ast_node **cmd)
 {
 	t_token				*token;
 	t_get_cmd_primitive	d;

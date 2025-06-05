@@ -1,6 +1,39 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipe_cmd.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/02 20:40:10 by abonneau          #+#    #+#             */
+/*   Updated: 2025/06/03 17:26:16 by abonneau         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ast.h"
 
-void	get_pipe_cmd_wrapper(t_ast_node **cmd_prev, t_ast_node *cmd_master, t_get_cmd_master *args)
+/**
+ * 
+ * @brief Handles the case where the command is a pipe operation.
+ * Add all the child nodes of the cmd_pipe (cmd).
+ * Then adds the cmd_pipe to the cmd_master.
+ * 
+ * @param cmd_prev Pointer to the previous command node (not yet added).
+ * @param cmd_master The master command node to which
+ * the new cmd_pipe will be added.
+ * @param args The arguments structure containing the tokens and indices.
+ * 
+ * @note cmd defined in this function is a pointer copy
+ * of cmd_pipe which is a malloc node
+ * this copy is made so as not to lose the reference.
+ * 
+ * (A new memory space on the stack is assigned to args->local.cmd)
+*/
+void	get_pipe_cmd_wrapper(
+	t_ast_node **cmd_prev,
+	t_ast_node *cmd_master,
+	t_ast_ctx *args
+)
 {
 	t_ast_node	*cmd;
 
@@ -11,7 +44,21 @@ void	get_pipe_cmd_wrapper(t_ast_node **cmd_prev, t_ast_node *cmd_master, t_get_c
 	add_child(cmd_master, &cmd, args);
 }
 
-void	get_pipe_cmd(t_ast_node **cmd_prev, t_ast_node *cmd_master, t_get_cmd_master *args)
+/**
+ * 
+ * @brief Extracts commands from tokens and adds them to the cmd_pipe.
+ * 
+ * @param cmd_prev Pointer to the previous command node (not yet added).
+ * @param cmd_master The master command node to which
+ * the new cmd_pipe will be added.
+ * @param args The AST global context containing the tokens and indices.
+ * 
+*/
+void	get_pipe_cmd(
+	t_ast_node **cmd_prev,
+	t_ast_node *cmd_master,
+	t_ast_ctx *args
+)
 {
 	while (args->i < args->end)
 	{

@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:07:25 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/04 16:57:31 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/05 15:29:29 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "minishell_signal.h"
 
 /**
+ * 
  * @brief Execute a command using execve.
  * 
  * @param shell The shell instance.
@@ -83,7 +84,7 @@ void	fork_and_exec(t_shell *shell, t_dynarray *cmd, char **argv, size_t name_i)
 		shell->exit_code = EXIT_FAILURE;
 		return ;
 	}
-	signals(-1);
+	signals(SIGCTX_JUMP);
     if (pid == 0)
 	{
 		signals(SIGCTX_FORK);

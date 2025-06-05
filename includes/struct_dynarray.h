@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   struct_dynarray.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:36:04 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/22 18:28:59 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/04 18:18:02 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,24 @@
 # include "types.h"
 # include <stdlib.h>
 
+/**
+ * 
+ * @brief A dynamic array structure that can hold pointers to any type of data.
+ * 
+ * @param data A pointer to an array of pointers, which can hold
+ * any type of data.
+ * @param size The current allocated size of the dynamic array.
+ * @param count The current number of elements in the dynamic array.
+ * @param last_index The index of the last element.
+ * @param destroyer A function pointer to a destroyer function
+ * that will be used for freeing the contents of the array.
+ * @param is_malloc A boolean indicating if the dynamic array
+ * was allocated with malloc.
+ * 
+ * @note The `data` field is a pointer to an array of pointers, allowing
+ * for dynamic resizing and storage of any type of data.
+ * 
+*/
 typedef struct s_dynarray
 {
 	void	**data;

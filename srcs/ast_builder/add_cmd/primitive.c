@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_primitive.c                                    :+:      :+:    :+:   */
+/*   primitive.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 19:10:17 by abonneau          #+#    #+#             */
-/*   Updated: 2025/06/05 16:00:42 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/05 18:19:42 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,58 @@ static t_ast_node	*add_cmd_child(t_ast_ctx *args)
 	return (d.cmd_new);
 }
 
+
+/**
+ * 
+ * @brief Initializes the command node based on the current token.
+ * 
+ * @param args The AST global context containing the tokens and indices.
+ * @param token The current token to process.
+ * @param cmd Pointer to fill with the command node.
+ * 
+ * 
+ * @note 
+ * 	In a pipe context :
+ * 
+ * - if a pipe token is found, it initializes on the stack
+ * a CMD_PIPE node to indicate that an other command is in the pipe.
+ * 
+ * - if a semicolon token is found, it initializes on the stack
+ * a CMD_SEMICOL node to indicate that the command is finished.
+
+ * - if a parenthesis open token is found, it initializes* on the stack
+ 	a CMD_PARENTHESIS_OPEN node to indicate that a subshell is starting
+ *	inside the pipe.
+ * 
+ * - else, it initializes a EOF node to indicate that the command is finished
+ * 
+ * In an operator context :
+ * 
+ * - if an AND or OR token is found, it initializes on the stack
+ * a CMD_AND node to indicate that the current command is finished
+ * 
+ * - if a semicolon token is found, it initializes on the stack
+ * a CMD_SEMICOL node to indicate that the command is finished.
+ * 
+ * - if a parenthesis open token is found, it initializes on the stack
+ * a CMD_PARENTHESIS_OPEN node to indicate that a subshell is starting
+ * inside the operator.	
+ * 
+ * In a master context :
+ * - if an control token (OP_AND, OP_OR, ) is found, it initializes on the heap
+ * 	a note according to the token type that will be added to the AST.
+ * 
+ * 
+ * @note Node that are on the stack are meant to be used as a temporary node
+ * and won't be added to the AST.
+ * 
+ * @note When we don't increment the index (args->i) after initializing 
+ * a node on the stack,
+ * it means that the node will be processed in the next iteration
+ * 
+ * @note If the token is a control token (like OP_SEMICOL, OP_AND, OP_OR, etc.),
+ * 
+*/
 static void	get_node(t_ast_ctx *args, t_token *token, t_ast_node **cmd)
 {
 	if (token->type & OP_SEMICOL)
@@ -93,7 +145,7 @@ static void	get_node(t_ast_ctx *args, t_token *token, t_ast_node **cmd)
 		init_node_on_stack(*cmd, CMD_PIPE);
 	else if (token->type & OP_PARENTHESIS_OPEN)
 		init_node_on_stack(*cmd, CMD_PARENTHESIS_OPEN);
-	else if (args->local.ctx == CTX_PIPE && !(token->type & TEXT))
+	else if (args->local.ctx == CTX_PIPE)
 		return (init_node_on_stack(*cmd, CMD_EOF));
 	else
 		*cmd = ast_convert_token_to_cmd(args, token);
@@ -106,6 +158,18 @@ static void	get_node(t_ast_ctx *args, t_token *token, t_ast_node **cmd)
  * 
  * @param args The AST global context containing the tokens and indices.
  * @param cmd Pointer to fill with the command node.
+ * 
+ * @note 
+ * If the current token (got from args->i) is text token, It will:
+ * 
+ * - create a whole command node (CMD_BASE) and fill it with
+ * the command children.
+ * 
+ * - regroup every text token into a CMD_WORD node,
+ * and every redirection token into a CMD_REDIR node.
+ * 
+ * Otherwise, it will either create a indicator node in the stack
+ * or convert the token to a command node on the heap
  * 
  * @note If an allocation fails, it sets the "has_malloc_error" boolean to true.
  * 

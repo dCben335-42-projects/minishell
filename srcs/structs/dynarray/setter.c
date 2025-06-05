@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   setter.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 17:46:29 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/04 18:13:40 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/06/05 18:29:51 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,8 @@ void	*set_dynarray_value(t_dynarray *arr, t_uint index, void *value)
 	if (index >= arr->size)
 	{
 		new_size = arr->size * 2;
+		while (new_size <= index)
+			new_size = arr->size * 2;
 		arr->data = realloc_dynarray(arr, new_size);
 		if (!arr->data)
 			return (NULL);
@@ -94,8 +96,7 @@ void	*set_dynarray_value(t_dynarray *arr, t_uint index, void *value)
 */
 void	*push(t_dynarray *arr, void *value)
 {
-	set_dynarray_value(arr, arr->last_index, value);
-	if (!arr->data)
+	if (!set_dynarray_value(arr, arr->last_index, value))
 		return (NULL);
 	return (arr->data[arr->last_index - 1]);
 }

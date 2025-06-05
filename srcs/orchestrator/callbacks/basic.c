@@ -6,15 +6,13 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 08:58:30 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/05 15:29:09 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/05 18:35:01 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "orchestrator.h"
 #include "cmd.h"
 #include "utils.h"
-
-
 
 static size_t get_cmd_start_index(char **argv)
 {

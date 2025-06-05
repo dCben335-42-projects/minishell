@@ -22,8 +22,6 @@ static t_bool	is_command_finished(t_lexer_args *args, t_token *token, const char
 
 static t_ptr	get_next_token(t_lexer_args *args)
 {
-
-
 	if (!*args->input)
 		return (init_pointer(NULL, FALSE));
 	if (args->quote == DELIMITER_EXPANDABLE_TEXT 
@@ -34,6 +32,8 @@ static t_ptr	get_next_token(t_lexer_args *args)
 	}
 	if (ft_isspace(*args->input) && args->quote == 0)
 		return (tokenize_whitespace(args));
+	if (!*args->input)
+		return (init_pointer(NULL, FALSE));
 	return (get_token(args));
 }
 

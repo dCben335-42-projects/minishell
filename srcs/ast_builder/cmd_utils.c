@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 19:03:36 by abonneau          #+#    #+#             */
-/*   Updated: 2025/06/05 15:52:55 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/05 17:33:09 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,14 @@
 void	add_child(t_ast_node *parent,
 	t_ast_node **child, t_ast_ctx *args)
 {
-	if (*child)
+	if (!*child)
+		return ;
+	if (!add_child_primitive(parent, *child))
 	{
-		if (!add_child_primitive(parent, *child))
-		{
-			args->has_malloc_error = TRUE;
-			return ;
-		}
-		*child = NULL;
+		args->has_malloc_error = TRUE;
+		return ;
 	}
+	*child = NULL;
 }
 
 /**
@@ -44,8 +43,10 @@ void	add_child(t_ast_node *parent,
  * @param args The AST global context containing the tokens.
  * 
  * @note If an allocation fails, it sets the "has_malloc_error" boolean to true.
+ * @note It increments the index (args->i) when it returns FALSE.
  * 
- * @return 1 if a command node is found, 0 if empty or malloc error.
+ * @return TRUE if a command node is found, otherwise FALSE 
+ * (malloc error or empty cmd).
  * 
 */
 t_bool	get_cmd(t_ast_ctx *args)

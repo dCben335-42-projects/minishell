@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipe_cmd.c                                         :+:      :+:    :+:   */
+/*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 20:40:10 by abonneau          #+#    #+#             */
-/*   Updated: 2025/06/03 17:26:16 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/06/05 17:36:35 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ void	get_pipe_cmd(
 		args->local.ctx = CTX_PIPE;
 		if (!get_cmd(args))
 			continue ;
+		printf("cmd type: %d\n", args->local.cmd->type);
 		if (is_cmd(args, CMD_SEMICOL))
 			return (add_child(cmd_master, cmd_prev, args));
 		if (args->i == args->end)

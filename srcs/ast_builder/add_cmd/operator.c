@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   or_and_cmd.c                                       :+:      :+:    :+:   */
+/*   operator.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 20:35:51 by abonneau          #+#    #+#             */
-/*   Updated: 2025/06/02 20:35:57 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/06/05 16:49:28 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,13 @@ static void	add_cmds(
  * @brief Handles the case where the command is AND/OR/PARENTHESIS operation.
  * 
  * @param cmd_prev Pointer to the previous command node (not yet added).
- * (It's the operator node other than pipe)
+ * It is either a CMD_BASE node. Other this argument will be NULL.
  * @param cmd_master The master command node to which the new command
  * will be added.
  * @param args The arguments structure containing the tokens and indices.
+ * 
+ * @note This function also add the previous command node
+ * to the master command node if it is not NULL.
  * 
 */
 void	add_op_cmds(

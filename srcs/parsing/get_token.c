@@ -23,6 +23,7 @@ t_ptr	get_token(t_lexer_args *args)
 	int				op_len;
 	t_token_type	type;
 
+	op_len = 0;
 	type = get_token_type(args->input, &op_len);
 	if (type == TEXT || args->quote)
 		return (tokenize_word(args));

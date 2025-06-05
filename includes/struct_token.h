@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:44:15 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/02 18:04:18 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/05 18:14:30 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,10 +106,8 @@ typedef struct s_token
 	char				*value;
 }	t_token;
 
-
 t_token	*init_token(t_token_type token_type, const char *start, size_t len);
 void	*destroy_token(t_token *token);
-
 
 /**
  * @brief Structure that maps operators to their token types.
@@ -128,7 +126,7 @@ typedef struct s_token_map
 	t_token_type		type;
 }	t_token_map;
 
-t_token_type	get_token_type(const char *str, int *offset);
+t_token_type	get_token_type(const char *str, int *op_len);
 
 
 /**

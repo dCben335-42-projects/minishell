@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:15:48 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/02 17:59:49 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/05 16:18:36 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ static const t_token_map	*get_operator_table(void)
  * @param str: input string
  * @param op_len: op_len for the next str after the operator
  * 
+ * @note op_len is an optional parameter that can be NULL.
+ * 
  * @note The function will also set the `op_len` to the length of the operator
  * 
  * @return token type
@@ -54,7 +56,8 @@ t_token_type	get_token_type(const char *str, int *op_len)
 		len = ft_strlen(op_table->op);
 		if (!ft_strncmp(str, op_table->op, len))
 		{
-			*op_len = len;
+			if (op_len)
+				*op_len = len;
 			return (op_table->type);
 		}
 		op_table++;

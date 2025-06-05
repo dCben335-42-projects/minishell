@@ -6,7 +6,7 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 19:05:04 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/29 18:04:37 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/06/05 21:58:28 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,12 @@
  */
 typedef struct s_debug
 {
-	t_bool   all;
-	t_bool   tokens;
-	t_bool   lexer;
-	t_bool   ast;
-	t_bool   exitcode;
+	t_bool	all;
+	t_bool	tokens;
+	t_bool	lexer;
+	t_bool	ast;
+	t_bool	exitcode;
 }	t_debug;
-
 
 /**
  * @brief The shell structure.
@@ -56,7 +55,7 @@ typedef struct s_debug
 typedef struct s_shell
 {
 	t_env		*env;
-	t_dynarray  env_array;
+	t_dynarray	env_array;
 	char		*current_path;
 	int			exit_code;
 	pid_t		last_pid;

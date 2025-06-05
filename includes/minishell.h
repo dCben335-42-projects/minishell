@@ -6,14 +6,14 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 13:48:13 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/05 20:08:12 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/06/05 21:45:01 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-#define	PRINT_BANNER 0
+# define PRINT_BANNER 0
 
 # include "ast.h"
 # include "struct_shell.h"

@@ -6,7 +6,7 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:35:32 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/05 20:15:07 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/06/05 21:55:45 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ typedef enum e_is_heredoc
 	HEREDOC_TRIM = R_HEREDOC_TRIM
 }	t_is_heredoc;
 
-#define HEREDOC_EXPANDABLE_TRUE		"expandable=true"
-#define HEREDOC_EXPANDABLE_FALSE	"expandable=false"
+# define HEREDOC_EXPANDABLE_TRUE		"expandable=true"
+# define HEREDOC_EXPANDABLE_FALSE	"expandable=false"
 
 /**
  * 
@@ -71,7 +71,7 @@ typedef enum e_is_heredoc
 */
 typedef struct s_lexer_args
 {
-	char 				*base_input;
+	char				*base_input;
 	const char			*input;
 	char				quote;
 	t_is_heredoc		is_heredoc;
@@ -92,10 +92,15 @@ typedef struct s_readline_state
 	const char		*value;
 }	t_readline_state;
 
-t_lexer_args	init_lexer_args(const char *input, t_dynarray *heredoc_cval, t_bool check_rules);
-void			*destroy_lexer_args(t_lexer_args *args, t_bool destroy_heredocs);
+t_lexer_args	init_lexer_args(
+					const char *input,
+					t_dynarray *heredoc_cval,
+					t_bool check_rules);
 
-const char *get_readline_arg(t_token_type type);
+void			*destroy_lexer_args(
+					t_lexer_args *args, t_bool destroy_heredocs);
+
+const char		*get_readline_arg(t_token_type type);
 
 # define READLINE_S_QUOTE_KEY		-1
 # define READLINE_D_QUOTE_KEY		-2

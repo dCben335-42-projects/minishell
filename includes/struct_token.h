@@ -6,7 +6,7 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:44:15 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/05 20:09:25 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/06/05 22:02:58 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,12 @@
 typedef enum e_token_type
 {
 	M_EOF						= 1 << 0,
-	M_SPACE						= 1 << 1, 
+	M_SPACE						= 1 << 1,
 	TEXT						= 1 << 2,
 	QUOTED_TEXT					= 1 << 3,
-	EXPAND						= 1 << 4, 
+	EXPAND						= 1 << 4,
 	QUOTED_EXPAND				= 1 << 5,
-	WILDCARD					= 1 << 6, 
+	WILDCARD					= 1 << 6,
 	OP_OR						= 1 << 7,
 	OP_PIPE						= 1 << 8,
 	OP_AND						= 1 << 9,
@@ -47,7 +47,6 @@ typedef enum e_token_type
 	R_HEREDOC					= 1 << 16,
 	R_HEREDOC_TRIM				= 1 << 17,
 }	t_token_type;
-
 
 /**
  * @brief Enumeration of token flags.
@@ -91,8 +90,11 @@ typedef struct s_token
 	char				*value;
 }	t_token;
 
-t_token	*init_token(t_token_type token_type, const char *start, size_t len);
-void	*destroy_token(t_token *token);
+t_token			*init_token(
+					t_token_type token_type,
+					const char *start,
+					size_t len);
+void			*destroy_token(t_token *token);
 
 /**
  * @brief Structure that maps operators to their token types.
@@ -113,7 +115,6 @@ typedef struct s_token_map
 
 t_token_type	get_token_type(const char *str, int *op_len);
 
-
 /**
  * @brief Structure that holds the token type and its name.
  * 
@@ -129,8 +130,7 @@ typedef struct s_token_print
 	const char	*name;
 }	t_token_print;
 
-void	print_tokens(t_dynarray *tokens);
-
+void			print_tokens(t_dynarray *tokens);
 
 /**
  * @brief Structure that holds masks for different token types.
@@ -196,12 +196,12 @@ typedef struct s_token_map_rules
 t_masks			*get_masks(void);
 t_uint			get_token_rules(t_token_type token_type);
 
-int		is_control_token(t_token token);
-int		is_text_token(t_token token);
-int		is_redir_token(t_token token);
-int		is_parenthesis_token(t_token token);
-int		is_control_extended_token(t_token token);
-int		is_cmd_token(t_token token);
-int		is_meta_token(t_token token);
+int				is_control_token(t_token token);
+int				is_text_token(t_token token);
+int				is_redir_token(t_token token);
+int				is_parenthesis_token(t_token token);
+int				is_control_extended_token(t_token token);
+int				is_cmd_token(t_token token);
+int				is_meta_token(t_token token);
 
 #endif

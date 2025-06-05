@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   struct_wildcard.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 18:52:25 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/22 19:24:37 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/05 21:46:54 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 # include "types.h"
 # include "libft_tree.h"
-
 
 /**
  * @brief The wildcard structure.

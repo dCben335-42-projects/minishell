@@ -6,12 +6,11 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 06:58:17 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/05 21:11:14 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/06 01:49:44 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "struct_token.h"
-
 
 /**
  * @brief Check if the token is a control token.

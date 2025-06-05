@@ -1,6 +1,9 @@
 #include "parsing.h"
 
-t_parse_status	err_missing_left_operand(t_lexer_args *args, t_token *token)
+/**
+ * @brief Handles the case where a left operand is missing.
+*/
+t_parse_status	err_miss_left_operand(t_lexer_args *args, t_token *token)
 {
 	t_token	*prev_token;
 
@@ -10,7 +13,10 @@ t_parse_status	err_missing_left_operand(t_lexer_args *args, t_token *token)
 	return (COMMAND_VALID);
 }
 
-t_parse_status	err_no_left_operand(t_lexer_args *args, t_token *token)
+/**
+ * @brief Handles the case where a left operand is unexpected.
+*/
+t_parse_status	err_unexp_left_operand(t_lexer_args *args, t_token *token)
 {
 	t_token	*prev_token;
 

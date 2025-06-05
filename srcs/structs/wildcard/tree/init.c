@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:25:02 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/29 15:01:45 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/05 20:41:50 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,12 @@ static void	*free_value(void *data)
 	return (NULL);
 }
 
-static void *free_params(char *key, char *value)
+static void	*free_params(char *key, char *value)
 {
 	free(key);
 	free(value);
 	return (NULL);
 }
-
 
 void	positivate_wildcard(char **str);
 
@@ -45,7 +44,7 @@ void	positivate_wildcard(char **str);
 t_tree	*init_wildcard_tree(char *key, char *value)
 {
 	t_tree	*node;
-	
+
 	if (!key || !value)
 		return (free_params(key, value));
 	positivate_wildcard(&key);

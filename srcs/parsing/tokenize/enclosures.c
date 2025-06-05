@@ -1,4 +1,5 @@
 #include "parsing.h"
+#include "config.h"
 
 static t_ptr	return_token(t_lexer_args *args, char **start_i, t_token_type *current_type, const char quote)
 {

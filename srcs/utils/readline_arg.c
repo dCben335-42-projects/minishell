@@ -1,5 +1,5 @@
 #include "utils.h"
-#include "messages.h"
+#include "config.h"
 
 static const char	*handle_pwd_user(char *user_value, char *pwd, t_bool is_home_based)
 {

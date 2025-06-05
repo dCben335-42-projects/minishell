@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 20:40:10 by abonneau          #+#    #+#             */
-/*   Updated: 2025/06/05 19:19:08 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/06 01:52:42 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,8 @@ void	get_pipe_cmd(
 	t_ast_ctx *args
 )
 {
-	while (args->i < args->end)
+	while (!args->has_malloc_error && args->i < args->end)
 	{
-		if (args->has_malloc_error)
-			return ;
 		args->local.ctx = CTX_PIPE;
 		if (!get_cmd(args))
 			continue ;

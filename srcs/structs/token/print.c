@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 03:14:02 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/24 08:02:33 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/05 20:37:18 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,27 +17,27 @@
 static const t_token_print	*get_print_map(void)
 {
 	static const t_token_print	map[] = {
-		{M_SPACE, "SPACE"},
-		{M_EOF, "EOF"},
-		{TEXT, "TEXT"},
-		{QUOTED_TEXT, "QUOTED_TEXT"},
-		{EXPAND, "EXPAND"},
-		{QUOTED_EXPAND, "QUOTED_EXPAND"},
-		{WILDCARD, "WILDCARD"},
-		{OP_OR, "OR"},
-		{OP_PIPE, "PIPE"},
-		{OP_AND, "AND"},
-		{OP_SEMICOL, "SEMICOL"},
-		{OP_PARENTHESIS_OPEN, "PARENTHESIS_OPEN"},
-		{OP_PARENTHESIS_CLOSE, "PARENTHESIS_CLOSE"},
-		{R_IN, "R_IN"},
-		{R_OUT, "R_OUT"},
-		{R_APPEND, "APPEND"},
-		{R_HEREDOC, "HEREDOC"},
-		{R_HEREDOC_TRIM, "HEREDOC_TRIM"},
-		{0, NULL},
+	{M_SPACE, "SPACE"},
+	{M_EOF, "EOF"},
+	{TEXT, "TEXT"},
+	{QUOTED_TEXT, "QUOTED_TEXT"},
+	{EXPAND, "EXPAND"},
+	{QUOTED_EXPAND, "QUOTED_EXPAND"},
+	{WILDCARD, "WILDCARD"},
+	{OP_OR, "OR"},
+	{OP_PIPE, "PIPE"},
+	{OP_AND, "AND"},
+	{OP_SEMICOL, "SEMICOL"},
+	{OP_PARENTHESIS_OPEN, "PARENTHESIS_OPEN"},
+	{OP_PARENTHESIS_CLOSE, "PARENTHESIS_CLOSE"},
+	{R_IN, "R_IN"},
+	{R_OUT, "R_OUT"},
+	{R_APPEND, "APPEND"},
+	{R_HEREDOC, "HEREDOC"},
+	{R_HEREDOC_TRIM, "HEREDOC_TRIM"},
+	{0, NULL},
 	};
-	
+
 	return (map);
 }
 
@@ -66,9 +66,9 @@ static const char	*get_token_type_name(t_token_type type)
 void	print_tokens(t_dynarray *tokens)
 {
 	const char	*type;
-	t_uint	i;
-	t_uint	count;
-	t_token	*data;
+	t_uint		i;
+	t_uint		count;
+	t_token		*data;
 
 	i = 0;
 	count = tokens->count;

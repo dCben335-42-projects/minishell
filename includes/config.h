@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   messages.h                                         :+:      :+:    :+:   */
+/*   config.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,10 +10,50 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MESSAGES_H
-# define MESSAGES_H
+#ifndef CONFIG_H
+# define CONFIG_H
 
 # include <stdio.h>
+
+// SECTION: SHELL CONFIG
+
+// ANCHOR - SHELL NAME
+# define SHELL_NAME "SHELLOSTS"
+
+// ANCHOR - FEATURE FLAG
+# define FLAG_WILDCARD_EXPANSION		TRUE	
+# define FLAG_VAR_EXPANSION				TRUE
+
+// ANCHOR - READLINE PROMPT
+# define READLINE_S_QUOTE_VAL 		"single_quote>"
+# define READLINE_D_QUOTE_VAL 		"double_quote>"
+# define READLINE_PARENTHESIS_VAL 	"subshell>"
+# define READLINE_HEREDOC_VAL 		"heredoc>"
+# define READLINE_HEREDOC_TRIM_VAL 	"dash_heredoc>"
+# define READLINE_AND_VAL			"and>"
+# define READLINE_OR_VAL			"or>"
+# define READLINE_PIPE_VAL			"pipe>"
+# define READLINE_HEREDOC_VAL		"heredoc>"
+# define READLINE_HEREDOC_TRIM_VAL	"dash_heredoc>"
+
+// !SECTION
+
+// SECTION: LEXER CONFIG
+
+// ANCHOR - EXPANDABLES
+# define SYMBOL_VAR_EXPAND				'$'
+
+// ANCHOR - WILDCARDS
+# define SYMBOL_GLOB_ANY				'*'
+# define SYMBOL_GLOB_ONE				'?'
+
+// ANCHOR - WORD
+# define DELIMITER_LITERAL_TEXT 		'\''
+# define DELIMITER_EXPANDABLE_TEXT 		'\"'
+
+// !SECTION
+
+// SECTION: MESSAGES
 
 # define SHELL_NAME "SHELLOSTS"
 
@@ -47,5 +87,7 @@ getcwd: cannot access parent directories"
 
 # define SYNTAX_ERR_START "syntax error near unexpected token `"
 # define SYNTAX_ERR_END "'\n"
+
+// !SECTION
 
 #endif

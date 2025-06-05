@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 13:44:38 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/05 17:53:04 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/05 20:39:26 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,6 @@ static void	*free_node_params(char *key, char *value)
 	free(value);
 	return (NULL);
 }
-
-#include <stdio.h>
 
 /**
  * @brief Initializes a new environment node with the given envp string.

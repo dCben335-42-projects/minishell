@@ -23,7 +23,7 @@
 		"iterator": "c",
 		"string_view": "c",
 		"ast_node.h": "c",
-		"messages.h": "c",
+		"config.h": "c",
 		"types.h": "c",
 <<<<<<< HEAD
 		"signal.h": "c",

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   setter.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 17:46:29 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/05 18:29:51 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/05 20:38:08 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static void	**realloc_dynarray(t_dynarray *arr, size_t new_size)
 void	*set_dynarray_value(t_dynarray *arr, t_uint index, void *value)
 {
 	t_uint	new_size;
-	
+
 	if (index >= arr->size)
 	{
 		new_size = arr->size * 2;

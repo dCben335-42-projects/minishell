@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   master.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 19:11:30 by abonneau          #+#    #+#             */
-/*   Updated: 2025/06/05 16:44:37 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/05 20:56:04 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,14 +43,11 @@ void	add_master_cmds(t_ast_ctx *args)
 	t_ast_node		*cmd_prev;
 
 	cmd_prev = NULL;
-	while (args->i < args->end)
+	while (!args->has_malloc_error && args->i < args->end)
 	{
-		if (args->has_malloc_error)
-			return ;
 		args->local.ctx = CTX_MASTER;
 		if (!get_cmd(args))
 			continue ;
 		add_cmd_master(&cmd_prev, args);
 	}
-	return ;
 }

@@ -1,20 +1,20 @@
 #include "parsing.h"
-#include "messages.h"
+#include "config.h"
 
 static const t_rules_map	*get_parsing_action_map(void)
 {
 	static const t_rules_map	parsing_action[] = {
-	{INC_PAREN_OPEN,			&increment_parenthesis_open},
-	{INC_PAREN_CLOSE,			&increment_parenthesis_close},
+	{INC_PAREN_OPEN,			&inc_parenthesis_open},
+	{INC_PAREN_CLOSE,			&inc_parenthesis_close},
 	{ERR_NO_OPEN_PAREN,			&err_unopened_parenthesis},
 	{ERR_NO_CLOSE_PAREN,		&err_unclosed_parenthesis},
-	{ERR_LEFT_OPERAND,			&err_missing_left_operand},
+	{ERR_LEFT_OPERAND,			&err_miss_left_operand},
 	{ERR_EMPTY_PAREN,			&err_empty_parenthesis},
 	{ERR_EMPTY_SEMI,			&err_empty_semicol},
-	{ERR_NO_LEFT_OPERAND,		&err_no_left_operand},
-	{ERR_RIGHT_OPERAND,			&need_right_operand},
-	{ERR_NO_RIGHT_OPERAND,		&need_no_right_operand},
-	{ERR_RIGHT_OPERAND_NP,		&need_right_operand_no_parenthesis},
+	{ERR_NO_LEFT_OPERAND,		&err_unexp_left_operand},
+	{ERR_RIGHT_OPERAND,			&err_miss_right_operand},
+	{ERR_NO_RIGHT_OPERAND,		&err_unexp_right_operand},
+	{ERR_RIGHT_OPERAND_NP,		&err_miss_right_operand_np},
 	{0,							NULL}};
 
 	return (parsing_action);

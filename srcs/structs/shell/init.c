@@ -6,12 +6,12 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 13:49:50 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/05 19:47:25 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/06 01:50:09 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "messages.h"
+#include "config.h"
 #include "utils.h"
 #include <unistd.h>
 

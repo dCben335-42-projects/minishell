@@ -6,7 +6,7 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 20:33:47 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/03 19:33:23 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/06/05 20:47:30 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,13 +129,13 @@ typedef struct s_token_node_map
 	t_node_type			cmd;
 }	t_token_node_map;
 
-t_ast_node			*init_node(t_node_type type, char *value);
-void				init_node_on_stack(t_ast_node *node, t_node_type type);
+t_ast_node			*init_ast_node(t_node_type type, char *value);
+void				init_ast_node_on_stack(t_ast_node *node, t_node_type type);
 t_ast_node			*convert_token_to_cmd(t_token *token);
 int					add_child_primitive(t_ast_node *parent, t_ast_node *child);
 void				print_ast_json_wrapper(t_dynarray *cmd);
 void				print_ast_json(t_ast_printer_ctx args);
-void				*recursive_destroy_node(t_ast_node *node);
+void				*recursive_destroy_ast_node(t_ast_node *node);
 void				add_childs(t_ast_node *parent, t_dynarray *childs);
 void				print_ast_node_json(
 						t_ast_node *node,

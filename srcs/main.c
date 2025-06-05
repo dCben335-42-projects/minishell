@@ -6,11 +6,11 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 19:31:21 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/05 19:49:08 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/06 01:51:40 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "messages.h"
+#include "config.h"
 #include "minishell.h"
 #include "cmd.h"
 #include "minishell_signal.h"

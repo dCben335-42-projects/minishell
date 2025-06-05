@@ -6,7 +6,7 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:18:18 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/04 18:29:05 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/06/05 20:30:27 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,11 @@
  * and heredoc values.
  * 
 */
-t_lexer_args	init_lexer_args(const char *input, t_dynarray *heredoc_cval, t_bool check_rules)
+t_lexer_args	init_lexer_args(
+	const char *input,
+	t_dynarray *heredoc_cval,
+	t_bool check_rules
+)
 {
 	t_lexer_args	args;
 

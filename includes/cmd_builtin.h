@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_builtin.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 15:10:38 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/04 17:07:55 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/05 21:58:41 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ void	ft_exit(t_shell *shell, char **args);
 void	ft_echo(t_shell *shell, char **args);
 void	ft_debug(t_shell *shell, char **args);
 void	ft_void(t_shell *shell, char **args);
-
 
 # define DEBUG_ALL_OPTION "--all"
 # define DEBUG_TOKENS_OPTION "--tokens"

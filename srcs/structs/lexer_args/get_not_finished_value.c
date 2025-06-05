@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_not_finished_value.c                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/05 20:29:41 by abonneau          #+#    #+#             */
+/*   Updated: 2025/06/05 20:30:08 by abonneau         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "struct_token.h"
 #include "struct_lexer_args.h"
-#include "messages.h"
+#include "config.h"
 
-static const t_readline_state *get_readline_map(void)
+static const t_readline_state	*get_readline_map(void)
 {
 	static const t_readline_state	map[] = {
 	{OP_AND, READLINE_AND_VAL},
@@ -26,7 +38,7 @@ static const t_readline_state *get_readline_map(void)
  * @return The corresponding readline prefix as a string.
  * 
 */
-const char *get_readline_arg(t_token_type type)
+const char	*get_readline_arg(t_token_type type)
 {
 	const t_readline_state	*map = get_readline_map();
 

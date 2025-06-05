@@ -1,30 +1,35 @@
-#include "messages.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   masks.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/05 20:32:57 by abonneau          #+#    #+#             */
+/*   Updated: 2025/06/05 20:45:01 by abonneau         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "config.h"
 #include "minishell.h"
 #include "cmd.h"
 
 static const t_token_map_rules	*get_token_map_rules(void)
 {
-	const int	c_op_rules = ERR_LEFT_OPERAND | EXPECT_CONT | ERR_RIGHT_OPERAND;
-	const int	r_rules = ERR_RIGHT_OPERAND_NP;
-
+	const int						c_op_rules = ERR_LEFT_OPERAND
+		| EXPECT_CONT | ERR_RIGHT_OPERAND;
+	const int						r_rules = ERR_RIGHT_OPERAND_NP;
 	static const t_token_map_rules	map[] = {
-	{M_EOF, ERR_NO_CLOSE_PAREN, C_METACHAR},
-	{M_SPACE, 0, C_METACHAR},
-
-	{TEXT, 0, C_TEXT},
-	{QUOTED_TEXT, 0, C_TEXT},
-	{EXPAND, 0, C_TEXT},
-	{QUOTED_EXPAND, 0, C_TEXT}, 
-	{WILDCARD, 0, C_TEXT},
-
-	{OP_OR, c_op_rules, C_OPERATOR},
-	{OP_PIPE, c_op_rules, C_OPERATOR},
-	{OP_AND, c_op_rules, C_OPERATOR},
-
+	{M_EOF, ERR_NO_CLOSE_PAREN, C_METACHAR}, {M_SPACE, 0, C_METACHAR},
+	{TEXT, 0, C_TEXT}, {QUOTED_TEXT, 0, C_TEXT},
+	{EXPAND, 0, C_TEXT}, {QUOTED_EXPAND, 0, C_TEXT},
+	{WILDCARD, 0, C_TEXT}, {OP_OR, c_op_rules, C_OPERATOR},
+	{OP_PIPE, c_op_rules, C_OPERATOR}, {OP_AND, c_op_rules, C_OPERATOR},
 	{OP_SEMICOL, ERR_EMPTY_SEMI, C_OPERATOR},
-	{OP_PARENTHESIS_OPEN, INC_PAREN_OPEN | EXPECT_CONT | ERR_NO_LEFT_OPERAND, C_PAREN},
-	{OP_PARENTHESIS_CLOSE, ERR_NO_OPEN_PAREN | INC_PAREN_CLOSE | ERR_EMPTY_PAREN | ERR_NO_RIGHT_OPERAND, C_PAREN}, 
-
+	{OP_PARENTHESIS_OPEN,
+		INC_PAREN_OPEN | EXPECT_CONT | ERR_NO_LEFT_OPERAND, C_PAREN},
+	{OP_PARENTHESIS_CLOSE, ERR_NO_OPEN_PAREN | INC_PAREN_CLOSE
+		| ERR_EMPTY_PAREN | ERR_NO_RIGHT_OPERAND, C_PAREN},
 	{R_IN, r_rules, C_REDIR},
 	{R_OUT,	r_rules, C_REDIR},
 	{R_APPEND, r_rules, C_REDIR},
@@ -95,5 +100,3 @@ t_masks	*get_masks(void)
 	}
 	return (&masks);
 }
-
-

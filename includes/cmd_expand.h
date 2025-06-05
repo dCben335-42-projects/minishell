@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_expand.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 17:19:31 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/04 01:12:53 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/05 22:01:19 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,11 @@
 # include <dirent.h>
 
 t_dynarray	*expand_word(t_shell *shell, t_dynarray *word, t_dynarray *args);
-char		*save_expand_entry(t_shell *shell, t_dynarray *args, char *value, t_bool is_wildcard);
+char		*save_expand_entry(
+				t_shell *shell,
+				t_dynarray *args,
+				char *value,
+				t_bool is_wildcard);
 
 typedef struct s_expand_ctx
 {
@@ -31,11 +35,9 @@ typedef struct s_expand_ctx
 	t_bool		is_quoted;
 }	t_expand_ctx;
 
-
 t_tree		*expand_wildcard_word(t_shell *shell, char *word);
 void		*expand_env_word(t_shell *shell, t_dynarray *word);
 char		*expand_env_str(t_shell *shell, char **str);
-
 
 /**
  * @brief The wildcard match structure.
@@ -67,17 +69,23 @@ typedef struct t_wcard_match
 	t_bool			is_last_seg;
 }	t_wcard_match;
 
-t_bool	match_wildcard(t_wildcard *wcard,
-			const char *curr_path, const char **segs);
-char	*build_dir_path(const char *base,
-			const char *suffix, const char **segs);
-char	*build_entry_path(const char *path,
-			const char *name, const char **segs);
-int		resolve_entry_type(t_wcard_match *ctx, struct dirent *e);
-t_bool	is_valid_entry(t_wcard_match *ctx, struct dirent *e);
-t_tree	*save_entry(t_wcard_match *ctx, struct dirent *e);
+t_bool		match_wildcard(
+				t_wildcard *wcard,
+				const char *curr_path,
+				const char **segs);
+char		*build_dir_path(
+				const char *base,
+				const char *suffix,
+				const char **segs);
+char		*build_entry_path(
+				const char *path,
+				const char *name,
+				const char **segs);
+int			resolve_entry_type(t_wcard_match *ctx, struct dirent *e);
+t_bool		is_valid_entry(t_wcard_match *ctx, struct dirent *e);
+t_tree		*save_entry(t_wcard_match *ctx, struct dirent *e);
 
-size_t	determine_env_length(const char *str, t_shell *shell);
-char	*cpy_env(const char *str, char *dest, t_shell *shell);
+size_t		determine_env_length(const char *str, t_shell *shell);
+char		*cpy_env(const char *str, char *dest, t_shell *shell);
 
 #endif

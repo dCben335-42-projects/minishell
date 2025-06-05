@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   orchestrator.h                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/05 21:58:53 by abonneau          #+#    #+#             */
+/*   Updated: 2025/06/05 21:59:15 by abonneau         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef ORCHESTRATOR_H
 # define ORCHESTRATOR_H
 
@@ -13,8 +25,8 @@ typedef struct s_exec_map
 void		orchestrator(t_shell *shell);
 t_ast_node	*handle_cmd(t_shell *shell, t_ast_node *cmd);
 t_bool		is_valid_exec_type(const t_node_type type);
-t_ast_node *find_next_cmd(t_ast_node *prev_node);
-t_ast_node *skip_cmd(t_ast_node *node);
+t_ast_node	*find_next_cmd(t_ast_node *prev_node);
+t_ast_node	*skip_cmd(t_ast_node *node);
 
 t_bool		is_only_redir(t_ast_node *cmd);
 

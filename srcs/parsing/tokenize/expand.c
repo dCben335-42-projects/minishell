@@ -1,5 +1,6 @@
 #include "parsing.h"
 #include "struct_env.h"
+#include "config.h"
 
 
 static t_bool	is_an_expand(t_lexer_args * args)

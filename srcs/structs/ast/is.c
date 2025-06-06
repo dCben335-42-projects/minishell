@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   is.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 18:04:57 by abonneau          #+#    #+#             */
-/*   Updated: 2025/06/03 18:28:42 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/06/06 03:10:23 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ast_node.h"
+#include "struct_ast.h"
 
 /**
  * 
@@ -22,7 +22,7 @@
  * @return integer > 0 if the node's type matches the mask, 0 otherwise.
  * 
 */
-int	is_node(t_ast_node *node, size_t mask)
+int	is_ast_types(t_ast *node, size_t mask)
 {
 	return (node->type & mask);
 }
@@ -36,7 +36,7 @@ int	is_node(t_ast_node *node, size_t mask)
  * @return integer > 0 if the node is a wildcard node, 0 otherwise.
  * 
 */
-int	is_node_wildcard(t_ast_node *node)
+int	is_ast_wildcard(t_ast *node)
 {
-	return (is_node(node, CMD_WILDCARD | CMD_EXPAND));
+	return (is_ast_types(node, CMD_WILDCARD | CMD_EXPAND));
 }

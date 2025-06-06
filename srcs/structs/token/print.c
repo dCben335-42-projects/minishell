@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   print.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 03:14:02 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/05 20:37:18 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/06/06 03:01:13 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "struct_token.h"
-#include "stdio.h"
-#include "utils.h"
+#include "config.h"
+#include <stdio.h>
+#include <unistd.h>
 
 static const t_token_print	*get_print_map(void)
 {

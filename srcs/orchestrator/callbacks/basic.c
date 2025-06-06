@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   basic.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 08:58:30 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/05 21:05:29 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/06/06 03:05:53 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static size_t	get_cmd_start_index(char **argv)
  * @return The next command node to execute
  * 	or NULL if there are no more commands.
  */
-t_ast_node	*exec_basic(t_shell *shell, t_ast_node *cmd)
+t_ast	*exec_basic(t_shell *shell, t_ast *cmd)
 {
 	t_dynarray	args;
 	char		**argv;
@@ -43,8 +43,7 @@ t_ast_node	*exec_basic(t_shell *shell, t_ast_node *cmd)
 	name_i = get_cmd_start_index(argv);
 	if (!is_builtin(shell, cmd->content, &argv[name_i]))
 	{
-		argv[name_i] = get_full_cmd_path(argv[name_i],
-				get_env_node(shell->env, "PATH"));
+		argv[name_i] = get_full_cmd_path(argv[name_i], shell->env);
 		if (!argv[name_i])
 			return (destroy_dynarray(&args));
 		fork_and_exec(shell, cmd->content, argv, name_i);

@@ -6,12 +6,12 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:57:59 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/06 01:52:47 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/06 03:10:23 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "ast_node.h"
+#include "struct_ast.h"
 #include "utils.h"
 
 void	*command_handler_lexer(char *input, t_lexer_args *args, t_dynarray *heredoc_cval);
@@ -106,7 +106,7 @@ void	*command_handler(char *input, t_shell *shell)
 		return (NULL);
 	debug_ast(shell);
 	orchestrator(shell);
-	recursive_destroy_ast_node(shell->ast);
+	destroy_ast(shell->ast);
 	shell->ast = NULL;
 	return (shell);
 }

@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ast_node.h                                         :+:      :+:    :+:   */
+/*   struct_ast.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/18 20:33:47 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/05 20:47:30 by abonneau         ###   ########.fr       */
+/*   Created: 2025/06/06 03:11:04 by bcabocel          #+#    #+#             */
+/*   Updated: 2025/06/06 03:15:03 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef AST_NODE_H
-# define AST_NODE_H
+#ifndef STRUCT_AST_H
+# define STRUCT_AST_H
 
 # include "struct_dynarray.h"
 # include "struct_token.h"
@@ -62,14 +62,40 @@ typedef enum e_node_type
  * @note child_count = 2 + n -> content = t_dynarray * with n children
  * 
 */
-typedef struct s_ast_node
+typedef struct s_ast
 {
 	t_node_type			type;
 	void				*content;
 	int					child_count;
-	struct s_ast_node	*parent;
-	struct s_ast_node	*next;
-}	t_ast_node;
+	struct s_ast		*parent;
+	struct s_ast		*next;
+}	t_ast;
+
+t_ast				*init_ast_node(t_node_type type, char *value);
+void				reset_ast_node(t_ast *node, t_node_type type);
+
+void				*destroy_ast(t_ast *node);
+
+void				add_ast_childs(t_ast *parent, t_dynarray *childs);
+int					add_ast_child_primitive(t_ast *parent, t_ast *child);
+
+int					is_ast_types(t_ast *node, size_t mask);
+int					is_ast_wildcard(t_ast *node);
+
+/**
+ * @brief Structure to associate token types with AST node types.
+ * 
+ * @param type The type of the token.
+ * @param cmd The corresponding AST node type.
+ * 
+*/
+typedef struct s_convert_map
+{
+	t_uint			type;
+	t_node_type		cmd;
+}	t_convert_map;
+
+t_ast				*convert_token_to_ast(t_token *token);
 
 /**
  * 
@@ -84,8 +110,8 @@ typedef struct s_ast_node
 */
 typedef struct s_ast_print_mapping
 {
-	t_node_type	type;
-	const char	*name;
+	t_node_type		type;
+	const char		*name;
 }	t_ast_print_map;
 
 /**
@@ -116,32 +142,12 @@ typedef struct s_print_ast_json_args
 	const char	*f_string;
 }	t_ast_printer_ctx;
 
-/**
- * @brief Structure to associate token types with AST node types.
- * 
- * @param type The type of the token.
- * @param cmd The corresponding AST node type.
- * 
-*/
-typedef struct s_token_node_map
-{
-	t_uint				type;
-	t_node_type			cmd;
-}	t_token_node_map;
+t_ast_printer_ctx	init_ast_printer_ctx(t_dynarray *cmd, t_uint depth);
+void				print_ast(t_dynarray *cmd);
+void				print_ast_cmd(t_ast_printer_ctx args);
+void				print_ast_node(
+						t_ast_printer_ctx args,
+						t_ast *node,
+						t_bool is_first);
 
-t_ast_node			*init_ast_node(t_node_type type, char *value);
-void				init_ast_node_on_stack(t_ast_node *node, t_node_type type);
-t_ast_node			*convert_token_to_cmd(t_token *token);
-int					add_child_primitive(t_ast_node *parent, t_ast_node *child);
-void				print_ast_json_wrapper(t_dynarray *cmd);
-void				print_ast_json(t_ast_printer_ctx args);
-void				*recursive_destroy_ast_node(t_ast_node *node);
-void				add_childs(t_ast_node *parent, t_dynarray *childs);
-void				print_ast_node_json(
-						t_ast_node *node,
-						const char *node_type,
-						t_ast_printer_ctx args);
-int					is_node(t_ast_node *node, size_t mask);
-int					is_node_wildcard(t_ast_node *node);
-t_ast_printer_ctx	init_printer_ctx(t_dynarray *cmd, t_uint depth);
 #endif

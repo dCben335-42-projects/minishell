@@ -6,11 +6,11 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 19:10:17 by abonneau          #+#    #+#             */
-/*   Updated: 2025/06/06 01:52:44 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/06 03:09:49 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ast.h"
+#include "ast_builder.h"
 
 static void	add_cmd_join_child(
 	t_ast_ctx *args,
@@ -59,7 +59,7 @@ static t_bool	add_cmd_child_logic_loop(
 	return (TRUE);
 }
 
-static t_ast_node	*add_cmd_child(t_ast_ctx *args)
+static t_ast	*add_cmd_child(t_ast_ctx *args)
 {
 	t_token		*token;
 	t_get_cmd_primitive	d;
@@ -135,18 +135,18 @@ static t_ast_node	*add_cmd_child(t_ast_ctx *args)
  * @note If the token is a control token (like OP_SEMICOL, OP_AND, OP_OR, etc.),
  * 
 */
-static void	get_node(t_ast_ctx *args, t_token *token, t_ast_node **cmd)
+static void	get_node(t_ast_ctx *args, t_token *token, t_ast **cmd)
 {
 	if (token->type & OP_SEMICOL)
-		init_ast_node_on_stack(*cmd, CMD_SEMICOL);
+		reset_ast_node(*cmd, CMD_SEMICOL);
 	else if (args->local.ctx == CTX_OP && token->type & (OP_AND | OP_OR))
-		return (init_ast_node_on_stack(*cmd, CMD_AND));
+		return (reset_ast_node(*cmd, CMD_AND));
 	else if (args->local.ctx == CTX_PIPE && token->type & OP_PIPE)
-		init_ast_node_on_stack(*cmd, CMD_PIPE);
+		reset_ast_node(*cmd, CMD_PIPE);
 	else if (token->type & OP_PARENTHESIS_OPEN)
-		init_ast_node_on_stack(*cmd, CMD_PARENTHESIS_OPEN);
+		reset_ast_node(*cmd, CMD_PARENTHESIS_OPEN);
 	else if (args->local.ctx == CTX_PIPE)
-		return (init_ast_node_on_stack(*cmd, CMD_EOF));
+		return (reset_ast_node(*cmd, CMD_EOF));
 	else
 		*cmd = ast_convert_token_to_cmd(args, token);
 	args->i++;
@@ -174,7 +174,7 @@ static void	get_node(t_ast_ctx *args, t_token *token, t_ast_node **cmd)
  * @note If an allocation fails, it sets the "has_malloc_error" boolean to true.
  * 
 */
-void	add_cmd_primitive(t_ast_ctx *args, t_ast_node **cmd)
+void	add_cmd_primitive(t_ast_ctx *args, t_ast **cmd)
 {
 	t_token				*token;
 

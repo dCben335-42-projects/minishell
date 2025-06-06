@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 06:59:55 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/06 01:49:59 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/06 02:11:46 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
  * @return 0 if the token is not a command token or a positive value
  * if it is a command token.
 */
-int is_cmd_token(t_token *token)
+int	is_cmd_token(t_token *token)
 {
 	return (token->type & (get_masks()->redir | get_masks()->text | M_SPACE));
 }
@@ -54,12 +54,12 @@ int	is_text_token(t_token *token)
  * 
  * @return 0 if the token is not a redirection token or a positive value
  * if it is a redirection token.
- */
+ * 
+*/
 int	is_meta_token(t_token *token)
 {
 	return (token->type & get_masks()->metachar);
 }
-
 
 /**
  * 
@@ -74,7 +74,7 @@ int	is_meta_token(t_token *token)
  * if it is a quoted text token.
  * 
 */
-int is_quoted_text_token(t_token *token)
+int	is_quoted_text_token(t_token *token)
 {
 	return (token->type & (QUOTED_TEXT | QUOTED_EXPAND));
 }

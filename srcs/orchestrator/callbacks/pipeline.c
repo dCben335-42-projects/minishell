@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 08:45:59 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/05 19:23:27 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/06 03:15:37 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static int	*setup_redirections(int fds[2])
 
 static t_bool	exec_pipe(
 	t_shell *shell,
-	t_ast_node *cmd,
+	t_ast *cmd,
 	int pipefd[2],
 	int in_out[2]
 )
@@ -62,7 +62,7 @@ static t_bool	exec_pipe(
 		if (!setup_redirections(in_out))
 			destroy_self(shell, NULL, EXIT_FAILURE);
 		close_in_out(pipefd);
-		handle_cmd(shell, cmd);
+		call_cmd(shell, cmd);
 		destroy_self(shell, NULL, shell->exit_code);
 	}
 	close_in_out(in_out);
@@ -94,15 +94,15 @@ static t_bool	is_pipe(t_shell *shell, int pipefd[2], int input_fd)
  * @return The next command node to execute
  * 	 or NULL if there are no more commands.
  */
-t_ast_node	*exec_pipeline(t_shell *shell, t_ast_node *cmd)
+t_ast	*exec_pipeline(t_shell *shell, t_ast *cmd)
 {
-	t_ast_node	*skipped_cmd;
+	t_ast	*skipped_cmd;
 	int			pipefd[2];
 	int			input_fd;
 
 	input_fd = -1;
 	skipped_cmd = skip_cmd(cmd);
-	signals(SIGCTX_JUMP);
+	signals(SIGCTX_CAPT);
 	cmd = find_next_cmd(cmd);
 	while (cmd && cmd != skipped_cmd)
 	{

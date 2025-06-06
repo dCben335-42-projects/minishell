@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   destroy.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 18:04:40 by abonneau          #+#    #+#             */
-/*   Updated: 2025/06/05 20:47:13 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/06/06 03:10:23 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "struct_dynarray.h"
-#include "ast_node.h"
+#include "struct_ast.h"
 
 /**
  * 
@@ -22,7 +22,7 @@
  * @return NULL
  * 
 */
-static void	*destroy_ast_node(t_ast_node *node)
+static void	*destroy_ast_node(t_ast *node)
 {
 	free(node->content);
 	free(node);
@@ -38,7 +38,7 @@ static void	*destroy_ast_node(t_ast_node *node)
  * @return NULL
  * 
 */
-void	*recursive_destroy_ast_node(t_ast_node *node)
+void	*destroy_ast(t_ast *node)
 {
 	if (node == NULL)
 		return (NULL);

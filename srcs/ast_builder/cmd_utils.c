@@ -6,11 +6,11 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 19:03:36 by abonneau          #+#    #+#             */
-/*   Updated: 2025/06/05 17:33:09 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/06 03:09:49 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ast.h"
+#include "ast_builder.h"
 
 /**
  * 
@@ -23,12 +23,12 @@
  * @note If the allocation fails, it sets the "has_malloc_error" boolean to true.
  *
 */
-void	add_child(t_ast_node *parent,
-	t_ast_node **child, t_ast_ctx *args)
+void	add_child(t_ast *parent,
+	t_ast **child, t_ast_ctx *args)
 {
 	if (!*child)
 		return ;
-	if (!add_child_primitive(parent, *child))
+	if (!add_ast_child_primitive(parent, *child))
 	{
 		args->has_malloc_error = TRUE;
 		return ;
@@ -71,5 +71,5 @@ t_bool	get_cmd(t_ast_ctx *args)
 */
 int	is_cmd(t_ast_ctx *args, size_t mask)
 {
-	return (is_node(args->local.cmd, mask));
+	return (is_ast_types(args->local.cmd, mask));
 }

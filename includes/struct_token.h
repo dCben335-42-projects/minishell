@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:44:15 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/06 01:51:33 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/06 01:55:08 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -203,5 +203,6 @@ int				is_parenthesis_token(t_token *token);
 int				is_control_extended_token(t_token *token);
 int				is_cmd_token(t_token *token);
 int				is_meta_token(t_token *token);
+int				is_quoted_text_token(t_token *token);
 
 #endif

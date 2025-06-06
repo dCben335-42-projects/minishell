@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   debug.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 02:50:04 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/29 18:07:05 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/06/06 03:01:43 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
+#include "config.h"
 
 void debug_exitcode(t_shell *shell)
 {
@@ -29,7 +30,7 @@ void debug_ast(t_shell *shell)
 		printf(SECOND_COL"╔═══════════════════════════════════════╗\n");
    		printf("║\t"FIRST_COL"START DEBUG MODE AST JSON"SECOND_COL"\t║\n");
 		printf("╚═══════════════════════════════════════╝"RESET_COL"\n");
-		print_ast_json_wrapper(shell->ast->content);
+		print_ast(shell->ast->content);
 		printf(SECOND_COL"╔═══════════════════════════════════════╗\n");
    		printf("║\t"FIRST_COL"END DEBUG MODE AST JSON"SECOND_COL"  \t║\n");
 		printf("╚═══════════════════════════════════════╝"RESET_COL"\n");

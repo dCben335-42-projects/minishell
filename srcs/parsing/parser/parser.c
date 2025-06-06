@@ -52,7 +52,7 @@ static t_bool	check_quote(t_lexer_args *args, t_token *token)
 	return (TRUE);
 }
 
-t_parse_status	get_error_message(t_token *token, char *msg)
+t_parse_status	print_error_message(t_token *token, char *msg)
 {
 	(void)msg;
 	if (token->value)
@@ -70,18 +70,14 @@ t_parse_status	token_parser(t_lexer_args *args, t_token *token)
 {
 	t_parse_status	status;
 
-	status = COMMAND_VALID;
-	if (args->check_rules)
-	{
-		args->rhs = UNDEFINED;
-		status = run_parsing_action(args, token);
-		if (status == COMMAND_VALID)
-			status = check_all_rules(args, token);
-		if (status != COMMAND_VALID)
-			return (status);
-		if (!check_quote(args, token))
-			return (COMMAND_NOT_FINISHED);
-	}
+	args->rhs = UNDEFINED;
+	status = run_parsing_action(args, token);
+	if (status == COMMAND_VALID)
+		status = check_all_rules(args, token);
+	if (status != COMMAND_VALID)
+		return (status);
+	if (!check_quote(args, token))
+		return (COMMAND_NOT_FINISHED);
 	if (!push(&args->tokens, token))
 	{
 		destroy_token(token);

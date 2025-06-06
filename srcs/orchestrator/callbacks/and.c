@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 08:58:34 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/20 09:04:20 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/06 03:15:37 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@
  * @return The next command node to execute
  * 	or NULL if there are no more commands.
 */
-t_ast_node	*exec_and(t_shell *shell, t_ast_node *cmd)
+t_ast	*exec_and(t_shell *shell, t_ast *cmd)
 {
 	if (!shell->exit_code)
-		return (handle_cmd(shell, find_next_cmd(cmd)));
+		return (call_cmd(shell, find_next_cmd(cmd)));
 	return (skip_cmd(cmd));
 }

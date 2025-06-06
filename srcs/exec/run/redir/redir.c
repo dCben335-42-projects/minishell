@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 10:29:31 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/04 17:16:35 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/06 03:05:53 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static const t_redir_map *get_redir_map(void)
 	return (redir_map);
 }
 
-static t_bool	handle_redir(t_shell *shell, t_ast_node *node)
+static t_bool	handle_redir(t_shell *shell, t_ast *node)
 {
 	const t_redir_map	*redir_map = get_redir_map();
 
@@ -71,7 +71,7 @@ t_bool	is_redirection(t_node_type type)
 
 t_bool	redirect(t_shell *shell, t_dynarray *cmd)
 {
-	t_ast_node	*node;
+	t_ast	*node;
 	t_uint		i;
 
 	i = 0;

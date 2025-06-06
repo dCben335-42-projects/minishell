@@ -12,7 +12,7 @@ static t_parse_status check_require_without_parenthesis(t_lexer_args *args, t_to
 	if (token->type & M_EOF && get_prev_token(args, &prev_token) 
 		&& prev_token->rules & EXPECT_CONT)
 		return (COMMAND_NOT_FINISHED);
-	return (get_error_message(token, "err_missing_right_operand_np"));
+	return (print_error_message(token, "err_missing_right_operand_np"));
 }
 
 static t_parse_status check_require(t_lexer_args *args, t_token *token)
@@ -26,7 +26,7 @@ static t_parse_status check_require(t_lexer_args *args, t_token *token)
 		return (COMMAND_VALID);
 	if (token->type & M_EOF && get_prev_token(args, &prev_token) && prev_token->rules & EXPECT_CONT)
 		return (COMMAND_NOT_FINISHED);
-	return (get_error_message(token, "err_missing_right_operand"));
+	return (print_error_message(token, "err_missing_right_operand"));
 }
 
 static t_parse_status check_disallowed(t_lexer_args *args, t_token *token)
@@ -36,7 +36,7 @@ static t_parse_status check_disallowed(t_lexer_args *args, t_token *token)
 	args->expected_rhs = UNDEFINED;
 	if (!(is_text_token(token) || token->type == OP_PARENTHESIS_OPEN))
 		return (COMMAND_VALID);
-	return (get_error_message(token, "err_no_right_operand"));
+	return (print_error_message(token, "err_no_right_operand"));
 }
 
 t_parse_status	check_all_rules(t_lexer_args *args, t_token *token)

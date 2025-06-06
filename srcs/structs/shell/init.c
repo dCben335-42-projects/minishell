@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 13:49:50 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/06 01:50:09 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/06 02:11:29 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ static t_debug	init_debug(void)
 	debug.exitcode = FALSE;
 	return (debug);
 }
-
 
 /**
  * @brief Initializes the shell structure with the given environment variables.

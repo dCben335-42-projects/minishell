@@ -5,7 +5,7 @@
 		"struct_env.h": "c",
 		"parsing.h": "c",
 		"fcntl.h": "c",
-		"ast.h": "c",
+		"ast_builder.h": "c",
 		"minishell.h": "c",
 		"cstdlib": "c",
 		"utils.h": "c",
@@ -22,7 +22,7 @@
 		"vector": "c",
 		"iterator": "c",
 		"string_view": "c",
-		"ast_node.h": "c",
+		"struct_ast.h": "c",
 		"config.h": "c",
 		"types.h": "c",
 <<<<<<< HEAD

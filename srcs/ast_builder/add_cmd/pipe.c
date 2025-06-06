@@ -6,11 +6,11 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 20:40:10 by abonneau          #+#    #+#             */
-/*   Updated: 2025/06/06 01:52:42 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/06 03:26:14 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ast.h"
+#include "ast_builder.h"
 
 /**
  * 
@@ -29,18 +29,18 @@
  * 
  * (A new memory space on the stack is assigned to args->local.cmd)
 */
-void	get_pipe_cmd_wrapper(
-	t_ast_node **cmd_prev,
-	t_ast_node *cmd_master,
+void	add_pipe_cmds(
+	t_ast **cmd_prev,
+	t_ast *cmd_master,
 	t_ast_ctx *args
 )
 {
-	t_ast_node	*cmd;
+	t_ast	*cmd;
 
 	cmd = args->local.cmd;
 	args->local.cmd = &args->local.lcmd;
 	add_child(cmd, cmd_prev, args);
-	get_pipe_cmd(cmd_prev, cmd, args);
+	add_cmd_pipe(cmd_prev, cmd, args);
 	add_child(cmd_master, &cmd, args);
 }
 
@@ -54,9 +54,9 @@ void	get_pipe_cmd_wrapper(
  * @param args The AST global context containing the tokens and indices.
  * 
 */
-void	get_pipe_cmd(
-	t_ast_node **cmd_prev,
-	t_ast_node *cmd_master,
+void	add_cmd_pipe(
+	t_ast **cmd_prev,
+	t_ast *cmd_master,
 	t_ast_ctx *args
 )
 {
@@ -72,7 +72,7 @@ void	get_pipe_cmd(
 		else if (is_cmd(args, CMD_PIPE))
 			add_child(cmd_master, cmd_prev, args);
 		else if (is_cmd(args, CMD_PARENTHESIS_OPEN))
-			get_parenthesis_cmd(args, cmd_master);
+			add_parenthesis_cmd(args, cmd_master);
 		else if (!is_cmd(args, CMD_BASE))
 			return (add_child(cmd_master, cmd_prev, args));
 		else

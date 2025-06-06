@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_expand.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 17:19:31 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/05 22:01:19 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/06/06 03:28:15 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,20 +20,32 @@
 # include "libft.h"
 # include <dirent.h>
 
+/**
+ * @brief The context structure for word expansion.
+ * 
+ * @param arg The current expanded argument.
+ * @param curr_node The current AST node being processed.
+ * @param is_wildcard Indicates if the argument is a wildcard.
+ * @param is_quoted Indicates if the argument is quoted.
+ * 
+ * @note This structure is used to keep track of the current state
+ * during the saving of expanded ast nodes.
+ * 
+*/
+typedef struct s_expand_ctx
+{
+	char		*arg;
+	t_ast		*curr_node;
+	t_bool		is_wildcard;
+	t_bool		is_quoted;
+}	t_expand_ctx;
+
 t_dynarray	*expand_word(t_shell *shell, t_dynarray *word, t_dynarray *args);
 char		*save_expand_entry(
 				t_shell *shell,
 				t_dynarray *args,
 				char *value,
 				t_bool is_wildcard);
-
-typedef struct s_expand_ctx
-{
-	char		*arg;
-	t_ast_node	*curr_node;
-	t_bool		is_wildcard;
-	t_bool		is_quoted;
-}	t_expand_ctx;
 
 t_tree		*expand_wildcard_word(t_shell *shell, char *word);
 void		*expand_env_word(t_shell *shell, t_dynarray *word);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 13:48:13 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/05 21:45:01 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/06/06 03:09:49 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # define PRINT_BANNER 0
 
-# include "ast.h"
+# include "ast_builder.h"
 # include "struct_shell.h"
 # include "struct_token.h"
 # include "parsing.h"

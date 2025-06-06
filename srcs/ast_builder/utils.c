@@ -6,11 +6,11 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 18:58:30 by abonneau          #+#    #+#             */
-/*   Updated: 2025/06/06 01:52:37 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/06 03:29:08 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ast.h"
+#include "ast_builder.h"
 
 /**
  * 
@@ -21,14 +21,14 @@
  * 
  * @note If an allocation fails, it sets the "has_malloc_error" boolean to true.
  * 
- * @return t_ast_node* Pointer to the command node or NULL on malloc error.
+ * @return t_ast* Pointer to the command node or NULL on malloc error.
  * 
 */
-t_ast_node	*ast_convert_token_to_cmd(t_ast_ctx *args, t_token *token)
+t_ast	*ast_convert_token_to_cmd(t_ast_ctx *args, t_token *token)
 {
-	t_ast_node	*node;
+	t_ast	*node;
 
-	node = convert_token_to_cmd(token);
+	node = convert_token_to_ast(token);
 	if (!node)
 	{
 		args->has_malloc_error = TRUE;
@@ -46,12 +46,12 @@ t_ast_node	*ast_convert_token_to_cmd(t_ast_ctx *args, t_token *token)
  * 
  * @note If an allocation fails, it sets the "has_malloc_error" boolean to true.
  * 
- * @return t_ast_node* Pointer to the initialized node or NULL on malloc error.
+ * @return t_ast* Pointer to the initialized node or NULL on malloc error.
  * 
 */
-t_ast_node	*ast_init_node(t_ast_ctx *args, t_node_type type)
+t_ast	*ast_init_node(t_ast_ctx *args, t_node_type type)
 {
-	t_ast_node	*node;
+	t_ast	*node;
 
 	node = init_ast_node(type, NULL);
 	if (!node)
@@ -74,8 +74,12 @@ t_ast_node	*ast_init_node(t_ast_ctx *args, t_node_type type)
  * @return t_ast_ctx initialized structure with the provided parameters.
  * 
 */
-t_ast_ctx	init_ast_glbctx(t_dynarray *tokens,
-	int start, int end, t_ast_node *cmd_master)
+t_ast_ctx	init_ast_glbctx(
+	t_dynarray *tokens,
+	t_uint start,
+	t_uint end,
+	t_ast *cmd_master
+)
 {
 	t_ast_ctx	args;
 
@@ -97,7 +101,7 @@ t_ast_ctx	init_ast_glbctx(t_dynarray *tokens,
  * @return t_bool TRUE if a malloc error occurred, FALSE otherwise.
  * 
 */
-t_bool	merr(t_ast_node *node, t_ast_node **out)
+t_bool	merr(t_ast *node, t_ast **out)
 {
 	if (!node)
 		return (TRUE);

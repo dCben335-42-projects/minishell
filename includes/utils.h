@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 20:38:38 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/05 21:53:37 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/06/06 03:02:05 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,6 @@
 # define UTILS_H
 
 # include "struct_shell.h"
-
-# define ESC_START "\001"
-# define ESC_END   "\002"
-
-# define FIRST_COL     "\033[1;35m"
-# define SECOND_COL    "\033[1;34m"
-# define VARIANT_COL   "\033[1;36m"
-# define ACCENT_COL    "\033[1;32m"
-# define COMMAND_COL   "\033[33m"
-# define RESET_COL     "\033[0m"
-
-# define FIRST_COL_RL     "\001\033[1;35m\002"
-# define SECOND_COL_RL    "\001\033[1;34m\002"
-# define VARIANT_COL_RL   "\001\033[1;36m\002"
-# define ACCENT_COL_RL    "\001\033[1;32m\002"
-# define COMMAND_COL_RL   "\001\033[33m\002"
-# define RESET_COL_RL     "\001\033[0m\002"
-
-# define KEY_COL FIRST_COL
-# define VALUE_COL SECOND_COL
-# define BRACE_COL VARIANT_COL
 
 void		close_fds(unsigned int start);
 void		restore_std_in_out(int saved_stdin, int saved_stdout);

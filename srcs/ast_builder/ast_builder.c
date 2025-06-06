@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ast_builder.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 19:05:23 by abonneau          #+#    #+#             */
-/*   Updated: 2025/06/05 20:47:21 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/06/06 03:29:08 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ast.h"
+#include "ast_builder.h"
 #include <stdlib.h>
 
 /**
@@ -22,12 +22,12 @@
  * 
  * @note The master node is initialized with the type CMD_SEQ.
  * 
- * @return t_ast_node* Pointer to the root of the AST or NULL on malloc error.
+ * @return t_ast* Pointer to the root of the AST or NULL on malloc error.
  */
-t_ast_node	*ast_builder(t_dynarray *tokens)
+t_ast	*ast_builder(t_dynarray *tokens)
 {
 	t_ast_ctx	ast_glbctx;
-	t_ast_node	*master_node;
+	t_ast	*master_node;
 
 	master_node = init_ast_node(CMD_SEQ, NULL);
 	if (!master_node)
@@ -39,6 +39,6 @@ t_ast_node	*ast_builder(t_dynarray *tokens)
 			master_node);
 	add_master_cmds(&ast_glbctx);
 	if (ast_glbctx.local.cmd_master && ast_glbctx.has_malloc_error)
-		recursive_destroy_ast_node(ast_glbctx.local.cmd_master);
+		destroy_ast(ast_glbctx.local.cmd_master);
 	return (ast_glbctx.local.cmd_master);
 }

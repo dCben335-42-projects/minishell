@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   destroy.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 19:43:19 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/05 20:47:05 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/06/06 02:22:16 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	*destroy_shell(t_shell *shell)
 {
 	destroy_env(shell->env);
 	destroy_dynarray(&shell->env_array);
-	recursive_destroy_ast_node(shell->ast);
+	destroy_ast(shell->ast);
 	free(shell->current_path);
 	return (NULL);
 }

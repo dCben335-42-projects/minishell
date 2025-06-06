@@ -1,5 +1,4 @@
-INCLUDES_FILES += ast.h
-INCLUDES_FILES += ast_node.h
+INCLUDES_FILES += ast_builder.h
 INCLUDES_FILES += cmd_builtin.h
 INCLUDES_FILES += cmd_expand.h
 INCLUDES_FILES += cmd.h
@@ -9,6 +8,7 @@ INCLUDES_FILES += minishell.h
 INCLUDES_FILES += minishell_signal.h
 INCLUDES_FILES += orchestrator.h
 INCLUDES_FILES += parsing.h
+INCLUDES_FILES += struct_ast.h
 INCLUDES_FILES += struct_dynarray.h
 INCLUDES_FILES += struct_env.h
 INCLUDES_FILES += struct_lexer_args.h

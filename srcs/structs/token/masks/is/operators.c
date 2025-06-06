@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 06:58:17 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/06 01:49:44 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/06 02:12:10 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
  * @return 0 if the token is not a control token or a positive value
  * if it is a control token.
  */
-int is_control_token(t_token *token)
+int	is_control_token(t_token *token)
 {
 	return (token->type & get_masks()->control);
 }
@@ -55,7 +55,7 @@ int	is_parenthesis_token(t_token *token)
  * @return 0 if the token is not a control extended token or a positive value
  * if it is a control extended token.
  */
-int is_control_extended_token(t_token *token)
+int	is_control_extended_token(t_token *token)
 {
 	return (token->type & get_masks()->control_extended);
 }

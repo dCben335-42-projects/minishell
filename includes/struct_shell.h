@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 19:05:04 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/06 01:50:43 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/06 03:17:39 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include "struct_env.h"
 # include "struct_dynarray.h"
-# include "ast_node.h"
+# include "struct_ast.h"
 # include <sys/types.h>
 
 /**
@@ -59,7 +59,7 @@ typedef struct s_shell
 	char		*current_path;
 	int			exit_code;
 	pid_t		last_pid;
-	t_ast_node	*ast;
+	t_ast		*ast;
 	t_debug		debug;
 }	t_shell;
 

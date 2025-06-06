@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   orchestrator.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 20:58:35 by abonneau          #+#    #+#             */
-/*   Updated: 2025/06/05 21:03:15 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/06/06 03:15:37 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cmd.h"
+#include "config.h"
 #include "orchestrator.h"
 #include "minishell_signal.h"
 
@@ -28,10 +29,10 @@ static const t_exec_map	*get_exec_map(void)
 	return (map);
 }
 
-t_bool	is_only_redir(t_ast_node *cmd)
+t_bool	is_only_redir(t_ast *cmd)
 {
 	t_uint		i;
-	t_ast_node	*node;
+	t_ast	*node;
 	t_dynarray	*arr;
 
 	if (!cmd || cmd->type != CMD_BASE)
@@ -77,7 +78,7 @@ t_bool	is_valid_exec_type(const t_node_type type)
  * @return The next command node to execute or NULL if there are
  * no more commands.
  */
-t_ast_node	*handle_cmd(t_shell *shell, t_ast_node *cmd)
+t_ast	*call_cmd(t_shell *shell, t_ast *cmd)
 {
 	const t_exec_map	*exec_map = get_exec_map();
 
@@ -110,12 +111,12 @@ t_ast_node	*handle_cmd(t_shell *shell, t_ast_node *cmd)
 */
 void	orchestrator(t_shell *shell)
 {
-	t_ast_node	*cmd;
+	t_ast	*cmd;
 
 	write(1, COMMAND_COL, sizeof(COMMAND_COL));
 	cmd = find_next_cmd(shell->ast);
 	while (!g_sig && cmd)
-		cmd = handle_cmd(shell, cmd);
+		cmd = call_cmd(shell, cmd);
 	if (g_sig)
 	{
 		shell->exit_code = parse_status(g_sig);

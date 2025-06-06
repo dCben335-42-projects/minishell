@@ -6,15 +6,15 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 18:00:29 by abonneau          #+#    #+#             */
-/*   Updated: 2025/06/06 01:50:21 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/06 03:29:08 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ast_node.h"
+#include "struct_ast.h"
 
-static const t_token_node_map	*get_token_to_cmd_map(void)
+static const t_convert_map	*get_token_to_cmd_map(void)
 {
-	static const t_token_node_map	map[] = {
+	static const t_convert_map	map[] = {
 	{TEXT,					CMD_TEXT},
 	{QUOTED_TEXT,			CMD_QUOTED_TEXT},
 	{EXPAND,				CMD_EXPAND},
@@ -43,14 +43,14 @@ static const t_token_node_map	*get_token_to_cmd_map(void)
  * 
  * @param token The token to be converted.
  * 
- * @return t_ast_node* Pointer to the command node
+ * @return t_ast* Pointer to the command node
  * or NULL if the token is not recognized or if it is NULL
  * or if an malloc fail.
  * 
 */
-t_ast_node	*convert_token_to_cmd(t_token *token)
+t_ast	*convert_token_to_ast(t_token *token)
 {
-	const t_token_node_map	*map = get_token_to_cmd_map();
+	const t_convert_map	*map = get_token_to_cmd_map();
 
 	if (!token)
 		return (NULL);
@@ -59,8 +59,8 @@ t_ast_node	*convert_token_to_cmd(t_token *token)
 		if (map->type == token->type)
 		{
 			if (is_text_token(token))
-				return (init_node(map->cmd, token->value));
-			return (init_node(map->cmd, NULL));
+				return (init_ast_node(map->cmd, token->value));
+			return (init_ast_node(map->cmd, NULL));
 		}
 		map++;
 	}

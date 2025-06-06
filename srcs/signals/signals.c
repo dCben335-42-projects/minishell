@@ -1,31 +1,32 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   signals.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/06 02:13:02 by bcabocel          #+#    #+#             */
+/*   Updated: 2025/06/06 02:17:39 by bcabocel         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell_signal.h"
 #include <readline/readline.h>
+#include <signal.h>
+#include <unistd.h>
 
-# define _XOPEN_SOURCE 700
-# include <signal.h>
-# include <stdio.h>
-# include <stdlib.h>
-# include <string.h>
-# include <sys/types.h>
-# include <unistd.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-# include <fcntl.h>
-# include <sys/wait.h>
+volatile sig_atomic_t	g_sig = 0;
 
-volatile sig_atomic_t g_sig = 0;
-
-void	sigint_handler_heredoc(int sig)
+static void	sigint_handler_heredoc(int sig)
 {
 	g_sig = sig;
 	write(1, "^C", 2);
 	close(0);
 }
 
-void	sigint_handler_shell(int sig)
+static void	sigint_handler_shell(int sig)
 {
 	(void) sig;
-
 	write(1, "^C", 2);
 	write(1, "\n", 1);
 	rl_replace_line("", 0);
@@ -33,12 +34,18 @@ void	sigint_handler_shell(int sig)
 	rl_redisplay();
 }
 
-void	sig_capter(int sig)
+static void	sig_capter(int sig)
 {
 	g_sig = sig;
 }
 
-
+/**
+ * 
+ * @brief Sets the signal handlers based on the context.
+ *
+ * @param ctx The context in which the signals are set.
+ * 
+ */
 void	signals(t_signal_ctx ctx)
 {
 	signal(SIGQUIT, SIG_IGN);
@@ -47,7 +54,7 @@ void	signals(t_signal_ctx ctx)
 		signal(SIGINT, &sigint_handler_heredoc);
 	else if (ctx == SIGCTX_SHELL)
 		signal(SIGINT, &sigint_handler_shell);
-	else if (ctx == SIGCTX_JUMP)
+	else if (ctx == SIGCTX_CAPT)
 	{
 		signal(SIGINT, &sig_capter);
 		signal(SIGQUIT, &sig_capter);
@@ -58,4 +65,3 @@ void	signals(t_signal_ctx ctx)
 		signal(SIGQUIT, SIG_DFL);
 	}
 }
-

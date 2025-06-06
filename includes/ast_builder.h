@@ -1,25 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ast.h                                              :+:      :+:    :+:   */
+/*   ast_builder.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 20:20:38 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/05 16:00:42 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/06 03:26:14 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef AST_H
-# define AST_H
+#ifndef AST_BUILDER_H
+# define AST_BUILDER_H
 
-# include "ast_node.h"
+# include "struct_ast.h"
 # include "struct_dynarray.h"
 # include "struct_token.h"
 # include "struct_pointer.h"
 # include "struct_lexer_args.h"
 
-t_ast_node			*ast_builder(t_dynarray *tokens);
+t_ast		*ast_builder(t_dynarray *tokens);
 
 /**
  * @brief Enumeration representing the local context of command nodes.
@@ -44,10 +44,10 @@ typedef enum e_ast_local_ctx
 */
 typedef struct s_local_node_info
 {
-	t_ast_node		*cmd_master;
-	t_ast_node		lcmd;
-	t_ast_node		*cmd;
 	t_ast_local_ctx	ctx;
+	t_ast			*cmd_master;
+	t_ast			lcmd;
+	t_ast			*cmd;
 }	t_local_node_info;
 
 /**
@@ -106,62 +106,35 @@ typedef struct s_count_cmd_child
 typedef struct s_get_cmd_primitive
 {
 	t_count_cmd_child	counter;
-	t_ast_node			*cmd_new;
-	t_ast_node			*cmd_temp;
-	t_ast_node			*cmd_word;
-	t_ast_node			*cmd_redir;
+	t_ast				*cmd_new;
+	t_ast				*cmd_temp;
+	t_ast				*cmd_word;
+	t_ast				*cmd_redir;
 	t_bool				*is_empty;
 }	t_get_cmd_primitive;
 
-void				add_master_cmds(t_ast_ctx *args);
-void				add_cmd_primitive(t_ast_ctx *args, t_ast_node **cmd);
-t_bool				get_cmd(t_ast_ctx *args);
+t_ast_ctx	init_ast_glbctx(
+				t_dynarray *tokens,
+				t_uint start,
+				t_uint end,
+				t_ast *cmd_master);
 
-void				get_pipe_cmd(
-						t_ast_node **cmd_prev,
-						t_ast_node *cmd_master,
-						t_ast_ctx *args);
+void		add_master_cmds(t_ast_ctx *args);
+void		add_cmd_primitive(t_ast_ctx *args, t_ast **cmd);
+t_bool		get_cmd(t_ast_ctx *args);
 
-void				add_op_cmds(
-						t_ast_node **cmd_prev,
-						t_ast_node *cmd_master,
-						t_ast_ctx *args);
+void		add_pipe_cmds(t_ast **cmd_prev, t_ast *cmd_master, t_ast_ctx *args);
+void		add_cmd_pipe(t_ast **cmd_prev, t_ast *cmd_master, t_ast_ctx *args);
+void		add_op_cmds(t_ast **cmd_prev, t_ast *cmd_master, t_ast_ctx *args);
+void		add_parenthesis_cmd_master(t_ast *cmd_master, t_ast_ctx *args);
+void		add_parenthesis_cmd(t_ast_ctx *args, t_ast *cmd_master);
 
-void				get_parenthesis_cmd_master(
-						t_ast_node *cmd_master,
-						t_ast_ctx *args);
+void		add_child(t_ast *parent, t_ast **child, t_ast_ctx *args);
+t_ast		*ast_convert_token_to_cmd(t_ast_ctx *args, t_token *token);
+t_ast		*ast_init_node(t_ast_ctx *args, t_node_type type);
 
-void				get_parenthesis_cmd(
-						t_ast_ctx *args,
-						t_ast_node *cmd_master);
-
-void				add_child(
-						t_ast_node *parent,
-						t_ast_node **child,
-						t_ast_ctx *args);
-
-t_ast_node			*ast_convert_token_to_cmd(
-						t_ast_ctx *args,
-						t_token *token);
-
-t_ast_node			*ast_init_node(
-						t_ast_ctx *args,
-						t_node_type type);
-
-t_ast_ctx			init_ast_glbctx(
-						t_dynarray *tokens,
-						int start,
-						int end,
-						t_ast_node *cmd_master);
-
-void				get_pipe_cmd_wrapper(
-						t_ast_node **cmd_prev,
-						t_ast_node *cmd_master,
-						t_ast_ctx *args);
-
-int					is_cmd(t_ast_ctx *args, size_t mask);
-
-t_bool				merr(t_ast_node *node, t_ast_node **out);
-t_bool				is_empty(t_ast_ctx *args);
+int			is_cmd(t_ast_ctx *args, size_t mask);
+t_bool		merr(t_ast *node, t_ast **out);
+t_bool		is_empty(t_ast_ctx *args);
 
 #endif

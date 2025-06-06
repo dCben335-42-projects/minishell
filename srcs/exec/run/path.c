@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:12:13 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/04 16:38:12 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/06 02:02:15 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,9 +81,13 @@ t_bool	is_valid_cmd_path(char *path, int *exit_code)
  * 
  * @return The full command path if found, otherwise the original command.
  */
-char	*get_full_cmd_path(char *cmd_name, t_env *path)
-{
-	if (!cmd_name || ft_is_path(cmd_name) || !path || !path->value)
+char	*get_full_cmd_path(char *cmd_name, t_env *root)
+{	
+	const t_env	*path = get_env_node(root, ENV_PATH_KEY);
+
+	if (!path || !path->value)
+		return (cmd_name);
+	if (!cmd_name || !*cmd_name || ft_is_path(cmd_name))
 		return (cmd_name);
 	return (find_path(cmd_name, ft_split(path->value, ":")));
 }

@@ -1,69 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init.c                                             :+:      :+:    :+:   */
+/*   add.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/03 18:02:31 by abonneau          #+#    #+#             */
-/*   Updated: 2025/06/05 20:49:08 by abonneau         ###   ########.fr       */
+/*   Created: 2025/06/06 02:18:49 by bcabocel          #+#    #+#             */
+/*   Updated: 2025/06/06 03:29:50 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ast_node.h"
-
-/**
- * 
- * @brief Initializes a new AST node with the given type and value.
- * 
- * @param type The type of the node to be initialized.
- * @param value The value to be assigned to the node.
- * 
- * @return t_ast_node* Pointer to the initialized node or NULL on malloc error.
- * 
-*/
-t_ast_node	*init_ast_node(t_node_type type, char *value)
-{
-	t_ast_node	*node;
-
-	node = malloc(sizeof(t_ast_node));
-	if (!node)
-		return (NULL);
-	node->type = type;
-	node->parent = NULL;
-	node->next = NULL;
-	if (value)
-	{
-		node->content = ft_strdup(value);
-		if (!node->content)
-		{
-			free(node);
-			return (NULL);
-		}
-		node->child_count = 1;
-		return (node);
-	}
-	node->content = NULL;
-	node->child_count = 0;
-	return (node);
-}
-
-/**
- * 
- * @brief Initializes an AST node on the stack with the given type.
- * 
- * @param node Pointer to the AST node to be initialized.
- * @param type The type of the node to be initialized.
- * 
-*/
-void	init_ast_node_on_stack(t_ast_node *node, t_node_type type)
-{
-	node->type = type;
-	node->parent = NULL;
-	node->next = NULL;
-	node->content = NULL;
-	node->child_count = 0;
-}
+#include "struct_ast.h"
 
 /**
  * 
@@ -83,15 +30,16 @@ void	init_ast_node_on_stack(t_ast_node *node, t_node_type type)
  * @return int Returns 1 on success, 0 on failure (malloc error).
  * 
 */
-int	add_child_primitive(t_ast_node *parent, t_ast_node *child)
+int	add_ast_child_primitive(t_ast *parent, t_ast *child)
 {
 	t_dynarray	*sub_cmd;
+	t_ast		*last_child;
 
 	child->parent = parent;
 	if (parent->child_count == 0)
 	{
 		sub_cmd = init_dynarray_malloc(80,
-				(void *(*)(void *))recursive_destroy_ast_node);
+				(void *(*)(void *))destroy_ast);
 		if (!sub_cmd)
 			return (0);
 		if (!set_dynarray_value(sub_cmd, 0, child))
@@ -102,8 +50,8 @@ int	add_child_primitive(t_ast_node *parent, t_ast_node *child)
 	}
 	if (!set_dynarray_value(parent->content, parent->child_count - 2, child))
 		return (0);
-	((t_ast_node *)get_dynarray_value(parent->content, parent->child_count - 3))
-	->next = child;
+	last_child = get_dynarray_value(parent->content, parent->child_count - 3);
+	last_child->next = child;
 	parent->child_count++;
 	return (1);
 }
@@ -118,17 +66,21 @@ int	add_child_primitive(t_ast_node *parent, t_ast_node *child)
  * @note This function links the child nodes together by setting
  * 
 */
-void	add_childs(t_ast_node *parent, t_dynarray *childs)
+void	add_ast_childs(t_ast *parent, t_dynarray *childs)
 {
+	t_ast	*node;
 	t_uint	i;
 
 	i = 0;
 	while (i < childs->count)
 	{
 		if (i > 0)
-			((t_ast_node *)get_dynarray_value(childs, i - 1))->next
-			= ((t_ast_node *)get_dynarray_value(childs, i));
-		((t_ast_node *)get_dynarray_value(childs, i))->parent = parent;
+		{
+			node = (t_ast *)get_dynarray_value(childs, i - 1);
+			node->next = (t_ast *)get_dynarray_value(childs, i);
+		}
+		node = get_dynarray_value(childs, i);
+		node->parent = parent;
 		i++;
 	}
 	parent->content = childs;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   find_next_cmd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 21:00:15 by abonneau          #+#    #+#             */
-/*   Updated: 2025/06/05 21:00:42 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/06/06 03:05:53 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@
  * 
  * @return The next command node or NULL if there are no more commands.
  */
-t_ast_node	*skip_cmd(t_ast_node *node)
+t_ast	*skip_cmd(t_ast *node)
 {
-	t_ast_node	*next_node;
+	t_ast	*next_node;
 
 	next_node = node;
 	while (!next_node->next)
@@ -41,9 +41,9 @@ t_ast_node	*skip_cmd(t_ast_node *node)
  * @return The next command node to execute or NULL if there are
  * no more commands.
  */
-t_ast_node	*find_next_cmd(t_ast_node *node)
+t_ast	*find_next_cmd(t_ast *node)
 {
-	t_ast_node	*child;
+	t_ast	*child;
 
 	if (node == NULL)
 		return (NULL);

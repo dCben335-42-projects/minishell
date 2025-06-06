@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parenthesis.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 20:36:44 by abonneau          #+#    #+#             */
-/*   Updated: 2025/06/05 20:47:30 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/06/06 03:26:14 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ast.h"
+#include "ast_builder.h"
 
 static int	count_token_between_brackets(t_dynarray *tokens, t_uint i)
 {
@@ -49,16 +49,16 @@ static int	count_token_between_brackets(t_dynarray *tokens, t_uint i)
  * it initializes a CMD_PARENTHESIS node.
  * 
 */
-void	get_parenthesis_cmd(t_ast_ctx *args, t_ast_node *cmd_master)
+void	add_parenthesis_cmd(t_ast_ctx *args, t_ast *cmd_master)
 {
 	t_ast_ctx	ast_ctx;
-	t_ast_node	cmd;
-	t_ast_node	*cmd_p;
+	t_ast	cmd;
+	t_ast	*cmd_p;
 	int			count;
 
 	cmd_p = &cmd;
 	if (cmd_master->type == CMD_PARENTHESIS)
-		init_ast_node_on_stack(&cmd, CMD_SEQ);
+		reset_ast_node(&cmd, CMD_SEQ);
 	else
 		cmd_p = ast_init_node(args, CMD_PARENTHESIS);
 	if (args->has_malloc_error)
@@ -73,11 +73,11 @@ void	get_parenthesis_cmd(t_ast_ctx *args, t_ast_node *cmd_master)
 	}
 	args->i += count + 1;
 	if (cmd_master->type == CMD_PARENTHESIS)
-		return (add_childs(cmd_master, cmd_p->content));
+		return (add_ast_childs(cmd_master, cmd_p->content));
 	add_child(cmd_master, &cmd_p, args);
 }
 
-static t_ast_node	*get_adjacent_cmd(t_ast_ctx *args, int count)
+static t_ast	*get_adjacent_cmd(t_ast_ctx *args, int count)
 {
 	t_token		*token;
 
@@ -102,10 +102,10 @@ static t_ast_node	*get_adjacent_cmd(t_ast_ctx *args, int count)
  * if it's part of a pipe; it must be wrapped in a CMD_PIPE node instead.
  * 
 */
-void	get_parenthesis_cmd_master(t_ast_node *cmd_master, t_ast_ctx *args)
+void	add_parenthesis_cmd_master(t_ast *cmd_master, t_ast_ctx *args)
 {
-	t_ast_node	*cmd;
-	t_ast_node	*cmd_pipe;
+	t_ast	*cmd;
+	t_ast	*cmd_pipe;
 
 	cmd_pipe = get_adjacent_cmd(
 			args,
@@ -115,14 +115,14 @@ void	get_parenthesis_cmd_master(t_ast_node *cmd_master, t_ast_ctx *args)
 	cmd = ast_init_node(args, CMD_PARENTHESIS);
 	if (args->has_malloc_error)
 		return ;
-	get_parenthesis_cmd(args, cmd);
+	add_parenthesis_cmd(args, cmd);
 	if (args->has_malloc_error)
 		return ;
 	if (cmd_pipe)
 	{
 		add_child(cmd_pipe, &cmd, args);
 		args->i++;
-		get_pipe_cmd(&cmd, cmd_pipe, args);
+		add_cmd_pipe(&cmd, cmd_pipe, args);
 		return (add_child(cmd_master, &cmd_pipe, args));
 	}
 	add_child(cmd_master, &cmd, args);

@@ -6,13 +6,13 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 14:34:49 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/05 15:21:40 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/06 03:05:53 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cmd_redir.h"
 
-t_bool	redir_out(t_shell *shell, t_ast_node *node)
+t_bool	redir_out(t_shell *shell, t_ast *node)
 {
 	t_dynarray	args;	
 	int			fd;

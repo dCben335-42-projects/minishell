@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:07:25 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/05 19:38:50 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/06 02:13:22 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@
 */
 static void	exec_cmd(t_shell *shell, char **argv, size_t name_i)
 {
-
 	execve(argv[name_i], &argv[name_i], (char **)shell->env_array.data);
 	write(STDERR_FILENO, "execve: ", 9);
 	perror(argv[0]);
@@ -85,7 +84,7 @@ void	fork_and_exec(t_shell *shell, t_dynarray *cmd, char **argv, size_t name_i)
 		return ;
 	}
 	if (shell->last_pid)
-		signals(SIGCTX_JUMP);
+		signals(SIGCTX_CAPT);
     if (pid == 0)
 	{
 		signals(SIGCTX_FORK);

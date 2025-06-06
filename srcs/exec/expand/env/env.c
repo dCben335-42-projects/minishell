@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 21:34:50 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/02 19:16:39 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/06 03:05:53 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,13 +59,13 @@ char	*expand_env_str(t_shell *shell, char **str)
  */
 void	*expand_env_word(t_shell *shell, t_dynarray *word)
 {
-	t_ast_node	*node;
+	t_ast	*node;
 	t_uint		i;
 	
 	i = 0;
 	while (i < word->count)
 	{
-		node = (t_ast_node *)get_dynarray_value(word, i);
+		node = (t_ast *)get_dynarray_value(word, i);
 		if ((node->type == CMD_EXPAND || node->type == CMD_QUOTED_EXPAND)
 			&& !expand_env_str(shell, (char **)&node->content))
 			return (NULL);

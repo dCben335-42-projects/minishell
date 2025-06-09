@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 21:58:53 by abonneau          #+#    #+#             */
-/*   Updated: 2025/06/06 03:16:44 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/09 16:42:45 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,6 @@ t_ast	*call_cmd(t_shell *shell, t_ast *cmd);
 t_bool	is_valid_exec_type(const t_node_type type);
 t_ast	*find_next_cmd(t_ast *prev_node);
 t_ast	*skip_cmd(t_ast *node);
-
-t_bool	is_only_redir(t_ast *cmd);
 
 t_ast	*exec_basic(t_shell *shell, t_ast *cmd);
 t_ast	*exec_and(t_shell *shell, t_ast *cmd);

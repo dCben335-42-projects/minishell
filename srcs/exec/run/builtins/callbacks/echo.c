@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 15:26:39 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/24 07:24:34 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/09 18:18:30 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,12 @@ void	ft_echo(t_shell *shell, char **args)
 	size_t	i;
 	t_bool	is_n_option;
 
-	is_n_option = get_n_option(args[1]);
-	i = is_n_option + 1;
+	i = 1;
+	while (args[i] && get_n_option(args[i]))
+	{
+		is_n_option = TRUE;
+		i++;
+	}
 	while (args[i])
 	{
 		ft_putstr_fd(args[i], 1);

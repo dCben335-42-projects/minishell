@@ -77,7 +77,13 @@
 // !SECTION
 // SECTION: MESSAGES
 
-# define SHELL_NAME "SHELLOSTS"
+# define SIGQUIT_MSG "Quit (core dumped)"
+
+#define ERR_IS_DERECTORY "Is a directory"
+# define ERR_NOT_FOUND "Command not found"
+
+# define ERR_SYNTAX_EOF "syntax error: unexpected end of file\n"
+
 
 # define ERROR_MALLOC "Error: malloc"
 
@@ -105,7 +111,6 @@ getcwd: cannot access parent directories"
 # define EXPORT_PREFIX "export"
 # define ERR_EXPORT_ID "export: '%s': not a valid identifier\n"
 
-# define ERR_NOT_FOUND "minishell: command not found: "
 
 # define SYNTAX_ERR_START "syntax error near unexpected token `"
 # define SYNTAX_ERR_END "'\n"

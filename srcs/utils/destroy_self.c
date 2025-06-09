@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 20:39:46 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/04 03:11:22 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/09 17:58:53 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
  * destroy the shell instance.
  * 
  * @return NULL
+ * 
  */
 void	*destroy_self(t_shell *shell, char **argv, int exit_code)
 {
@@ -32,6 +33,7 @@ void	*destroy_self(t_shell *shell, char **argv, int exit_code)
 		ft_strsfree(argv);
 	destroy_shell(shell);
 	close_fds(0);
+	printf("Exiting with code: %d\n", exit_code);
 	exit(exit_code);
 	return (NULL);
 }

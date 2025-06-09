@@ -1,19 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   wait.c                                             :+:      :+:    :+:   */
+/*   status.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:01:05 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/05 19:44:17 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/09 17:11:58 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include "libft.h"
 #include <sys/types.h>
+#include <sys/wait.h>
 
+/**
+ * 
+ * @brief Parses the status of a child process and returns the exit code.
+ * 
+ * @param status A status code returned by `waitpid` or similar functions.
+ * 
+ * @note This function checks if the child process exited normally, was
+ * terminated by a signal, or was stopped. It returns the appropriate exit
+ * code based on the termination scenario.
+ * 
+ * @return The exit code of the child process.
+ * 
+ */
 int parse_status(int status)
 {
 	if (WIFEXITED(status))
@@ -25,14 +37,19 @@ int parse_status(int status)
 	return (1);
 }
 
-
 /**
  * @brief Wait for all child processes to finish and return their exit codes.
  * 
- * This function will block until all child processes have terminated.
+ * 
+ * @param last_pid The PID of the last child process to wait for.
+ * 
+ * @note This function will block until all child processes have terminated.
+ * It get the status of each child process using `waitpid`.
  * It will handle different termination scenarios, including normal exit,
  * termination by signal, and stopped processes. The exit code of the last
  * terminated child process is returned.
+ * 
+ * @return The exit code of the last child process that terminated.
  * 
 */
 int	wait_childrens(pid_t last_pid)
@@ -41,8 +58,8 @@ int	wait_childrens(pid_t last_pid)
 	int		status;
 	int		exit_code;
 
-    pid = waitpid(-1, &status, 0);
 	exit_code = 0;
+    pid = waitpid(-1, &status, 0);
     while (pid > 0)
     {
         if (pid == last_pid)

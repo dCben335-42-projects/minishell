@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:18:18 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/05 20:30:27 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/06/09 17:41:52 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ t_lexer_args	init_lexer_args(
 	args.rhs = UNDEFINED;
 	args.expected_rhs = UNDEFINED;
 	args.not_finished_value = NULL;
-	args.heredoc_interupted = FALSE;
+	args.interrupted = FALSE;
 	args.heredoc_cval = heredoc_cval;
 	args.heredoc_ckey = 0;
 	args.check_rules = check_rules;

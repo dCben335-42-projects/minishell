@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 20:58:35 by abonneau          #+#    #+#             */
-/*   Updated: 2025/06/06 03:15:37 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/09 16:57:15 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,26 +27,6 @@ static const t_exec_map	*get_exec_map(void)
 	{0, NULL}};
 
 	return (map);
-}
-
-t_bool	is_only_redir(t_ast *cmd)
-{
-	t_uint		i;
-	t_ast	*node;
-	t_dynarray	*arr;
-
-	if (!cmd || cmd->type != CMD_BASE)
-		return (FALSE);
-	i = 0;
-	arr = cmd->content;
-	while (i < arr->count)
-	{
-		node = get_dynarray_value(cmd->content, i);
-		if (!is_redirection(node->type))
-			return (FALSE);
-		i++;
-	}
-	return (TRUE);
 }
 
 /**
@@ -91,6 +71,9 @@ t_ast	*call_cmd(t_shell *shell, t_ast *cmd)
 	return (NULL);
 }
 
+
+
+
 /**
  * @brief Orchestrator function that handles the execution of
  * commands in the shell.
@@ -98,8 +81,6 @@ t_ast	*call_cmd(t_shell *shell, t_ast *cmd)
  * handler function.
  * 	
  * @param shell The shell structure containing the current state.
- * 
- * @return void
  * 
  * @note This function is responsible for managing the execution
  * flow of commands in the shell. It iterates through the AST
@@ -117,11 +98,6 @@ void	orchestrator(t_shell *shell)
 	cmd = find_next_cmd(shell->ast);
 	while (!g_sig && cmd)
 		cmd = call_cmd(shell, cmd);
-	if (g_sig)
-	{
-		shell->exit_code = parse_status(g_sig);
-		write(1, "\n", 1);
-		g_sig = 0;
-	}
+	sig_process(shell, cmd != NULL);
 	write(1, RESET_COL, sizeof(RESET_COL));
 }

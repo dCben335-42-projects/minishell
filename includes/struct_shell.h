@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 19:05:04 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/06 03:17:39 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/09 16:40:25 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,9 @@ typedef struct s_shell
 	t_dynarray	env_array;
 	char		*current_path;
 	int			exit_code;
-	pid_t		last_pid;
 	t_ast		*ast;
+	pid_t		last_pid;
+	t_bool	    need_reverse_code;
 	t_debug		debug;
 }	t_shell;
 

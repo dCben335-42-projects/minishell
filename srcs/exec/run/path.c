@@ -6,18 +6,22 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:12:13 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/06 02:02:15 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/09 16:50:46 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "utils.h"
+#include "sys/stat.h"
+#include "config.h"
 
 static t_bool	ft_is_path(char *str)
 {
 	if (*str == '/'
 		|| !ft_strncmp(str, "./", 2)
 		|| !ft_strncmp(str, "../", 3)
+		|| !ft_strcmp(str, "..")
+		|| !ft_strcmp(str, ".")
 	)
 		return (TRUE);
 	return (FALSE);
@@ -50,6 +54,16 @@ static char	*find_path(char *cmd_path, char **paths)
 	return (cmd_path);
 }
 
+static t_bool  is_path_directory(char *path)
+{
+	// using lstat to check if the path is a directory
+	struct stat	statbuf;
+	
+	if (lstat(path, &statbuf) == -1)
+		return (FALSE);
+	return (S_ISDIR(statbuf.st_mode));
+}
+
 /**
  * @brief Check if the command path is valid.
  * 
@@ -60,13 +74,23 @@ static char	*find_path(char *cmd_path, char **paths)
  */
 t_bool	is_valid_cmd_path(char *path, int *exit_code)
 {
-	if (!p_int(access(path, F_OK), -1, path))
+	if (access(path, F_OK) == -1
+		|| !ft_strcmp(path, "..") || !ft_strcmp(path, "."))
 	{
+		ft_putstr_fd(path, 2);
+		ft_putendl_fd(": "ERR_NOT_FOUND, 2);
 		*exit_code = 127;
 		return (FALSE);
 	}
 	if (!p_int(access(path, X_OK), -1, path))
 	{
+		*exit_code = 126;
+		return (FALSE);
+	}
+	if (is_path_directory(path))
+	{
+		ft_putstr_fd(path, 2);
+		ft_putendl_fd(": "ERR_IS_DERECTORY, 2);
 		*exit_code = 126;
 		return (FALSE);
 	}

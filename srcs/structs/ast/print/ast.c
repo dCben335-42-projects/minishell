@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 02:40:57 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/06 03:30:11 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/09 15:52:01 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,14 @@ void	print_ast_cmd(t_ast_printer_ctx args)
 	}
 }
 
+/**
+ * 
+ * @brief Prints the AST in JSON format.
+ * 
+ * @param cmd The dynamic array of command nodes to be printed.
+ * @param depth The current depth in the AST, used for indentation.
+ * 
+*/
 void	print_ast(t_dynarray *cmd)
 {
 	t_ast_printer_ctx	ctx;

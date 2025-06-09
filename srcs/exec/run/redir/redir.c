@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 10:29:31 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/06 03:05:53 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/09 16:00:01 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,24 +39,7 @@ static t_bool	handle_redir(t_shell *shell, t_ast *node)
 	return (TRUE);
 }
 
-t_bool	is_valid_filename(t_dynarray *arr, char *joined_word)
-{
-	if (!arr || !joined_word)
-		return (FALSE);
-	if (arr->count != 1 || !arr->data[0])
-	{
-		if (!joined_word)
-			return (FALSE);
-		ft_putstr_fd(joined_word, 2);
-		ft_putstr_fd(": ambiguous redirect\n", 2);
-		free(joined_word);
-		return (FALSE);
-	}
-	free(joined_word);
-	return (TRUE);
-}
-
-t_bool	is_redirection(t_node_type type)
+static t_bool	is_redirection(t_node_type type)
 {
 	const t_redir_map	*redir_map = get_redir_map();
 
@@ -67,6 +50,26 @@ t_bool	is_redirection(t_node_type type)
 		redir_map++;
 	}
 	return (FALSE);
+}
+
+t_bool	is_only_redir(t_ast *cmd)
+{
+	t_uint		i;
+	t_ast	*node;
+	t_dynarray	*arr;
+
+	if (!cmd || cmd->type != CMD_BASE)
+		return (FALSE);
+	i = 0;
+	arr = cmd->content;
+	while (i < arr->count)
+	{
+		node = get_dynarray_value(cmd->content, i);
+		if (!is_redirection(node->type))
+			return (FALSE);
+		i++;
+	}
+	return (TRUE);
 }
 
 t_bool	redirect(t_shell *shell, t_dynarray *cmd)

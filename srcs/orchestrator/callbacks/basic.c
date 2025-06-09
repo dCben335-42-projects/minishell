@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 08:58:30 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/06 03:05:53 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/09 16:49:29 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ t_ast	*exec_basic(t_shell *shell, t_ast *cmd)
 		return (NULL);
 	argv = (char **)args.data;
 	name_i = get_cmd_start_index(argv);
+	shell->need_reverse_code = name_i == 1;
 	if (!is_builtin(shell, cmd->content, &argv[name_i]))
 	{
 		argv[name_i] = get_full_cmd_path(argv[name_i], shell->env);

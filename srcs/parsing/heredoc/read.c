@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 01:09:12 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/06 01:44:15 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/09 17:41:52 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ static t_bool	heredoc_wrapper(
 	signals(SIGCTX_SHELL);
 	if (g_sig == SIGINT)
 	{
-		args->heredoc_interupted = TRUE;
+		args->interrupted = TRUE;
 		g_sig = 0;
 		return (FALSE);
 	}

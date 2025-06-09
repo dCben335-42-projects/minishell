@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   struct_lexer_args.h                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:35:32 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/05 21:55:45 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/06/09 17:41:52 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ typedef enum e_is_heredoc
  * 
  * @param not_finished_value A string to hold the value of a
  * command that is not finished yet.
- * @param heredoc_interupted A boolean indicating whether a heredoc
+ * @param interrupted A boolean indicating whether a heredoc
  * was interrupted.
  * @param heredoc_cval A dynamic array to hold cached heredoc values.
  * @param heredoc_ckey The current key for accessing a cached heredoc value.
@@ -80,7 +80,7 @@ typedef struct s_lexer_args
 	t_rhs_status		rhs;
 	t_rhs_status		expected_rhs;
 	const char			*not_finished_value;
-	t_bool				heredoc_interupted;
+	t_bool				interrupted;
 	t_dynarray			*heredoc_cval;
 	t_uint				heredoc_ckey;
 	t_bool				check_rules;

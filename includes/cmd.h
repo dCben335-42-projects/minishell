@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:36:28 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/06 02:01:56 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/09 17:05:03 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,7 @@ int		wait_childrens(int last_pid);
 
 t_bool	is_valid_cmd_path(char *path, int *exit_code);
 char	*get_full_cmd_path(char *cmd_name, t_env *root);
-void	fork_and_exec(
-			t_shell *shell,
+void	fork_and_exec(t_shell *shell,
 			t_dynarray *cmd,
 			char **argv,
 			size_t start_i);

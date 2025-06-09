@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 17:17:06 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/06 03:05:53 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/09 15:59:33 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,4 +53,22 @@ t_dynarray  *filter_base_redir(t_shell *shell, t_ast *node, t_dynarray *args)
 	if (!is_valid_filename(args, joined_word))
 		return (destroy_dynarray(args));
 	return (args);
+}
+
+
+t_bool	is_valid_filename(t_dynarray *arr, char *joined_word)
+{
+	if (!arr || !joined_word)
+		return (FALSE);
+	if (arr->count != 1 || !arr->data[0])
+	{
+		if (!joined_word)
+			return (FALSE);
+		ft_putstr_fd(joined_word, 2);
+		ft_putstr_fd(": ambiguous redirect\n", 2);
+		free(joined_word);
+		return (FALSE);
+	}
+	free(joined_word);
+	return (TRUE);
 }

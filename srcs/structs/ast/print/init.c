@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 18:05:53 by abonneau          #+#    #+#             */
-/*   Updated: 2025/06/06 03:30:26 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/09 15:50:55 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,9 @@
  * @brief Initializes the context for printing the AST in JSON format.
  * 
  * @param cmd The dynamic array of command nodes to be printed.
+ * @param depth The current depth in the AST, used for indentation.
+ * 
+ * @return A context structure containing the necessary information for printing.
  * 
 */
 t_ast_printer_ctx	init_ast_printer_ctx(t_dynarray *cmd, t_uint depth)

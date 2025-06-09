@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:07:25 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/06 02:13:22 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/09 16:46:33 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,6 @@ static void	exec_cmd(t_shell *shell, char **argv, size_t name_i)
 	perror(argv[0]);
 	destroy_self(shell, argv, EXIT_FAILURE);
 }
-
-
 
 static void	child_exec(t_shell *shell, t_dynarray *cmd, char **argv, size_t name_i) 
 {

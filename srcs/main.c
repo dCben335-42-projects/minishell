@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 19:31:21 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/06 01:51:40 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/09 18:26:24 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ static void	handle_loop(t_shell *shell)
 		readline_arg = get_main_readline_arg(shell);
 		input = readline(readline_arg);
 		free((char *)readline_arg);
+		shell->exit_code = parse_status(g_sig);
+		g_sig = 0;
 		if (!input)
 			break ;
 		if (!*input)
@@ -134,12 +136,21 @@ int	main(int argc, char **argv, char **envp)
 
 	(void)argc;
 	(void)argv;
-	if (PRINT_BANNER)
-		print_shell_banner();
-	shell = init_shell(envp);
-	set_default_env(&shell);
-	update_shlvl(&shell);
-	handle_loop(&shell);
-	ft_exit(&shell, NULL);
+	(void)envp;
+	(void)shell;
+	(void) handle_loop;
+	(void) print_shell_banner;
+	// if (!isatty(STDIN_FILENO))
+	// {
+	// 	ft_putstr_fd("Not a terminal\n", 2);
+	// 	exit(1);
+	// }
+	// if (PRINT_BANNER)
+	// 	print_shell_banner();
+	// shell = init_shell(envp);
+	// set_default_env(&shell);
+	// update_shlvl(&shell);
+	// handle_loop(&shell);
+	// ft_exit(&shell, NULL);
 	return (0);
 }

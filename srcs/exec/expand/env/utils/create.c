@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 15:53:10 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/02 18:48:32 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/10 01:19:54 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static char	*copy_env_value(
 	size_t key_len,
 	t_shell *shell,
 	char *dest
-)	
+)
 {
 	t_env	*env;
 	char	*substr;

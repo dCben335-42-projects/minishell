@@ -6,15 +6,15 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:44:15 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/06 01:55:08 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/10 00:49:52 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCT_TOKEN_H
 # define STRUCT_TOKEN_H
 
-# include "types.h"
-# include "struct_dynarray.h"
+# include "libft_types.h"
+# include "libft_dynarray.h"
 
 /**
  *	@brief Enumeration of token types.

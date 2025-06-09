@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 21:00:15 by abonneau          #+#    #+#             */
-/*   Updated: 2025/06/09 16:07:02 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/09 21:40:25 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,9 @@ t_ast	*skip_cmd(t_ast *node)
  * @brief Finds the next command node to execute in the AST.
  * 
  * @param node The command that has been handled.
+ * 
+ * @note If the child node is NULL or does not contain a valid
+ * execution type, it will skip to the next command node.
  * 
  * @return The next command node to execute or NULL if there are
  * no more commands.

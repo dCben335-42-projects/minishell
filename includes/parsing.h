@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 17:45:18 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/06 03:04:42 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/10 00:49:52 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@
 # include <stdio.h>
 # include "libft.h"
 # include "config.h"
-# include "struct_dynarray.h"
+# include "libft_dynarray.h"
 # include "struct_token.h"
 # include "struct_lexer_args.h"
-# include "struct_pointer.h"
+# include "libft_ptr.h"
 
 typedef enum e_parse_status
 {

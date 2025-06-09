@@ -6,11 +6,10 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:07:25 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/09 16:46:33 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/09 22:32:24 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "cmd.h"
 #include "utils.h"
 #include "minishell_signal.h"

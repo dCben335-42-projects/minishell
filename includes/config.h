@@ -20,9 +20,13 @@
 // ANCHOR - SHELL NAME
 # define SHELL_NAME "SHELLOSTS"
 
+
+
 // ANCHOR - FEATURE FLAG
-# define FLAG_WILDCARD_EXPANSION		TRUE	
-# define FLAG_VAR_EXPANSION				TRUE
+# define FLAG_WILDCARD_EXPANSION	TRUE
+# define FLAG_VAR_EXPANSION			TRUE
+# define FLAG_ATTY_ONLY				TRUE
+# define FLAG_BANNER				TRUE
 
 // ANCHOR - READLINE PROMPT
 # define READLINE_S_QUOTE_VAL 		"single_quote>"
@@ -36,19 +40,24 @@
 # define READLINE_HEREDOC_VAL		"heredoc>"
 # define READLINE_HEREDOC_TRIM_VAL	"dash_heredoc>"
 
+// ANCHOR - ENVIRONMENT VARIABLES
+# define SET_DEFAULT_ENV			TRUE
+# define UPDATE_SHLVL				TRUE
+# define DEFAULT_PATH				"/bin:/usr/bin:/usr/local/bin"
+
 // !SECTION
 // SECTION: LEXER CONFIG
 
 // ANCHOR - EXPANDABLES
-# define SYMBOL_VAR_EXPAND				'$'
+# define SYMBOL_VAR_EXPAND			'$'
 
 // ANCHOR - WILDCARDS
-# define SYMBOL_GLOB_ANY				'*'
-# define SYMBOL_GLOB_ONE				'?'
+# define SYMBOL_GLOB_ANY			'*'
+# define SYMBOL_GLOB_ONE			'?'
 
 // ANCHOR - WORD
-# define DELIMITER_LITERAL_TEXT 		'\''
-# define DELIMITER_EXPANDABLE_TEXT 		'\"'
+# define DELIMITER_LITERAL_TEXT 	'\''
+# define DELIMITER_EXPANDABLE_TEXT 	'\"'
 
 // !SECTION
 // SECTION: COLORS
@@ -77,13 +86,15 @@
 // !SECTION
 // SECTION: MESSAGES
 
-# define SIGQUIT_MSG "Quit (core dumped)"
+# define ERR_ATTY_ONLY \
+"Error: Shellost only works in an interactive terminal."
 
-#define ERR_IS_DERECTORY "Is a directory"
+# define ERR_SIGQUIT "Quit (core dumped)"
+
+# define ERR_IS_DERECTORY "Is a directory"
 # define ERR_NOT_FOUND "Command not found"
 
-# define ERR_SYNTAX_EOF "syntax error: unexpected end of file\n"
-
+# define ERR_SYNTAX_EOF "Syntax error: unexpected end of file"
 
 # define ERROR_MALLOC "Error: malloc"
 
@@ -97,11 +108,11 @@
 getcwd: cannot access parent directories"
 
 # define ERR_PWD \
-"minishell: pwd: error retrieving current directory: \
+"shellost: pwd: error retrieving current directory: \
 getcwd: cannot access parent directories: No such file or directory"
 
 # define ERROR_SHELL_INIT \
-"shell-init: error retrieving current directory: \
+"shellost-init: error retrieving current directory: \
 getcwd: cannot access parent directories"
 
 # define EXIT_MSG "exit"

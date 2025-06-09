@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 18:09:50 by abonneau          #+#    #+#             */
-/*   Updated: 2025/06/09 15:52:48 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/09 19:07:48 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static void	print_text(t_uint depth,
 	const char	*base_format = "%s";
 
 	while (depth--)
-		printf("  ");
+		ft_putstr_fd("  ", 1);
 	if (format)
 	{
 		printf(format, text);
@@ -78,9 +78,9 @@ static void	print_node_json(
 	if (node->child_count <= 1)
 		print_text(ctx.depth, NULL, ctx.v_r_brace);
 	if (!node->content || (node->child_count > 2 && node->next))
-		printf(",");
+		print_text(0, ",", NULL);
 	if (!node->content || node->child_count > 2)
-		printf("\n");
+		print_text(0, "\n", NULL);
 }
 
 /**
@@ -110,10 +110,10 @@ void	print_ast_node(
 			if (node->child_count == 1)
 			{
 				if (!is_first)
-					printf(",\n");
+					print_text(0, ",", NULL);
 				print_node_json(ctx, node, map->name);
 				if (!node->next)
-					printf("\n");
+					print_text(0, "\n", NULL);
 			}
 			else
 				print_node_json(ctx, node, map->name);

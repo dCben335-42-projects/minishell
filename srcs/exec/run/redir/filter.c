@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 17:17:06 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/09 15:59:33 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/09 21:17:08 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,32 @@ static char	*word_join(t_dynarray *word)
 	return (join);
 }
 
+static t_bool	is_valid_filename(t_dynarray *arr, char *joined_word)
+{
+	if (!arr || !joined_word)
+		return (FALSE);
+	if (arr->count != 1 || !arr->data[0])
+	{
+		if (!joined_word)
+			return (FALSE);
+		ft_putstr_fd(joined_word, 2);
+		ft_putstr_fd(": ambiguous redirect\n", 2);
+		free(joined_word);
+		return (FALSE);
+	}
+	free(joined_word);
+	return (TRUE);
+}
+
+/**
+ * @brief Filters the base redirection arguments and checks if they are valid.
+ * 
+ * @param shell The shell structure containing the current state.
+ * @param node The AST node representing the redirection.
+ * @param args The dynamic array to store the arguments for the redirection.
+ * 
+ * @return A dynamic array of filtered arguments or NULL if an error occurs.
+ */
 t_dynarray  *filter_base_redir(t_shell *shell, t_ast *node, t_dynarray *args)
 {
 	char		*joined_word;
@@ -56,19 +82,3 @@ t_dynarray  *filter_base_redir(t_shell *shell, t_ast *node, t_dynarray *args)
 }
 
 
-t_bool	is_valid_filename(t_dynarray *arr, char *joined_word)
-{
-	if (!arr || !joined_word)
-		return (FALSE);
-	if (arr->count != 1 || !arr->data[0])
-	{
-		if (!joined_word)
-			return (FALSE);
-		ft_putstr_fd(joined_word, 2);
-		ft_putstr_fd(": ambiguous redirect\n", 2);
-		free(joined_word);
-		return (FALSE);
-	}
-	free(joined_word);
-	return (TRUE);
-}

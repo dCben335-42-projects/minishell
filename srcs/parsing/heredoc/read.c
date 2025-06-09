@@ -6,14 +6,14 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 01:09:12 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/09 17:41:52 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/09 21:26:48 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
-#include "minishell.h"
 #include "minishell_signal.h"
 #include "utils.h"
+#include "readline/readline.h"
 
 static t_ptr	handle_expandale_token(t_bool is_expandable)
 {
@@ -66,7 +66,6 @@ static t_bool	handle_loop(
 	if (!str)
 		return (FALSE);
 	is_first = TRUE;
-	printf("token->value: %s\n", token->value);
 	while (TRUE)
 	{
 		line = readline(readline_arg);

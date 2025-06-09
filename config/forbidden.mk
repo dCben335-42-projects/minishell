@@ -7,11 +7,5 @@ forbid:
 	else \
 		echo "❌ Forbidden functions found" && exit 1; \
 	fi
-	@echo "Searching for forbidden source usages:"
-	@if grep -rnw srcs -e '\bputs\b' -e '\bputchar\b'; then \
-		echo "❌ Forbidden source calls found" && exit 1; \
-	else \
-		echo "✅ No forbidden source calls"; \
-	fi
 
 .PHONY: forbid

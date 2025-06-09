@@ -6,17 +6,49 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 19:31:21 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/09 18:26:24 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/10 00:47:45 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "config.h"
-#include "minishell.h"
+#include "struct_shell.h"
+#include "struct_lexer_args.h"
+#include "ast_builder.h"
+#include "parsing.h"
 #include "cmd.h"
-#include "minishell_signal.h"
+#include "orchestrator.h"
 #include "utils.h"
-#include "libft.h"
-#include "math_utils.h"
+#include "minishell_signal.h"
+#include "readline/readline.h"
+#include "readline/history.h"
+
+void	*process_prompt(t_lexer_args *args, t_dynarray *heredoc_cval, const char *prompt);
+
+static void	*handle_prompt(t_shell *shell, char *input)
+{
+	t_lexer_args	args;
+	t_bool			is_lexer_error;
+	
+	is_lexer_error = !process_prompt(&args, NULL, input);
+	add_history(args.base_input);
+	free(args.base_input);
+	debug_tokens(shell, &args.tokens);
+	if (is_lexer_error)
+	{
+		shell->exit_code = 2;
+		if (args.interrupted)
+			shell->exit_code = 130;
+		return (destroy_lexer_args(&args, TRUE));
+	}
+	shell->ast = ast_builder(&args.tokens);
+	destroy_lexer_args(&args, TRUE);
+	if (!shell->ast)
+		return (NULL);
+	debug_ast(shell);
+	orchestrator(shell);
+	destroy_ast(shell->ast);
+	shell->ast = NULL;
+	return (shell);
+}
 
 static void	handle_loop(t_shell *shell)
 {
@@ -30,7 +62,8 @@ static void	handle_loop(t_shell *shell)
 		readline_arg = get_main_readline_arg(shell);
 		input = readline(readline_arg);
 		free((char *)readline_arg);
-		shell->exit_code = parse_status(g_sig);
+		if (g_sig)
+			shell->exit_code = parse_status(g_sig);
 		g_sig = 0;
 		if (!input)
 			break ;
@@ -39,7 +72,7 @@ static void	handle_loop(t_shell *shell)
 			free(input);
 			continue ;
 		}
-		command_handler(input, shell);
+		handle_prompt(shell, input);
 		debug_exitcode(shell);
 	}
 }
@@ -66,91 +99,28 @@ static void	print_shell_banner(void)
 	write(1, banner, ft_strlen(banner));
 }
 
-
-void set_default_env(t_shell *shell)
-{
-	char	*pwd;
-
-	if (!get_env_node(shell->env, ENV_PATH_KEY))
-		add_env_node(&shell->env, init_env_node(ENV_PATH_KEY"=""/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"));
-	if (!get_env_node(shell->env, ENV_PWD_KEY) && shell->current_path)
-	{
-		pwd = ft_strjoin(ENV_PWD_KEY"=", shell->current_path);
-		if (pwd)
-		{
-			add_env_node(&shell->env, init_env_node(pwd));
-			free(pwd);
-		}
-	}
-	if (!get_env_node(shell->env, ENV_OLDPWD_KEY))
-		add_env_node(&shell->env, init_env_node(ENV_OLDPWD_KEY"="""));
-}
-
-t_bool ft_is_only_one_number(const char *str)
-{
-	t_bool	is_space_between;
-
-	while (ft_isspace(*str))
-		str++;
-	is_space_between = FALSE;
-	while (*str)
-	{
-		if (ft_isspace(*str))
-		{
-			is_space_between = TRUE;
-			while (ft_isspace(*str))
-				str++;
-			continue;
-		}
-		else if (!ft_isdigit(*str) || is_space_between)
-			return (FALSE);
-		str++;
-	}
-	return (TRUE);
-}
-
-void update_shlvl(t_shell *shell)
-{
-	t_env	*shlvl_node;
-	char	*new_val;
-	int		shlvl;
-
-	shlvl_node = get_env_node(shell->env, "SHLVL");
-	if (shlvl_node)
-	{
-		shlvl = 1;
-		if (shlvl_node->value && ft_is_only_one_number(shlvl_node->value))
-			shlvl += ft_atoi_base(shlvl_node->value, BASE_10);
-		new_val = ft_itoa_base(shlvl, BASE_10);
-		if (new_val)
-		{
-			free(shlvl_node->value);
-			shlvl_node->value = new_val;
-		}
-	}
-}
-
-int	main(int argc, char **argv, char **envp)
+int	main(int _, char **__, char **envp)
 {
 	t_shell		shell;
 
-	(void)argc;
-	(void)argv;
-	(void)envp;
-	(void)shell;
-	(void) handle_loop;
-	(void) print_shell_banner;
-	// if (!isatty(STDIN_FILENO))
-	// {
-	// 	ft_putstr_fd("Not a terminal\n", 2);
-	// 	exit(1);
-	// }
-	// if (PRINT_BANNER)
-	// 	print_shell_banner();
-	// shell = init_shell(envp);
-	// set_default_env(&shell);
-	// update_shlvl(&shell);
-	// handle_loop(&shell);
-	// ft_exit(&shell, NULL);
+	(void)_;
+	(void)__;
+	if (!isatty(STDIN_FILENO) 
+		|| !isatty(STDOUT_FILENO) 
+		|| !isatty(STDERR_FILENO))
+	{
+		ft_putendl_fd(ERR_ATTY_ONLY, 2);
+		exit(1);
+	}
+	if (FLAG_BANNER)
+		print_shell_banner();
+	shell = init_shell(envp);
+	if (UPDATE_SHLVL)
+		update_env_shlvl(&shell.env);
+	if (SET_DEFAULT_ENV)
+		set_default_env(&shell.env, shell.current_path);
+	shell.env_array = env_to_array(shell.env);
+	handle_loop(&shell);
+	ft_exit(&shell, NULL);
 	return (0);
 }

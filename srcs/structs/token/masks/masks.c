@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   masks.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 20:32:57 by abonneau          #+#    #+#             */
-/*   Updated: 2025/06/05 20:45:01 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/06/09 21:07:20 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "config.h"
-#include "minishell.h"
 #include "cmd.h"
 
 static const t_token_map_rules	*get_token_map_rules(void)

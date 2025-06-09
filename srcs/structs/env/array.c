@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   array.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 18:35:42 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/05 20:38:50 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/06/10 00:49:52 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "struct_dynarray.h"
+#include "libft_dynarray.h"
 #include "libft.h"
 #include "struct_env.h"
 

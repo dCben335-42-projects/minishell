@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   struct_wildcard.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 18:52:25 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/05 21:46:54 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/06/10 00:49:19 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCT_WILDCARD_H
 # define STRUCT_WILDCARD_H
 
-# include "types.h"
+# include "libft_types.h"
 # include "libft_tree.h"
 
 /**

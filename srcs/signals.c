@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 02:13:02 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/09 18:04:02 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/09 21:11:38 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ volatile sig_atomic_t	g_sig = 0;
 static void	sigint_handler_heredoc(int sig)
 {
 	g_sig = sig;
-	write(1, "^C", 2);
+	ft_putstr_fd("^C", 2);
 	close(0);
 }
 
@@ -56,7 +56,7 @@ void sig_process(t_shell *shell, t_bool is_cmd)
 	if (!g_sig)
 		return;
 	if (g_sig == SIGQUIT)
-		ft_putstr_fd(SIGQUIT_MSG, 2);
+		ft_putstr_fd(ERR_SIGQUIT, 2);
 	if (shell->need_reverse_code && !is_cmd)
 		shell->exit_code = 0;
 	else

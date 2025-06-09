@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 09:04:49 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/09 15:58:43 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/09 22:04:07 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ static t_ast	*run_subshell(
 	signals(SIGCTX_CAPT);
 	if (shell->last_pid == 0)
 	{
-		signals(-1);
 		cmd = find_next_cmd(cmd);
 		while (!g_sig && cmd && cmd != skipped_cmd)
 			cmd = call_cmd(shell, cmd);

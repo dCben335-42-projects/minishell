@@ -6,14 +6,14 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 15:26:52 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/09 17:54:19 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/10 00:50:49 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cmd_builtin.h"
 #include "libft.h"
 #include "config.h"
-#include "math_utils.h"
+#include "libft_math.h"
 #include "utils.h"
 
 /**

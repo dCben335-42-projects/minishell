@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 10:29:31 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/09 16:00:01 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/09 20:53:42 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static t_bool	handle_redir(t_shell *shell, t_ast *node)
 	return (TRUE);
 }
 
-static t_bool	is_redirection(t_node_type type)
+t_bool	is_redirection(t_node_type type)
 {
 	const t_redir_map	*redir_map = get_redir_map();
 

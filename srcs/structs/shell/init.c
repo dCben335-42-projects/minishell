@@ -6,11 +6,10 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 13:49:50 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/09 17:43:02 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/09 21:07:22 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "config.h"
 #include "utils.h"
 #include <unistd.h>
@@ -40,7 +39,6 @@ t_shell	init_shell(char **envp)
 
 	shell.exit_code = 0;
 	shell.env = init_env(envp);
-	shell.env_array = env_to_array(shell.env);
 	shell.current_path = getcwd(NULL, 0);
 	shell.ast = NULL;
 	shell.last_pid = -1;

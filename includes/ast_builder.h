@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 20:20:38 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/09 15:53:32 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/10 00:49:52 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 # define AST_BUILDER_H
 
 # include "struct_ast.h"
-# include "struct_dynarray.h"
+# include "libft_dynarray.h"
 # include "struct_token.h"
-# include "struct_pointer.h"
+# include "libft_ptr.h"
 # include "struct_lexer_args.h"
 
 t_ast		*ast_builder(t_dynarray *tokens);

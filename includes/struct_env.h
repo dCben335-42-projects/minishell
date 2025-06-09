@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   struct_env.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 13:43:27 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/05 21:57:02 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/06/10 00:49:52 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define STRUCT_ENV_H
 
 # include "libft_tree.h"
-# include "struct_dynarray.h"
+# include "libft_dynarray.h"
 
 typedef t_tree	t_env;
 
@@ -23,6 +23,7 @@ typedef t_tree	t_env;
 # define ENV_PATH_KEY "PATH"
 # define ENV_PWD_KEY "PWD"
 # define ENV_OLDPWD_KEY "OLDPWD"
+# define ENV_SHLVL_KEY "SHLVL"
 
 t_env		*init_env(char **envp);
 t_env		*init_env_node(char *envp);
@@ -42,6 +43,9 @@ t_env		*get_parent_node(t_env *env, t_env *node);
 size_t		get_size_env(t_env *env);
 
 void		read_env(t_env *env, t_bool for_export);
+
+void		set_default_env(t_env **env, char *current_path);
+void		update_env_shlvl(t_env **env);
 
 t_dynarray	env_to_array(t_env *env);
 

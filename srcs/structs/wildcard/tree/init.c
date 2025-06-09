@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:25:02 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/05 20:41:50 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/06/10 01:17:18 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "struct_wildcard.h"
 #include "libft.h"
 #include "libft_tree.h"
+#include "config.h"
 
 static void	*free_value(void *data)
 {
@@ -26,8 +27,6 @@ static void	*free_params(char *key, char *value)
 	free(value);
 	return (NULL);
 }
-
-void	positivate_wildcard(char **str);
 
 /**
  * @brief Initializes a wildcard tree node.
@@ -43,12 +42,13 @@ void	positivate_wildcard(char **str);
  */
 t_tree	*init_wildcard_tree(char *key, char *value)
 {
+	const char	charset[] = {-SYMBOL_GLOB_ANY, -SYMBOL_GLOB_ONE, '\0'};
 	t_tree	*node;
 
 	if (!key || !value)
 		return (free_params(key, value));
-	positivate_wildcard(&key);
-	positivate_wildcard(&value);
+	ft_strpositivate(&key, charset);
+	ft_strpositivate(&value, charset);
 	node = init_tree_node(key, value, &ft_strcasecmp, &free_value);
 	if (!node)
 		return (free_params(key, value));

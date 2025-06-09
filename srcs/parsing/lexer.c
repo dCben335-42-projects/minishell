@@ -1,12 +1,9 @@
 #include "parsing.h"
 #include "ast_builder.h"
-#include "minishell.h"
 #include "fcntl.h"
 
 static t_bool	is_command_finished(t_lexer_args *args, t_token *token, const char *input)
 {
-	if (!args->check_rules)
-		return (TRUE);
 	if (token->rules & EXPECT_CONT || args->parenthesis.open > args->parenthesis.close)
 	{
 		while (ft_isspace(*input))
@@ -74,5 +71,3 @@ t_parse_status    lexer(t_lexer_args *args)
 
 
 //( ( ( echo jojo$PATH'$GOOD'"okksa   'fjeifj'          iji*ji$HELLO"jigo/*'ffe'./?out) )&& echo $'bonjour'"salut $" ); >>test
-
-// bash: erreur de syntaxe : fin de fichier prématurée

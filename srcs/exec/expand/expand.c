@@ -6,18 +6,23 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 19:10:10 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/04 03:11:22 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/10 01:17:35 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cmd_expand.h"
+#include "config.h"
 
-void	positivate_wildcard(char **str);
-void	negate_wildcard(char **str);
-
-static char *handle_loop(t_shell *shell, t_dynarray *args, char *arg, const char *content)
+static char	*handle_loop(
+	t_shell *shell,
+	t_dynarray *args,
+	char *arg,
+	const char *content
+)
 {
-	const t_bool	is_last_spaced = *content && ft_isspace(content[ft_strlen(content) - 1]);
+	const t_bool	is_last_spaced = *content
+		&& ft_isspace(content[ft_strlen(content) - 1]);
+	const char		charset[] = {SYMBOL_GLOB_ANY, SYMBOL_GLOB_ONE, '\0'};
 	char			**split;
 	char			*tmp;
 	size_t			i;
@@ -28,13 +33,13 @@ static char *handle_loop(t_shell *shell, t_dynarray *args, char *arg, const char
 		return (ft_free((void **)&arg));
 	while (split[i])
 	{
-		negate_wildcard(&split[i]);
+		ft_strnegate(&split[i], charset);
 		tmp = ft_strjoin(arg, split[i]);
 		free(arg);
 		if (tmp && (split[i + 1] || (!split[i + 1] && is_last_spaced)))
-			tmp = save_expand_entry(shell, args, tmp, TRUE);
+			tmp = save_expand(shell, args, tmp, TRUE);
 		if (!tmp)
-		 	return (ft_strsfree(split));
+			return (ft_strsfree(split));
 		arg = tmp;
 		i++;
 	}
@@ -42,7 +47,11 @@ static char *handle_loop(t_shell *shell, t_dynarray *args, char *arg, const char
 	return (arg);
 }
 
-static char *join_and_save_env(t_shell *shell, t_dynarray *args, t_expand_ctx *ctx)
+static char	*join_and_save_env(
+	t_shell *shell,
+	t_dynarray *args,
+	t_expand_ctx *ctx
+)
 {
 	const char		*content = ctx->curr_node->content;
 	const size_t	content_len = ft_strlen(content) - 1;
@@ -50,7 +59,7 @@ static char *join_and_save_env(t_shell *shell, t_dynarray *args, t_expand_ctx *c
 	const t_bool	is_space_end = *content && ft_isspace(content[content_len]);
 
 	if (is_space_start && (*ctx->arg || ctx->is_quoted))
-		ctx->arg = save_expand_entry(shell, args, ctx->arg, ctx->is_wildcard);
+		ctx->arg = save_expand(shell, args, ctx->arg, ctx->is_wildcard);
 	if (!ctx->arg)
 		return (NULL);
 	if (*content)
@@ -62,9 +71,10 @@ static char *join_and_save_env(t_shell *shell, t_dynarray *args, t_expand_ctx *c
 	return (handle_loop(shell, args, ctx->arg, content));
 }
 
-static char *join_standard(t_expand_ctx *ctx)
+static char	*join_standard(t_expand_ctx *ctx)
 {
 	const t_node_type	type = ctx->curr_node->type;
+	const char			charset[] = {SYMBOL_GLOB_ANY, SYMBOL_GLOB_ONE, '\0'};
 	char				*content;
 	char				*tmp;
 
@@ -74,14 +84,18 @@ static char *join_standard(t_expand_ctx *ctx)
 	if (type & (CMD_QUOTED_TEXT | CMD_QUOTED_EXPAND))
 		ctx->is_quoted = TRUE;
 	if (type & (CMD_TEXT | CMD_WILDCARD))
-		negate_wildcard(&content);
+		ft_strnegate(&content, charset);
+	printf("content: %s\n", content);
 	tmp = ft_strjoin(ctx->arg, content);
 	free(ctx->arg);
 	return (tmp);
 }
 
-
-static t_dynarray	*join_all(t_shell *shell, t_dynarray *args, t_dynarray *word, t_expand_ctx *ctx)
+static t_dynarray	*join_all(t_shell *shell,
+	t_dynarray *args,
+	t_dynarray *word,
+	t_expand_ctx *ctx
+)
 {
 	t_uint	i;
 
@@ -98,7 +112,7 @@ static t_dynarray	*join_all(t_shell *shell, t_dynarray *args, t_dynarray *word, 
 		i++;
 	}
 	if (*ctx->arg || ctx->is_quoted)
-		ctx->arg = save_expand_entry(shell, args, ctx->arg, ctx->is_wildcard);
+		ctx->arg = save_expand(shell, args, ctx->arg, ctx->is_wildcard);
 	if (!ctx->arg)
 		return (NULL);
 	free(ctx->arg);
@@ -119,7 +133,7 @@ static t_dynarray	*join_all(t_shell *shell, t_dynarray *args, t_dynarray *word, 
 t_dynarray	*expand_word(t_shell *shell, t_dynarray *word, t_dynarray *args)
 {
 	t_expand_ctx	ctx;
-	
+
 	if (!expand_env_word(shell, word))
 		return (NULL);
 	ctx.arg = ft_strdup("");

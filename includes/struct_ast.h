@@ -6,14 +6,14 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 03:11:04 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/06 03:15:03 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/10 00:49:52 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCT_AST_H
 # define STRUCT_AST_H
 
-# include "struct_dynarray.h"
+# include "libft_dynarray.h"
 # include "struct_token.h"
 # include "libft.h"
 # include <stdio.h>

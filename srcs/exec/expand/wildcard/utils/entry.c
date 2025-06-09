@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 21:50:38 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/05/22 20:04:31 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/10 01:19:15 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,31 +43,35 @@ static char	*get_value(char *key, t_wildcard *wildcard)
 }
 
 /**
+ * 
  * @brief Saves the entry in the tree.
  * 
  * @param ctx The context containing the wildcard and path information.
  * @param e The entry to save.
  * 
  * @return t_tree* The tree node created for the entry, or NULL on failure.
- */
+ * 
+*/
 t_tree	*save_entry(t_wcard_match *ctx, struct dirent *e)
 {
 	char	*key;
 	char	*value;
-	
+
 	key = build_entry_path(ctx->rel_path, e->d_name, ctx->segs);
 	value = get_value(key, ctx->wildcard);
 	return (add_wildcard_tree(ctx->wildcard, init_wildcard_tree(key, value)));
 }
 
 /**
+ * 
  * @brief Resolves the entry type of a directory entry.
  * 
  * @param ctx The context containing the wildcard and path information.
  * @param e The entry to resolve.
  * 
  * @return int The resolved entry type (DT_REG, DT_DIR...).
- */
+ * 
+*/
 int	resolve_entry_type(t_wcard_match *ctx, struct dirent *e)
 {
 	struct stat	entry_stat;

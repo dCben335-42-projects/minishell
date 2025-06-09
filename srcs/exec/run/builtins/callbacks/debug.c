@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 02:08:03 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/04 17:07:23 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/09 21:51:51 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static void print_current_debug(t_shell *shell)
 {
 	const t_debug_map	*map = get_debug_map(&shell->debug);
 
-	printf("Current debug options:\n");
+	ft_putendl_fd("Current debug options:", 1);
 	while (map->option)
 	{
 		if (*(map->toggle))
@@ -71,7 +71,7 @@ static t_bool run_args(t_shell *shell, char **args)
 	{
 		if (!toggle_debug_mode(shell, args[i]))
 		{
-			printf("Unrecognized option: %s\n", args[i]);
+		printf("Unrecognized option: %s\n", args[i]);
 			write(1, DEBUG_HELP_MSG, ft_strlen(DEBUG_HELP_MSG));
 			return (FALSE);
 		}
@@ -81,12 +81,14 @@ static t_bool run_args(t_shell *shell, char **args)
 }
 
 /**
- * @brief My own debuf command.
+ * 
+ * @brief My own debug command.
  * 
  * @param shell The shell structure.
  * @param args The arguments passed to the command.
  * 
  * @note This function is used to toggle debug modes for the shell.
+ * 
  */
 void	ft_debug(t_shell *shell, char **args)
 {

@@ -6,14 +6,13 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 21:34:50 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/06 03:05:53 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/10 01:19:32 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cmd_expand.h"
 #include "unistd.h"
 #include "utils.h"
-
 
 /**
  * @brief Expands the environment variables in a string.
@@ -60,8 +59,8 @@ char	*expand_env_str(t_shell *shell, char **str)
 void	*expand_env_word(t_shell *shell, t_dynarray *word)
 {
 	t_ast	*node;
-	t_uint		i;
-	
+	t_uint	i;
+
 	i = 0;
 	while (i < word->count)
 	{

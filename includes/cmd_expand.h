@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 17:19:31 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/06 03:28:15 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/10 00:49:52 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include "struct_shell.h"
 # include "struct_wildcard.h"
 # include "struct_token.h"
-# include "struct_dynarray.h"
+# include "libft_dynarray.h"
 # include "libft.h"
 # include <dirent.h>
 
@@ -41,8 +41,8 @@ typedef struct s_expand_ctx
 }	t_expand_ctx;
 
 t_dynarray	*expand_word(t_shell *shell, t_dynarray *word, t_dynarray *args);
-char		*save_expand_entry(
-				t_shell *shell,
+char		*save_expand(
+				t_shell *shell, 
 				t_dynarray *args,
 				char *value,
 				t_bool is_wildcard);

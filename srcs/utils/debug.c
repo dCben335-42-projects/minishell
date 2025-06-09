@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 02:50:04 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/06 03:01:43 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/09 21:51:36 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ void debug_exitcode(t_shell *shell)
 {
 	if (shell->debug.all || shell->debug.exitcode)
 	{
-		printf(SECOND_COL"╔═══════════════════════════════════════╗\n");
+		ft_putendl_fd(SECOND_COL"╔═══════════════════════════════════════╗", 1);
    		printf("║\t"FIRST_COL"DEBUG MODE EXIT CODE: %3d"SECOND_COL"\t║\n", shell->exit_code);
-    	printf("╚═══════════════════════════════════════╝"RESET_COL"\n");
+    	ft_putendl_fd("╚═══════════════════════════════════════╝"RESET_COL, 1);
 	}
 }
 
@@ -27,13 +27,13 @@ void debug_ast(t_shell *shell)
 {
 	if (shell->debug.all || shell->debug.ast)
 	{
-		printf(SECOND_COL"╔═══════════════════════════════════════╗\n");
-   		printf("║\t"FIRST_COL"START DEBUG MODE AST JSON"SECOND_COL"\t║\n");
-		printf("╚═══════════════════════════════════════╝"RESET_COL"\n");
+		ft_putendl_fd(SECOND_COL"╔═══════════════════════════════════════╗", 1);
+   		ft_putendl_fd("║\t"FIRST_COL"START DEBUG MODE AST JSON"SECOND_COL"\t║", 1);
+		ft_putendl_fd("╚═══════════════════════════════════════╝"RESET_COL"", 1);
 		print_ast(shell->ast->content);
-		printf(SECOND_COL"╔═══════════════════════════════════════╗\n");
-   		printf("║\t"FIRST_COL"END DEBUG MODE AST JSON"SECOND_COL"  \t║\n");
-		printf("╚═══════════════════════════════════════╝"RESET_COL"\n");
+		ft_putendl_fd(SECOND_COL"╔═══════════════════════════════════════╗", 1);
+   		ft_putendl_fd("║\t"FIRST_COL"END DEBUG MODE AST JSON"SECOND_COL"  \t║", 1);
+		ft_putendl_fd("╚═══════════════════════════════════════╝"RESET_COL, 1);
 	}
 }
 
@@ -41,12 +41,12 @@ void debug_tokens(t_shell *shell, t_dynarray *tokens)
 {
 	if (shell->debug.all || shell->debug.tokens)
 	{
-		printf(SECOND_COL"╔═══════════════════════════════════════╗\n");
-   		printf("║\t"FIRST_COL"START DEBUG MODE TOKENS"SECOND_COL"\t\t║\n");
-		printf("╚═══════════════════════════════════════╝"RESET_COL"\n");
+		ft_putendl_fd(SECOND_COL"╔═══════════════════════════════════════╗", 1);
+   		ft_putendl_fd("║\t"FIRST_COL"START DEBUG MODE TOKENS"SECOND_COL"\t\t║", 1);
+		ft_putendl_fd("╚═══════════════════════════════════════╝"RESET_COL, 1);
 		print_tokens(tokens);
-		printf(SECOND_COL"╔═══════════════════════════════════════╗\n");
-   		printf("║\t"FIRST_COL"END DEBUG MODE TOKENS"SECOND_COL"  \t\t║\n");
-		printf("╚═══════════════════════════════════════╝"RESET_COL"\n");
+		ft_putendl_fd(SECOND_COL"╔═══════════════════════════════════════╗", 1);
+   		ft_putendl_fd("║\t"FIRST_COL"END DEBUG MODE TOKENS"SECOND_COL"  \t\t║", 1);
+		ft_putendl_fd("╚═══════════════════════════════════════╝"RESET_COL, 1);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 19:05:04 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/09 16:40:25 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/10 00:49:52 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,12 @@
 # define STRUCT_SHELL_H
 
 # include "struct_env.h"
-# include "struct_dynarray.h"
+# include "libft_dynarray.h"
 # include "struct_ast.h"
 # include <sys/types.h>
 
 /**
+ * 
  * @brief The debug structure.
  * 
  * @param all The debug mode for all.
@@ -27,6 +28,7 @@
  * @param ast The debug mode only for AST.
  * 
  * @note debug_all overrides all other debug modes.
+ * 
  */
 typedef struct s_debug
 {
@@ -38,6 +40,7 @@ typedef struct s_debug
 }	t_debug;
 
 /**
+ * 
  * @brief The shell structure.
  * 
  * @param env The environment variables.
@@ -46,11 +49,12 @@ typedef struct s_debug
  * @param exit_code The exit code of the last command.
  * @param last_pid The last process ID.
  * @param ast The abstract syntax tree.
- * @param debug The debug structure fot the custom debug builtin.
+ * @param debug The debug structure for the custom debug builtin.
  * 
  * @note The env_array is meant to be pass to the execve function.
  * @note The last_pid is used especially when several processes are
  * created in the same time.
+ * 
  */
 typedef struct s_shell
 {

@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:36:28 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/09 17:05:03 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/09 21:06:35 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@
 # include "cmd_builtin.h"
 # include "cmd_redir.h"
 # include <sys/types.h>
-
-void	*command_handler(char *input, t_shell *shell);
 
 int		parse_status(int status);
 int		wait_childrens(int last_pid);

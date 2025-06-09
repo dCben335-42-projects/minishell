@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 02:40:57 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/09 15:52:01 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/09 18:51:16 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	print_ast(t_dynarray *cmd)
 	t_ast_printer_ctx	ctx;
 
 	ctx = init_ast_printer_ctx(cmd, 2);
-	printf("%s", ctx.v_l_hook);
+	ft_putstr_fd(ctx.v_l_hook, 1);
 	print_ast_cmd(ctx);
-	printf("%s\n", ctx.v_r_hook);
+	ft_putendl_fd(ctx.v_r_hook, 1);
 }

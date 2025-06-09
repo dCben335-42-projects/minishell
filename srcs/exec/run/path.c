@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:12:13 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/09 16:50:46 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/09 22:09:31 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ static char	*find_path(char *cmd_path, char **paths)
 
 static t_bool  is_path_directory(char *path)
 {
-	// using lstat to check if the path is a directory
 	struct stat	statbuf;
 	
 	if (lstat(path, &statbuf) == -1)

@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 12:01:53 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/06 03:05:53 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/09 21:25:41 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static t_bool is_expandable(t_dynarray *arr)
 {
 	const t_ast	*node = get_dynarray_value(arr, 1);
 	
-	return (ft_strcmp(node->content, HEREDOC_EXPANDABLE_TRUE) == 0);
+	return (!ft_strcmp(node->content, HEREDOC_EXPANDABLE_TRUE));
 }
 
 t_bool	redir_heredoc(t_shell *shell, t_ast *node)

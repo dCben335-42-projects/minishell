@@ -14,6 +14,7 @@
 		"libft_ptr.h": "c",
 		"parsing.h": "c",
 		"struct_ast.h": "c",
-		"history.h": "c"
+		"history.h": "c",
+		"algorithm": "c"
 	}
 }

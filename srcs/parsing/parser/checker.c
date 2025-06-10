@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   checker.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 03:42:24 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/10 03:47:03 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/10 19:30:32 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,19 @@ static t_parse_status	check_disallowed(
 	return (print_error_message(token, "err_no_right_operand"));
 }
 
+void *get_dynarray_values(t_dynarray *arr, int count, int i)
+{
+	t_token *token;
+	
+	if (count < 0)
+		return (NULL);
+	token = get_dynarray_value(arr, count);
+	if (i)
+		printf("%s\n", get_token_type_name(token->type));
+	return (token);
+}
+
+
 /**
  * 
  * @brief Checks the current token against the expected rules.
@@ -86,5 +99,5 @@ t_parse_status	check_all_rules(t_lexer_args *args, t_token *token)
 		return (check_disallowed(args, token));
 	args->expected_rhs = args->rhs;
 	args->rhs = UNDEFINED;
-	return (COMMAND_VALID);
+	return (check_subshell_redir(args, token));
 }

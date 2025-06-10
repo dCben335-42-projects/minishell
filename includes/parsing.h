@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 17:45:18 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/10 03:15:19 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/10 19:36:23 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ typedef struct s_rules_map
 }	t_rules_map;
 
 t_parse_status	token_parser(t_lexer_args *args, t_token *token);
+t_parse_status	check_subshell_redir(t_lexer_args *args, t_token *token);
 t_parse_status	check_all_rules(t_lexer_args *args, t_token *token);
 
 t_parse_status	inc_parenthesis_open(t_lexer_args *args, t_token *token);

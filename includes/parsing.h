@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 17:45:18 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/10 00:49:52 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/10 03:15:19 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,10 @@ typedef enum e_parse_status
 	MALLOC_ERROR,
 }	t_parse_status;
 
+void			*process_prompt(
+					t_lexer_args *args,
+					t_dynarray *heredoc_cval,
+					const char *prompt);
 t_parse_status	lexer(t_lexer_args *args);
 t_parse_status	get_parsing_error_status(t_lexer_args *args, t_ptr pointer);
 

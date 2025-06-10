@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 14:34:49 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/09 21:35:18 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/10 02:32:37 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,4 +32,3 @@ t_bool	redir_out(t_shell *shell, t_ast *node)
 	destroy_dynarray(&args);
 	return (ret);
 }
-

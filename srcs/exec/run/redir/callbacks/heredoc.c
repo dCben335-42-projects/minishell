@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 12:01:53 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/09 21:25:41 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/10 02:33:14 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,22 +32,22 @@ static int	create_fd(char *content)
 	return (fd[0]);
 }
 
-static t_bool is_expandable(t_dynarray *arr)
+static t_bool	is_expandable(t_dynarray *arr)
 {
 	const t_ast	*node = get_dynarray_value(arr, 1);
-	
+
 	return (!ft_strcmp(node->content, HEREDOC_EXPANDABLE_TRUE));
 }
 
 t_bool	redir_heredoc(t_shell *shell, t_ast *node)
 {
 	const t_ast	*value_node = get_dynarray_value(node->content, 0);
-	int					fd;
-	t_bool				ret;
+	int			fd;
+	t_bool		ret;
 
 	if (is_expandable(node->content))
 		fd = create_fd(expand_env_str(shell, (char **)&value_node->content));
-	else 
+	else
 		fd = create_fd(value_node->content);
 	if (fd == -1)
 		return (FALSE);

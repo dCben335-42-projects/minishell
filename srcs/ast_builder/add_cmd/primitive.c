@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 19:10:17 by abonneau          #+#    #+#             */
-/*   Updated: 2025/06/06 03:09:49 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/10 03:12:17 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,8 @@ static t_bool	add_cmd_child_logic_loop(
 
 static t_ast	*add_cmd_child(t_ast_ctx *args)
 {
-	t_token		*token;
 	t_get_cmd_primitive	d;
+	t_token				*token;
 
 	if (is_empty(args))
 		return (NULL);
@@ -82,7 +82,6 @@ static t_ast	*add_cmd_child(t_ast_ctx *args)
 	add_cmd_join_child(args, &d);
 	return (d.cmd_new);
 }
-
 
 /**
  * 

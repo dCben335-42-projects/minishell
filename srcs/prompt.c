@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:57:59 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/09 23:50:49 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/10 03:17:46 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,8 @@
 #include "parsing.h"
 #include "config.h"
 #include "utils.h"
-#include "minishell_signal.h"
+#include "signals.h"
 #include <readline/readline.h>
-
-void	*process_prompt(t_lexer_args *args, t_dynarray *heredoc_cval, const char *prompt);
 
 static void	*prompt_recall(t_lexer_args *args, const char *sep)
 {
@@ -47,7 +45,7 @@ static void	*prompt_recall(t_lexer_args *args, const char *sep)
 	return (process_prompt(args, args->heredoc_cval, new_input));
 }
 
-static void *join_base_input(t_lexer_args *args, const char *str)
+static void	*join_base_input(t_lexer_args *args, const char *str)
 {
 	char	*tmp;
 
@@ -71,17 +69,22 @@ static void	*prompt_not_finished(t_lexer_args *args)
 		args->base_input = join_base_input(args, "\n");
 		sep = "";
 	}
-	if (args->parenthesis.open > args->parenthesis.close && is_text_token(token))
+	if (args->parenthesis.open > args->parenthesis.close
+		&& is_text_token(token))
 		args->base_input = join_base_input(args, ";");
 	if (!args->base_input)
 		return (NULL);
 	return (prompt_recall(args, sep));
 }
 
-void	*process_prompt(t_lexer_args *args, t_dynarray *heredoc_cval, const char *prompt)
+void	*process_prompt(
+	t_lexer_args *args,
+	t_dynarray *heredoc_cval,
+	const char *prompt
+)
 {
 	t_parse_status	status;
-	
+
 	if (!heredoc_cval)
 		heredoc_cval = init_dynarray_malloc(3, (void *(*)(void *))free_value);
 	*args = init_lexer_args(prompt, heredoc_cval);

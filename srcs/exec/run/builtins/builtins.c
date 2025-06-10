@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 15:14:14 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/04 17:11:38 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/10 02:41:48 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,11 @@ static const t_builtin	*get_builtin_map(void)
 	{BUILTIN_DEBUG, &ft_debug},
 	{BUILTIN_VOID, &ft_void},
 	{NULL, NULL}};
-	
+
 	return (map);
 }
 
-static t_bool run_builtin_redir(
+static t_bool	run_builtin_redir(
 	t_shell *shell,
 	t_dynarray *cmd,
 	char **args,
@@ -41,8 +41,8 @@ static t_bool run_builtin_redir(
 	const int	saved_stdin = dup(STDIN_FILENO);
 	const int	saved_stdout = dup(STDOUT_FILENO);
 
-	if (!p_int(saved_stdin, -1, "dup") 
-		|| !p_int(saved_stdout, -1, "dup") 
+	if (!p_int(saved_stdin, -1, "dup")
+		|| !p_int(saved_stdout, -1, "dup")
 		|| !redirect(shell, cmd))
 	{
 		restore_std_in_out(saved_stdin, saved_stdout);

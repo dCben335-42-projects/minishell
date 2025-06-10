@@ -6,12 +6,12 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 01:36:46 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/09 16:21:22 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/10 02:52:36 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-# include <stdio.h>
+#include <stdio.h>
 
 /**
  * @brief Function that use perror and print the message

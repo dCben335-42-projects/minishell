@@ -6,14 +6,14 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 20:58:35 by abonneau          #+#    #+#             */
-/*   Updated: 2025/06/09 16:57:15 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/10 01:39:48 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cmd.h"
 #include "config.h"
 #include "orchestrator.h"
-#include "minishell_signal.h"
+#include "signals.h"
 
 static const t_exec_map	*get_exec_map(void)
 {
@@ -71,10 +71,8 @@ t_ast	*call_cmd(t_shell *shell, t_ast *cmd)
 	return (NULL);
 }
 
-
-
-
 /**
+ * 
  * @brief Orchestrator function that handles the execution of
  * commands in the shell.
  * It finds the next command to execute and calls the appropriate

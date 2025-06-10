@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 19:58:42 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/10 00:50:49 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/10 01:39:17 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static t_bool	ft_is_only_one_number(const char *str)
 			is_space_between = TRUE;
 			while (ft_isspace(*str))
 				str++;
-			continue;
+			continue ;
 		}
 		else if (!ft_isdigit(*str) || is_space_between)
 			return (FALSE);
@@ -37,6 +37,16 @@ static t_bool	ft_is_only_one_number(const char *str)
 	return (TRUE);
 }
 
+/**
+ * 
+ * @brief Updates the SHLVL environment variable.
+ * 
+ * This function increments the SHLVL variable by 1.
+ * If SHLVL is not set or is not a valid number, it initializes it to 1.
+ * 
+ * @param env Pointer to the environment structure.
+ * 
+ */
 void	update_env_shlvl(t_env **env)
 {
 	t_env	*shlvl_node;

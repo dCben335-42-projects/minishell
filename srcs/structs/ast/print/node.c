@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 18:09:50 by abonneau          #+#    #+#             */
-/*   Updated: 2025/06/09 19:07:48 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/10 03:33:42 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static t_ast_print_map	*get_mappings(void)
 	{CMD_WORD,			"CMD_WORD",			},
 	{CMD_TEXT,			"TEXT",				},
 	{CMD_QUOTED_TEXT,	"QUOTED_TEXT",		},
-	{CMD_EXPAND,		"EXPAND",			},
+	{CMD_EXPAND,		"ENV",			},
 	{CMD_QUOTED_EXPAND,	"QUOTED_EXPAND",	},
 	{CMD_WILDCARD,		"WILDCARD",			},
 	{CMD_OR,			"CMD_OR",			},
@@ -45,7 +45,7 @@ static void	print_text(t_uint depth,
 	const char	*base_format = "%s";
 
 	while (depth--)
-		ft_putstr_fd("  ", 1);
+		printf("  ");
 	if (format)
 	{
 		printf(format, text);
@@ -78,9 +78,9 @@ static void	print_node_json(
 	if (node->child_count <= 1)
 		print_text(ctx.depth, NULL, ctx.v_r_brace);
 	if (!node->content || (node->child_count > 2 && node->next))
-		print_text(0, ",", NULL);
+		print_text(0, NULL, ",");
 	if (!node->content || node->child_count > 2)
-		print_text(0, "\n", NULL);
+		print_text(0, NULL, "\n");
 }
 
 /**
@@ -110,10 +110,10 @@ void	print_ast_node(
 			if (node->child_count == 1)
 			{
 				if (!is_first)
-					print_text(0, ",", NULL);
+					print_text(0, NULL, ",\n");
 				print_node_json(ctx, node, map->name);
 				if (!node->next)
-					print_text(0, "\n", NULL);
+					print_text(0, NULL, "\n");
 			}
 			else
 				print_node_json(ctx, node, map->name);

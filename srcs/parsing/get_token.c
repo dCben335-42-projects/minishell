@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_token.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/10 03:21:04 by bcabocel          #+#    #+#             */
+/*   Updated: 2025/06/10 03:30:20 by bcabocel         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "parsing.h"
 
 t_ptr	get_token(t_lexer_args *args)
@@ -9,7 +21,7 @@ t_ptr	get_token(t_lexer_args *args)
 	type = get_token_type(args->input, &op_len);
 	if (type == TEXT || args->quote)
 		return (tokenize_word(args));
-    return (tokenize_operator(args, op_len, type));
+	return (tokenize_operator(args, op_len, type));
 }
 
 t_bool	get_prev_token(t_lexer_args *args, t_token **prev_token)
@@ -33,8 +45,8 @@ t_ptr	get_next_token(t_lexer_args *args)
 {
 	if (!*args->input)
 		return (init_pointer(NULL, FALSE));
-	if (args->quote == DELIMITER_EXPANDABLE_TEXT 
-		&& *args->input == DELIMITER_EXPANDABLE_TEXT)
+	if (args->quote == SYMBOL_QUOTE_EXPAND
+		&& *args->input == SYMBOL_QUOTE_EXPAND)
 	{
 		args->input++;
 		args->quote = 0;

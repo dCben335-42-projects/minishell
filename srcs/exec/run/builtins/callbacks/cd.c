@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 13:40:14 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/09 18:13:51 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/10 02:45:14 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 static char	*get_pwd(t_shell *shell)
 {
 	const t_env	*oldpwd = get_env_node(shell->env, ENV_PWD_KEY);
-	
+
 	if (oldpwd)
 		return (ft_strdup(oldpwd->value));
 	return (ft_strdup(""));
@@ -67,6 +67,19 @@ static t_bool	env_path(void *value, char *err_msg, t_bool is_node)
 	return (TRUE);
 }
 
+/**
+ * 
+ * @brief Changes the current working directory.
+ * 
+ * This function handles the 'cd' command in the shell.
+ * It changes the current working directory to the specified path,
+ * or to the home directory if no path is provided.
+ * If the path is invalid, it prints an error message.
+ * 
+ * @param shell The shell instance containing the environment and state.
+ * @param args The arguments passed to the 'cd' command.
+ * 
+ */
 void	ft_cd(t_shell *shell, char **args)
 {
 	const char	*pwd = getcwd(NULL, 0);
@@ -79,16 +92,16 @@ void	ft_cd(t_shell *shell, char **args)
 		return ;
 	}
 	if (!args[1])
-		ret = env_path(get_env_node(shell->env, ENV_HOME_KEY),\
-			ERR_CD_HOME, TRUE);
-	else if (ft_strcmp(args[1], "-") == 0)
-		ret = env_path(get_env_node(shell->env, ENV_OLDPWD_KEY),\
-			ERR_CD_OLDPWD, TRUE);
+		ret = env_path(get_env_node(shell->env, ENV_HOME_KEY),
+				ERR_CD_HOME, TRUE);
+	else if (!ft_strcmp(args[1], "-"))
+		ret = env_path(get_env_node(shell->env, ENV_OLDPWD_KEY),
+				ERR_CD_OLDPWD, TRUE);
 	else
 		ret = env_path(args[1], ERR_CD, FALSE);
 	shell->exit_code = !ret;
 	if (ret)
 		handle_env(shell, (char *)pwd);
-	else 
+	else
 		free((char *)pwd);
 }

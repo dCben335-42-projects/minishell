@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/10 03:40:01 by bcabocel          #+#    #+#             */
+/*   Updated: 2025/06/10 03:42:07 by bcabocel         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "parsing.h"
 #include "config.h"
 
@@ -42,7 +54,7 @@ static t_bool	check_quote(t_lexer_args *args, t_token *token)
 {
 	if (token->type == M_EOF && args->quote)
 	{
-		if (args->quote == DELIMITER_EXPANDABLE_TEXT)
+		if (args->quote == SYMBOL_QUOTE_EXPAND)
 			args->not_finished_value = get_readline_arg(READLINE_D_QUOTE_KEY);
 		else
 			args->not_finished_value = get_readline_arg(READLINE_S_QUOTE_KEY);
@@ -52,20 +64,51 @@ static t_bool	check_quote(t_lexer_args *args, t_token *token)
 	return (TRUE);
 }
 
+/**
+ * @brief Prints an error message for a syntax error.
+ *
+ * @param token The token that caused the syntax error.
+ * @param msg The error message to be printed (not used in this function).
+ *
+ * @return COMMAND_NOT_VALID indicating that the command is not valid.
+ *
+ * @note This function prints a syntax error message to stderr
+ * and destroys the token before returning.
+ */
 t_parse_status	print_error_message(t_token *token, char *msg)
 {
 	(void)msg;
 	if (token->value)
 	{
-		write(2, SYNTAX_ERR_START, ft_strlen(SYNTAX_ERR_START));
-		write(2, token->value, ft_strlen(token->value));
-		write(2, SYNTAX_ERR_END, ft_strlen(SYNTAX_ERR_END));
+		ft_putstr_fd(SYNTAX_ERR_START, 2);
+		ft_putstr_fd(token->value, 2);
+		ft_putstr_fd(SYNTAX_ERR_END, 2);
 	}
 	destroy_token(token);
 	return (COMMAND_NOT_VALID);
 }
 
-
+/**
+ * @brief Parses the tokens and checks for syntax errors.
+ *
+ * @param args The lexer arguments containing the input string and current state.
+ * @param token The token to be parsed.
+ * 
+ * @note This function runs parsing actions on the provided token and checks
+ * if the command is valid. If the command is valid, it checks all rules
+ * and pushes the token to the tokens array.
+ *
+ * @return The status of the parsing:
+ * 
+ * - `COMMAND_VALID` if the command is valid.
+ * 
+ * - `COMMAND_NOT_VALID` if there are syntax errors.
+ * 
+ * - `COMMAND_NOT_FINISHED` if the command is incomplete.
+ * 
+ * - `MALLOC_ERROR` if memory allocation fails.
+ * 
+*/
 t_parse_status	token_parser(t_lexer_args *args, t_token *token)
 {
 	t_parse_status	status;

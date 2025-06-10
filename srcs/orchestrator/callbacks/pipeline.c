@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 08:45:59 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/09 22:20:41 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/10 01:40:02 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "cmd.h"
 #include "orchestrator.h"
 #include "utils.h"
-#include "minishell_signal.h"
+#include "signals.h"
 
 static void	close_in_out(int fds[2])
 {
@@ -97,8 +97,8 @@ static t_bool	is_pipe(t_shell *shell, int pipefd[2], int input_fd)
 t_ast	*exec_pipeline(t_shell *shell, t_ast *cmd)
 {
 	t_ast	*skipped_cmd;
-	int			pipefd[2];
-	int			input_fd;
+	int		pipefd[2];
+	int		input_fd;
 
 	input_fd = -1;
 	skipped_cmd = skip_cmd(cmd);

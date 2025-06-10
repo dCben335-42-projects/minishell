@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:35:32 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/10 00:49:52 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/10 01:37:35 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,18 +86,30 @@ typedef struct s_lexer_args
 	t_bool				check_rules;
 }	t_lexer_args;
 
+t_lexer_args	init_lexer_args(const char *input, t_dynarray *heredoc_cval);
+void			*destroy_lexer_args(
+					t_lexer_args *args,
+					t_bool destroy_heredocs);
+
+/**
+ * 
+ * @brief Structure to hold the state of the readline input.
+ * 
+ * @param type The type of token currently being processed.
+ * @param value The value of the token currently being processed.
+ * 
+ * @note This structure is used to manage the state of the readline
+ * input, especially when dealing with quotes and special characters.
+*/
 typedef struct s_readline_state
 {
 	t_token_type	type;
 	const char		*value;
 }	t_readline_state;
 
-t_lexer_args	init_lexer_args(const char *input, t_dynarray *heredoc_cval);
-void			*destroy_lexer_args(t_lexer_args *args, t_bool destroy_heredocs);
-
-const char		*get_readline_arg(t_token_type type);
-
 # define READLINE_S_QUOTE_KEY		-1
 # define READLINE_D_QUOTE_KEY		-2
+
+const char		*get_readline_arg(t_token_type type);
 
 #endif

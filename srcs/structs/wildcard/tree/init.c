@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:25:02 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/10 01:17:18 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/10 01:38:39 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static void	*free_params(char *key, char *value)
 t_tree	*init_wildcard_tree(char *key, char *value)
 {
 	const char	charset[] = {-SYMBOL_GLOB_ANY, -SYMBOL_GLOB_ONE, '\0'};
-	t_tree	*node;
+	t_tree		*node;
 
 	if (!key || !value)
 		return (free_params(key, value));

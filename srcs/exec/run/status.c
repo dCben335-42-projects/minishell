@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:01:05 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/09 21:58:12 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/10 02:50:52 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
  * @return The exit code of the child process.
  * 
  */
-int parse_status(int status)
+int	parse_status(int status)
 {
 	if (WIFEXITED(status))
 		return (WEXITSTATUS(status));
@@ -59,12 +59,12 @@ int	wait_childrens(pid_t last_pid)
 	int		exit_code;
 
 	exit_code = 0;
-    pid = waitpid(-1, &status, 0);
-    while (pid > 0)
-    {
-        if (pid == last_pid)
+	pid = waitpid(-1, &status, 0);
+	while (pid > 0)
+	{
+		if (pid == last_pid)
 			exit_code = parse_status(status);
-        pid = waitpid(-1, &status, 0);
-    }
+		pid = waitpid(-1, &status, 0);
+	}
 	return (exit_code);
 }

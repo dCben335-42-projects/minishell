@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 20:32:57 by abonneau          #+#    #+#             */
-/*   Updated: 2025/06/09 21:07:20 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/10 03:33:42 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static const t_token_map_rules	*get_token_map_rules(void)
 	static const t_token_map_rules	map[] = {
 	{M_EOF, ERR_NO_CLOSE_PAREN, C_METACHAR}, {M_SPACE, 0, C_METACHAR},
 	{TEXT, 0, C_TEXT}, {QUOTED_TEXT, 0, C_TEXT},
-	{EXPAND, 0, C_TEXT}, {QUOTED_EXPAND, 0, C_TEXT},
+	{ENV, 0, C_TEXT}, {QUOTED_EXPAND, 0, C_TEXT},
 	{WILDCARD, 0, C_TEXT}, {OP_OR, c_op_rules, C_OPERATOR},
 	{OP_PIPE, c_op_rules, C_OPERATOR}, {OP_AND, c_op_rules, C_OPERATOR},
 	{OP_SEMICOL, ERR_EMPTY_SEMI, C_OPERATOR},

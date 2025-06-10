@@ -1,14 +1,31 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   enclosures.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/10 03:21:40 by bcabocel          #+#    #+#             */
+/*   Updated: 2025/06/10 03:30:53 by bcabocel         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "parsing.h"
 #include "config.h"
 
-static t_ptr	return_token(t_lexer_args *args, char **start_i, t_token_type *current_type, const char quote)
+static t_ptr	return_token(
+	t_lexer_args *args,
+	char **start_i,
+	t_token_type *current_type,
+	const char quote
+)
 {
 	t_ptr	pointer;
+	size_t	len;
 
 	args->input++;
-	pointer = init_pointer(init_token(
-		quoted_wrapper(args, current_type), *start_i, args->input - *start_i - 1),
-			TRUE);
+	len = args->input - *start_i - 1;
+	pointer = wrap_ptr_token(args, current_type, start_i, len);
 	if (args->quote == quote)
 		args->quote = 0;
 	else
@@ -16,7 +33,12 @@ static t_ptr	return_token(t_lexer_args *args, char **start_i, t_token_type *curr
 	return (pointer);
 }
 
-static t_ptr	handler_enclosure(t_lexer_args *args, char **start_i, t_token_type *current_type, const char quote)
+static t_ptr	handler_enclosure(
+	t_lexer_args *args,
+	char **start_i,
+	t_token_type *current_type,
+	const char quote
+)
 {
 	if (*args->input == quote)
 	{
@@ -37,16 +59,22 @@ static t_ptr	handler_enclosure(t_lexer_args *args, char **start_i, t_token_type 
 	return (init_pointer(NULL, FALSE));
 }
 
-static t_bool is_directly_closed(const char *input, const char quote)
+static t_bool	is_directly_closed(const char *input, const char quote)
 {
-	if (!quote && *input == DELIMITER_EXPANDABLE_TEXT && *(input + 1) == DELIMITER_EXPANDABLE_TEXT)
+	if (!quote && *input == SYMBOL_QUOTE_EXPAND
+		&& *(input + 1) == SYMBOL_QUOTE_EXPAND)
 		return (TRUE);
-	if (!quote  && *input == DELIMITER_LITERAL_TEXT && *(input + 1) == DELIMITER_LITERAL_TEXT)
+	if (!quote && *input == SYMBOL_QUOTE_LITERAL
+		&& *(input + 1) == SYMBOL_QUOTE_LITERAL)
 		return (TRUE);
 	return (FALSE);
 }
 
-static t_ptr	handler_enclosures(t_lexer_args *args, char **start_i, t_token_type *current_type)
+static t_ptr	handler_enclosures(
+	t_lexer_args *args,
+	char **start_i,
+	t_token_type *current_type
+)
 {
 	t_ptr	pointer;
 
@@ -57,13 +85,19 @@ static t_ptr	handler_enclosures(t_lexer_args *args, char **start_i, t_token_type
 		args->input += 2;
 		return (init_pointer(init_token(QUOTED_TEXT, NULL, 0), TRUE));
 	}
-	pointer = handler_enclosure(args, start_i, current_type, DELIMITER_EXPANDABLE_TEXT);
+	pointer = handler_enclosure(args, start_i,
+			current_type, SYMBOL_QUOTE_EXPAND);
 	if (pointer.is_malloc)
 		return (pointer);
-	return (handler_enclosure(args, start_i, current_type, DELIMITER_LITERAL_TEXT));
+	return (handler_enclosure(args, start_i,
+			current_type, SYMBOL_QUOTE_LITERAL));
 }
 
-t_ptr	tokenize_enclosures(t_lexer_args *args, char **start_i, t_token_type *current_type)
+t_ptr	tokenize_enclosures(
+	t_lexer_args *args,
+	char **start_i,
+	t_token_type *current_type
+)
 {
 	t_ptr	ptr;
 

@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 00:53:41 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/10 00:53:43 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/10 03:33:42 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ t_token_type	quoted_wrapper(t_lexer_args *args, t_token_type *current_type)
 	{
 		if (*current_type == TEXT)
 			*current_type = QUOTED_TEXT;
-		else if (*current_type == EXPAND)
+		else if (*current_type == ENV)
 			*current_type = QUOTED_EXPAND;
 	}
 	return (*current_type);
@@ -44,7 +44,7 @@ t_token_type	quoted_wrapper(t_lexer_args *args, t_token_type *current_type)
  * @return A boolean indicating whether there is content to tokenize.
  * 
  */
-t_bool need_tokenize(t_lexer_args *args, char **start_i)
+t_bool	need_tokenize(t_lexer_args *args, char **start_i)
 {
 	return (args->input - *start_i > 0);
 }
@@ -63,7 +63,12 @@ t_bool need_tokenize(t_lexer_args *args, char **start_i)
  * @return A ptr to the wrapped token pointer.
  * 
  */
-t_ptr wrap_ptr_token(t_lexer_args *args, t_token_type *current_type, char **start_i, size_t optional_len)
+t_ptr	wrap_ptr_token(
+	t_lexer_args *args,
+	t_token_type *current_type,
+	char **start_i,
+	size_t optional_len
+)
 {
 	t_token			*token;
 	t_token_type	type;

@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 21:50:38 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/10 01:19:15 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/10 01:22:51 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,12 +97,14 @@ int	resolve_entry_type(t_wcard_match *ctx, struct dirent *e)
 }
 
 /**
+ * 
  * @brief Checks if the entry is valid based on the context and wildcard.
  * 
  * @param ctx The context containing the wildcard and path information.
  * @param e The entry to check.
  * 
  * @return t_bool TRUE if the entry is valid, FALSE otherwise.
+ * 
  */
 t_bool	is_valid_entry(t_wcard_match *ctx, struct dirent *e)
 {

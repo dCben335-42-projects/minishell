@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 15:30:22 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/05 20:08:12 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/06/10 02:43:25 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	process_env(t_shell *shell, char *key, char *arg)
 	const t_env	*matched_env = get_env_node(shell->env, key);
 	char		*value;
 	char		*complete_value;
-	char 		*parsed_value;
+	char		*parsed_value;
 
 	if (!matched_env)
 	{
@@ -39,7 +39,8 @@ static void	process_env(t_shell *shell, char *key, char *arg)
 		complete_value = ft_strjoin(matched_env->value, value);
 		free(value);
 	}
-	if (!parsed_value || !complete_value || !add_existing_env(shell->env, key, complete_value))
+	if (!parsed_value || !complete_value
+		|| !add_existing_env(shell->env, key, complete_value))
 		free(complete_value);
 }
 
@@ -68,6 +69,7 @@ static t_bool	is_valid_export(t_shell *shell, char **args)
 }
 
 /**
+ * 
  * @brief Exports the environment variables to the shell.
  *
  * @param shell The shell instance.
@@ -79,6 +81,7 @@ static t_bool	is_valid_export(t_shell *shell, char **args)
  * 
  * @note If one of the arguments is invalid, it will print an
  * error message and return a non-zero exit code.
+ * 
  */
 void	ft_export(t_shell *shell, char **args)
 {

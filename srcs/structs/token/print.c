@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 03:14:02 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/06 03:01:13 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/10 03:33:42 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static const t_token_print	*get_print_map(void)
 	{M_EOF, "EOF"},
 	{TEXT, "TEXT"},
 	{QUOTED_TEXT, "QUOTED_TEXT"},
-	{EXPAND, "EXPAND"},
+	{ENV, "ENV"},
 	{QUOTED_EXPAND, "QUOTED_EXPAND"},
 	{WILDCARD, "WILDCARD"},
 	{OP_OR, "OR"},

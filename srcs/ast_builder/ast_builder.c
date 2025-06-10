@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 19:05:23 by abonneau          #+#    #+#             */
-/*   Updated: 2025/06/06 03:29:08 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/10 03:11:24 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <stdlib.h>
 
 /**
+ * 
  * @brief Builds the AST from the given tokens.
  * This function initializes the master node of the AST and
  * calls the command master function to populate it.
@@ -23,11 +24,12 @@
  * @note The master node is initialized with the type CMD_SEQ.
  * 
  * @return t_ast* Pointer to the root of the AST or NULL on malloc error.
- */
+ * 
+*/
 t_ast	*ast_builder(t_dynarray *tokens)
 {
 	t_ast_ctx	ast_glbctx;
-	t_ast	*master_node;
+	t_ast		*master_node;
 
 	master_node = init_ast_node(CMD_SEQ, NULL);
 	if (!master_node)

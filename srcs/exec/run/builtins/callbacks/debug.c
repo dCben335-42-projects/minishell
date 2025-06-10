@@ -6,16 +6,16 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 02:08:03 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/09 21:51:51 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/10 02:47:19 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cmd_builtin.h"
 
-static const t_debug_map *get_debug_map(t_debug *debug)
+static const t_debug_map	*get_debug_map(t_debug *debug)
 {
-	static t_debug_map map[5] = {0};
-	
+	static t_debug_map	map[5] = {0};
+
 	if (!map[0].option)
 	{
 		map[0] = (t_debug_map){DEBUG_ALL_OPTION, &debug->all};
@@ -27,11 +27,11 @@ static const t_debug_map *get_debug_map(t_debug *debug)
 	return (map);
 }
 
-static void print_current_debug(t_shell *shell)
+static void	print_current_debug(t_shell *shell)
 {
 	const t_debug_map	*map = get_debug_map(&shell->debug);
 
-	ft_putendl_fd("Current debug options:", 1);
+	ft_putendl_fd("Current debug options status:", 1);
 	while (map->option)
 	{
 		if (*(map->toggle))
@@ -42,7 +42,7 @@ static void print_current_debug(t_shell *shell)
 	}
 }
 
-static t_bool toggle_debug_mode(t_shell *shell, const char *arg)
+static t_bool	toggle_debug_mode(t_shell *shell, const char *arg)
 {
 	const t_debug_map	*map = get_debug_map(&shell->debug);
 
@@ -62,7 +62,7 @@ static t_bool toggle_debug_mode(t_shell *shell, const char *arg)
 	return (FALSE);
 }
 
-static t_bool run_args(t_shell *shell, char **args)
+static t_bool	run_args(t_shell *shell, char **args)
 {
 	size_t	i;
 
@@ -71,7 +71,7 @@ static t_bool run_args(t_shell *shell, char **args)
 	{
 		if (!toggle_debug_mode(shell, args[i]))
 		{
-		printf("Unrecognized option: %s\n", args[i]);
+			printf("Unrecognized option: %s\n", args[i]);
 			write(1, DEBUG_HELP_MSG, ft_strlen(DEBUG_HELP_MSG));
 			return (FALSE);
 		}

@@ -33,7 +33,6 @@ SRC_FILES += exec/run/redir/callbacks/heredoc.c
 SRC_FILES += exec/run/redir/callbacks/in.c
 SRC_FILES += exec/run/redir/callbacks/out.c
 SRC_FILES += exec/run/redir/filter.c
-SRC_FILES += exec/run/redir/is.c
 SRC_FILES += exec/run/redir/redir.c
 SRC_FILES += exec/run/status.c
 SRC_FILES += main.c

@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 20:36:44 by abonneau          #+#    #+#             */
-/*   Updated: 2025/06/06 03:26:14 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/10 03:14:04 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,8 @@ static int	count_token_between_brackets(t_dynarray *tokens, t_uint i)
 void	add_parenthesis_cmd(t_ast_ctx *args, t_ast *cmd_master)
 {
 	t_ast_ctx	ast_ctx;
-	t_ast	cmd;
-	t_ast	*cmd_p;
+	t_ast		cmd;
+	t_ast		*cmd_p;
 	int			count;
 
 	cmd_p = &cmd;

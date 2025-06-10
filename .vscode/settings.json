@@ -1,29 +1,19 @@
 {
 	"files.associations": {
-		"struct_env.h": "c",
-		"struct_shell.h": "c",
-		"libft_math.h": "c",
-		"config.h": "c",
-		"libft.h": "c",
-		"struct_lexer_args.h": "c",
-		"ast_builder.h": "c",
-		"parsing.h": "c",
-		"utils.h": "c",
-		"minishell.h": "c",
-		"cmd.h": "c",
-		"minishell_signal.h": "c",
+		"wait.h": "c",
+		"signals.h": "c",
 		"readline.h": "c",
-		"orchestrator.h": "c",
-		"cmd_expand.h": "c",
 		"cmd_redir.h": "c",
-		"libft_dynarray.h": "c",
-		"optional": "c",
-		"system_error": "c",
 		"array": "c",
+		"compare": "c",
 		"functional": "c",
 		"tuple": "c",
 		"type_traits": "c",
 		"utility": "c",
-		"random": "c"
+		"config.h": "c",
+		"libft_ptr.h": "c",
+		"parsing.h": "c",
+		"struct_ast.h": "c",
+		"history.h": "c"
 	}
 }

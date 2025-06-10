@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 09:04:49 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/09 22:04:07 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/10 02:26:32 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "utils.h"
 #include <signal.h>
 #include <sys/types.h>
-#include "minishell_signal.h"
+#include "signals.h"
 
 static t_ast	*run_subshell(
 	t_shell *shell, t_ast *cmd, t_ast *skipped_cmd
@@ -46,7 +46,7 @@ static t_ast	*subshell_redir(
 {
 	const int	saved_stdin = dup(STDIN_FILENO);
 	const int	saved_stdout = dup(STDOUT_FILENO);
-	t_ast	*return_value;
+	t_ast		*ret;
 
 	if (!p_int(saved_stdin, -1, "dup")
 		|| !p_int(saved_stdout, -1, "dup")
@@ -56,9 +56,9 @@ static t_ast	*subshell_redir(
 		shell->exit_code = EXIT_FAILURE;
 		return (NULL);
 	}
-	return_value = run_subshell(shell, cmd, skipped_cmd);
+	ret = run_subshell(shell, cmd, skipped_cmd);
 	restore_std_in_out(saved_stdin, saved_stdout);
-	return (find_next_cmd(return_value));
+	return (find_next_cmd(ret));
 }
 
 /**
@@ -73,7 +73,7 @@ static t_ast	*subshell_redir(
 t_ast	*exec_subshell(t_shell *shell, t_ast *cmd)
 {
 	t_ast	*skipped_cmd;
-	t_bool		is_redir;
+	t_bool	is_redir;
 
 	skipped_cmd = skip_cmd(cmd);
 	is_redir = is_only_redir(skipped_cmd);

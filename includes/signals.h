@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell_signal.h                                 :+:      :+:    :+:   */
+/*   signals.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 21:55:57 by abonneau          #+#    #+#             */
-/*   Updated: 2025/06/09 16:58:06 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/10 01:33:50 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_SIGNAL_H
-# define MINISHELL_SIGNAL_H
+#ifndef SIGNALS_H
+# define SIGNALS_H
 
 # include "struct_shell.h"
 # include <sys/wait.h>

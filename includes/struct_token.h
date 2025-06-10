@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:44:15 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/10 00:49:52 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/10 03:33:45 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ typedef enum e_token_type
 	M_SPACE						= 1 << 1,
 	TEXT						= 1 << 2,
 	QUOTED_TEXT					= 1 << 3,
-	EXPAND						= 1 << 4,
+	ENV							= 1 << 4,
 	QUOTED_EXPAND				= 1 << 5,
 	WILDCARD					= 1 << 6,
 	OP_OR						= 1 << 7,

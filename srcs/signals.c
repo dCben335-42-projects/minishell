@@ -6,11 +6,11 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 02:13:02 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/09 21:11:38 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/10 04:00:45 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell_signal.h"
+#include "signals.h"
 #include <readline/readline.h>
 #include "config.h"
 #include "cmd.h"
@@ -51,10 +51,10 @@ static void	sig_capter(int sig)
  * to the parsed status of the signal.
  * 
  */
-void sig_process(t_shell *shell, t_bool is_cmd)
+void	sig_process(t_shell *shell, t_bool is_cmd)
 {
 	if (!g_sig)
-		return;
+		return ;
 	if (g_sig == SIGQUIT)
 		ft_putstr_fd(ERR_SIGQUIT, 2);
 	if (shell->need_reverse_code && !is_cmd)

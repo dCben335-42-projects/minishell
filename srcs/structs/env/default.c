@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 19:58:07 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/09 20:02:57 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/10 01:39:09 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,18 @@
 #include "config.h"
 #include "libft.h"
 
-void set_default_env(t_env **env, char *current_path)
+/**
+ * 
+ * @brief Sets the default environment variables.
+ * 
+ * This function initializes the environment with default values
+ * for PATH, PWD, and OLDPWD if they are not already set.
+ * 
+ * @param env Pointer to the environment structure.
+ * @param current_path The current working directory to set as PWD.
+ * 
+ */
+void	set_default_env(t_env **env, char *current_path)
 {
 	char	*pwd;
 

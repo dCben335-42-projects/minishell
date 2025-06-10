@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 18:00:29 by abonneau          #+#    #+#             */
-/*   Updated: 2025/06/06 03:29:08 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/10 03:33:42 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static const t_convert_map	*get_token_to_cmd_map(void)
 	static const t_convert_map	map[] = {
 	{TEXT,					CMD_TEXT},
 	{QUOTED_TEXT,			CMD_QUOTED_TEXT},
-	{EXPAND,				CMD_EXPAND},
+	{ENV,				CMD_EXPAND},
 	{QUOTED_EXPAND,			CMD_QUOTED_EXPAND},
 	{WILDCARD,				CMD_WILDCARD},
 	{OP_OR,					CMD_OR},

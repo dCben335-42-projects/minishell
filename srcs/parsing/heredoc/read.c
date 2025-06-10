@@ -6,12 +6,12 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 01:09:12 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/09 21:26:48 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/10 01:33:12 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
-#include "minishell_signal.h"
+#include "signals.h"
 #include "utils.h"
 #include "readline/readline.h"
 

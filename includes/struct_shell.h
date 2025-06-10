@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 19:05:04 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/10 00:49:52 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/10 01:35:41 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ typedef struct s_shell
 	int			exit_code;
 	t_ast		*ast;
 	pid_t		last_pid;
-	t_bool	    need_reverse_code;
+	t_bool		need_reverse_code;
 	t_debug		debug;
 }	t_shell;
 

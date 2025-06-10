@@ -20,8 +20,6 @@
 // ANCHOR - SHELL NAME
 # define SHELL_NAME "SHELLOSTS"
 
-
-
 // ANCHOR - FEATURE FLAG
 # define FLAG_WILDCARD_EXPANSION	TRUE
 # define FLAG_VAR_EXPANSION			TRUE
@@ -56,8 +54,8 @@
 # define SYMBOL_GLOB_ONE			'?'
 
 // ANCHOR - WORD
-# define DELIMITER_LITERAL_TEXT 	'\''
-# define DELIMITER_EXPANDABLE_TEXT 	'\"'
+# define SYMBOL_QUOTE_LITERAL 		'\''
+# define SYMBOL_QUOTE_EXPAND		'\"'
 
 // !SECTION
 // SECTION: COLORS
@@ -121,7 +119,6 @@ getcwd: cannot access parent directories"
 
 # define EXPORT_PREFIX "export"
 # define ERR_EXPORT_ID "export: '%s': not a valid identifier\n"
-
 
 # define SYNTAX_ERR_START "syntax error near unexpected token `"
 # define SYNTAX_ERR_END "'\n"

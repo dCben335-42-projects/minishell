@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 11:35:48 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/06 03:05:53 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/10 02:32:31 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ t_bool	redir_append(t_shell *shell, t_ast *node)
 	t_dynarray		args;
 	int				fd;
 	t_bool			ret;
-	
+
 	args = init_dynarray(1, free_value);
 	if (!filter_base_redir(shell, node, &args))
 		return (FALSE);
@@ -32,5 +32,3 @@ t_bool	redir_append(t_shell *shell, t_ast *node)
 	destroy_dynarray(&args);
 	return (ret);
 }
-
-

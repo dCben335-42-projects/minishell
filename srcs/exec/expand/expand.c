@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 19:10:10 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/10 01:17:35 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/10 01:22:41 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,6 @@ static char	*join_standard(t_expand_ctx *ctx)
 		ctx->is_quoted = TRUE;
 	if (type & (CMD_TEXT | CMD_WILDCARD))
 		ft_strnegate(&content, charset);
-	printf("content: %s\n", content);
 	tmp = ft_strjoin(ctx->arg, content);
 	free(ctx->arg);
 	return (tmp);

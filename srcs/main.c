@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 19:31:21 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/10 00:47:45 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/10 04:09:24 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,15 @@
 #include "cmd.h"
 #include "orchestrator.h"
 #include "utils.h"
-#include "minishell_signal.h"
+#include "signals.h"
 #include "readline/readline.h"
 #include "readline/history.h"
-
-void	*process_prompt(t_lexer_args *args, t_dynarray *heredoc_cval, const char *prompt);
 
 static void	*handle_prompt(t_shell *shell, char *input)
 {
 	t_lexer_args	args;
 	t_bool			is_lexer_error;
-	
+
 	is_lexer_error = !process_prompt(&args, NULL, input);
 	add_history(args.base_input);
 	free(args.base_input);
@@ -96,6 +94,7 @@ static void	print_shell_banner(void)
 		VARIANT_COL" & "
 		SECOND_COL"Azall (abonneau)"
 		RESET_COL"\n\n";
+
 	write(1, banner, ft_strlen(banner));
 }
 
@@ -105,8 +104,7 @@ int	main(int _, char **__, char **envp)
 
 	(void)_;
 	(void)__;
-	if (!isatty(STDIN_FILENO) 
-		|| !isatty(STDOUT_FILENO) 
+	if (!isatty(STDIN_FILENO) || !isatty(STDOUT_FILENO)
 		|| !isatty(STDERR_FILENO))
 	{
 		ft_putendl_fd(ERR_ATTY_ONLY, 2);
@@ -124,3 +122,9 @@ int	main(int _, char **__, char **envp)
 	ft_exit(&shell, NULL);
 	return (0);
 }
+
+/*
+	( ( ( echo jojo$PATH'$GOOD'"okksa   'fjeifj'      
+	ijiji$HELLO"jigo/\*'ffe'./?out) )&& echo $'bonjour'"salut $" )
+	; >>test
+*/

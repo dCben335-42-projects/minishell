@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 03:21:40 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/10 03:30:53 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/10 22:20:23 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,20 @@ static t_ptr	handler_enclosures(
 			current_type, SYMBOL_QUOTE_LITERAL));
 }
 
+/**
+ * @brief Tokenizes enclosures in the input string.
+ *
+ * This function handles several types of enclosures: quotes,
+ * environment variables, and wildcards.
+ * It first processes any quotes, then env variables, and finally
+ * handles wildcards.
+ *
+ * @param args The lexer arguments containing the current parsing context.
+ * @param start_i Pointer to the start index of the current token.
+ * @param current_type Pointer to the current token type being processed.
+ * 
+ * @return A pointer structure containing the result of the tokenization.
+ */
 t_ptr	tokenize_enclosures(
 	t_lexer_args *args,
 	char **start_i,

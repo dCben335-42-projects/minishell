@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   checker.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 03:42:24 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/10 19:30:32 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/06/10 22:00:50 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,19 +60,6 @@ static t_parse_status	check_disallowed(
 		return (COMMAND_VALID);
 	return (print_error_message(token, "err_no_right_operand"));
 }
-
-void *get_dynarray_values(t_dynarray *arr, int count, int i)
-{
-	t_token *token;
-	
-	if (count < 0)
-		return (NULL);
-	token = get_dynarray_value(arr, count);
-	if (i)
-		printf("%s\n", get_token_type_name(token->type));
-	return (token);
-}
-
 
 /**
  * 

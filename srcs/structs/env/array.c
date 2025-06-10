@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 18:35:42 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/10 00:49:52 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/10 22:08:34 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "libft.h"
 #include "struct_env.h"
 
-char	*stringify_env(t_env *env)
+static char	*stringify_env(t_env *env)
 {
 	const char	*strs[] = {env->key, "=", env->value};
 
@@ -23,7 +23,7 @@ char	*stringify_env(t_env *env)
 	return (ft_strsjoin(strs, 3, ""));
 }
 
-void	fill_env_array(t_env *env, t_dynarray *arr)
+static void	fill_env_array(t_env *env, t_dynarray *arr)
 {
 	char	*str;
 
@@ -36,6 +36,17 @@ void	fill_env_array(t_env *env, t_dynarray *arr)
 	fill_env_array(env->right, arr);
 }
 
+/**
+ * @brief Converts the environment tree into a dynamic array.
+ *
+ * This function initializes a dynamic array and fills it with the
+ * string representations of the environment variables stored in the
+ * binary tree structure.
+ *
+ * @param env The environment tree to convert.
+ * @return A dynamic array containing the environment variables as strings.
+ * 
+ */
 t_dynarray	env_to_array(t_env *env)
 {
 	t_dynarray	arr;

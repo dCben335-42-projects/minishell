@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 13:40:14 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/10 18:12:50 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/06/10 22:14:05 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static char	*get_pwd(t_shell *shell)
 {
 	const t_env	*oldpwd = get_env_node(shell->env, ENV_PWD_KEY);
 
-	if (oldpwd)
+	if (oldpwd && oldpwd->value)
 		return (ft_strdup(oldpwd->value));
 	return (ft_strdup(""));
 }
@@ -48,6 +48,8 @@ static void	handle_env(t_shell *shell, char *new_oldpwd)
 		free(newpwd);
 	free(shell->current_path);
 	shell->current_path = new_path;
+	destroy_dynarray(&shell->env_array);
+	shell->env_array = env_to_array(shell->env);
 }
 
 static t_bool	env_path(void *value, char *err_msg, t_bool is_node)

@@ -54,6 +54,7 @@ SRC_FILES += parsing/parser/callbacks/parenthesis_count.c
 SRC_FILES += parsing/parser/callbacks/parenthesis_error.c
 SRC_FILES += parsing/parser/callbacks/semicolon_error.c
 SRC_FILES += parsing/parser/checker.c
+SRC_FILES += parsing/parser/check_subshell_redir.c
 SRC_FILES += parsing/parser/parser.c
 SRC_FILES += parsing/tokenize/enclosures.c
 SRC_FILES += parsing/tokenize/env.c

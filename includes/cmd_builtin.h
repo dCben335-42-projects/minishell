@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 15:10:38 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/11 01:58:09 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/11 03:36:20 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,12 @@ t_bool	is_builtin(t_shell *shell, t_dynarray *cmd, char **args);
  * @param name The name of the builtin command.
  * @param f The function pointer to the builtin command to be 
  * called when the first argument is the name of the builtin command.
+ * @param is_enabled A boolean to indicate if the builtin command is enabled.
+ * 
+ * @note Each is_enabled field is modifiable in the `config.h` file.
  * 
  * @note The function pointer is used to call the builtin command.
+ * 
  */
 typedef struct s_builtin
 {
@@ -69,12 +73,14 @@ void	ft_void(t_shell *shell, char **args);
 \t--exitcode\tShow the exit code of the last command\n"
 
 /**
+ * 
  * @brief The debug structure.
  * 
  * @param options The string options for the debug mode.
  * @param toggle The boolean to toggle when the option is encountered.
  *
  * @note The options are used to identify the debug mode to be toggled.
+ * 
 */
 typedef struct s_debug_map
 {

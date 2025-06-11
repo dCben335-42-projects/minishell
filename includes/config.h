@@ -75,19 +75,19 @@
 # define ESC_START "\001"
 # define ESC_END   "\002"
 
-# define FIRST_COL     "\033[1;35m"
-# define SECOND_COL    "\033[1;34m"
-# define VARIANT_COL   "\033[1;36m"
-# define ACCENT_COL    "\033[1;32m"
-# define COMMAND_COL   "\033[33m"
-# define RESET_COL     "\033[0m"
+# define FIRST_COL     				"\033[1;35m"
+# define SECOND_COL    				"\033[1;34m"
+# define VARIANT_COL   				"\033[1;36m"
+# define ACCENT_COL    				"\033[1;32m"
+# define COMMAND_COL   				"\033[33m"
+# define RESET_COL     				"\033[0m"
 
-# define FIRST_COL_RL     "\001\033[1;35m\002"
-# define SECOND_COL_RL    "\001\033[1;34m\002"
-# define VARIANT_COL_RL   "\001\033[1;36m\002"
-# define ACCENT_COL_RL    "\001\033[1;32m\002"
-# define COMMAND_COL_RL   "\001\033[33m\002"
-# define RESET_COL_RL     "\001\033[0m\002"
+# define FIRST_COL_RL     			"\001\033[1;35m\002"
+# define SECOND_COL_RL    			"\001\033[1;34m\002"
+# define VARIANT_COL_RL   			"\001\033[1;36m\002"
+# define ACCENT_COL_RL    			"\001\033[1;32m\002"
+# define COMMAND_COL_RL   			"\001\033[33m\002"
+# define RESET_COL_RL     			"\001\033[0m\002"
 
 # define KEY_COL FIRST_COL
 # define VALUE_COL SECOND_COL

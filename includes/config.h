@@ -26,6 +26,23 @@
 # define FLAG_ATTY_ONLY				TRUE
 # define FLAG_BANNER				TRUE
 
+# define FLAG_BUILTIN_CD			TRUE
+# define FLAG_BUILTIN_ECHO			TRUE
+# define FLAG_BUILTIN_ENV			TRUE
+# define FLAG_BUILTIN_EXPORT		TRUE
+# define FLAG_BUILTIN_PWD			TRUE
+# define FLAG_BUILTIN_EXIT			TRUE
+# define FLAG_BUILTIN_UNSET			TRUE
+# define FLAG_BUILTIN_DEBUG			FALSE
+# define FLAG_BUILTIN_VOID			FALSE
+
+# define FLAG_LOGICAL_NEGATION		FALSE
+
+// ANCHOR - ENVIRONMENT VARIABLES
+# define FLAG_SET_DEFAULT_ENV		TRUE
+# define FLAG_UPDATE_SHLVL			TRUE
+# define DEFAULT_PATH				"/bin:/usr/bin:/usr/local/bin"
+
 // ANCHOR - READLINE PROMPT
 # define READLINE_S_QUOTE_VAL 		"single_quote>"
 # define READLINE_D_QUOTE_VAL 		"double_quote>"
@@ -37,11 +54,6 @@
 # define READLINE_PIPE_VAL			"pipe>"
 # define READLINE_HEREDOC_VAL		"heredoc>"
 # define READLINE_HEREDOC_TRIM_VAL	"dash_heredoc>"
-
-// ANCHOR - ENVIRONMENT VARIABLES
-# define SET_DEFAULT_ENV			TRUE
-# define UPDATE_SHLVL				TRUE
-# define DEFAULT_PATH				"/bin:/usr/bin:/usr/local/bin"
 
 // !SECTION
 // SECTION: LEXER CONFIG

@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 17:17:06 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/10 02:41:13 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/11 03:14:01 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static char	*word_join(t_dynarray *word)
 	while (i < word->count)
 	{
 		node = (t_ast *)get_dynarray_value(word, i);
-		if (node->type & (CMD_QUOTED_TEXT | CMD_QUOTED_EXPAND))
+		if (node->type & (CMD_QUOTED_TEXT | CMD_QUOTED_ENV))
 			tmp = ft_strsjoin((const char *[]){join, "\"",
 					(char *)node->content, "\""}, 4, NULL);
 		else

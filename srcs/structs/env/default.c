@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 19:58:07 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/10 22:08:49 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/11 02:17:19 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,6 @@ void	set_default_env(t_env **env, char *current_path)
 	}
 	if (!get_env_node(*env, ENV_OLDPWD_KEY))
 		add_env_node(env, init_env_node(ENV_OLDPWD_KEY"="""));
+	if (!get_env_node(*env, ENV_SHLVL_KEY))
+		add_env_node(env, init_env_node(ENV_SHLVL_KEY"=""1"));
 }

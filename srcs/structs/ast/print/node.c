@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 18:09:50 by abonneau          #+#    #+#             */
-/*   Updated: 2025/06/10 03:33:42 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/11 03:14:21 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ static t_ast_print_map	*get_mappings(void)
 	{CMD_WORD,			"CMD_WORD",			},
 	{CMD_TEXT,			"TEXT",				},
 	{CMD_QUOTED_TEXT,	"QUOTED_TEXT",		},
-	{CMD_EXPAND,		"ENV",			},
-	{CMD_QUOTED_EXPAND,	"QUOTED_EXPAND",	},
+	{CMD_ENV,			"ENV",				},
+	{CMD_QUOTED_ENV,	"QUOTED_ENV",		},
 	{CMD_WILDCARD,		"WILDCARD",			},
 	{CMD_OR,			"CMD_OR",			},
 	{CMD_AND,			"CMD_AND",			},

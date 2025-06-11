@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 19:10:10 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/10 01:22:41 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/11 03:14:01 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ static char	*join_standard(t_expand_ctx *ctx)
 	content = ctx->curr_node->content;
 	if (type & CMD_WILDCARD)
 		ctx->is_wildcard = TRUE;
-	if (type & (CMD_QUOTED_TEXT | CMD_QUOTED_EXPAND))
+	if (type & (CMD_QUOTED_TEXT | CMD_QUOTED_ENV))
 		ctx->is_quoted = TRUE;
 	if (type & (CMD_TEXT | CMD_WILDCARD))
 		ft_strnegate(&content, charset);
@@ -102,7 +102,7 @@ static t_dynarray	*join_all(t_shell *shell,
 	while (i < word->count)
 	{
 		ctx->curr_node = get_dynarray_value(word, i);
-		if (ctx->curr_node->type & CMD_EXPAND)
+		if (ctx->curr_node->type & CMD_ENV)
 			ctx->arg = join_and_save_env(shell, args, ctx);
 		else
 			ctx->arg = join_standard(ctx);

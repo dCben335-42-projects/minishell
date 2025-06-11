@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_builtin.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 15:10:38 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/05 21:58:41 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/06/11 01:58:09 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ typedef struct s_builtin
 {
 	char	*name;
 	void	(*f)(t_shell *shell, char **args);
+	t_bool	is_enabled;
 }	t_builtin;
 
 # define BUILTIN_ENV "env"

@@ -6,27 +6,28 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 15:14:14 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/10 02:41:48 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/11 02:01:49 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cmd_builtin.h"
 #include "cmd_redir.h"
 #include "utils.h"
+#include "config.h"
 
 static const t_builtin	*get_builtin_map(void)
 {
 	static const t_builtin	map[] = {
-	{BUILTIN_ENV, &ft_env},
-	{BUILTIN_CD, &ft_cd},
-	{BUILTIN_EXPORT, &ft_export},
-	{BUILTIN_UNSET, &ft_unset},
-	{BUILTIN_PWD, &ft_pwd},
-	{BUILTIN_EXIT, &ft_exit},
-	{BUILTIN_ECHO, &ft_echo},
-	{BUILTIN_DEBUG, &ft_debug},
-	{BUILTIN_VOID, &ft_void},
-	{NULL, NULL}};
+	{BUILTIN_ENV, &ft_env, FLAG_BUILTIN_ENV},
+	{BUILTIN_CD, &ft_cd, FLAG_BUILTIN_CD},
+	{BUILTIN_EXPORT, &ft_export, FLAG_BUILTIN_EXPORT},
+	{BUILTIN_UNSET, &ft_unset, FLAG_BUILTIN_UNSET},
+	{BUILTIN_PWD, &ft_pwd, FLAG_BUILTIN_PWD},
+	{BUILTIN_EXIT, &ft_exit, FLAG_BUILTIN_EXIT},
+	{BUILTIN_ECHO, &ft_echo, FLAG_BUILTIN_ECHO},
+	{BUILTIN_DEBUG, &ft_debug, FLAG_BUILTIN_DEBUG},
+	{BUILTIN_VOID, &ft_void, FLAG_BUILTIN_VOID},
+	{NULL, NULL, FALSE}};
 
 	return (map);
 }
@@ -73,15 +74,15 @@ static t_bool	run_builtin_redir(
  */
 t_bool	is_builtin(t_shell *shell, t_dynarray *cmd, char **args)
 {
-	const t_builtin	*builtin_map = get_builtin_map();
+	const t_builtin	*map = get_builtin_map();
 
 	if (!*args)
 		return (run_builtin_redir(shell, cmd, args, NULL));
-	while (builtin_map->name)
+	while (map->name)
 	{
-		if (!ft_strcmp(builtin_map->name, *args))
-			return (run_builtin_redir(shell, cmd, args, builtin_map->f));
-		builtin_map++;
+		if (!ft_strcmp(map->name, *args) && map->is_enabled)
+			return (run_builtin_redir(shell, cmd, args, map->f));
+		map++;
 	}
 	return (FALSE);
 }

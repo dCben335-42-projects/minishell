@@ -6,16 +6,18 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 08:58:30 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/09 16:49:29 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/11 02:09:09 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "orchestrator.h"
 #include "cmd.h"
-#include "utils.h"
+#include "config.h"
 
 static size_t	get_cmd_start_index(char **argv)
 {
+	if (!FLAG_LOGICAL_NEGATION)
+		return (0);
 	if (!*argv || ft_strcmp(*argv, "!"))
 		return (0);
 	return (1);

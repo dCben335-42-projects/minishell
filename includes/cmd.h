@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:36:28 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/09 21:06:35 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/11 03:07:07 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,16 @@
 # include "cmd_redir.h"
 # include <sys/types.h>
 
-int		parse_status(int status);
-int		wait_childrens(int last_pid);
+t_dynarray	*cmd_to_argv(t_shell *shell, t_dynarray *arr, t_dynarray *argv);
 
-t_bool	is_valid_cmd_path(char *path, int *exit_code);
-char	*get_full_cmd_path(char *cmd_name, t_env *root);
-void	fork_and_exec(t_shell *shell,
-			t_dynarray *cmd,
-			char **argv,
-			size_t start_i);
+int			parse_status(int status);
+int			wait_childrens(int last_pid);
+
+t_bool		is_valid_cmd_path(char *path, int *exit_code);
+char		*get_full_cmd_path(char *cmd_name, t_env *root);
+void		fork_and_exec(t_shell *shell,
+				t_dynarray *cmd,
+				char **argv,
+				size_t start_i);
 
 #endif

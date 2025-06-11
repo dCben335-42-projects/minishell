@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 19:31:21 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/10 04:09:24 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/11 02:15:19 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,9 +113,9 @@ int	main(int _, char **__, char **envp)
 	if (FLAG_BANNER)
 		print_shell_banner();
 	shell = init_shell(envp);
-	if (UPDATE_SHLVL)
+	if (FLAG_UPDATE_SHLVL)
 		update_env_shlvl(&shell.env);
-	if (SET_DEFAULT_ENV)
+	if (FLAG_SET_DEFAULT_ENV)
 		set_default_env(&shell.env, shell.current_path);
 	shell.env_array = env_to_array(shell.env);
 	handle_loop(&shell);

@@ -15,6 +15,12 @@
 		"parsing.h": "c",
 		"struct_ast.h": "c",
 		"history.h": "c",
-		"algorithm": "c"
+		"algorithm": "c",
+		"stdio.h": "c",
+		"cmd.h": "c",
+		"types.h": "c",
+		"utils.h": "c",
+		"orchestrator.h": "c",
+		"struct_shell.h": "c"
 	}
 }

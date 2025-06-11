@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 03:11:04 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/10 00:49:52 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/11 03:14:03 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ typedef enum e_node_type
 	CMD_PARENTHESIS			= 1 << 2,
 	CMD_TEXT				= 1 << 3,
 	CMD_QUOTED_TEXT			= 1 << 4,
-	CMD_EXPAND				= 1 << 5,
-	CMD_QUOTED_EXPAND		= 1 << 6,
+	CMD_ENV					= 1 << 5,
+	CMD_QUOTED_ENV			= 1 << 6,
 	CMD_WILDCARD			= 1 << 7,
 	CMD_OR					= 1 << 8,
 	CMD_AND					= 1 << 9,

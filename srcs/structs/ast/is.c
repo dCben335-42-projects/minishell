@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 18:04:57 by abonneau          #+#    #+#             */
-/*   Updated: 2025/06/06 03:10:23 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/11 03:13:54 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,5 +38,5 @@ int	is_ast_types(t_ast *node, size_t mask)
 */
 int	is_ast_wildcard(t_ast *node)
 {
-	return (is_ast_types(node, CMD_WILDCARD | CMD_EXPAND));
+	return (is_ast_types(node, CMD_WILDCARD | CMD_ENV));
 }

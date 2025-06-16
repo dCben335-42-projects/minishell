@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 18:58:30 by abonneau          #+#    #+#             */
-/*   Updated: 2025/06/09 15:54:35 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/16 01:14:07 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ t_ast_ctx	init_ast_glbctx(
  * @return t_bool TRUE if a malloc error occurred, FALSE otherwise.
  * 
 */
-t_bool	merr(t_ast *node, t_ast **out)
+t_bool	ast_merr(t_ast *node, t_ast **out)
 {
 	if (!node)
 		return (TRUE);

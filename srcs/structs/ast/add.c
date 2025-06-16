@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 02:18:49 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/06 03:29:50 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/16 04:50:17 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,20 +35,17 @@ int	add_ast_child_primitive(t_ast *parent, t_ast *child)
 	t_dynarray	*sub_cmd;
 	t_ast		*last_child;
 
-	child->parent = parent;
 	if (parent->child_count == 0)
 	{
-		sub_cmd = init_dynarray_malloc(80,
-				(void *(*)(void *))destroy_ast);
-		if (!sub_cmd)
-			return (0);
-		if (!set_dynarray_value(sub_cmd, 0, child))
+		sub_cmd = init_dynarray_malloc(1,
+					(void *(*)(void *))destroy_ast);
+		if (!sub_cmd || !push(sub_cmd, child))
 			return (0);
 		parent->content = sub_cmd;
 		parent->child_count = 3;
 		return (1);
 	}
-	if (!set_dynarray_value(parent->content, parent->child_count - 2, child))
+	if (!push(parent->content, child))
 		return (0);
 	last_child = get_dynarray_value(parent->content, parent->child_count - 3);
 	last_child->next = child;
@@ -66,23 +63,31 @@ int	add_ast_child_primitive(t_ast *parent, t_ast *child)
  * @note This function links the child nodes together by setting
  * 
 */
-void	add_ast_childs(t_ast *parent, t_dynarray *childs)
+void	add_ast_childs(t_ast *parent, t_ast *childs)
 {
-	t_ast	*node;
-	t_uint	i;
+	t_dynarray	*content;
+	t_ast		*node;
+	t_uint		i;
 
 	i = 0;
-	while (i < childs->count)
+	if (!childs || !childs->content)
+	{
+		destroy_ast(childs);
+		return ;
+	}
+	content = childs->content;
+	while (i < content->count)
 	{
 		if (i > 0)
 		{
-			node = (t_ast *)get_dynarray_value(childs, i - 1);
-			node->next = (t_ast *)get_dynarray_value(childs, i);
+			node = get_dynarray_value(content, i - 1);
+			node->next = get_dynarray_value(content, i);
 		}
-		node = get_dynarray_value(childs, i);
+		node = get_dynarray_value(content, i);
 		node->parent = parent;
 		i++;
 	}
-	parent->content = childs;
-	parent->child_count = childs->count + 2;
+	parent->content = content;
+	parent->child_count = content->count + 2;
+	free(parent);
 }

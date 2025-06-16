@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 11:44:02 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/09 21:32:58 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/16 03:36:03 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_bool	redir_in(t_shell *shell, t_ast *node)
 	int			fd;
 	t_bool		ret;
 
-	args = init_dynarray(1, free_value);
+	args = init_dynarray(3, free_value);
 	if (!filter_base_redir(shell, node, &args))
 		return (FALSE);
 	fd = open(args.data[0], O_RDONLY);

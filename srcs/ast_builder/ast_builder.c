@@ -6,12 +6,14 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 19:05:23 by abonneau          #+#    #+#             */
-/*   Updated: 2025/06/10 03:11:24 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/16 02:34:16 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ast_builder.h"
 #include <stdlib.h>
+#include "config.h"
+#include "libft.h"
 
 /**
  * 
@@ -33,14 +35,19 @@ t_ast	*ast_builder(t_dynarray *tokens)
 
 	master_node = init_ast_node(CMD_SEQ, NULL);
 	if (!master_node)
+	{
+		ft_putendl_fd(ERR_MALLOC, 2);
 		return (NULL);
+	}
 	ast_glbctx = init_ast_glbctx(
 			tokens,
 			0,
 			tokens->count - 1,
 			master_node);
 	add_master_cmds(&ast_glbctx);
+	if (ast_glbctx.has_malloc_error)
+		ft_putendl_fd(ERR_MALLOC, 2);
 	if (ast_glbctx.local.cmd_master && ast_glbctx.has_malloc_error)
-		destroy_ast(ast_glbctx.local.cmd_master);
+		return (destroy_ast(ast_glbctx.local.cmd_master));
 	return (ast_glbctx.local.cmd_master);
 }

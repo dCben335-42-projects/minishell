@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 15:30:22 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/10 02:43:25 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/15 23:12:31 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static void	process_env(t_shell *shell, char *key, char *arg)
 	value = parsed_value;
 	if (!value)
 		value = ft_strdup("");
-	if (!p_ptr(value, ERROR_MALLOC))
+	if (!p_ptr(value, ERR_MALLOC))
 		return ;
 	complete_value = value;
 	if ((arg[ft_strlen(key)] == '+') && matched_env->value)

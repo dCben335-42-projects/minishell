@@ -56,7 +56,7 @@
 # define READLINE_HEREDOC_TRIM_VAL	"dash_heredoc>"
 
 // !SECTION
-// SECTION: LEXER CONFIG
+// SECTION: LEER CONFIG
 
 // ANCHOR - EXPANDABLES
 # define SYMBOL_VAR_EXPAND			'$'
@@ -96,6 +96,8 @@
 // !SECTION
 // SECTION: MESSAGES
 
+# define ERR_MALLOC "Error: an allocation error occurred."
+
 # define ERR_ATTY_ONLY \
 "Error: Shellost only works in an interactive terminal."
 
@@ -106,7 +108,6 @@
 
 # define ERR_SYNTAX_EOF "Syntax error: unexpected end of file"
 
-# define ERROR_MALLOC "Error: malloc"
 
 # define ERR_CD "cd"
 # define ERR_CD_HOME "cd: HOME not set"

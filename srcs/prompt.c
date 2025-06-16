@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:57:59 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/10 03:17:46 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/16 02:33:20 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,10 +91,13 @@ void	*process_prompt(
 	if (!args->tokens.data || !heredoc_cval->data)
 		return (NULL);
 	status = lexer(args);
-	if (args->interrupted)
+	if (args->interrupted || status == COMMAND_NOT_VALID)
 		return (NULL);
-	if (status == MALLOC_ERROR || status == COMMAND_NOT_VALID)
+	if (status == MALLOC_ERROR)
+	{
+		ft_putendl_fd(ERR_MALLOC, 2);
 		return (NULL);
+	}
 	if (status == COMMAND_NOT_FINISHED)
 		return (prompt_not_finished(args));
 	return (args->tokens.data);

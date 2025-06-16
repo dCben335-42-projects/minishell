@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 19:11:30 by abonneau          #+#    #+#             */
-/*   Updated: 2025/06/06 03:25:10 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/16 04:30:26 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,4 +50,7 @@ void	add_master_cmds(t_ast_ctx *args)
 			continue ;
 		add_cmd_master(&cmd_prev, args);
 	}
+	print_ast(args->local.cmd_master->content);
+	if (cmd_prev && args->has_malloc_error)
+		destroy_ast(cmd_prev);
 }

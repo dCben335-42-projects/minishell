@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 18:35:42 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/10 22:08:34 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/16 02:32:56 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,20 +23,26 @@ static char	*stringify_env(t_env *env)
 	return (ft_strsjoin(strs, 3, ""));
 }
 
-static void	fill_env_array(t_env *env, t_dynarray *arr)
+static void	*fill_env_array(t_env *env, t_dynarray *arr)
 {
 	char	*str;
 
 	if (!env || !arr)
-		return ;
-	fill_env_array(env->left, arr);
+		return (arr);
+	if (!fill_env_array(env->left, arr))
+		return (NULL);
 	str = stringify_env(env);
-	if (str)
-		push(arr, str);
-	fill_env_array(env->right, arr);
+	if (str && !push(arr, str))
+	{
+		free(str);
+		return (NULL);
+	}
+	return (fill_env_array(env->right, arr));
 }
 
+
 /**
+ * 
  * @brief Converts the environment tree into a dynamic array.
  *
  * This function initializes a dynamic array and fills it with the
@@ -44,6 +50,7 @@ static void	fill_env_array(t_env *env, t_dynarray *arr)
  * binary tree structure.
  *
  * @param env The environment tree to convert.
+ * 
  * @return A dynamic array containing the environment variables as strings.
  * 
  */
@@ -51,7 +58,8 @@ t_dynarray	env_to_array(t_env *env)
 {
 	t_dynarray	arr;
 
-	arr = init_dynarray(40, free_value);
-	fill_env_array(env, &arr);
+	arr = init_dynarray(50, free_value);
+	if (arr.data)
+		fill_env_array(env, &arr);
 	return (arr);
 }

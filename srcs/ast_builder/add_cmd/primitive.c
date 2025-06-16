@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 19:10:17 by abonneau          #+#    #+#             */
-/*   Updated: 2025/06/10 03:12:17 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/16 04:39:05 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,9 @@ static t_bool	add_cmd_child_logic_loop(
 {
 	if (is_text_token(token))
 	{
-		if (!d->cmd_word && !d->cmd_redir
-			&& merr(ast_init_node(args, CMD_WORD), &d->cmd_word))
+		if ((!d->cmd_word && !d->cmd_redir && ast_merr(ast_init_node(args, CMD_WORD), &d->cmd_word)))
 			return (FALSE);
-		if (merr(ast_convert_token_to_cmd(args, token), &d->cmd_temp))
+		if (ast_merr(ast_convert_token_to_cmd(args, token), &d->cmd_temp))
 			return (FALSE);
 		add_cmd_join_child(args, d);
 	}
@@ -52,7 +51,7 @@ static t_bool	add_cmd_child_logic_loop(
 	{
 		add_cmd_join_child(args, d);
 		if (token->type != M_SPACE
-			&& merr(ast_convert_token_to_cmd(args, token), &d->cmd_redir))
+			&& ast_merr(ast_convert_token_to_cmd(args, token), &d->cmd_redir))
 			return (FALSE);
 	}
 	args->i++;
@@ -66,7 +65,7 @@ static t_ast	*add_cmd_child(t_ast_ctx *args)
 
 	if (is_empty(args))
 		return (NULL);
-	if (merr(ast_init_node(args, CMD_BASE), &d.cmd_new))
+	if (ast_merr(ast_init_node(args, CMD_BASE), &d.cmd_new))
 		return (NULL);
 	d.cmd_word = NULL;
 	d.cmd_redir = NULL;
@@ -77,9 +76,12 @@ static t_ast	*add_cmd_child(t_ast_ctx *args)
 		if (is_control_extended_token(token))
 			break ;
 		if (!add_cmd_child_logic_loop(args, &d, token))
-			return (NULL);
+			break ;
 	}
 	add_cmd_join_child(args, &d);
+	destroy_ast(d.cmd_temp);
+	destroy_ast(d.cmd_word);
+	destroy_ast(d.cmd_redir);
 	return (d.cmd_new);
 }
 

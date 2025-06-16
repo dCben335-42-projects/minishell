@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 20:35:51 by abonneau          #+#    #+#             */
-/*   Updated: 2025/06/06 03:25:10 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/16 04:30:26 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,27 @@ static void	add_cmds(
 	}
 }
 
+static void add_in_parenthesis(t_ast *cmd_master, t_ast_ctx *args)
+{
+	t_ast	*cmd;
+
+	add_parenthesis_cmd_master(cmd_master, args);
+	if (args->has_malloc_error)
+		return ;
+	if (((t_token *)
+			get_dynarray_value(args->tokens, args->i))->type == M_SPACE)
+		args->i++;
+	if (((t_token *)
+			get_dynarray_value(args->tokens, args->i))->type == OP_SEMICOL)
+	{
+		cmd = ast_init_node(args, CMD_SEMICOL);
+		if (args->has_malloc_error)
+			return ;
+		add_child(cmd_master, &cmd, args);
+		args->i++;
+	}
+}
+
 /**
  * 
  * @brief Handles the case where the command is AND/OR/PARENTHESIS operation.
@@ -73,23 +94,11 @@ void	add_op_cmds(
 	cmd = args->local.cmd;
 	args->local.cmd = &args->local.lcmd;
 	add_child(cmd_master, cmd_prev, args);
-	if (is_ast_types(cmd, CMD_PARENTHESIS_OPEN))
+	if (!is_ast_types(cmd, CMD_PARENTHESIS_OPEN))
 	{
-		add_parenthesis_cmd_master(cmd_master, args);
-		if (((t_token *)
-				get_dynarray_value(args->tokens, args->i))->type == M_SPACE)
-			args->i++;
-		if (((t_token *)
-				get_dynarray_value(args->tokens, args->i))->type == OP_SEMICOL)
-		{
-			cmd = ast_init_node(args, CMD_SEMICOL);
-			if (args->has_malloc_error)
-				return ;
-			add_child(cmd_master, &cmd, args);
-			args->i++;
-		}
+		add_cmds(cmd_prev, cmd, args);
+		add_child(cmd_master, &cmd, args);
 		return ;
 	}
-	add_cmds(cmd_prev, cmd, args);
-	add_child(cmd_master, &cmd, args);
+	add_in_parenthesis(cmd_master, args);
 }

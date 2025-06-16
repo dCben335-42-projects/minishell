@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 20:36:44 by abonneau          #+#    #+#             */
-/*   Updated: 2025/06/10 03:14:04 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/16 04:30:26 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,15 +52,10 @@ static int	count_token_between_brackets(t_dynarray *tokens, t_uint i)
 void	add_parenthesis_cmd(t_ast_ctx *args, t_ast *cmd_master)
 {
 	t_ast_ctx	ast_ctx;
-	t_ast		cmd;
 	t_ast		*cmd_p;
 	int			count;
 
-	cmd_p = &cmd;
-	if (cmd_master->type == CMD_PARENTHESIS)
-		reset_ast_node(&cmd, CMD_SEQ);
-	else
-		cmd_p = ast_init_node(args, CMD_PARENTHESIS);
+	cmd_p = ast_init_node(args, CMD_PARENTHESIS);
 	if (args->has_malloc_error)
 		return ;
 	count = count_token_between_brackets(args->tokens, args->i);
@@ -68,12 +63,13 @@ void	add_parenthesis_cmd(t_ast_ctx *args, t_ast *cmd_master)
 	add_master_cmds(&ast_ctx);
 	if (ast_ctx.has_malloc_error)
 	{
+		destroy_ast(cmd_p);
 		args->has_malloc_error = TRUE;
 		return ;
 	}
 	args->i += count + 1;
 	if (cmd_master->type == CMD_PARENTHESIS)
-		return (add_ast_childs(cmd_master, cmd_p->content));
+		return (add_ast_childs(cmd_master, cmd_p));
 	add_child(cmd_master, &cmd_p, args);
 }
 
@@ -81,6 +77,8 @@ static t_ast	*get_adjacent_cmd(t_ast_ctx *args, int count)
 {
 	t_token		*token;
 
+	if (args->has_malloc_error)
+		return (NULL);
 	token = get_dynarray_value(args->tokens, args->i + count + 1);
 	if (token && token->type & M_SPACE)
 		token = get_dynarray_value(args->tokens, args->i + count + 2);
@@ -107,17 +105,19 @@ void	add_parenthesis_cmd_master(t_ast *cmd_master, t_ast_ctx *args)
 	t_ast	*cmd;
 	t_ast	*cmd_pipe;
 
-	cmd_pipe = get_adjacent_cmd(
-			args,
+	cmd_pipe = get_adjacent_cmd(args,
 			count_token_between_brackets(args->tokens, args->i));
 	if (args->has_malloc_error)
 		return ;
 	cmd = ast_init_node(args, CMD_PARENTHESIS);
+	if (!args->has_malloc_error)
+		add_parenthesis_cmd(args, cmd);
 	if (args->has_malloc_error)
+	{
+		destroy_ast(cmd);
+		destroy_ast(cmd_pipe);
 		return ;
-	add_parenthesis_cmd(args, cmd);
-	if (args->has_malloc_error)
-		return ;
+	}
 	if (cmd_pipe)
 	{
 		add_child(cmd_pipe, &cmd, args);

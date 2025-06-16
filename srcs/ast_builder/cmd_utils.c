@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 19:03:36 by abonneau          #+#    #+#             */
-/*   Updated: 2025/06/06 03:09:49 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/16 04:48:01 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,11 @@ void	add_child(t_ast *parent,
 {
 	if (!*child)
 		return ;
-	if (!add_ast_child_primitive(parent, *child))
+	if (args->has_malloc_error
+		|| !add_ast_child_primitive(parent, *child))
 	{
 		args->has_malloc_error = TRUE;
-		return ;
+		destroy_ast(*child);
 	}
 	*child = NULL;
 }
@@ -53,6 +54,12 @@ t_bool	get_cmd(t_ast_ctx *args)
 {
 	args->local.cmd = &args->local.lcmd;
 	add_cmd_primitive(args, &args->local.cmd);
+	if (args->has_malloc_error)
+	{
+		destroy_ast(args->local.cmd);
+		args->local.cmd = NULL;
+		return (FALSE);
+	}
 	if (args->local.cmd)
 		return (TRUE);
 	args->i++;

@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 20:20:38 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/10 03:11:06 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/16 04:30:07 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ t_ast		*ast_convert_token_to_cmd(t_ast_ctx *args, t_token *token);
 t_ast		*ast_init_node(t_ast_ctx *args, t_node_type type);
 
 int			is_cmd(t_ast_ctx *args, size_t mask);
-t_bool		merr(t_ast *node, t_ast **out);
+t_bool		ast_merr(t_ast *node, t_ast **out);
 t_bool		is_empty(t_ast_ctx *args);
 
 #endif

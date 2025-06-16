@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 18:02:31 by abonneau          #+#    #+#             */
-/*   Updated: 2025/06/06 03:29:19 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/16 03:38:16 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ t_ast	*init_ast_node(t_node_type type, char *value)
 	node->type = type;
 	node->parent = NULL;
 	node->next = NULL;
+	node->content = NULL;
 	if (value)
 	{
 		node->content = ft_strdup(value);
@@ -60,7 +61,6 @@ t_ast	*init_ast_node(t_node_type type, char *value)
 		node->child_count = 1;
 		return (node);
 	}
-	node->content = NULL;
 	node->child_count = 0;
 	return (node);
 }

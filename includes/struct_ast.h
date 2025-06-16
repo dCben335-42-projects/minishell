@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 03:11:04 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/11 03:14:03 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/16 03:16:29 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void				reset_ast_node(t_ast *node, t_node_type type);
 
 void				*destroy_ast(t_ast *node);
 
-void				add_ast_childs(t_ast *parent, t_dynarray *childs);
+void				add_ast_childs(t_ast *parent, t_ast *childs);
 int					add_ast_child_primitive(t_ast *parent, t_ast *child);
 
 int					is_ast_types(t_ast *node, size_t mask);

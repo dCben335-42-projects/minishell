@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 20:38:38 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/15 23:42:27 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/16 17:15:54 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ t_bool		p_int(int data, int error_value, const char *msg);
 t_bool		s_int(int data, int error_value, const char *msg);
 void		*p_ptr(void *data, const char *msg);
 void		*s_ptr(void *data, const char *msg);
-void		*merror(t_shell *shell);
 
 void		debug_exitcode(t_shell *shell);
 void		debug_ast(t_shell *shell);

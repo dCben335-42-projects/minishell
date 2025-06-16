@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:12:13 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/10 02:48:51 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/16 17:04:52 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,7 @@ static t_bool	is_path_directory(char *path)
  */
 t_bool	is_valid_cmd_path(char *path, int *exit_code)
 {
-	if (access(path, F_OK) == -1
-		|| !ft_strcmp(path, "..") || !ft_strcmp(path, "."))
+	if (access(path, F_OK) == -1 || !ft_is_path(path))
 	{
 		ft_putstr_fd(path, 2);
 		ft_putendl_fd(": "ERR_NOT_FOUND, 2);

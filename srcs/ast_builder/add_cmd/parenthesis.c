@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 20:36:44 by abonneau          #+#    #+#             */
-/*   Updated: 2025/06/16 16:06:42 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/16 16:56:13 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void	add_parenthesis_cmd(t_ast_ctx *args, t_ast *cmd_master)
 	if (!handle_parenthesis_cmd(args, cmd_p))
 	{
 		args->has_malloc_error = TRUE;
-		if (is_on_stack)
+		if (!is_on_stack)
 			destroy_ast(cmd_p);
 		return ;
 	}

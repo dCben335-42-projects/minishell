@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 18:35:42 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/16 14:54:16 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/16 17:23:16 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ t_dynarray	env_to_array(t_env *env)
 {
 	t_dynarray	arr;
 
-	arr = init_dynarray(10, free_value);
+	arr = init_dynarray(100, free_value);
 	if (!arr.data || !fill_env_array(env, &arr))
 		printf("exec env could be created\n");
 	return (arr);

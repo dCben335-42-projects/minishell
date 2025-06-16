@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 01:36:46 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/15 23:41:34 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/16 17:14:35 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,13 +93,4 @@ t_bool	s_int(int data, int error_value, const char *msg)
 	return (TRUE);
 }
 
-void  *merror(t_shell *shell)
-{
-	if (errno == ENOMEM)
-	{
-		ft_putendl_fd(ERR_MALLOC, 2);
-		shell->exit_code = EXIT_FAILURE;
-		return (NULL);
-	}
-	return ((void *)1);
-}
+

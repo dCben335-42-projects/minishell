@@ -1,5 +1,6 @@
 {
 	"files.associations": {
-		"algorithm": "c"
+		"algorithm": "c",
+		"libft_types.h": "c"
 	}
 }

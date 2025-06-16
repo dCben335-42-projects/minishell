@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 14:47:55 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/16 14:19:22 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/16 17:27:20 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,17 @@ static t_dynarray	*push_tree_values(t_tree *tree, t_dynarray *arr)
 	char	*value;
 
 	if (!tree || !arr)
+		return (arr);
+	if (!push_tree_values(tree->left, arr))
 		return (NULL);
-	push_tree_values(tree->left, arr);
 	value = ft_strdup(tree->value);
 	if (!value || !push(arr, value, TRUE))
 	{
 		free(value);
 		return (NULL);
 	}
-	push_tree_values(tree->right, arr);
+	if (!push_tree_values(tree->right, arr))
+		return (NULL);
 	return (arr);
 }
 

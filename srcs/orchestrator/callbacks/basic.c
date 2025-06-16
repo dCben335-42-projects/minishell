@@ -6,14 +6,20 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 08:58:30 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/16 15:50:20 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/16 17:25:59 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "orchestrator.h"
 #include "cmd.h"
 #include "config.h"
-#include <errno.h>
+
+static void  *merror(t_shell *shell)
+{
+	ft_putendl_fd(ERR_MALLOC, 2);
+	shell->exit_code = EXIT_FAILURE;
+	return (NULL);
+}
 
 static size_t	get_cmd_start_index(char **argv)
 {
@@ -39,8 +45,7 @@ t_ast	*exec_basic(t_shell *shell, t_ast *cmd)
 	char		**argv;
 	size_t		name_i;
 
-	errno = 0;
-	args = init_dynarray(10, free_value);
+	args = init_dynarray(1, free_value);
 	if (!cmd_to_argv(shell, cmd->content, &args))
 		return (merror(shell));
 	argv = (char **)args.data;

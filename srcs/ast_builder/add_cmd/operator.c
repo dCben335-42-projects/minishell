@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   operator.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 20:35:51 by abonneau          #+#    #+#             */
-/*   Updated: 2025/06/16 16:51:03 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/16 18:02:54 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static void	add_cmds(
 	}
 }
 
-static void add_in_parenthesis(t_ast *cmd_master, t_ast_ctx *args)
+static void	add_in_parenthesis(t_ast *cmd_master, t_ast_ctx *args)
 {
 	t_ast	*cmd;
 

@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   array.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 18:35:42 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/16 17:23:16 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/16 18:05:13 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft_dynarray.h"
 #include "libft.h"
 #include "struct_env.h"
+#include <stdio.h>
 
 static char	*stringify_env(t_env *env)
 {
@@ -39,8 +40,6 @@ static void	*fill_env_array(t_env *env, t_dynarray *arr)
 	}
 	return (fill_env_array(env->right, arr));
 }
-
-#include <stdio.h>
 
 /**
  * 

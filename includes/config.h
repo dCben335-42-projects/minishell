@@ -108,7 +108,6 @@
 
 # define ERR_SYNTAX_EOF "Syntax error: unexpected end of file"
 
-
 # define ERR_CD "cd"
 # define ERR_CD_HOME "cd: HOME not set"
 # define ERR_CD_OLDPWD "cd: OLDPWD not set"

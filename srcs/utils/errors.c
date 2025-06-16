@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   errors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 01:36:46 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/16 17:14:35 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/16 18:06:15 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,5 +92,3 @@ t_bool	s_int(int data, int error_value, const char *msg)
 	}
 	return (TRUE);
 }
-
-

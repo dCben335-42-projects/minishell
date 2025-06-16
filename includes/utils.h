@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 20:38:38 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/16 17:15:54 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/16 18:06:57 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,5 @@ void		debug_ast(t_shell *shell);
 void		debug_tokens(t_shell *shell, t_dynarray *tokens);
 
 const char	*get_main_readline_arg(t_shell *shell);
-
-
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parenthesis.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 20:36:44 by abonneau          #+#    #+#             */
-/*   Updated: 2025/06/16 16:56:13 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/16 18:02:23 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,7 @@ static int	count_token_between_brackets(t_dynarray *tokens, t_uint i)
 	return (count);
 }
 
-
-
-static t_ast *handle_parenthesis_cmd(t_ast_ctx *args, t_ast *cmd_p)
+static t_ast	*handle_parenthesis_cmd(t_ast_ctx *args, t_ast *cmd_p)
 {
 	t_ast_ctx	ast_ctx;
 	int			count;
@@ -67,9 +65,9 @@ static t_ast *handle_parenthesis_cmd(t_ast_ctx *args, t_ast *cmd_p)
 */
 void	add_parenthesis_cmd(t_ast_ctx *args, t_ast *cmd_master)
 {
-	const t_bool is_on_stack = cmd_master->type == CMD_PARENTHESIS;
-	t_ast		*cmd_p;
-	t_ast		cmd;
+	const t_bool	is_on_stack = cmd_master->type == CMD_PARENTHESIS;
+	t_ast			*cmd_p;
+	t_ast			cmd;
 
 	cmd_p = &cmd;
 	reset_ast_node(&cmd, CMD_SEQ);

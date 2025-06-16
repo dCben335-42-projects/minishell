@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   basic.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 08:58:30 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/16 17:25:59 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/16 18:04:01 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "cmd.h"
 #include "config.h"
 
-static void  *merror(t_shell *shell)
+static void	*merror(t_shell *shell)
 {
 	ft_putendl_fd(ERR_MALLOC, 2);
 	shell->exit_code = EXIT_FAILURE;

@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 02:18:49 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/16 04:50:17 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/16 16:00:53 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,13 @@ int	add_ast_child_primitive(t_ast *parent, t_ast *child)
 	{
 		sub_cmd = init_dynarray_malloc(1,
 					(void *(*)(void *))destroy_ast);
-		if (!sub_cmd || !push(sub_cmd, child))
+		if (!sub_cmd || !push(sub_cmd, child, FALSE))
 			return (0);
 		parent->content = sub_cmd;
 		parent->child_count = 3;
 		return (1);
 	}
-	if (!push(parent->content, child))
+	if (!push(parent->content, child, FALSE))
 		return (0);
 	last_child = get_dynarray_value(parent->content, parent->child_count - 3);
 	last_child->next = child;
@@ -70,7 +70,7 @@ void	add_ast_childs(t_ast *parent, t_ast *childs)
 	t_uint		i;
 
 	i = 0;
-	if (!childs || !childs->content)
+	if (!childs)
 	{
 		destroy_ast(childs);
 		return ;
@@ -89,5 +89,4 @@ void	add_ast_childs(t_ast *parent, t_ast *childs)
 	}
 	parent->content = content;
 	parent->child_count = content->count + 2;
-	free(parent);
 }

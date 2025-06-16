@@ -1,17 +1,5 @@
 {
 	"files.associations": {
-		"config.h": "c",
-		"ast_builder.h": "c",
-		"stdlib.h": "c",
-		"libft.h": "c",
-		"cmd.h": "c",
-		"array": "c",
-		"deque": "c",
-		"string": "c",
-		"unordered_map": "c",
-		"vector": "c",
-		"string_view": "c",
-		"initializer_list": "c",
-		"struct_env.h": "c"
+		"algorithm": "c"
 	}
 }

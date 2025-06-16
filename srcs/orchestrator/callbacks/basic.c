@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 08:58:30 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/15 23:47:12 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/16 15:50:20 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ t_ast	*exec_basic(t_shell *shell, t_ast *cmd)
 	if (!is_builtin(shell, cmd->content, &argv[name_i]))
 	{
 		argv[name_i] = get_full_cmd_path(argv[name_i], shell->env);
-		if (!argv[name_i] || !merror(shell))
+		if (!argv[name_i] && !merror(shell))
 			return (destroy_dynarray(&args));
 		fork_and_exec(shell, cmd->content, argv, name_i);
 	}

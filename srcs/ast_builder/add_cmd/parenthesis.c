@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 20:36:44 by abonneau          #+#    #+#             */
-/*   Updated: 2025/06/16 04:30:26 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/16 16:06:42 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,22 @@ static int	count_token_between_brackets(t_dynarray *tokens, t_uint i)
 	return (count);
 }
 
+
+
+static t_ast *handle_parenthesis_cmd(t_ast_ctx *args, t_ast *cmd_p)
+{
+	t_ast_ctx	ast_ctx;
+	int			count;
+
+	count = count_token_between_brackets(args->tokens, args->i);
+	ast_ctx = init_ast_glbctx(args->tokens, args->i, args->i + count, cmd_p);
+	add_master_cmds(&ast_ctx);
+	if (ast_ctx.has_malloc_error)
+		return (NULL);
+	args->i += count + 1;
+	return (cmd_p);
+}
+
 /**
  * 
  * @brief Handles the case where the command is a parenthesis operation.
@@ -51,24 +67,24 @@ static int	count_token_between_brackets(t_dynarray *tokens, t_uint i)
 */
 void	add_parenthesis_cmd(t_ast_ctx *args, t_ast *cmd_master)
 {
-	t_ast_ctx	ast_ctx;
+	const t_bool is_on_stack = cmd_master->type == CMD_PARENTHESIS;
 	t_ast		*cmd_p;
-	int			count;
+	t_ast		cmd;
 
-	cmd_p = ast_init_node(args, CMD_PARENTHESIS);
+	cmd_p = &cmd;
+	reset_ast_node(&cmd, CMD_SEQ);
+	if (!is_on_stack)
+		cmd_p = ast_init_node(args, CMD_PARENTHESIS);
 	if (args->has_malloc_error)
 		return ;
-	count = count_token_between_brackets(args->tokens, args->i);
-	ast_ctx = init_ast_glbctx(args->tokens, args->i, args->i + count, cmd_p);
-	add_master_cmds(&ast_ctx);
-	if (ast_ctx.has_malloc_error)
+	if (!handle_parenthesis_cmd(args, cmd_p))
 	{
-		destroy_ast(cmd_p);
 		args->has_malloc_error = TRUE;
+		if (is_on_stack)
+			destroy_ast(cmd_p);
 		return ;
 	}
-	args->i += count + 1;
-	if (cmd_master->type == CMD_PARENTHESIS)
+	if (is_on_stack)
 		return (add_ast_childs(cmd_master, cmd_p));
 	add_child(cmd_master, &cmd_p, args);
 }
@@ -105,11 +121,11 @@ void	add_parenthesis_cmd_master(t_ast *cmd_master, t_ast_ctx *args)
 	t_ast	*cmd;
 	t_ast	*cmd_pipe;
 
+	cmd = NULL;
 	cmd_pipe = get_adjacent_cmd(args,
 			count_token_between_brackets(args->tokens, args->i));
-	if (args->has_malloc_error)
-		return ;
-	cmd = ast_init_node(args, CMD_PARENTHESIS);
+	if (!args->has_malloc_error)
+		cmd = ast_init_node(args, CMD_PARENTHESIS);
 	if (!args->has_malloc_error)
 		add_parenthesis_cmd(args, cmd);
 	if (args->has_malloc_error)

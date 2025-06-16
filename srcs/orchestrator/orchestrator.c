@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 20:58:35 by abonneau          #+#    #+#             */
-/*   Updated: 2025/06/16 03:42:07 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/16 15:19:57 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,8 +93,6 @@ void	orchestrator(t_shell *shell)
 {
 	t_ast	*cmd;
 
-	printf("start orchestrator\n");
-	print_ast(shell->ast->content);
 	write(1, COMMAND_COL, sizeof(COMMAND_COL));
 	cmd = find_next_cmd(shell->ast);
 	while (!g_sig && cmd)

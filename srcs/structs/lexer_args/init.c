@@ -6,11 +6,12 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 18:18:18 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/16 02:33:57 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/16 14:58:09 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "struct_lexer_args.h"
+#include "config.h"
 
 /**
  * 
@@ -32,7 +33,9 @@ t_lexer_args	init_lexer_args(const char *input, t_dynarray *heredoc_cval)
 	args.quote = 0;
 	args.parenthesis = (t_bracket){0, 0};
 	args.is_heredoc = NOT_HEREDOC;
-	args.tokens = init_dynarray(100, (void *(*)(void *))destroy_token);
+	args.tokens = init_dynarray(50, (void *(*)(void *))destroy_token);
+	if (!args.tokens.data)
+		ft_putendl_fd(ERR_MALLOC, 2);
 	args.rhs = UNDEFINED;
 	args.expected_rhs = UNDEFINED;
 	args.not_finished_value = NULL;

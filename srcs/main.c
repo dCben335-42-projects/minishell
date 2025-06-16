@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 19:31:21 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/16 02:24:31 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/16 16:12:13 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,5 +128,4 @@ int	main(int _, char **__, char **envp)
 	( ( ( echo jojo$PATH'$GOOD'"okksa   'fjeifj'      
 	ijiji$HELLO"jigo/\*'ffe'./?out) )&& echo $'bonjour'"salut $" )
 	; >>test
-	
 */

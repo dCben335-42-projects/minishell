@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 19:10:17 by abonneau          #+#    #+#             */
-/*   Updated: 2025/06/16 04:39:05 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/16 14:44:51 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,12 @@ static void	add_cmd_join_child(
 			add_child(d->cmd_word, &d->cmd_temp, args);
 		else
 			add_child(d->cmd_redir, &d->cmd_temp, args);
+		return ;
 	}
-	else
-	{
-		if (d->cmd_word)
-			add_child(d->cmd_new, &d->cmd_word, args);
-		if (d->cmd_redir && (d->cmd_redir)->child_count >= 3)
-			add_child(d->cmd_new, &d->cmd_redir, args);
-	}
+	if (d->cmd_word)
+		add_child(d->cmd_new, &d->cmd_word, args);
+	if (d->cmd_redir && (d->cmd_redir)->child_count >= 3)
+		add_child(d->cmd_new, &d->cmd_redir, args);
 }
 
 static t_bool	add_cmd_child_logic_loop(

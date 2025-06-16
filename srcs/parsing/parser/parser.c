@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 03:40:01 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/10 03:42:07 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/16 14:18:07 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ t_parse_status	token_parser(t_lexer_args *args, t_token *token)
 		return (status);
 	if (!check_quote(args, token))
 		return (COMMAND_NOT_FINISHED);
-	if (!push(&args->tokens, token))
+	if (!push(&args->tokens, token, TRUE))
 	{
 		destroy_token(token);
 		return (MALLOC_ERROR);

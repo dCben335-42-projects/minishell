@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 20:35:51 by abonneau          #+#    #+#             */
-/*   Updated: 2025/06/16 04:30:26 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/16 15:40:18 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,11 +94,11 @@ void	add_op_cmds(
 	cmd = args->local.cmd;
 	args->local.cmd = &args->local.lcmd;
 	add_child(cmd_master, cmd_prev, args);
-	if (!is_ast_types(cmd, CMD_PARENTHESIS_OPEN))
+	if (is_ast_types(cmd, CMD_PARENTHESIS_OPEN))
 	{
-		add_cmds(cmd_prev, cmd, args);
-		add_child(cmd_master, &cmd, args);
+		add_in_parenthesis(cmd_master, args);
 		return ;
 	}
-	add_in_parenthesis(cmd_master, args);
+	add_cmds(cmd_prev, cmd, args);
+	add_child(cmd_master, &cmd, args);
 }

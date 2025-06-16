@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 18:35:42 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/16 02:32:56 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/16 14:54:16 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void	*fill_env_array(t_env *env, t_dynarray *arr)
 	if (!fill_env_array(env->left, arr))
 		return (NULL);
 	str = stringify_env(env);
-	if (str && !push(arr, str))
+	if (str && !push(arr, str, TRUE))
 	{
 		free(str);
 		return (NULL);
@@ -40,6 +40,7 @@ static void	*fill_env_array(t_env *env, t_dynarray *arr)
 	return (fill_env_array(env->right, arr));
 }
 
+#include <stdio.h>
 
 /**
  * 
@@ -58,8 +59,8 @@ t_dynarray	env_to_array(t_env *env)
 {
 	t_dynarray	arr;
 
-	arr = init_dynarray(50, free_value);
-	if (arr.data)
-		fill_env_array(env, &arr);
+	arr = init_dynarray(10, free_value);
+	if (!arr.data || !fill_env_array(env, &arr))
+		printf("exec env could be created\n");
 	return (arr);
 }

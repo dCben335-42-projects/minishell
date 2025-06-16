@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 19:03:36 by abonneau          #+#    #+#             */
-/*   Updated: 2025/06/16 04:48:01 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/16 15:23:32 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,11 @@
  * @note If the allocation fails, it sets the "has_malloc_error" boolean to true.
  *
 */
-void	add_child(t_ast *parent,
-	t_ast **child, t_ast_ctx *args)
+void	add_child(t_ast *parent, t_ast **child, t_ast_ctx *args)
 {
 	if (!*child)
 		return ;
-	if (args->has_malloc_error
-		|| !add_ast_child_primitive(parent, *child))
+	if (args->has_malloc_error || !add_ast_child_primitive(parent, *child))
 	{
 		args->has_malloc_error = TRUE;
 		destroy_ast(*child);

@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 01:09:12 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/10 01:33:12 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/16 14:17:57 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ static t_bool	heredoc_wrapper(
 	}
 	if (ret)
 		tmp = ft_strdup(token->value);
-	if (!ret || !tmp || !push(args->heredoc_cval, tmp))
+	if (!ret || !tmp || !push(args->heredoc_cval, tmp, TRUE))
 	{
 		free(tmp);
 		return (FALSE);

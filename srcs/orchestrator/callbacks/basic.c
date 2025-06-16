@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   basic.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 08:58:30 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/16 18:04:01 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/06/16 18:39:20 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ static void	*merror(t_shell *shell)
 {
 	ft_putendl_fd(ERR_MALLOC, 2);
 	shell->exit_code = EXIT_FAILURE;
+	printf("test\n");
 	return (NULL);
 }
 

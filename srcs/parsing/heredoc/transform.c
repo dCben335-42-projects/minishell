@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 18:40:35 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/06 01:41:49 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/16 19:05:13 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,7 @@ t_ptr	transform_heredoc(t_lexer_args *args)
 	t_parse_status	status;
 
 	ptr = get_start_token(args);
+	status = COMMAND_VALID;
 	if (!ptr.p || !is_text_token(ptr.p))
 		return (ptr);
 	is_expandable = FALSE;
@@ -119,7 +120,7 @@ t_ptr	transform_heredoc(t_lexer_args *args)
 	((t_token *)(ptr.p))->value = delimiter;
 	if (delimiter)
 		status = read_heredoc(args, ptr.p, is_expandable);
-	if (delimiter && status == COMMAND_VALID)
+	if (delimiter && status != MALLOC_ERROR)
 		return (after_ptr);
 	return (init_pointer(NULL, TRUE));
 }

@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   array.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/06 18:35:42 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/16 18:05:13 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/06/17 13:54:13 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft_dynarray.h"
 #include "libft.h"
 #include "struct_env.h"
-#include <stdio.h>
+#include "config.h"
 
 static char	*stringify_env(t_env *env)
 {
@@ -60,6 +60,6 @@ t_dynarray	env_to_array(t_env *env)
 
 	arr = init_dynarray(100, free_value);
 	if (!arr.data || !fill_env_array(env, &arr))
-		printf("exec env could be created\n");
+		ft_putendl_fd(ERR_ENV_ARRAY, 2);
 	return (arr);
 }

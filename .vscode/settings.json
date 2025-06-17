@@ -1,8 +1,0 @@
-{
-	"files.associations": {
-		"algorithm": "c",
-		"libft_types.h": "c",
-		"stdio.h": "c",
-		"libft.h": "c"
-	}
-}

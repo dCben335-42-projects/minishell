@@ -33,7 +33,7 @@
 # define FLAG_BUILTIN_PWD			TRUE
 # define FLAG_BUILTIN_EXIT			TRUE
 # define FLAG_BUILTIN_UNSET			TRUE
-# define FLAG_BUILTIN_DEBUG			TRUE
+# define FLAG_BUILTIN_DEBUG			FALSE
 # define FLAG_BUILTIN_VOID			FALSE
 
 # define FLAG_LOGICAL_NEGATION		FALSE
@@ -112,6 +112,8 @@
 # define ERR_CD_HOME "cd: HOME not set"
 # define ERR_CD_OLDPWD "cd: OLDPWD not set"
 # define ERR_CD_ARGS "cd: too many arguments"
+
+# define ERR_ENV_ARRAY "Error: The exec env could not be created"	
 
 # define ERR_GETCWD \
 "chdir: error retrieving current directory: \

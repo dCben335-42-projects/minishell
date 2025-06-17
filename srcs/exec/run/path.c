@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 16:12:13 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/16 19:14:01 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/17 14:18:21 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static t_bool	is_path_directory(char *path)
 {
 	struct stat	statbuf;
 
-	if (lstat(path, &statbuf) == -1)
+	if (stat(path, &statbuf) == -1)
 		return (FALSE);
 	return (S_ISDIR(statbuf.st_mode));
 }

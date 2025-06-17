@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 03:42:24 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/10 22:00:50 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/17 13:48:04 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static t_parse_status	check_require_without_parenthesis(
 
 	if (token->type & M_SPACE)
 		return (COMMAND_VALID);
-	args->expected_rhs = UNDEFINED;
+	args->expected_rhs = args->rhs;
 	if (is_text_token(token))
 		return (COMMAND_VALID);
 	if (token->type & M_EOF && get_prev_token(args, &prev_token)
@@ -39,7 +39,7 @@ static t_parse_status	check_require(
 
 	if (token->type & M_SPACE)
 		return (COMMAND_VALID);
-	args->expected_rhs = UNDEFINED;
+	args->expected_rhs = args->rhs;
 	if (is_text_token(token) || is_redir_token(token)
 		|| token->type == OP_PARENTHESIS_OPEN)
 		return (COMMAND_VALID);
@@ -55,7 +55,7 @@ static t_parse_status	check_disallowed(
 {
 	if (token->type & M_SPACE)
 		return (COMMAND_VALID);
-	args->expected_rhs = UNDEFINED;
+	args->expected_rhs = args->rhs;
 	if (!(is_text_token(token) || token->type == OP_PARENTHESIS_OPEN))
 		return (COMMAND_VALID);
 	return (print_error_message(token, "err_no_right_operand"));

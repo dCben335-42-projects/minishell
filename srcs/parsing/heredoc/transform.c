@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 18:40:35 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/16 19:05:13 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/20 16:51:19 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,11 +74,11 @@ int	read_heredoc_if_possible(t_lexer_args *args, t_token *token)
 	char			*cache_heredoc;
 
 	cache_heredoc = (char *)get_dynarray_value(args->heredoc_cval, i);
+	args->heredoc_ckey++;
 	if (cache_heredoc)
 	{
 		free(token->value);
 		token->value = ft_strdup(cache_heredoc);
-		args->heredoc_ckey++;
 		if (!token->value)
 			return (-1);
 		return (1);
@@ -122,5 +122,6 @@ t_ptr	transform_heredoc(t_lexer_args *args)
 		status = read_heredoc(args, ptr.p, is_expandable);
 	if (delimiter && status != MALLOC_ERROR)
 		return (after_ptr);
+	destroy_token(after_ptr.p);
 	return (init_pointer(NULL, TRUE));
 }

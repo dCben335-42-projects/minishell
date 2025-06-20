@@ -6,7 +6,7 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 19:05:23 by abonneau          #+#    #+#             */
-/*   Updated: 2025/06/20 19:28:03 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/06/20 21:13:42 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,62 +129,71 @@ void	hotfix_subredir(t_ast *root)
 	}
 }
 
+/*
+(ls) > q | ls
+*/ 
 
-void hotfix_pipe(t_ast *node, t_uint *index, t_ast	*master_node)
+
+void hotfix_pipe(t_ast *sub, t_uint *index, t_ast	*master_node)
 {
 	t_ast *mast;
 	
-	printf("hotfix_pipe: node type = %d, index = %u\n", node->type, *index);
-	if (node->type == CMD_PARENTHESIS && node->next && node->next->type == CMD_PIPE)
+	if (sub->type == CMD_PARENTHESIS && sub->next && sub->next->type == CMD_PIPE)
 	{
-		printf("___________________________");
-		if (node->parent)
-			mast = node->parent;
-		mast = master_node;
-		print_ast(master_node->content);
-		printf("___________________________");
-		t_ast *node2 = get_dynarray_value((t_dynarray *)node->next->content, 0);
-		print_ast(node2->content);
+		t_ast *pipe = sub->next; 
+
+		if (sub->parent)
+			mast = sub->parent;
+		else
+			mast = master_node;
+		//print_ast(master_node->content);
+		//print_ast(sub->next->content);
+		
+		
+		t_ast *redir = get_dynarray_value((t_dynarray *)pipe->content, 0);
+		//print_ast(redir->content);
+		
 		t_ast *subredir = init_ast_node(CMD_SUB_REDIR, NULL);
+		subredir->parent = pipe;
+		subredir->next = redir->next;
 		if (!subredir)
 			return;
+		
 		t_ast_ctx ctx = { .has_malloc_error = FALSE };
-		node->parent = subredir;
-		add_child(subredir, &node, &ctx);
-		node2->parent = subredir;
-		node2->next = NULL;
-		add_child(subredir, &node2, &ctx);
-		printf("SUB_REDIR_CONTENT:\n");
-		print_ast(subredir->content);
-		printf("MASTER_NODE:\n");
-		printf("master node type = %d\n", mast->type);
-		print_ast(mast->content);
+		sub->next = NULL;
+		redir->next = NULL;
+		add_child(subredir, &sub, &ctx);
+		add_child(subredir, &redir, &ctx);
+
+
+	
 		remove_range_dynarray(mast->content, *index, *index);
-		printf("After remove_range_dynarray:\n");
-		print_ast(mast->content);
 		mast->child_count -= 1;
-		(*index)--;
-		printf("After dzdzd:\n");
-		set_dynarray_value((t_dynarray *)node->next->content, 0, subredir, FALSE);
-		printf("After dzdzd:\n");
-		print_ast(mast->content);
+		set_dynarray_value(
+			(t_dynarray *)pipe->content,
+			0,
+			subredir,
+			FALSE
+		);
+		
+			
 	}
 }
 
 
-void	traverse_ast(t_ast *node, t_uint *index, t_ast *master_node)
+void	traverse_ast(t_ast *sub, t_uint *index, t_ast *master_node)
 {
-	if (!node)
+	if (!sub)
 		return;
 
 	// Appliquer la fonction de rappel au nœud courant
-	hotfix_pipe(node, index, master_node);
-
+	hotfix_pipe(sub, index, master_node);
+	printf("Traversing node: %s\n", sub->content ? (char *)sub->content : "NULL");
 	// Si ce nœud a des enfants, on les parcourt récursivement
-	if (node->content && (node->type != CMD_TEXT)) // On suppose que WORD et TEXT n'ont pas de children dynarray
+	if (sub->content && (sub->type != CMD_TEXT)) // On suppose que WORD et TEXT n'ont pas de children dynarray
 	{
-		t_dynarray *children = (t_dynarray *)node->content;
-		for (t_uint i = 0; i < children->count; ++i)
+		t_dynarray *children = (t_dynarray *)sub->content;
+		for (t_uint i = 0; i < children->count; i++)
 		{
 			t_ast *child = get_dynarray_value(children, i);
 			if (child)
@@ -196,12 +205,12 @@ void	traverse_ast(t_ast *node, t_uint *index, t_ast *master_node)
 /**
  * 
  * @brief Builds the AST from the given tokens.
- * This function initializes the master node of the AST and
+ * This function initializes the master sub of the AST and
  * calls the command master function to populate it.
  * 
  * @param tokens Dynamic array of tokens.
  * 
- * @note The master node is initialized with the type CMD_SEQ.
+ * @note The master sub is initialized with the type CMD_SEQ.
  * 
  * @return t_ast* Pointer to the root of the AST or NULL on malloc error.
  * 
@@ -227,7 +236,8 @@ t_ast	*ast_builder(t_dynarray *tokens)
 		ft_putendl_fd(ERR_MALLOC, 2);
 	if (ast_glbctx.local.cmd_master && ast_glbctx.has_malloc_error)
 		return (destroy_ast(ast_glbctx.local.cmd_master));
+
 	//hotfix_subredir(ast_glbctx.local.cmd_master);
-	traverse_ast(ast_glbctx.local.cmd_master, &ast_glbctx.start, ast_glbctx.local.cmd_master);
+	//traverse_ast(ast_glbctx.local.cmd_master, &ast_glbctx.start, ast_glbctx.local.cmd_master);
 	return (ast_glbctx.local.cmd_master);
 }

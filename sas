@@ -1,0 +1,13 @@
+a
+b
+config
+includes
+libs
+Makefile
+minishell
+out
+q1
+Q2
+sas
+srcs
+test

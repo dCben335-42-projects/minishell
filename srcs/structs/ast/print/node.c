@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   node.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 18:09:50 by abonneau          #+#    #+#             */
-/*   Updated: 2025/06/11 03:16:34 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/20 18:00:24 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ static t_ast_print_map	*get_mappings(void)
 	{CMD_APPEND,		"CMD_APPEND",		},
 	{CMD_HEREDOC,		"CMD_HEREDOC",		},
 	{CMD_HEREDOC_TRIM,	"CMD_HEREDOC_TRIM",	},
+	{CMD_SUB_REDIR,		"CMD_SUB_REDIR",	},
 	{0,					NULL,				}};
 
 	return (map);

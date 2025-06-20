@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   struct_ast.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 03:11:04 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/16 03:16:29 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/20 17:26:54 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ typedef enum e_node_type
 	CMD_HEREDOC_TRIM		= 1 << 18,
 	CMD_EOF					= 1 << 19,
 	CMD_WORD				= 1 << 20,
+	CMD_SUB_REDIR			= 1 << 21,
 }	t_node_type;
 
 /**

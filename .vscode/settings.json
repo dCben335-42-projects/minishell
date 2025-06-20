@@ -1,0 +1,6 @@
+{
+	"files.associations": {
+		"libft_dynarray.h": "c",
+		"ast_builder.h": "c"
+	}
+}

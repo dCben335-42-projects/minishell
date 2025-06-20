@@ -6,7 +6,7 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 02:18:49 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/16 18:05:36 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/06/20 19:12:46 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ int	add_ast_child_primitive(t_ast *parent, t_ast *child)
 	}
 	if (!push(parent->content, child, FALSE))
 		return (0);
+	child->parent = parent;
 	last_child = get_dynarray_value(parent->content, parent->child_count - 3);
 	last_child->next = child;
 	parent->child_count++;

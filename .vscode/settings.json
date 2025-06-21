@@ -1,8 +1,0 @@
-{
-	"files.associations": {
-		"cstdlib": "c",
-		"compare": "c",
-		"type_traits": "c",
-		"utility": "c"
-	}
-}

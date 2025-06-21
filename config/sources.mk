@@ -3,6 +3,7 @@ SRC_FILES += ast_builder/add_cmd/operator.c
 SRC_FILES += ast_builder/add_cmd/parenthesis.c
 SRC_FILES += ast_builder/add_cmd/pipe.c
 SRC_FILES += ast_builder/add_cmd/primitive.c
+SRC_FILES += ast_builder/add_cmd/sub_redir.c
 SRC_FILES += ast_builder/ast_builder.c
 SRC_FILES += ast_builder/cmd_utils.c
 SRC_FILES += ast_builder/utils.c

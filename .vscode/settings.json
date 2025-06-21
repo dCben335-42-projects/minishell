@@ -1,7 +1,8 @@
 {
 	"files.associations": {
-		"libft_dynarray.h": "c",
-		"ast_builder.h": "c",
-		"cstdlib": "c"
+		"cstdlib": "c",
+		"compare": "c",
+		"type_traits": "c",
+		"utility": "c"
 	}
 }

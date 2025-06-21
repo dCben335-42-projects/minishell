@@ -6,7 +6,7 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 18:09:50 by abonneau          #+#    #+#             */
-/*   Updated: 2025/06/20 18:00:24 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/06/21 19:03:55 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static t_ast_print_map	*get_mappings(void)
 	static t_ast_print_map	map[] = {
 	{CMD_SEQ,			"CMD_SEQ",			},
 	{CMD_BASE,			"CMD_BASE",			},
-	{CMD_PARENTHESIS,	"CMD_PARENTHESIS",	},
+	{CMD_SUBSHELL,	"CMD_SUBSHELL",	},
 	{CMD_WORD,			"CMD_WORD",			},
 	{CMD_TEXT,			"TEXT",				},
 	{CMD_QUOTED_TEXT,	"QUOTED_TEXT",		},

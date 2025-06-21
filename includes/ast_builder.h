@@ -6,7 +6,7 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 20:20:38 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/21 17:55:07 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/06/21 20:53:53 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ typedef struct s_local_node_info
  * to be treated in the current subshell.
  * 
  * @note a subshell is either a command sequence (CMD_SEQ)
- * or a command parenthesis (CMD_PARENTHESIS).
+ * or a command parenthesis (CMD_SUBSHELL).
  * 
 */
 typedef struct s_ast_glbctx
@@ -127,7 +127,10 @@ void		add_pipe_cmds(t_ast **cmd_prev, t_ast *cmd_master, t_ast_ctx *args);
 void		add_cmd_pipe(t_ast **cmd_prev, t_ast *cmd_master, t_ast_ctx *args);
 void		add_op_cmds(t_ast **cmd_prev, t_ast *cmd_master, t_ast_ctx *args);
 void		add_parenthesis_cmd_master(t_ast *cmd_master, t_ast_ctx *args);
-void		add_parenthesis_cmd(t_ast_ctx *args, t_ast *cmd_master, t_ast **cmd_prev);
+void		add_parenthesis_cmd(
+				t_ast_ctx *args,
+				t_ast *cmd_master,
+				t_ast **cmd_prev);
 
 void		add_child(t_ast *parent, t_ast **child, t_ast_ctx *args);
 t_ast		*ast_convert_token_to_cmd(t_ast_ctx *args, t_token *token);
@@ -137,4 +140,16 @@ int			is_cmd(t_ast_ctx *args, size_t mask);
 t_bool		ast_merr(t_ast *node, t_ast **out);
 t_bool		is_empty(t_ast_ctx *args);
 
+void		handle_sub_redir(
+				t_ast_ctx *args,
+				t_ast *cmd_master,
+				t_ast **cmd);
+
+void		handle_sub_redir2(
+				t_ast_ctx *args,
+				t_ast **cmd_p,
+				t_ast **cmd_prev,
+				t_ast *cmd_master);
+
+t_ast		*get_adjacent_cmd(t_ast_ctx *args, int count, t_bool is_redir);
 #endif

@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parenthesis.c                                      :+:      :+:    :+:   */
+/*   subshell.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 20:36:44 by abonneau          #+#    #+#             */
-/*   Updated: 2025/06/21 18:35:43 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/06/21 21:19:18 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ast_builder.h"
 
-static t_ast	*get_adjacent_cmd(t_ast_ctx *args, int count)
+t_ast	*get_adjacent_cmd(t_ast_ctx *args, int count, t_bool is_redir)
 {
 	t_token		*token;
 
@@ -21,22 +21,14 @@ static t_ast	*get_adjacent_cmd(t_ast_ctx *args, int count)
 	token = get_dynarray_value(args->tokens, args->i + count + 1);
 	if (token && token->type & M_SPACE)
 		token = get_dynarray_value(args->tokens, args->i + count + 2);
+	if (is_redir)
+	{
+		if (token && is_redir_token(token))
+			return (ast_init_node(args, CMD_SUB_REDIR));
+		return (NULL);
+	}
 	if (token && token->type & OP_PIPE)
 		return (ast_init_node(args, CMD_PIPE));
-	return (NULL);
-}
-
-static t_ast	*get_adjacent_redir_cmd(t_ast_ctx *args, int count)
-{
-	t_token		*token;
-
-	if (args->has_malloc_error)
-		return (NULL);
-	token = get_dynarray_value(args->tokens, args->i + count + 1);
-	if (token && token->type & M_SPACE)
-		token = get_dynarray_value(args->tokens, args->i + count + 2);
-	if (token && is_redir_token(token))
-		return (ast_init_node(args, CMD_SUB_REDIR));
 	return (NULL);
 }
 
@@ -87,23 +79,24 @@ static t_ast	*handle_parenthesis_cmd(t_ast_ctx *args, t_ast *cmd_p)
  * @param cmd_master The master command node to which
  * the new command will be added.
  * 
- * @note If the master command node isn't of type CMD_PARENTHESIS,
- * it initializes a CMD_PARENTHESIS node.
+ * @note If the master command node isn't of type CMD_SUBSHELL,
+ * it initializes a CMD_SUBSHELL node.
  * 
 */
-void	add_parenthesis_cmd(t_ast_ctx *args, t_ast *cmd_master, t_ast **cmd_prev)
+void	add_parenthesis_cmd(
+	t_ast_ctx *args,
+	t_ast *cmd_master,
+	t_ast **cmd_prev
+)
 {
-	printf("add_parenthesis_cmd\n");
-	const t_bool	is_on_stack = cmd_master->type == CMD_PARENTHESIS;
+	const t_bool	is_on_stack = cmd_master->type == CMD_SUBSHELL;
 	t_ast			*cmd_p;
 	t_ast			cmd;
-	t_ast	*cmd_subredir;
-	t_ast	*cmd_pipe;
 
 	cmd_p = &cmd;
 	reset_ast_node(&cmd, CMD_SEQ);
 	if (!is_on_stack)
-		cmd_p = ast_init_node(args, CMD_PARENTHESIS);
+		cmd_p = ast_init_node(args, CMD_SUBSHELL);
 	if (args->has_malloc_error)
 		return ;
 	if (!handle_parenthesis_cmd(args, cmd_p))
@@ -115,23 +108,7 @@ void	add_parenthesis_cmd(t_ast_ctx *args, t_ast *cmd_master, t_ast **cmd_prev)
 	}
 	if (is_on_stack)
 		return (add_ast_childs(cmd_master, cmd_p));
-	cmd_subredir = get_adjacent_redir_cmd(args, -1);
-	if (cmd_subredir)
-	{
-		add_child(cmd_subredir, &cmd_p, args);
-		get_cmd(args);
-		add_child(cmd_subredir, &args->local.cmd, args);
-		cmd_pipe = get_adjacent_cmd(args, -1);
-		if (cmd_pipe)
-		{
-			destroy_ast(cmd_pipe);
-			*cmd_prev = cmd_subredir;
-		}
-		else if (cmd_master->type == CMD_PIPE)
-			add_child(cmd_master, &cmd_subredir, args);
-	}
-	else
-		add_child(cmd_master, &cmd_p, args);
+	handle_sub_redir2(args, &cmd_p, cmd_prev, cmd_master);
 }
 
 /**
@@ -151,21 +128,18 @@ void	add_parenthesis_cmd_master(t_ast *cmd_master, t_ast_ctx *args)
 {
 	t_ast	*cmd;
 	t_ast	*cmd_pipe;
-	t_ast	*cmd_subredir;
 
-	printf("add_parenthesis_cmd_master\n");
 	cmd = NULL;
 	cmd_pipe = get_adjacent_cmd(args,
-			count_token_between_brackets(args->tokens, args->i));
+			count_token_between_brackets(args->tokens, args->i), FALSE);
 	if (!args->has_malloc_error)
-		cmd = ast_init_node(args, CMD_PARENTHESIS);
+		cmd = ast_init_node(args, CMD_SUBSHELL);
 	if (!args->has_malloc_error)
 		add_parenthesis_cmd(args, cmd, NULL);
 	if (args->has_malloc_error)
 	{
 		destroy_ast(cmd);
-		destroy_ast(cmd_pipe);
-		return ;
+		return ((void)destroy_ast(cmd_pipe));
 	}
 	if (cmd_pipe)
 	{
@@ -175,30 +149,6 @@ void	add_parenthesis_cmd_master(t_ast *cmd_master, t_ast_ctx *args)
 		return (add_child(cmd_master, &cmd_pipe, args));
 	}
 	else
-	{
-		cmd_subredir = get_adjacent_redir_cmd(args, -1);
-		if (cmd_subredir)
-		{
-			add_child(cmd_subredir, &cmd, args);
-			get_cmd(args);
-			add_child(cmd_subredir, &args->local.cmd, args);
-			cmd = cmd_subredir;
-			cmd_pipe = get_adjacent_cmd(args, -1);
-		}
-		if (cmd_pipe)
-		{
-			add_child(cmd_pipe, &cmd_subredir, args);
-			args->i++;
-			add_cmd_pipe(&cmd_subredir, cmd_pipe, args);
-			return (add_child(cmd_master, &cmd_pipe, args));
-		}
-	}
+		return (handle_sub_redir(args, cmd_master, &cmd));
 	add_child(cmd_master, &cmd, args);
 }
-
-//(ls) > dijzij | fejiof
-// djzjd && (ls) > dijzij > dzkjdo | fejiof | kfoekf
-// (ls) > dijzij > dzkjdo | fejiof | kfoekf | (ls) > dhuzdh > idzjzijf | fiefjigrg
-// udhzudh && (ls) < dzojkd < foejfko | dzuihdu | (ls) > kdozkd > dijzid | dzijdiz | (ls)>dizjdijz>kdozkdozkd  && dozdj
-// udhzudh && (ls) < dzojkd < foejfko | ENTRE1 | (ls)>kdozkd>dijzid | ENTRE2 | (ls)       >        dizjdijz       >         kdozkdozkd  && dozdj
-// (ls)<dzojkd<foejfko | ENTRE1 | (ls)>kdozkd>dijzid | ENTRE2 | (ls)       >        dizjdijz       >         kdozkdozkd  && dozdj

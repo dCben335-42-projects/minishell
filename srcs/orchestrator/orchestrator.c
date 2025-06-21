@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   orchestrator.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 20:58:35 by abonneau          #+#    #+#             */
-/*   Updated: 2025/06/16 17:11:05 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/21 19:03:55 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static const t_exec_map	*get_exec_map(void)
 	{CMD_AND, &exec_and},
 	{CMD_OR, &exec_or},
 	{CMD_PIPE, &exec_pipeline},
-	{CMD_PARENTHESIS, &exec_subshell},
+	{CMD_SUBSHELL, &exec_subshell},
 	{CMD_SEMICOL, &exec_semicolon},
 	{0, NULL}};
 

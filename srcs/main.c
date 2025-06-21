@@ -6,7 +6,7 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 19:31:21 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/20 21:12:35 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/06/21 20:56:13 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,9 @@ static void	*handle_prompt(t_shell *shell, char *input)
 	if (!shell->ast)
 		return (NULL);
 	debug_ast(shell);
-	//orchestrator(shell);
-	printf("ok\n");
+	orchestrator(shell);
 	print_ast(shell->ast->content);
-	//destroy_ast(shell->ast);
+	destroy_ast(shell->ast);
 	shell->ast = NULL;
 	return (shell);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_builder.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 20:20:38 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/16 14:12:26 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/21 17:55:07 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ void		add_pipe_cmds(t_ast **cmd_prev, t_ast *cmd_master, t_ast_ctx *args);
 void		add_cmd_pipe(t_ast **cmd_prev, t_ast *cmd_master, t_ast_ctx *args);
 void		add_op_cmds(t_ast **cmd_prev, t_ast *cmd_master, t_ast_ctx *args);
 void		add_parenthesis_cmd_master(t_ast *cmd_master, t_ast_ctx *args);
-void		add_parenthesis_cmd(t_ast_ctx *args, t_ast *cmd_master);
+void		add_parenthesis_cmd(t_ast_ctx *args, t_ast *cmd_master, t_ast **cmd_prev);
 
 void		add_child(t_ast *parent, t_ast **child, t_ast_ctx *args);
 t_ast		*ast_convert_token_to_cmd(t_ast_ctx *args, t_token *token);

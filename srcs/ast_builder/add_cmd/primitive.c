@@ -6,7 +6,7 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 19:10:17 by abonneau          #+#    #+#             */
-/*   Updated: 2025/06/20 21:02:37 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/06/21 16:46:00 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,10 +149,10 @@ static void	get_node(t_ast_ctx *args, t_token *token, t_ast **cmd)
 		return (reset_ast_node(*cmd, CMD_EOF));
 	else
 		*cmd = ast_convert_token_to_cmd(args, token);
-	if ((*cmd)->type == CMD_PARENTHESIS_CLOSE)
-	{
-		print_ast(args->local.cmd_master->content);
-	}
+	//if ((*cmd)->type == CMD_PARENTHESIS_CLOSE)
+	//{
+	//	print_ast(args->local.cmd_master->content);
+	//}
 	args->i++;
 }
 

@@ -6,7 +6,7 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 19:05:23 by abonneau          #+#    #+#             */
-/*   Updated: 2025/06/20 21:13:42 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/06/21 17:13:35 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -220,6 +220,7 @@ t_ast	*ast_builder(t_dynarray *tokens)
 	t_ast_ctx	ast_glbctx;
 	t_ast		*master_node;
 
+	print_tokens(tokens);
 	master_node = init_ast_node(CMD_SEQ, NULL);
 	if (!master_node)
 	{

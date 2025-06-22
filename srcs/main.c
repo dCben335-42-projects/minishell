@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 19:31:21 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/21 20:56:13 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/06/22 15:11:57 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ static void	*handle_prompt(t_shell *shell, char *input)
 		return (NULL);
 	debug_ast(shell);
 	orchestrator(shell);
-	print_ast(shell->ast->content);
 	destroy_ast(shell->ast);
 	shell->ast = NULL;
 	return (shell);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_builder.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 19:05:23 by abonneau          #+#    #+#             */
-/*   Updated: 2025/06/21 19:14:54 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/06/22 15:39:30 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ t_ast	*ast_builder(t_dynarray *tokens)
 	t_ast_ctx	ast_glbctx;
 	t_ast		*master_node;
 
-	print_tokens(tokens);
 	master_node = init_ast_node(CMD_SEQ, NULL);
 	if (!master_node)
 	{

@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 20:58:35 by abonneau          #+#    #+#             */
-/*   Updated: 2025/06/16 17:11:05 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/22 15:06:50 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ static const t_exec_map	*get_exec_map(void)
 	{CMD_AND, &exec_and},
 	{CMD_OR, &exec_or},
 	{CMD_PIPE, &exec_pipeline},
-	{CMD_PARENTHESIS, &exec_subshell},
+	{CMD_SUBSHELL, &exec_subshell},
+	{CMD_SUB_REDIR, &exec_subshell_redir},
 	{CMD_SEMICOL, &exec_semicolon},
 	{0, NULL}};
 

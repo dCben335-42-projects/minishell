@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 20:40:10 by abonneau          #+#    #+#             */
-/*   Updated: 2025/06/16 14:11:44 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/21 17:59:54 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	add_cmd_pipe(
 		else if (is_cmd(args, CMD_PIPE))
 			add_child(cmd_master, cmd_prev, args);
 		else if (is_cmd(args, CMD_PARENTHESIS_OPEN))
-			add_parenthesis_cmd(args, cmd_master);
+			add_parenthesis_cmd(args, cmd_master, cmd_prev);
 		else if (!is_cmd(args, CMD_BASE))
 			return (add_child(cmd_master, cmd_prev, args));
 		else

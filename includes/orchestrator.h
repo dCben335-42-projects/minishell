@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/05 21:58:53 by abonneau          #+#    #+#             */
-/*   Updated: 2025/06/09 16:42:45 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/22 15:06:32 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,6 @@ t_ast	*exec_or(t_shell *shell, t_ast *cmd);
 t_ast	*exec_pipeline(t_shell *shell, t_ast *cmd);
 t_ast	*exec_subshell(t_shell *shell, t_ast *cmd);
 t_ast	*exec_semicolon(t_shell *shell, t_ast *cmd);
+t_ast	*exec_subshell_redir(t_shell *shell, t_ast *cmd);
 
 #endif

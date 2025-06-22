@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 08:45:59 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/10 01:40:02 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/22 15:13:41 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,7 @@ t_ast	*exec_pipeline(t_shell *shell, t_ast *cmd)
 	if (input_fd != -1)
 		close(input_fd);
 	shell->exit_code = wait_childrens(shell->last_pid);
+	printf("exit code: %d\n", shell->exit_code);
 	signals(SIGCTX_SHELL);
 	return (skipped_cmd);
 }

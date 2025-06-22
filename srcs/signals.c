@@ -6,7 +6,7 @@
 /*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 02:13:02 by bcabocel          #+#    #+#             */
-/*   Updated: 2025/06/10 04:00:45 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/22 15:34:37 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,12 @@ void	sig_process(t_shell *shell, t_bool is_cmd)
 		return ;
 	if (g_sig == SIGQUIT)
 		ft_putstr_fd(ERR_SIGQUIT, 2);
-	if (shell->need_reverse_code && !is_cmd)
+	if (shell->need_reverse_code)
+	{
 		shell->exit_code = 0;
-	else
-		shell->exit_code = parse_status(g_sig);
+		if (g_sig == SIGINT && is_cmd)
+			shell->exit_code = 130;
+	}
 	write(1, "\n", 1);
 	g_sig = 0;
 }

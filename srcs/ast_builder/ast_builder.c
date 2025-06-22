@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_builder.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 19:05:23 by abonneau          #+#    #+#             */
-/*   Updated: 2025/06/16 02:34:16 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/06/21 19:14:54 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,12 @@
 /**
  * 
  * @brief Builds the AST from the given tokens.
- * This function initializes the master node of the AST and
+ * This function initializes the master sub of the AST and
  * calls the command master function to populate it.
  * 
  * @param tokens Dynamic array of tokens.
  * 
- * @note The master node is initialized with the type CMD_SEQ.
+ * @note The master sub is initialized with the type CMD_SEQ.
  * 
  * @return t_ast* Pointer to the root of the AST or NULL on malloc error.
  * 
@@ -33,6 +33,7 @@ t_ast	*ast_builder(t_dynarray *tokens)
 	t_ast_ctx	ast_glbctx;
 	t_ast		*master_node;
 
+	print_tokens(tokens);
 	master_node = init_ast_node(CMD_SEQ, NULL);
 	if (!master_node)
 	{

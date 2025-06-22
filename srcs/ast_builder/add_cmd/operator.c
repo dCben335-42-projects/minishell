@@ -6,7 +6,7 @@
 /*   By: abonneau <abonneau@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 20:35:51 by abonneau          #+#    #+#             */
-/*   Updated: 2025/06/16 18:02:54 by abonneau         ###   ########.fr       */
+/*   Updated: 2025/06/21 17:54:17 by abonneau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void	handle_parenthesis(
 )
 {
 	add_child(cmd_master, cmd_prev, args);
-	add_parenthesis_cmd(args, cmd_master);
+	add_parenthesis_cmd(args, cmd_master, cmd_prev);
 }
 
 static void	add_cmds(
